@@ -1,4 +1,5 @@
 <!doctype html>
+
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -37,10 +38,24 @@
         --text: #0f172a;
         --muted: #64748b;
         --line: #e2e8f0;
+
         --primary: #0f766e;
         --primary-light: #14b8a6;
+
         --danger: #dc2626;
-        --shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+
+        --status-start-text: #b91c1c;
+        --status-start-bg: #fee2e2;
+
+        --status-progress-text: #a16207;
+        --status-progress-bg: #fef3c7;
+
+        --status-done-text: #15803d;
+        --status-done-bg: #dcfce7;
+
+        --shadow:
+          0 8px 25px
+          rgba(15, 23, 42, 0.08);
       }
 
       * {
@@ -56,14 +71,20 @@
 
       body {
         margin: 0;
-        background: var(--background);
-        color: var(--text);
+
+        background:
+          var(--background);
+
+        color:
+          var(--text);
+
         font-family:
           system-ui,
           -apple-system,
           "Segoe UI",
           Roboto,
           sans-serif;
+
         font-size: 17px;
       }
 
@@ -83,8 +104,15 @@
         width: 100%;
         max-width: 560px;
         min-height: 100vh;
-        margin: 0 auto;
-        padding: 18px 16px 105px;
+
+        margin:
+          0 auto;
+
+        padding:
+          18px
+          16px
+          105px;
+
         overflow-x: hidden;
       }
 
@@ -92,10 +120,13 @@
       .section-title,
       .bar-label {
         display: flex;
+
+        min-width: 0;
+
         align-items: center;
         justify-content: space-between;
+
         gap: 10px;
-        min-width: 0;
       }
 
       .top {
@@ -109,30 +140,48 @@
 
       .eyebrow {
         overflow: hidden;
-        color: var(--muted);
+
+        color:
+          var(--muted);
+
         font-size: 13px;
         font-weight: 800;
+
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
       .top h1 {
-        margin: 3px 0;
+        margin:
+          3px 0;
+
         font-size: 25px;
       }
 
       .logo {
         display: grid;
-      
+
         width: 48px;
         height: 48px;
-        flex: 0 0 48px;
+
+        flex:
+          0 0 48px;
+
         place-items: center;
-        border: 2px solid var(--primary);
+
         border-radius: 16px;
-        background: #ffffff;
-        box-shadow: var(--shadow);
-        font-size: 28px;
+
+        background:
+          linear-gradient(
+            135deg,
+            var(--primary),
+            var(--primary-light)
+          );
+
+        box-shadow:
+          var(--shadow);
+
+        font-size: 27px;
         line-height: 1;
       }
 
@@ -140,22 +189,36 @@
         width: 100%;
         max-width: 100%;
         min-width: 0;
+
         padding: 16px;
+
         overflow: hidden;
-        border: 1px solid var(--line);
+
+        border:
+          1px solid
+          var(--line);
+
         border-radius: 20px;
-        background: var(--card);
-        box-shadow: var(--shadow);
+
+        background:
+          var(--card);
+
+        box-shadow:
+          var(--shadow);
       }
 
       .hero {
         border: 0;
-        background: linear-gradient(
-          135deg,
-          #0f766e,
-          #115e59
-        );
-        color: #ffffff;
+
+        background:
+          linear-gradient(
+            135deg,
+            #0f766e,
+            #115e59
+          );
+
+        color:
+          #ffffff;
       }
 
       .hero .muted {
@@ -163,8 +226,11 @@
       }
 
       .big {
-        margin: 5px 0;
+        margin:
+          5px 0;
+
         overflow-wrap: anywhere;
+
         font-size: 32px;
         font-weight: 900;
       }
@@ -174,7 +240,8 @@
       }
 
       .muted {
-        color: var(--muted);
+        color:
+          var(--muted);
       }
 
       .mt {
@@ -184,26 +251,41 @@
       .grid2,
       .grid3 {
         display: grid;
+
         width: 100%;
         min-width: 0;
+
         gap: 10px;
       }
 
       .grid2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0, 1fr)
+          );
       }
 
       .grid3 {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns:
+          repeat(
+            3,
+            minmax(0, 1fr)
+          );
       }
 
       .section-title {
-        margin: 20px 2px 10px;
+        margin:
+          20px
+          2px
+          10px;
       }
 
       .section-title h2 {
         min-width: 0;
+
         margin: 0;
+
         font-size: 20px;
       }
 
@@ -213,40 +295,63 @@
 
       .stat strong {
         display: block;
+
         margin-top: 5px;
+
         overflow-wrap: anywhere;
+
         font-size: 17px;
         line-height: 1.25;
       }
 
       .button {
         max-width: 100%;
-        padding: 12px 14px;
+
+        padding:
+          12px
+          14px;
+
         border: 0;
         border-radius: 13px;
+
         font-size: 16px;
         font-weight: 800;
       }
 
       .button-primary {
-        background: var(--primary);
-        color: #ffffff;
+        background:
+          var(--primary);
+
+        color:
+          #ffffff;
       }
 
       .button-soft {
-        background: #ccfbf1;
-        color: #115e59;
+        background:
+          #ccfbf1;
+
+        color:
+          #115e59;
       }
 
       .button-line {
-        border: 1px solid var(--line);
-        background: #ffffff;
-        color: var(--text);
+        border:
+          1px solid
+          var(--line);
+
+        background:
+          #ffffff;
+
+        color:
+          var(--text);
       }
 
       .button-danger {
-        background: #fee2e2;
-        color: #991b1b;
+        background:
+          #fee2e2;
+
+        color:
+          #991b1b;
       }
 
       .wide {
@@ -255,6 +360,7 @@
 
       .page {
         display: none;
+
         width: 100%;
         min-width: 0;
       }
@@ -265,43 +371,70 @@
 
       .list {
         display: grid;
+
         width: 100%;
         min-width: 0;
+
         gap: 10px;
       }
 
+      /*
+       * ================================================================
+       * DÉPENSES RESPONSIVES
+       * ================================================================
+       */
+
       .expense {
         display: flex;
+
         width: 100%;
         min-width: 0;
+
         align-items: center;
+
         gap: 10px;
+
         overflow: hidden;
       }
 
       .expense .icon {
         display: grid;
+
         width: 44px;
         height: 44px;
-        flex: 0 0 44px;
+
+        flex:
+          0 0 44px;
+
         place-items: center;
+
         border-radius: 14px;
-        background: #f0fdfa;
+
+        background:
+          #f0fdfa;
+
         font-size: 21px;
       }
 
       .expense .content {
         min-width: 0;
-        flex: 1 1 auto;
+
+        flex:
+          1 1 auto;
+
         overflow: hidden;
       }
 
       .expense .content > b,
       .expense .small {
         display: block;
+
         max-width: 100%;
+
         overflow: hidden;
+
         text-overflow: ellipsis;
+
         white-space: nowrap;
       }
 
@@ -318,23 +451,36 @@
       .expense .amount {
         min-width: 0;
         max-width: 42%;
-        flex: 0 0 auto;
+
+        flex:
+          0 0 auto;
+
         overflow: hidden;
+
         text-align: right;
+
         white-space: nowrap;
       }
 
       .expense .amount strong {
         display: block;
+
         overflow: hidden;
+
         font-size: 16px;
+
         text-overflow: ellipsis;
       }
 
       .toolbar {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 140px;
+
+        grid-template-columns:
+          minmax(0, 1fr)
+          140px;
+
         gap: 8px;
+
         margin-bottom: 12px;
       }
 
@@ -343,36 +489,64 @@
       textarea {
         width: 100%;
         min-width: 0;
+
         padding: 13px;
-        border: 1px solid #cbd5e1;
+
+        border:
+          1px solid
+          #cbd5e1;
+
         border-radius: 12px;
-        background: #ffffff;
-        color: var(--text);
+
+        background:
+          #ffffff;
+
+        color:
+          var(--text);
+
         font-size: 17px;
       }
 
       label {
         display: block;
+
         margin-bottom: 6px;
-        color: #475569;
+
+        color:
+          #475569;
+
         font-size: 14px;
         font-weight: 800;
       }
 
       .field {
         min-width: 0;
+
         margin-bottom: 12px;
       }
 
+      /*
+       * ================================================================
+       * MODALES
+       * ================================================================
+       */
+
       .modal {
         position: fixed;
+
         z-index: 10;
+
         inset: 0;
+
         display: none;
+
         align-items: flex-end;
         justify-content: center;
+
         overflow-x: hidden;
-        background: rgba(15, 23, 42, 0.55);
+
+        background:
+          rgba(15, 23, 42, 0.55);
       }
 
       .modal.open {
@@ -380,236 +554,562 @@
       }
 
       .sheet {
-        width: min(100%, 560px);
+        width:
+          min(
+            100%,
+            560px
+          );
+
         max-height: 92vh;
+
         overflow-x: hidden;
         overflow-y: auto;
+
         padding:
-          18px 16px
-          calc(18px + env(safe-area-inset-bottom));
-        border-radius: 24px 24px 0 0;
-        background: #ffffff;
+          18px
+          16px
+          calc(
+            18px
+            +
+            env(
+              safe-area-inset-bottom
+            )
+          );
+
+        border-radius:
+          24px
+          24px
+          0
+          0;
+
+        background:
+          #ffffff;
       }
 
       .sheet-head {
         display: flex;
+
         align-items: center;
         justify-content: space-between;
+
         gap: 10px;
+
         margin-bottom: 14px;
       }
 
       .sheet-head h2 {
         min-width: 0;
+
         margin: 0;
       }
 
       .close {
         width: 36px;
         height: 36px;
-        flex: 0 0 36px;
+
+        flex:
+          0 0 36px;
+
         border: 0;
+
         border-radius: 50%;
-        background: #e2e8f0;
+
+        background:
+          #e2e8f0;
+
         font-size: 20px;
       }
 
       .information {
         width: 100%;
+
         margin-bottom: 12px;
+
         padding: 12px;
+
         overflow-wrap: anywhere;
+
         border-radius: 12px;
-        background: #f0fdfa;
-        color: #115e59;
+
+        background:
+          #f0fdfa;
+
+        color:
+          #115e59;
+
         font-weight: 700;
       }
 
       .warning {
         width: 100%;
+
         margin-top: 12px;
+
         padding: 10px;
+
         overflow-wrap: anywhere;
+
         border-radius: 12px;
-        background: #fee2e2;
-        color: #991b1b;
+
+        background:
+          #fee2e2;
+
+        color:
+          #991b1b;
+
         font-weight: 700;
       }
 
+      /*
+       * ================================================================
+       * ACTIONS
+       * ================================================================
+       */
+
       .row-actions {
         display: flex;
+
         width: 100%;
         min-width: 0;
+
         flex-wrap: wrap;
+
         gap: 7px;
+
         margin-top: 9px;
       }
 
       .row-actions button {
         max-width: 100%;
-        padding: 7px 10px;
-        border: 1px solid var(--line);
+
+        padding:
+          7px
+          10px;
+
+        border:
+          1px solid
+          var(--line);
+
         border-radius: 9px;
-        background: #ffffff;
+
+        background:
+          #ffffff;
+
         font-size: 13px;
+      }
+
+      /*
+       * ================================================================
+       * STATUT DES SOMMES DUES
+       * ================================================================
+       */
+
+      .commitment-top {
+        display: flex;
+
+        width: 100%;
+        min-width: 0;
+
+        align-items: flex-start;
+        justify-content: space-between;
+
+        gap: 12px;
+      }
+
+      .commitment-title {
+        min-width: 0;
+
+        flex: 1;
+      }
+
+      .commitment-title strong {
+        display: block;
+
+        overflow-wrap: anywhere;
+      }
+
+      .status-badge {
+        flex:
+          0 0 auto;
+
+        padding:
+          6px
+          10px;
+
+        border-radius: 999px;
+
+        font-size: 12px;
+
+        font-weight: 900;
+
+        white-space: nowrap;
+      }
+
+      /*
+       * 0 %
+       */
+
+      .status-start {
+        background:
+          var(--status-start-bg);
+
+        color:
+          var(--status-start-text);
+      }
+
+      /*
+       * Entre 0 et 100 %
+       */
+
+      .status-progress {
+        background:
+          var(--status-progress-bg);
+
+        color:
+          var(--status-progress-text);
+      }
+
+      /*
+       * 100 %
+       */
+
+      .status-done {
+        background:
+          var(--status-done-bg);
+
+        color:
+          var(--status-done-text);
+      }
+
+      /*
+       * ================================================================
+       * BARRE DE PROGRESSION
+       * ================================================================
+       */
+
+      .progress-section {
+        margin-top: 14px;
+      }
+
+      .progress-header {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 10px;
+
+        margin-bottom: 7px;
+      }
+
+      .progress-label {
+        color:
+          var(--muted);
+
+        font-size: 13px;
+      }
+
+      .progress-percentage {
+        color:
+          var(--text);
+
+        font-size: 15px;
+
+        font-weight: 900;
       }
 
       .bar {
         width: 100%;
-        height: 13px;
+        height: 14px;
+
         overflow: hidden;
-        border-radius: 99px;
-        background: #e2e8f0;
+
+        border-radius: 999px;
+
+        background:
+          #eef2f7;
+
+        box-shadow:
+          inset 0 1px 2px
+          rgba(15, 23, 42, 0.08);
       }
 
       .bar i {
         display: block;
+
         height: 100%;
-        border-radius: 99px;
-        background: var(--primary);
+
+        border-radius: inherit;
+
+        transition:
+          width 0.3s ease,
+          background-color 0.3s ease;
       }
+
+      /*
+       * ================================================================
+       * HISTORIQUE
+       * ================================================================
+       */
 
       .history {
         width: 100%;
+
         margin-top: 12px;
+
         padding-top: 8px;
+
         overflow-x: hidden;
-        border-top: 1px solid var(--line);
+
+        border-top:
+          1px solid
+          var(--line);
       }
 
       .payment-row {
         display: grid;
-        grid-template-columns: 88px minmax(0, 1fr) auto;
+
+        grid-template-columns:
+          88px
+          minmax(0, 1fr)
+          auto;
+
         gap: 8px;
-        padding: 9px 0;
-        border-bottom: 1px solid var(--line);
+
+        padding:
+          9px 0;
+
+        border-bottom:
+          1px solid
+          var(--line);
+
         font-size: 14px;
       }
 
       .payment-row > * {
         min-width: 0;
+
         overflow: hidden;
+
         text-overflow: ellipsis;
+
         white-space: nowrap;
       }
+
+      /*
+       * ================================================================
+       * COURBES
+       * ================================================================
+       */
 
       .chart {
         width: 100%;
         height: 260px;
+
         margin-top: 12px;
+
         overflow: hidden;
       }
 
       .chart canvas {
         display: block;
+
         width: 100%;
         height: 100%;
       }
 
       /*
-       * Réglages et sauvegardes.
+       * ================================================================
+       * RÉGLAGES
+       * ================================================================
        */
 
       .settings-notice {
         width: 100%;
+
         padding: 12px;
+
         overflow-wrap: anywhere;
+
         border-radius: 12px;
-        background: #fff7ed;
-        color: #9a3412;
+
+        background:
+          #fff7ed;
+
+        color:
+          #9a3412;
+
         font-size: 13px;
         line-height: 1.45;
       }
 
       .settings-grid {
         display: grid;
+
         width: 100%;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0, 1fr)
+          );
+
         gap: 10px;
       }
 
       .settings-grid .button {
         width: 100%;
+
         white-space: normal;
+
         overflow-wrap: anywhere;
       }
 
       .settings-details {
         display: grid;
+
         gap: 10px;
+
         margin-top: 12px;
       }
 
       .settings-detail {
         display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 10px 0;
-        border-bottom: 1px solid var(--line);
-      }
 
-      .settings-detail span,
-      .settings-detail strong {
-        min-width: 0;
-        overflow-wrap: anywhere;
+        justify-content: space-between;
+
+        gap: 12px;
+
+        padding:
+          10px 0;
+
+        border-bottom:
+          1px solid
+          var(--line);
       }
 
       /*
-       * Navigation à cinq rubriques.
+       * ================================================================
+       * NAVIGATION À 5 RUBRIQUES
+       * ================================================================
        */
 
       .tabs {
         position: fixed;
+
         z-index: 4;
+
         bottom: 0;
         left: 50%;
+
         display: grid;
-        width: min(100%, 560px);
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        transform: translateX(-50%);
-        border-top: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.97);
+
+        width:
+          min(
+            100%,
+            560px
+          );
+
+        grid-template-columns:
+          repeat(
+            5,
+            minmax(0, 1fr)
+          );
+
+        transform:
+          translateX(-50%);
+
+        border-top:
+          1px solid
+          var(--line);
+
+        background:
+          rgba(
+            255,
+            255,
+            255,
+            0.97
+          );
+
         padding:
-          7px 4px
-          calc(7px + env(safe-area-inset-bottom));
+          7px
+          4px
+          calc(
+            7px
+            +
+            env(
+              safe-area-inset-bottom
+            )
+          );
       }
 
       .tab {
         min-width: 0;
-        padding: 6px 1px;
+
+        padding:
+          6px
+          1px;
+
         overflow: hidden;
+
         border: 0;
-        background: transparent;
-        color: var(--muted);
+
+        background:
+          transparent;
+
+        color:
+          var(--muted);
+
         font-size: 10px;
         font-weight: 800;
+
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
       .tab span {
         display: block;
+
         font-size: 19px;
       }
 
       .tab.active {
-        color: var(--primary);
+        color:
+          var(--primary);
       }
 
       .floating-button {
         position: fixed;
+
         z-index: 5;
-        right: max(
-          20px,
-          calc((100vw - 560px) / 2 + 20px)
-        );
+
+        right:
+          max(
+            20px,
+            calc(
+              (100vw - 560px)
+              /
+              2
+              +
+              20px
+            )
+          );
+
         bottom: 88px;
+
         width: 58px;
         height: 58px;
+
         border: 0;
+
         border-radius: 50%;
-        background: var(--primary);
-        color: #ffffff;
+
+        background:
+          var(--primary);
+
+        color:
+          #ffffff;
+
         font-size: 30px;
       }
 
@@ -619,9 +1119,18 @@
 
       .empty {
         padding: 24px;
-        color: var(--muted);
+
+        color:
+          var(--muted);
+
         text-align: center;
       }
+
+      /*
+       * ================================================================
+       * MOBILE
+       * ================================================================
+       */
 
       @media (max-width: 480px) {
         .app {
@@ -638,7 +1147,8 @@
         }
 
         .stat {
-          padding: 12px 8px;
+          padding:
+            12px 8px;
         }
 
         .stat strong {
@@ -647,12 +1157,15 @@
 
         .expense {
           gap: 8px;
-          padding: 14px 12px;
+
+          padding:
+            14px 12px;
         }
 
         .expense .icon {
           width: 40px;
           height: 40px;
+
           flex-basis: 40px;
         }
 
@@ -671,6 +1184,17 @@
         .expense .amount strong {
           font-size: 15px;
         }
+
+        .commitment-top {
+          gap: 8px;
+        }
+
+        .status-badge {
+          padding:
+            5px 8px;
+
+          font-size: 11px;
+        }
       }
 
       @media (max-width: 360px) {
@@ -678,18 +1202,25 @@
         .grid3,
         .toolbar,
         .settings-grid {
-          grid-template-columns: 1fr;
+          grid-template-columns:
+            1fr;
         }
 
         .expense {
           display: grid;
-          grid-template-columns: 40px minmax(0, 1fr);
+
+          grid-template-columns:
+            40px
+            minmax(0, 1fr);
+
           align-items: start;
         }
 
         .expense .icon {
           grid-column: 1;
-          grid-row: 1 / span 2;
+
+          grid-row:
+            1 / span 2;
         }
 
         .expense .content {
@@ -700,19 +1231,17 @@
         .expense .amount {
           grid-column: 2;
           grid-row: 2;
+
           width: 100%;
           max-width: 100%;
+
           margin-top: 6px;
+
           text-align: left;
         }
 
-        .expense .amount strong,
-        .expense .amount .small {
-          display: inline;
-        }
-
-        .expense .amount .small {
-          margin-left: 8px;
+        .commitment-top {
+          align-items: flex-start;
         }
       }
     </style>
@@ -726,7 +1255,9 @@
             KHORIBA City - Hocine &amp; Djamila
           </div>
 
-          <h1>Suivi construction</h1>
+          <h1>
+            Suivi construction
+          </h1>
 
           <div
             id="saveStatus"
@@ -737,13 +1268,16 @@
         </div>
 
         <div
-        class="logo"
-        aria-label="Algérie">
-        🇩🇿
-      </div>
+          class="logo"
+          aria-label="Algérie"
+        >
+          🇩🇿
+        </div>
       </header>
 
-      <!-- ACCUEIL -->
+      <!-- ============================================================
+           ACCUEIL
+      ============================================================= -->
 
       <section
         id="home"
@@ -805,7 +1339,9 @@
         </div>
 
         <div class="section-title">
-          <h2>Dernières dépenses</h2>
+          <h2>
+            Dernières dépenses
+          </h2>
 
           <button
             class="button button-soft"
@@ -822,7 +1358,9 @@
         ></div>
 
         <div class="section-title">
-          <h2>Reste à payer</h2>
+          <h2>
+            Reste à payer
+          </h2>
 
           <button
             class="button button-soft"
@@ -856,7 +1394,9 @@
         </div>
       </section>
 
-      <!-- DÉPENSES -->
+      <!-- ============================================================
+           DÉPENSES
+      ============================================================= -->
 
       <section
         id="expenses"
@@ -864,7 +1404,10 @@
       >
         <div class="section-title">
           <h2>Dépenses</h2>
-          <strong id="expenseCount">0</strong>
+
+          <strong id="expenseCount">
+            0
+          </strong>
         </div>
 
         <div class="toolbar">
@@ -875,11 +1418,25 @@
           />
 
           <select id="filter">
-            <option value="">Toutes</option>
-            <option>Terrain</option>
-            <option>Fournitures</option>
-            <option>Main-d'œuvre</option>
-            <option>Autres</option>
+            <option value="">
+              Toutes
+            </option>
+
+            <option>
+              Terrain
+            </option>
+
+            <option>
+              Fournitures
+            </option>
+
+            <option>
+              Main-d'œuvre
+            </option>
+
+            <option>
+              Autres
+            </option>
           </select>
         </div>
 
@@ -889,14 +1446,18 @@
         ></div>
       </section>
 
-      <!-- COURBES -->
+      <!-- ============================================================
+           COURBES
+      ============================================================= -->
 
       <section
         id="charts"
         class="page"
       >
         <div class="section-title">
-          <h2>Courbes et répartition</h2>
+          <h2>
+            Courbes et répartition
+          </h2>
         </div>
 
         <div class="card">
@@ -930,14 +1491,18 @@
         </div>
       </section>
 
-      <!-- SOMMES DUES -->
+      <!-- ============================================================
+           SOMMES DUES
+      ============================================================= -->
 
       <section
         id="commitments"
         class="page"
       >
         <div class="section-title">
-          <h2>Sommes dues</h2>
+          <h2>
+            Sommes dues
+          </h2>
 
           <button
             id="newCommitment"
@@ -981,7 +1546,9 @@
         </div>
 
         <div class="section-title">
-          <h2>Détail</h2>
+          <h2>
+            Détail
+          </h2>
         </div>
 
         <div
@@ -990,14 +1557,18 @@
         ></div>
       </section>
 
-      <!-- RÉGLAGES -->
+      <!-- ============================================================
+           RÉGLAGES
+      ============================================================= -->
 
       <section
         id="settings"
         class="page"
       >
         <div class="section-title">
-          <h2>Réglages</h2>
+          <h2>
+            Réglages
+          </h2>
         </div>
 
         <div class="card">
@@ -1093,6 +1664,10 @@
         </div>
       </section>
 
+      <!-- ============================================================
+           BOUTON AJOUT
+      ============================================================= -->
+
       <button
         id="addExpense"
         class="floating-button"
@@ -1102,7 +1677,9 @@
         +
       </button>
 
-      <!-- NAVIGATION À 5 RUBRIQUES -->
+      <!-- ============================================================
+           NAVIGATION
+      ============================================================= -->
 
       <nav
         class="tabs"
@@ -1155,7 +1732,9 @@
       </nav>
     </main>
 
-    <!-- FORMULAIRE DÉPENSE -->
+    <!-- ==============================================================
+         FORMULAIRE DÉPENSE
+    =============================================================== -->
 
     <div
       id="expenseModal"
@@ -1276,8 +1855,13 @@
             </label>
 
             <select id="expenseCurrency">
-              <option value="DZD">DZD</option>
-              <option value="EUR">EUR</option>
+              <option value="DZD">
+                DZD
+              </option>
+
+              <option value="EUR">
+                EUR
+              </option>
             </select>
           </div>
         </div>
@@ -1325,7 +1909,9 @@
       </form>
     </div>
 
-    <!-- FORMULAIRE SOMME DUE -->
+    <!-- ==============================================================
+         FORMULAIRE SOMME DUE
+    =============================================================== -->
 
     <div
       id="commitmentModal"
@@ -1444,6 +2030,12 @@
       (() => {
         "use strict";
 
+        /*
+         * ================================================================
+         * CONFIGURATION
+         * ================================================================
+         */
+
         const STORAGE_KEY =
           "suivi_maison_v1";
 
@@ -1521,6 +2113,12 @@
           Autres: "📦",
         };
 
+        /*
+         * ================================================================
+         * OUTILS
+         * ================================================================
+         */
+
         const $ =
           (selector) =>
             document.querySelector(
@@ -1561,7 +2159,9 @@
           return (
             formatNumber(
               Math.round(
-                numberValue(value),
+                numberValue(
+                  value,
+                ),
               )
                 /
                 1_000_000,
@@ -1582,7 +2182,10 @@
           }
 
           return (
-            formatNumber(value, 2)
+            formatNumber(
+              value,
+              2,
+            )
             +
             " €"
           );
@@ -1628,6 +2231,106 @@
               .slice(2)
           );
         }
+
+        /*
+         * ================================================================
+         * COULEUR DE LA BARRE DE PROGRESSION
+         * ================================================================
+         *
+         * 0 %   = rouge pastel
+         * 50 %  = jaune pastel
+         * 100 % = vert pastel
+         */
+
+        function getProgressColor(
+          percentage,
+        ) {
+          const safePercentage =
+            Math.max(
+              0,
+              Math.min(
+                100,
+                numberValue(
+                  percentage,
+                ),
+              ),
+            );
+
+          /*
+           * HSL :
+           *
+           * 0°   = rouge
+           * 60°  = jaune
+           * 120° = vert
+           */
+
+          const hue =
+            Math.round(
+              (
+                safePercentage
+                /
+                100
+              )
+              *
+              120,
+            );
+
+          return (
+            `hsl(`
+            +
+            `${hue}, `
+            +
+            `70%, `
+            +
+            `76%`
+            +
+            `)`
+          );
+        }
+
+        /*
+         * ================================================================
+         * STATUT D'UNE SOMME DUE
+         * ================================================================
+         */
+
+        function getCommitmentStatus(
+          percentage,
+        ) {
+          if (percentage <= 0) {
+            return {
+              label:
+                "À débuter",
+
+              className:
+                "status-start",
+            };
+          }
+
+          if (percentage >= 100) {
+            return {
+              label:
+                "Terminé",
+
+              className:
+                "status-done",
+            };
+          }
+
+          return {
+            label:
+              "En cours",
+
+            className:
+              "status-progress",
+          };
+        }
+
+        /*
+         * ================================================================
+         * STOCKAGE
+         * ================================================================
+         */
 
         function loadState() {
           try {
@@ -1680,7 +2383,9 @@
 
           localStorage.setItem(
             STORAGE_KEY,
-            JSON.stringify(state),
+            JSON.stringify(
+              state,
+            ),
           );
 
           localStorage.setItem(
@@ -1695,13 +2400,22 @@
               savedAt.toLocaleTimeString(
                 "fr-FR",
                 {
-                  hour: "2-digit",
-                  minute: "2-digit",
+                  hour:
+                    "2-digit",
+
+                  minute:
+                    "2-digit",
                 },
               );
 
           renderApplication();
         }
+
+        /*
+         * ================================================================
+         * CALCUL DES VERSEMENTS
+         * ================================================================
+         */
 
         function paidAmount(
           commitmentId,
@@ -1709,6 +2423,7 @@
         ) {
           return Math.round(
             state.expenses
+
               .filter(
                 (expense) =>
                   expense.commitmentId
@@ -1719,6 +2434,7 @@
                     !==
                     excludedExpenseId,
               )
+
               .reduce(
                 (
                   total,
@@ -1731,6 +2447,7 @@
                       expense.dzd,
                     ),
                   ),
+
                 0,
               ),
           );
@@ -1768,12 +2485,14 @@
           commitmentId,
         ) {
           return state.expenses
+
             .filter(
               (expense) =>
                 expense.commitmentId
                   ===
                   commitmentId,
             )
+
             .sort(
               (a, b) =>
                 String(
@@ -1787,7 +2506,9 @@
         }
 
         /*
-         * Navigation.
+         * ================================================================
+         * NAVIGATION
+         * ================================================================
          */
 
         function showPage(pageId) {
@@ -1851,7 +2572,9 @@
           );
 
         /*
-         * Listes dynamiques.
+         * ================================================================
+         * LISTES DYNAMIQUES
+         * ================================================================
          */
 
         function updateSubcategories(
@@ -1866,13 +2589,12 @@
               SUBCATEGORIES[
                 category
               ]
+
                 .map(
                   (subcategory) => `
                     <option
                       ${
-                        subcategory
-                          ===
-                          selected
+                        subcategory === selected
                           ?
                           "selected"
                           :
@@ -1885,6 +2607,7 @@
                     </option>
                   `,
                 )
+
                 .join("");
         }
 
@@ -1900,13 +2623,12 @@
               BENEFICIARIES[
                 category
               ]
+
                 .map(
                   (beneficiary) => `
                     <option
                       ${
-                        beneficiary
-                          ===
-                          selected
+                        beneficiary === selected
                           ?
                           "selected"
                           :
@@ -1919,6 +2641,7 @@
                     </option>
                   `,
                 )
+
                 .join("");
 
           updateCustomBeneficiary();
@@ -1976,11 +2699,15 @@
                     ${escapeHtml(
                       commitment.label,
                     )}
+
                     ·
+
                     ${escapeHtml(
                       commitment.beneficiary,
                     )}
+
                     · reste
+
                     ${formatDzd(
                       remaining,
                     )}
@@ -2017,10 +2744,10 @@
             commitment.category
               ===
               "Main-d'œuvre"
-                ?
-                commitment.beneficiary
-                :
-                "Achat du terrain",
+              ?
+              commitment.beneficiary
+              :
+              "Achat du terrain",
           );
 
           $("#expenseSupplier")
@@ -2055,9 +2782,11 @@
             $("#paymentLimit");
 
           if (!commitmentId) {
-            information.classList.add(
-              "hidden",
-            );
+            information
+              .classList
+              .add(
+                "hidden",
+              );
 
             information.textContent =
               "";
@@ -2071,9 +2800,11 @@
               expenseId,
             );
 
-          information.classList.remove(
-            "hidden",
-          );
+          information
+            .classList
+            .remove(
+              "hidden",
+            );
 
           information.textContent =
             remaining <= 0
@@ -2086,6 +2817,12 @@
                 remaining,
               );
         }
+
+        /*
+         * ================================================================
+         * CONVERSION DZD / EUR
+         * ================================================================
+         */
 
         function updateConversion() {
           const amount =
@@ -2119,7 +2856,9 @@
           if (currency === "EUR") {
             $("#conversionInfo")
               .textContent =
-                formatEuro(amount)
+                formatEuro(
+                  amount,
+                )
                 +
                 " = "
                 +
@@ -2148,7 +2887,9 @@
         }
 
         /*
-         * Dépenses.
+         * ================================================================
+         * DÉPENSES
+         * ================================================================
          */
 
         function expenseHtml(
@@ -2165,6 +2906,7 @@
 
           return `
             <article class="card expense">
+
               <div class="icon">
                 ${
                   ICONS[
@@ -2176,6 +2918,7 @@
               </div>
 
               <div class="content">
+
                 <b>
                   ${escapeHtml(
                     expense.description,
@@ -2236,6 +2979,7 @@
                     ?
                     `
                       <div class="row-actions">
+
                         <button
                           type="button"
                           data-edit-expense="${expense.id}"
@@ -2249,14 +2993,17 @@
                         >
                           Supprimer
                         </button>
+
                       </div>
                     `
                     :
                     ""
                 }
+
               </div>
 
               <div class="amount">
+
                 <strong>
                   ${formatDzd(
                     expense.dzd,
@@ -2268,7 +3015,9 @@
                     expense.eur,
                   )}
                 </span>
+
               </div>
+
             </article>
           `;
         }
@@ -2286,6 +3035,7 @@
 
           const expenses =
             state.expenses
+
               .filter(
                 (expense) => {
                   const correctCategory =
@@ -2308,11 +3058,14 @@
                     (
                       !query
                       ||
-                      text.includes(query)
+                      text.includes(
+                        query,
+                      )
                     )
                   );
                 },
               )
+
               .sort(
                 (a, b) =>
                   String(
@@ -2350,7 +3103,9 @@
         }
 
         /*
-         * Sommes dues.
+         * ================================================================
+         * SOMMES DUES
+         * ================================================================
          */
 
         function renderCommitments() {
@@ -2391,7 +3146,9 @@
           const totalRemaining =
             Math.max(
               0,
-              totalDue - totalPaid,
+              totalDue
+              -
+              totalPaid,
             );
 
           $("#dueTotal")
@@ -2427,12 +3184,14 @@
               `;
 
             updateCommitmentOptions();
+
             return;
           }
 
           $("#commitmentList")
             .innerHTML =
               state.commitments
+
                 .map(
                   (commitment) => {
                     const paid =
@@ -2440,10 +3199,15 @@
                         commitment.id,
                       );
 
+                    const amountDue =
+                      Math.round(
+                        numberValue(
+                          commitment.amountDzd,
+                        ),
+                      );
+
                     const rawRemaining =
-                      numberValue(
-                        commitment.amountDzd,
-                      )
+                      amountDue
                       -
                       paid;
 
@@ -2453,21 +3217,49 @@
                         rawRemaining,
                       );
 
-                    const percentage =
-                      commitment.amountDzd
+                    /*
+                     * Pourcentage réel.
+                     */
+
+                    const rawPercentage =
+                      amountDue > 0
                         ?
-                        Math.min(
-                          100,
-                          (
-                            paid
-                            /
-                            commitment.amountDzd
-                          )
-                          *
-                          100,
+                        (
+                          paid
+                          /
+                          amountDue
                         )
+                        *
+                        100
                         :
                         0;
+
+                    /*
+                     * Le contrôle strict interdit normalement
+                     * tout dépassement.
+                     *
+                     * On limite quand même l'affichage à
+                     * 0 - 100 % pour les éventuelles anciennes données.
+                     */
+
+                    const percentage =
+                      Math.max(
+                        0,
+                        Math.min(
+                          100,
+                          rawPercentage,
+                        ),
+                      );
+
+                    const status =
+                      getCommitmentStatus(
+                        percentage,
+                      );
+
+                    const progressColor =
+                      getProgressColor(
+                        percentage,
+                      );
 
                     const history =
                       paymentsForCommitment(
@@ -2476,8 +3268,11 @@
 
                     return `
                       <article class="card">
-                        <div class="bar-label">
-                          <div>
+
+                        <div class="commitment-top">
+
+                          <div class="commitment-title">
+
                             <strong>
                               ${
                                 commitment.category
@@ -2494,7 +3289,7 @@
                               )}
                             </strong>
 
-                            <div class="small muted">
+                            <div class="small muted mt">
                               ${escapeHtml(
                                 commitment.category,
                               )}
@@ -2503,29 +3298,71 @@
                                 commitment.beneficiary,
                               )}
                             </div>
+
                           </div>
+
+                          <span
+                            class="
+                              status-badge
+                              ${status.className}
+                            "
+                          >
+                            ${status.label}
+                          </span>
+
                         </div>
 
-                        <div class="bar mt">
-                          <i
-                            style="width:${percentage}%"
-                          ></i>
+
+                        <div class="progress-section">
+
+                          <div class="progress-header">
+
+                            <span class="progress-label">
+                              Progression des remboursements
+                            </span>
+
+                            <span class="progress-percentage">
+                              ${formatNumber(
+                                percentage,
+                                1,
+                              )}
+                              %
+                            </span>
+
+                          </div>
+
+                          <div class="bar">
+
+                            <i
+                              style="
+                                width:${percentage}%;
+                                background-color:${progressColor};
+                              "
+                            ></i>
+
+                          </div>
+
                         </div>
+
 
                         <div class="grid3 mt">
+
                           <div>
+
                             <div class="small muted">
                               Dû
                             </div>
 
                             <b>
                               ${formatDzd(
-                                commitment.amountDzd,
+                                amountDue,
                               )}
                             </b>
+
                           </div>
 
                           <div>
+
                             <div class="small muted">
                               Versé
                             </div>
@@ -2535,9 +3372,11 @@
                                 paid,
                               )}
                             </b>
+
                           </div>
 
                           <div>
+
                             <div class="small muted">
                               Reste
                             </div>
@@ -2547,10 +3386,14 @@
                                 remaining,
                               )}
                             </b>
+
                           </div>
+
                         </div>
 
+
                         <div class="row-actions">
+
                           <button
                             type="button"
                             data-add-payment="${commitment.id}"
@@ -2579,19 +3422,24 @@
                           >
                             Supprimer
                           </button>
+
                         </div>
+
 
                         <div
                           id="history-${commitment.id}"
                           class="history hidden"
                         >
+
                           ${
                             history.length
                               ?
                               history
+
                                 .map(
                                   (expense) => `
                                     <div class="payment-row">
+
                                       <span>
                                         ${escapeHtml(
                                           expense.date,
@@ -2609,9 +3457,11 @@
                                           expense.dzd,
                                         )}
                                       </b>
+
                                     </div>
                                   `,
                                 )
+
                                 .join("")
                               :
                               `
@@ -2620,18 +3470,23 @@
                                 </div>
                               `
                           }
+
                         </div>
+
                       </article>
                     `;
                   },
                 )
+
                 .join("");
 
           updateCommitmentOptions();
         }
 
         /*
-         * Réglages.
+         * ================================================================
+         * RÉGLAGES
+         * ================================================================
          */
 
         function renderSettings() {
@@ -2643,12 +3498,12 @@
             .textContent =
               state.commitments.length;
 
-          const savedAt =
+          const lastSave =
             localStorage.getItem(
               SAVE_TIME_KEY,
             );
 
-          if (!savedAt) {
+          if (!lastSave) {
             $("#settingsLastSave")
               .textContent =
                 "Non disponible";
@@ -2656,21 +3511,27 @@
             return;
           }
 
-          const saveDate =
-            new Date(savedAt);
+          const date =
+            new Date(lastSave);
 
           $("#settingsLastSave")
             .textContent =
               Number.isNaN(
-                saveDate.getTime(),
+                date.getTime(),
               )
                 ?
                 "Non disponible"
                 :
-                saveDate.toLocaleString(
+                date.toLocaleString(
                   "fr-FR",
                 );
         }
+
+        /*
+         * ================================================================
+         * AFFICHAGE PRINCIPAL
+         * ================================================================
+         */
 
         function renderApplication() {
           const totalDzd =
@@ -2722,10 +3583,12 @@
               "#homeTerrain",
               "Terrain",
             ],
+
             [
               "#homeSupplies",
               "Fournitures",
             ],
+
             [
               "#homeLabor",
               "Main-d'œuvre",
@@ -2739,12 +3602,14 @@
             ) => {
               const total =
                 state.expenses
+
                   .filter(
                     (expense) =>
                       expense.category
                         ===
                         category,
                   )
+
                   .reduce(
                     (
                       sum,
@@ -2768,6 +3633,7 @@
 
           const recent =
             [...state.expenses]
+
               .sort(
                 (a, b) =>
                   String(
@@ -2778,6 +3644,7 @@
                     ),
                   ),
               )
+
               .slice(0, 5);
 
           $("#recentExpenses")
@@ -2816,7 +3683,9 @@
         }
 
         /*
-         * Formulaire dépense.
+         * ================================================================
+         * FORMULAIRE DÉPENSE
+         * ================================================================
          */
 
         function openExpense(
@@ -2845,6 +3714,7 @@
                 .slice(0, 10);
 
           updateSubcategories();
+
           updateCommitmentOptions(
             commitmentId,
           );
@@ -2853,9 +3723,7 @@
             const expense =
               state.expenses.find(
                 (item) =>
-                  item.id
-                    ===
-                    expenseId,
+                  item.id === expenseId,
               );
 
             if (!expense) {
@@ -2988,9 +3856,7 @@
               const oldExpense =
                 state.expenses.find(
                   (item) =>
-                    item.id
-                      ===
-                      expenseId,
+                    item.id === expenseId,
                 );
 
               const amountDzd =
@@ -3019,6 +3885,10 @@
                 $("#expenseCommitment")
                   .value;
 
+              /*
+               * Contrôle strict.
+               */
+
               if (commitmentId) {
                 const maximumAllowed =
                   remainingAmount(
@@ -3043,9 +3913,7 @@
                 if (
                   maximumAllowed !== null
                   &&
-                  amountDzd
-                    >
-                    maximumAllowed
+                  amountDzd > maximumAllowed
                 ) {
                   alert(
                     "Versement refusé.\n\n"
@@ -3148,7 +4016,9 @@
           );
 
         /*
-         * Formulaire somme due.
+         * ================================================================
+         * FORMULAIRE SOMMES DUES
+         * ================================================================
          */
 
         function parseThreeDecimals(
@@ -3159,20 +4029,29 @@
               value ?? "",
             )
               .trim()
-              .replace(",", ".");
+              .replace(
+                ",",
+                ".",
+              );
 
           if (
             !/^\d+\.\d{3}$/
-              .test(normalized)
+              .test(
+                normalized,
+              )
           ) {
             return null;
           }
 
           const parsed =
-            Number(normalized);
+            Number(
+              normalized,
+            );
 
           return (
-            Number.isFinite(parsed)
+            Number.isFinite(
+              parsed,
+            )
             &&
             parsed > 0
           )
@@ -3210,9 +4089,7 @@
             const commitment =
               state.commitments.find(
                 (item) =>
-                  item.id
-                    ===
-                    commitmentId,
+                  item.id === commitmentId,
               );
 
             if (!commitment) {
@@ -3234,9 +4111,10 @@
             const predefined =
               BENEFICIARIES[
                 commitment.category
-              ].includes(
-                commitment.beneficiary,
-              );
+              ]
+                .includes(
+                  commitment.beneficiary,
+                );
 
             updateBeneficiaries(
               predefined
@@ -3311,9 +4189,7 @@
               const oldCommitment =
                 state.commitments.find(
                   (item) =>
-                    item.id
-                      ===
-                      commitmentId,
+                    item.id === commitmentId,
                 );
 
               const amountDzd =
@@ -3333,9 +4209,7 @@
                   0;
 
               if (
-                amountDzd
-                  <
-                  alreadyPaid
+                amountDzd < alreadyPaid
               ) {
                 alert(
                   "La somme due ne peut pas être inférieure au total déjà versé.",
@@ -3405,9 +4279,7 @@
                   ?
                   state.commitments.map(
                     (item) =>
-                      item.id
-                        ===
-                        commitmentId
+                      item.id === commitmentId
                         ?
                         commitment
                         :
@@ -3425,7 +4297,9 @@
           );
 
         /*
-         * Actions.
+         * ================================================================
+         * ACTIONS
+         * ================================================================
          */
 
         $("#expenseList")
@@ -3456,9 +4330,7 @@
                 state.expenses =
                   state.expenses.filter(
                     (expense) =>
-                      expense.id
-                        !==
-                        deleteId,
+                      expense.id !== deleteId,
                   );
 
                 saveState();
@@ -3502,7 +4374,7 @@
                   remaining <= 0
                 ) {
                   alert(
-                    "Cette somme due est entièrement payée.",
+                    "Cette somme due est terminée. Aucun versement supplémentaire n'est autorisé.",
                   );
 
                   return;
@@ -3519,9 +4391,11 @@
                   "#history-"
                   +
                   historyId,
-                ).classList.toggle(
-                  "hidden",
-                );
+                )
+                  .classList
+                  .toggle(
+                    "hidden",
+                  );
               }
 
               if (editId) {
@@ -3565,7 +4439,9 @@
           );
 
         /*
-         * Graphiques.
+         * ================================================================
+         * COURBES
+         * ================================================================
          */
 
         function drawCharts() {
@@ -3613,7 +4489,9 @@
             );
 
           const context =
-            canvas.getContext("2d");
+            canvas.getContext(
+              "2d",
+            );
 
           context.setTransform(
             pixelRatio,
@@ -3776,14 +4654,17 @@
               4;
 
             context.beginPath();
+
             context.moveTo(
               paddingLeft,
               y,
             );
+
             context.lineTo(
               width - paddingRight,
               y,
             );
+
             context.stroke();
           }
 
@@ -3854,10 +4735,10 @@
           ];
 
           const colors = [
-            "#0284c7",
-            "#f59e0b",
-            "#0f766e",
-            "#8b5cf6",
+            "#93c5fd",
+            "#fde68a",
+            "#99f6e4",
+            "#c4b5fd",
           ];
 
           const values =
@@ -3903,7 +4784,9 @@
                     index,
                   ) => `
                     <div class="mt">
+
                       <div class="bar-label">
+
                         <span>
                           ${ICONS[category]}
                           ${category}
@@ -3914,16 +4797,20 @@
                             values[index],
                           )}
                         </b>
+
                       </div>
 
                       <div class="bar">
+
                         <i
                           style="
                             width:${(values[index] / maximum) * 100}%;
                             background:${colors[index]};
                           "
                         ></i>
+
                       </div>
+
                     </div>
                   `,
                 )
@@ -3941,7 +4828,11 @@
                     expense.date
                     ||
                     "",
-                  ).slice(0, 7);
+                  )
+                    .slice(
+                      0,
+                      7,
+                    );
 
                 if (!month) {
                   return;
@@ -4007,24 +4898,34 @@
                     ],
                   ) => `
                     <div class="mt">
+
                       <div class="bar-label">
+
                         <span>
-                          ${escapeHtml(month)}
+                          ${escapeHtml(
+                            month,
+                          )}
                         </span>
 
                         <b>
-                          ${formatDzd(amount)}
+                          ${formatDzd(
+                            amount,
+                          )}
                         </b>
+
                       </div>
 
                       <div class="bar">
+
                         <i
                           style="
                             width:${(amount / maximum) * 100}%;
-                            background:#14b8a6;
+                            background:#99f6e4;
                           "
                         ></i>
+
                       </div>
+
                     </div>
                   `,
                 )
@@ -4032,7 +4933,9 @@
         }
 
         /*
-         * Sauvegardes.
+         * ================================================================
+         * SAUVEGARDE / TRANSFERT
+         * ================================================================
          */
 
         function createTimestamp(
@@ -4046,27 +4949,42 @@
           const month =
             String(
               date.getMonth() + 1,
-            ).padStart(2, "0");
+            ).padStart(
+              2,
+              "0",
+            );
 
           const day =
             String(
               date.getDate(),
-            ).padStart(2, "0");
+            ).padStart(
+              2,
+              "0",
+            );
 
           const hours =
             String(
               date.getHours(),
-            ).padStart(2, "0");
+            ).padStart(
+              2,
+              "0",
+            );
 
           const minutes =
             String(
               date.getMinutes(),
-            ).padStart(2, "0");
+            ).padStart(
+              2,
+              "0",
+            );
 
           const seconds =
             String(
               date.getSeconds(),
-            ).padStart(2, "0");
+            ).padStart(
+              2,
+              "0",
+            );
 
           return (
             `${year}-${month}-${day}`
@@ -4091,10 +5009,14 @@
             );
 
           const objectUrl =
-            URL.createObjectURL(blob);
+            URL.createObjectURL(
+              blob,
+            );
 
           const link =
-            document.createElement("a");
+            document.createElement(
+              "a",
+            );
 
           link.href =
             objectUrl;
@@ -4102,11 +5024,13 @@
           link.download =
             fileName;
 
-          document.body.appendChild(
-            link,
-          );
+          document.body
+            .appendChild(
+              link,
+            );
 
           link.click();
+
           link.remove();
 
           window.setTimeout(
@@ -4128,11 +5052,10 @@
               "DarFiKhoriba",
 
             version:
-              15,
+              16,
 
             exportedAt:
-              exportedAt
-                .toISOString(),
+              exportedAt.toISOString(),
 
             expenses:
               state.expenses,
@@ -4143,11 +5066,13 @@
 
           downloadFile(
             `DarFiKhoriba_sauvegarde_${createTimestamp(exportedAt)}.json`,
+
             JSON.stringify(
               backup,
               null,
               2,
             ),
+
             "application/json;charset=utf-8",
           );
         }
@@ -4200,7 +5125,9 @@
                   expense.commitmentId,
                   expense.comment,
                 ]
-                  .map(quoteCsv)
+                  .map(
+                    quoteCsv,
+                  )
                   .join(";"),
             );
 
@@ -4208,7 +5135,9 @@
             "\ufeff"
             +
             columns
-              .map(quoteCsv)
+              .map(
+                quoteCsv,
+              )
               .join(";")
             +
             "\n"
@@ -4222,7 +5151,9 @@
           );
         }
 
-        function validateBackup(data) {
+        function validateBackup(
+          data,
+        ) {
           if (
             !data
             ||
@@ -4326,7 +5257,9 @@
         }
 
         /*
-         * Événements.
+         * ================================================================
+         * ÉVÉNEMENTS
+         * ================================================================
          */
 
         $("#expenseCategory")
@@ -4585,9 +5518,18 @@
           },
         );
 
+        /*
+         * ================================================================
+         * INITIALISATION
+         * ================================================================
+         */
+
         updateSubcategories();
+
         updateBeneficiaries();
+
         updateCommitmentOptions();
+
         renderApplication();
       })();
     </script>
