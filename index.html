@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="fr">
-
 <head>
 
 <meta charset="utf-8">
@@ -36,9 +35,9 @@
   --muted:#64748b;
   --line:#e2e8f0;
   --primary:#0f766e;
-  --primary2:#14b8a6;
+  --soft:#ccfbf1;
   --danger:#dc2626;
-  --shadow:0 8px 25px rgba(15,23,42,.08)
+  --shadow:0 8px 25px #0f172a14
 }
 
 *{
@@ -47,7 +46,7 @@
 
 body{
   margin:0;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
   background:var(--bg);
   color:var(--text)
 }
@@ -66,22 +65,30 @@ textarea{
   padding:18px 16px 100px
 }
 
-.top{
+.top,
+.section-title,
+.bar-label{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
+  gap:10px
+}
+
+.top{
   margin-bottom:16px
 }
 
-.eyebrow{
-  font-size:11px;
-  color:var(--muted);
-  font-weight:800;
-  letter-spacing:.08em
+.eyebrow,
+.small{
+  font-size:12px
 }
 
-.top h1{
+.eyebrow{
+  font-weight:800;
+  color:var(--muted)
+}
+
+h1{
   font-size:22px;
   margin:3px 0
 }
@@ -94,11 +101,10 @@ textarea{
   place-items:center;
   background:linear-gradient(
     135deg,
-    var(--primary),
-    var(--primary2)
+    #0f766e,
+    #14b8a6
   );
-  font-size:24px;
-  box-shadow:var(--shadow)
+  font-size:24px
 }
 
 .card{
@@ -115,8 +121,7 @@ textarea{
     #0f766e,
     #115e59
   );
-  color:#fff;
-  border:0
+  color:#fff
 }
 
 .hero .muted{
@@ -133,31 +138,25 @@ textarea{
   color:var(--muted)
 }
 
-.small{
-  font-size:12px
-}
-
 .mt{
   margin-top:12px
 }
 
-.grid2{
+.grid2,
+.grid3{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:11px
+  gap:10px
+}
+
+.grid2{
+  grid-template-columns:1fr 1fr
 }
 
 .grid3{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px
+  grid-template-columns:repeat(3,1fr)
 }
 
 .section-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
   margin:20px 2px 10px
 }
 
@@ -168,26 +167,30 @@ textarea{
 
 .stat strong{
   display:block;
-  font-size:16px;
   margin-top:5px
 }
 
 .btn{
   border:0;
   border-radius:13px;
-  padding:12px 14px;
+  padding:11px 13px;
   font-weight:800;
   cursor:pointer
 }
 
 .btn-primary{
   background:var(--primary);
-  color:white
+  color:#fff
 }
 
 .btn-soft{
-  background:#ccfbf1;
+  background:var(--soft);
   color:#115e59
+}
+
+.btn-line{
+  background:#fff;
+  border:1px solid var(--line)
 }
 
 .btn-danger{
@@ -195,96 +198,8 @@ textarea{
   color:#991b1b
 }
 
-.btn-line{
-  background:white;
-  border:1px solid var(--line);
-  color:var(--text)
-}
-
 .wide{
   width:100%
-}
-
-.fab{
-  position:fixed;
-
-  right:max(
-    20px,
-    calc((100vw - 560px)/2 + 20px)
-  );
-
-  bottom:88px;
-
-  width:58px;
-  height:58px;
-
-  border-radius:50%;
-  border:0;
-
-  background:var(--primary);
-  color:#fff;
-
-  font-size:30px;
-
-  box-shadow:
-    0 12px 28px
-    rgba(15,118,110,.36);
-
-  z-index:5
-}
-
-.tabs{
-  position:fixed;
-
-  bottom:0;
-  left:50%;
-
-  transform:translateX(-50%);
-
-  width:min(100%,560px);
-
-  background:
-    rgba(255,255,255,.97);
-
-  backdrop-filter:
-    blur(12px);
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  border-top:
-    1px solid var(--line);
-
-  padding:
-    7px 6px
-    calc(
-      7px
-      +
-      env(safe-area-inset-bottom)
-    );
-
-  z-index:4
-}
-
-.tab{
-  border:0;
-  background:transparent;
-  color:var(--muted);
-  padding:6px 2px;
-  font-size:11px;
-  font-weight:800
-}
-
-.tab span{
-  display:block;
-  font-size:20px;
-  margin-bottom:2px
-}
-
-.tab.active{
-  color:var(--primary)
 }
 
 .page{
@@ -302,29 +217,24 @@ textarea{
 
 .expense{
   display:flex;
-  gap:12px;
+  gap:10px;
   align-items:center
 }
 
 .ico{
   width:44px;
   height:44px;
-
+  border-radius:14px;
   display:grid;
   place-items:center;
-
-  border-radius:14px;
-
   background:#f0fdfa;
-
   font-size:21px;
-
   flex:none
 }
 
-.expense-main{
-  min-width:0;
-  flex:1
+.grow{
+  flex:1;
+  min-width:0
 }
 
 .truncate{
@@ -338,18 +248,10 @@ textarea{
   flex:none
 }
 
-.amount strong{
-  display:block
-}
-
 .toolbar{
   display:grid;
-
-  grid-template-columns:
-    1fr 130px;
-
+  grid-template-columns:1fr 135px;
   gap:8px;
-
   margin-bottom:12px
 }
 
@@ -358,24 +260,17 @@ select,
 textarea{
   width:100%;
   padding:12px;
-
-  border:
-    1px solid #cbd5e1;
-
+  border:1px solid #cbd5e1;
   border-radius:12px;
-
   background:#fff;
   color:var(--text)
 }
 
 label{
   display:block;
-
   font-size:12px;
   font-weight:800;
-
   color:#475569;
-
   margin-bottom:5px
 }
 
@@ -386,15 +281,10 @@ label{
 .modal{
   position:fixed;
   inset:0;
-
-  background:
-    rgba(15,23,42,.55);
-
+  background:#0f172a8c;
   display:none;
-
   align-items:flex-end;
   justify-content:center;
-
   z-index:10
 }
 
@@ -404,16 +294,10 @@ label{
 
 .sheet{
   width:min(100%,560px);
-
   max-height:92vh;
-
   overflow:auto;
-
   background:#fff;
-
-  border-radius:
-    24px 24px 0 0;
-
+  border-radius:24px 24px 0 0;
   padding:
     18px 16px
     calc(
@@ -436,165 +320,162 @@ label{
 
 .close{
   border:0;
-
-  background:#e2e8f0;
-
+  border-radius:50%;
   width:36px;
   height:36px;
-
-  border-radius:50%;
-
   font-size:20px
 }
 
 .conversion{
   background:#f0fdfa;
   color:#115e59;
-
   padding:12px;
-
   border-radius:12px;
-
   font-weight:700;
-
   margin-bottom:12px
 }
 
 .row-actions{
   display:flex;
   gap:7px;
-  margin-top:10px;
-  flex-wrap:wrap
+  flex-wrap:wrap;
+  margin-top:9px
 }
 
 .row-actions button{
   padding:7px 10px;
-
+  border:1px solid var(--line);
   border-radius:9px;
-
-  border:
-    1px solid var(--line);
-
-  background:#fff;
-
-  font-size:12px
-}
-
-.bar-row{
-  margin:14px 0
-}
-
-.bar-label{
-  display:flex;
-
-  align-items:flex-start;
-
-  justify-content:
-    space-between;
-
-  gap:10px;
-
-  font-size:13px;
-
-  margin-bottom:7px
+  background:#fff
 }
 
 .bar{
   height:13px;
-
   background:#e2e8f0;
-
   border-radius:99px;
-
   overflow:hidden
 }
 
 .bar i{
-  height:100%;
-
   display:block;
+  height:100%;
+  background:var(--primary)
+}
 
+.badge{
+  padding:4px 8px;
   border-radius:99px;
-
-  transition:
-    width .3s
+  font-size:11px;
+  font-weight:800;
+  background:#fef3c7;
+  color:#92400e
 }
 
-.chart-wrap{
-  height:260px
+.badge.done{
+  background:#dcfce7;
+  color:#166534
 }
 
-.chart-wrap canvas{
-  width:100%;
-  height:100%
+.summary{
+  font-size:15px;
+  font-weight:900
 }
 
 .empty{
   text-align:center;
-  padding:25px;
+  padding:24px;
   color:var(--muted)
 }
 
 .notice{
   font-size:12px;
-
+  padding:10px;
   background:#fff7ed;
   color:#9a3412;
+  border-radius:12px
+}
 
-  padding:10px;
+.tabs{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(100%,560px);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  background:#fffffff7;
+  border-top:1px solid var(--line);
+  padding:
+    7px 6px
+    calc(
+      7px
+      +
+      env(safe-area-inset-bottom)
+    );
+  z-index:4
+}
 
-  border-radius:12px;
+.tab{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+  padding:6px 2px
+}
 
-  line-height:1.5
+.tab span{
+  display:block;
+  font-size:20px
+}
+
+.tab.active{
+  color:var(--primary)
+}
+
+.fab{
+  position:fixed;
+
+  right:max(
+    20px,
+    calc((100vw - 560px)/2 + 20px)
+  );
+
+  bottom:88px;
+
+  width:58px;
+  height:58px;
+
+  border:0;
+  border-radius:50%;
+
+  background:var(--primary);
+  color:#fff;
+
+  font-size:30px;
+
+  z-index:5
 }
 
 .hidden{
   display:none!important
 }
 
-.badge{
-  display:inline-block;
-
-  padding:4px 8px;
-
-  border-radius:99px;
-
-  font-size:11px;
-  font-weight:800
+.chart{
+  height:230px
 }
 
-.badge-progress{
-  background:#fef3c7;
-  color:#92400e
+.chart canvas{
+  width:100%;
+  height:100%
 }
-
-.badge-done{
-  background:#dcfce7;
-  color:#166534
-}
-
-.badge-start{
-  background:#e2e8f0;
-  color:#475569
-}
-
-.summary-number{
-  font-size:15px;
-  font-weight:900;
-  margin-top:4px
-}
-
 
 @media(max-width:380px){
 
-  .grid3,
   .grid2,
+  .grid3,
   .toolbar{
     grid-template-columns:1fr
-  }
-
-  .big{
-    font-size:25px
   }
 
 }
@@ -602,7 +483,6 @@ label{
 </style>
 
 </head>
-
 
 <body>
 
@@ -618,20 +498,19 @@ label{
       KHORIBA City - Hocine &amp; Djamila
     </div>
 
-    <h1 id="projectTitle">
+    <h1>
       Suivi construction
     </h1>
 
     <div
-      class="small muted"
-      id="saveStatus">
+      id="saveStatus"
+      class="small muted">
 
       Sauvegarde locale active
 
     </div>
 
   </div>
-
 
   <div class="logo">
     🏠
@@ -640,10 +519,7 @@ label{
 </header>
 
 
-
-<!-- ==========================================
-     ACCUEIL
-========================================== -->
+<!-- ACCUEIL -->
 
 <section
   id="home"
@@ -652,34 +528,30 @@ label{
 
   <div class="card hero">
 
-    <div class="muted small">
+    <div class="small muted">
       TOTAL DES DÉPENSES
     </div>
 
     <div
-      class="big"
-      id="totalDzd">
+      id="totalDzd"
+      class="big">
 
       0,000 M DZD
 
     </div>
 
     <div id="totalEur">
-      0 €
+      0,00 €
     </div>
 
   </div>
 
 
-
   <div class="grid3 mt">
-
 
     <div class="card stat">
 
-      <span>
-        🏡
-      </span>
+      🏡
 
       <div class="small muted">
         Terrain
@@ -694,15 +566,13 @@ label{
 
     <div class="card stat">
 
-      <span>
-        🧱
-      </span>
+      🧱
 
       <div class="small muted">
         Fournitures
       </div>
 
-      <strong id="homeFournitures">
+      <strong id="homeSupplies">
         0,000 M DZD
       </strong>
 
@@ -711,23 +581,19 @@ label{
 
     <div class="card stat">
 
-      <span>
-        👷
-      </span>
+      👷
 
       <div class="small muted">
         Main-d'œuvre
       </div>
 
-      <strong id="homeMain">
+      <strong id="homeLabor">
         0,000 M DZD
       </strong>
 
     </div>
 
-
   </div>
-
 
 
   <div class="section-title">
@@ -738,7 +604,6 @@ label{
 
     <button
       class="btn btn-soft"
-      type="button"
       onclick="showPage('expenses')">
 
       Tout voir
@@ -749,10 +614,9 @@ label{
 
 
   <div
-    id="recentList"
+    id="recent"
     class="list">
   </div>
-
 
 
   <div class="section-title">
@@ -763,7 +627,6 @@ label{
 
     <button
       class="btn btn-soft"
-      type="button"
       onclick="showPage('commitments')">
 
       Détail
@@ -773,44 +636,38 @@ label{
   </div>
 
 
-  <div class="card">
+  <div class="card grid2">
 
-    <div class="grid2">
+    <div>
 
+      <div class="small muted">
+        Total convenu
+      </div>
 
-      <div>
+      <div
+        id="homeDue"
+        class="summary">
 
-        <div class="small muted">
-          Sommes convenues
-        </div>
-
-        <div
-          class="summary-number"
-          id="homeCommitmentTotal">
-
-          0,000 M DZD
-
-        </div>
+        0,000 M DZD
 
       </div>
 
+    </div>
 
-      <div>
 
-        <div class="small muted">
-          Reste à payer
-        </div>
+    <div>
 
-        <div
-          class="summary-number"
-          id="homeCommitmentRemaining">
-
-          0,000 M DZD
-
-        </div>
-
+      <div class="small muted">
+        Reste
       </div>
 
+      <div
+        id="homeRemaining"
+        class="summary">
+
+        0,000 M DZD
+
+      </div>
 
     </div>
 
@@ -821,9 +678,7 @@ label{
 
 
 
-<!-- ==========================================
-     DEPENSES
-========================================== -->
+<!-- DEPENSES -->
 
 <section
   id="expenses"
@@ -848,13 +703,13 @@ label{
     <input
       id="search"
       type="search"
-      placeholder="Ciment, maçon, Wassini…">
+      placeholder="Rechercher…">
 
 
-    <select id="filterCategory">
+    <select id="filter">
 
       <option value="">
-        Toutes catégories
+        Toutes
       </option>
 
       <option>
@@ -888,9 +743,7 @@ label{
 
 
 
-<!-- ==========================================
-     COURBES
-========================================== -->
+<!-- COURBES -->
 
 <section
   id="charts"
@@ -900,7 +753,7 @@ label{
   <div class="section-title">
 
     <h2>
-      Courbes et répartition
+      Courbes
     </h2>
 
   </div>
@@ -909,16 +762,12 @@ label{
   <div class="card">
 
     <strong>
-      Évolution cumulée des dépenses
+      Évolution cumulée
     </strong>
 
-    <div class="small muted">
-      Montants en millions de DZD
-    </div>
+    <div class="chart">
 
-    <div class="chart-wrap">
-
-      <canvas id="lineChart">
+      <canvas id="chart">
       </canvas>
 
     </div>
@@ -929,22 +778,10 @@ label{
   <div class="card mt">
 
     <strong>
-      Répartition par catégorie
+      Répartition
     </strong>
 
-    <div id="categoryBars">
-    </div>
-
-  </div>
-
-
-  <div class="card mt">
-
-    <strong>
-      Dépenses mensuelles
-    </strong>
-
-    <div id="monthBars">
+    <div id="bars">
     </div>
 
   </div>
@@ -954,9 +791,7 @@ label{
 
 
 
-<!-- ==========================================
-     SOMMES DUES
-========================================== -->
+<!-- SOMMES DUES -->
 
 <section
   id="commitments"
@@ -970,8 +805,7 @@ label{
     </h2>
 
     <button
-      id="newCommitmentBtn"
-      type="button"
+      id="newCommitment"
       class="btn btn-primary">
 
       + Ajouter
@@ -981,43 +815,42 @@ label{
   </div>
 
 
-
   <div class="grid3">
 
 
-    <div class="card stat">
+    <div class="card">
 
       <div class="small muted">
-        Total convenu
+        Convenu
       </div>
 
-      <strong id="commitmentTotal">
+      <strong id="dueTotal">
         0,000 M DZD
       </strong>
 
     </div>
 
 
-    <div class="card stat">
+    <div class="card">
 
       <div class="small muted">
-        Déjà versé
+        Versé
       </div>
 
-      <strong id="commitmentPaid">
+      <strong id="paidTotal">
         0,000 M DZD
       </strong>
 
     </div>
 
 
-    <div class="card stat">
+    <div class="card">
 
       <div class="small muted">
-        Reste à payer
+        Reste
       </div>
 
-      <strong id="commitmentRemaining">
+      <strong id="remainingTotal">
         0,000 M DZD
       </strong>
 
@@ -1025,7 +858,6 @@ label{
 
 
   </div>
-
 
 
   <div class="section-title">
@@ -1043,11 +875,10 @@ label{
   </div>
 
 
-
   <div class="section-title">
 
     <h2>
-      Sauvegarde et transfert
+      Sauvegarde
     </h2>
 
   </div>
@@ -1055,10 +886,10 @@ label{
 
   <div class="card">
 
+
     <div class="notice">
 
-      Les dépenses et les sommes dues sont
-      enregistrées localement.
+      Les données restent sur cet appareil.
 
       Exportez régulièrement une sauvegarde JSON.
 
@@ -1067,48 +898,48 @@ label{
 
     <div class="grid2 mt">
 
+
       <button
         id="exportJson"
-        class="btn btn-line"
-        type="button">
+        class="btn btn-line">
 
-        Sauvegarde JSON
+        Exporter JSON
 
       </button>
 
 
       <button
         id="exportCsv"
-        class="btn btn-line"
-        type="button">
+        class="btn btn-line">
 
-        Export CSV
+        Exporter CSV
 
       </button>
+
 
     </div>
 
 
     <div class="grid2 mt">
 
+
       <button
         id="importBtn"
-        class="btn btn-soft"
-        type="button">
+        class="btn btn-soft">
 
-        Restaurer JSON
+        Importer JSON
 
       </button>
 
 
       <button
         id="clearBtn"
-        class="btn btn-danger"
-        type="button">
+        class="btn btn-danger">
 
         Tout effacer
 
       </button>
+
 
     </div>
 
@@ -1117,7 +948,7 @@ label{
       id="importFile"
       class="hidden"
       type="file"
-      accept="application/json,.json">
+      accept=".json,application/json">
 
 
   </div>
@@ -1127,15 +958,11 @@ label{
 
 
 
-<!-- ==========================================
-     BOUTON AJOUT DEPENSE
-========================================== -->
+<!-- BOUTON AJOUT -->
 
 <button
-  class="fab"
   id="addBtn"
-  type="button"
-  aria-label="Ajouter une dépense">
+  class="fab">
 
   +
 
@@ -1143,13 +970,9 @@ label{
 
 
 
-<!-- ==========================================
-     NAVIGATION
-========================================== -->
+<!-- NAVIGATION -->
 
-<nav
-  class="tabs"
-  aria-label="Navigation principale">
+<nav class="tabs">
 
 
   <button
@@ -1211,32 +1034,30 @@ label{
 
 
 
-<!-- ==========================================
-     MODALE DEPENSE
-========================================== -->
+<!-- =========================================
+     FENETRE DEPENSE
+========================================= -->
 
 <div
-  class="modal"
   id="expenseModal"
-  role="dialog"
-  aria-modal="true">
+  class="modal">
 
 
 <form
-  class="sheet"
-  id="expenseForm">
+  id="expenseForm"
+  class="sheet">
 
 
   <div class="sheet-head">
 
-    <h2 id="formTitle">
+    <h2 id="expenseTitle">
       Ajouter une dépense
     </h2>
 
     <button
       type="button"
-      class="close"
-      id="closeModal">
+      id="closeExpense"
+      class="close">
 
       ×
 
@@ -1246,13 +1067,13 @@ label{
 
 
   <input
-    type="hidden"
-    id="expenseId">
+    id="expenseId"
+    type="hidden">
 
 
   <div class="field">
 
-    <label for="expenseDate">
+    <label>
       Date
     </label>
 
@@ -1264,13 +1085,12 @@ label{
   </div>
 
 
-
   <div class="grid2">
 
 
     <div class="field">
 
-      <label for="category">
+      <label>
         Catégorie
       </label>
 
@@ -1299,7 +1119,7 @@ label{
 
     <div class="field">
 
-      <label for="subcategory">
+      <label>
         Sous-catégorie
       </label>
 
@@ -1312,54 +1132,40 @@ label{
   </div>
 
 
-
   <div class="field">
 
-    <label for="description">
+    <label>
       Description
     </label>
 
     <input
       id="description"
-      maxlength="120"
-      placeholder="Ex. Versement maçon étage 1"
       required>
 
   </div>
 
 
-
   <div class="field">
 
-    <label for="supplier">
+    <label>
       Fournisseur / bénéficiaire
     </label>
 
-    <input
-      id="supplier"
-      maxlength="100"
-      placeholder="Ex. Wassini, Khalida, Maçon">
+    <input id="supplier">
 
   </div>
 
 
-
   <div class="field">
 
-    <label for="expenseCommitment">
+    <label>
       Somme due associée
     </label>
 
     <select id="expenseCommitment">
-
-      <option value="">
-        Aucun engagement associé
-      </option>
-
     </select>
 
   </div>
-
 
 
   <div class="grid2">
@@ -1367,7 +1173,7 @@ label{
 
     <div class="field">
 
-      <label for="amount">
+      <label>
         Montant
       </label>
 
@@ -1376,7 +1182,6 @@ label{
         type="number"
         min="0.000001"
         step="0.000001"
-        inputmode="decimal"
         required>
 
     </div>
@@ -1384,7 +1189,7 @@ label{
 
     <div class="field">
 
-      <label for="currency">
+      <label>
         Devise
       </label>
 
@@ -1406,10 +1211,9 @@ label{
   </div>
 
 
-
   <div class="field">
 
-    <label for="rate">
+    <label>
       Taux : Millions DZD pour 1 €
     </label>
 
@@ -1418,12 +1222,10 @@ label{
       type="number"
       min="0.000001"
       step="0.000001"
-      inputmode="decimal"
       placeholder="Ex. 0.0276"
       required>
 
   </div>
-
 
 
   <div
@@ -1435,28 +1237,24 @@ label{
   </div>
 
 
-
   <div class="field">
 
-    <label for="comment">
+    <label>
       Commentaire
     </label>
 
     <textarea
       id="comment"
-      rows="2"
-      maxlength="300">
+      rows="2">
     </textarea>
 
   </div>
 
 
-
   <button
-    class="btn btn-primary wide"
-    type="submit">
+    class="btn btn-primary wide">
 
-    Enregistrer la dépense
+    Enregistrer
 
   </button>
 
@@ -1467,32 +1265,30 @@ label{
 
 
 
-<!-- ==========================================
-     MODALE SOMME DUE
-========================================== -->
+<!-- =========================================
+     FENETRE SOMME DUE
+========================================= -->
 
 <div
-  class="modal"
   id="commitmentModal"
-  role="dialog"
-  aria-modal="true">
+  class="modal">
 
 
 <form
-  class="sheet"
-  id="commitmentForm">
+  id="commitmentForm"
+  class="sheet">
 
 
   <div class="sheet-head">
 
-    <h2 id="commitmentFormTitle">
+    <h2 id="commitmentTitle">
       Ajouter une somme due
     </h2>
 
     <button
       type="button"
-      class="close"
-      id="closeCommitmentModal">
+      id="closeCommitment"
+      class="close">
 
       ×
 
@@ -1502,24 +1298,22 @@ label{
 
 
   <input
-    type="hidden"
-    id="commitmentId">
+    id="commitmentId"
+    type="hidden">
 
 
   <div class="field">
 
-    <label for="commitmentLabel">
+    <label>
       Objet
     </label>
 
     <input
       id="commitmentLabel"
-      maxlength="120"
       placeholder="Ex. Étage 1"
       required>
 
   </div>
-
 
 
   <div class="grid2">
@@ -1527,7 +1321,7 @@ label{
 
     <div class="field">
 
-      <label for="commitmentCategory">
+      <label>
         Catégorie
       </label>
 
@@ -1548,13 +1342,11 @@ label{
 
     <div class="field">
 
-      <label for="commitmentBeneficiary">
+      <label>
         Bénéficiaire / métier
       </label>
 
-      <select
-        id="commitmentBeneficiary"
-        required>
+      <select id="commitmentBeneficiary">
       </select>
 
     </div>
@@ -1563,46 +1355,53 @@ label{
   </div>
 
 
-
   <div class="field">
 
-    <label for="commitmentAmount">
-      Somme totale convenue en millions DZD
+    <label>
+      Somme totale
     </label>
+
 
     <input
       id="commitmentAmount"
-      type="number"
-      min="0.000001"
-      step="0.001"
+      type="text"
       inputmode="decimal"
-      placeholder="Ex. 0.670"
+      autocomplete="off"
+      pattern="[0-9]+([,.][0-9]{3})"
+      placeholder="Ex. 0,670"
+      aria-describedby="commitmentHelp"
       required>
+
+
+    <div
+      id="commitmentHelp"
+      class="small muted mt">
+
+      Montant en millions de dinars,
+      avec exactement 3 décimales.
+
+    </div>
+
 
   </div>
 
 
-
   <div class="field">
 
-    <label for="commitmentComment">
+    <label>
       Commentaire
     </label>
 
     <textarea
       id="commitmentComment"
-      rows="3"
-      maxlength="300"
-      placeholder="Ex. Paiement chaque semaine">
+      rows="3">
     </textarea>
 
   </div>
 
 
-
   <button
-    class="btn btn-primary wide"
-    type="submit">
+    class="btn btn-primary wide">
 
     Enregistrer
 
@@ -1622,19 +1421,11 @@ label{
 'use strict';
 
 
-/* ==========================================
-   CONFIGURATION
-========================================== */
-
 const KEY =
   'suivi_maison_v1';
 
 
-const defaults = {
-
-  project:{
-    name:'Suivi construction'
-  },
+const DEF = {
 
   expenses:[],
 
@@ -1644,20 +1435,16 @@ const defaults = {
 
 
 
-/* ==========================================
-   CATEGORIES
-========================================== */
-
 const subs = {
 
-  'Terrain':[
+  Terrain:[
     'Achat du terrain',
     'Notaire',
     'Bornage',
     'Autres'
   ],
 
-  'Fournitures':[
+  Fournitures:[
     'Ciment',
     'Ferraille',
     'Briques',
@@ -1681,7 +1468,7 @@ const subs = {
     'Autres'
   ],
 
-  'Autres':[
+  Autres:[
     'Transport',
     'Location matériel',
     'Administratif',
@@ -1693,13 +1480,9 @@ const subs = {
 
 
 
-/* ==========================================
-   BENEFICIAIRES SOMMES DUES
-========================================== */
+const beneficiaries = {
 
-const commitmentBeneficiaries = {
-
-  'Terrain':[
+  Terrain:[
     'Wassini',
     'Khalida'
   ],
@@ -1720,21 +1503,17 @@ const commitmentBeneficiaries = {
 
 const icons = {
 
-  'Terrain':'🏡',
+  Terrain:'🏡',
 
-  'Fournitures':'🧱',
+  Fournitures:'🧱',
 
   "Main-d'œuvre":'👷',
 
-  'Autres':'📦'
+  Autres:'📦'
 
 };
 
 
-
-/* ==========================================
-   OUTILS
-========================================== */
 
 const $ =
   selector =>
@@ -1760,140 +1539,108 @@ const num =
 
 
 
-function fmt(
-  value,
-  decimals=0
-){
+const fmt =
+  (
+    value,
+    decimals=0
+  ) =>
 
-  return new Intl.NumberFormat(
+    new Intl.NumberFormat(
 
-    'fr-FR',
+      'fr-FR',
 
-    {
-      minimumFractionDigits:
-        decimals,
+      {
+        minimumFractionDigits:
+          decimals,
 
-      maximumFractionDigits:
-        decimals
-    }
+        maximumFractionDigits:
+          decimals
+      }
 
-  ).format(
-    num(value)
-  );
-
-}
-
+    ).format(
+      num(value)
+    );
 
 
-/*
- * Les valeurs sont conservées
- * en DZD complets en interne.
- *
- * L'affichage utilise les
- * millions de DZD.
- */
 
-function moneyM(
-  value
-){
+const moneyM =
+  value =>
 
-  return (
     fmt(
       num(value)
       /
       1000000,
       3
     )
+
     +
-    ' M DZD'
-  );
 
-}
+    ' M DZD';
 
 
 
-function moneyE(
-  value
-){
+const moneyE =
+  value =>
 
-  return (
     fmt(
       value,
       2
     )
+
     +
-    ' €'
-  );
 
-}
+    ' €';
 
 
 
-function esc(
-  value
-){
+const esc =
+  value =>
 
-  return String(
-    value ?? ''
-  ).replace(
+    String(
+      value ?? ''
+    )
 
-    /[&<>'"]/g,
+    .replace(
 
-    character => ({
+      /[&<>"']/g,
 
-      '&':'&amp;',
+      character => ({
 
-      '<':'&lt;',
+        '&':'&amp;',
 
-      '>':'&gt;',
+        '<':'&lt;',
 
-      "'":'&#39;',
+        '>':'&gt;',
 
-      '"':'&quot;'
+        '"':'&quot;',
 
-    })[character]
+        "'":'&#39;'
 
-  );
+      })[character]
 
-}
-
+    );
 
 
-function createId(){
 
-  if(
-    window.crypto
-    &&
-    typeof crypto.randomUUID
-    ===
-    'function'
-  ){
+const id =
+  () =>
 
-    return crypto.randomUUID();
+    crypto.randomUUID
 
-  }
+    ?
 
+    crypto.randomUUID()
 
-  return (
+    :
 
     Date.now()
-      .toString(36)
-
-    +
-
-    Math.random()
-      .toString(36)
-      .slice(2)
-
-  );
-
-}
+      .toString(36);
 
 
 
-/* ==========================================
-   CHARGEMENT LOCAL
-========================================== */
+/* =========================================
+   CHARGEMENT
+========================================= */
 
 function load(){
 
@@ -1917,21 +1664,18 @@ function load(){
       )
     ){
 
-      saved.project =
-        saved.project
-        ||
-        {
-          name:'Suivi construction'
-        };
-
-
       saved.commitments =
+
         Array.isArray(
           saved.commitments
         )
+
         ?
+
         saved.commitments
+
         :
+
         [];
 
 
@@ -1940,6 +1684,7 @@ function load(){
     }
 
   }
+
   catch(error){
 
     console.error(
@@ -1950,7 +1695,7 @@ function load(){
 
 
   return structuredClone(
-    defaults
+    DEF
   );
 
 }
@@ -1995,21 +1740,60 @@ function save(){
         );
 
 
-  renderAll();
+  render();
 
 }
 
 
 
-/* ==========================================
-   CALCUL DEPENSES
-========================================== */
+/* =========================================
+   CALCULS
+========================================= */
+
+function paid(
+  commitmentId
+){
+
+  return state.expenses
+
+    .filter(
+
+      expense =>
+        expense.commitmentId
+        ===
+        commitmentId
+
+    )
+
+    .reduce(
+
+      (
+        total,
+        expense
+      ) =>
+
+        total
+        +
+        num(
+          expense.dzd
+        ),
+
+      0
+
+    );
+
+}
+
+
 
 function totals(){
 
   return state.expenses.reduce(
 
-    (result,expense) => ({
+    (
+      result,
+      expense
+    ) => ({
 
       dzd:
         result.dzd
@@ -2038,7 +1822,7 @@ function totals(){
 
 
 
-function catTotal(
+function cat(
   category
 ){
 
@@ -2055,7 +1839,10 @@ function catTotal(
 
     .reduce(
 
-      (total,expense) =>
+      (
+        total,
+        expense
+      ) =>
 
         total
         +
@@ -2071,144 +1858,28 @@ function catTotal(
 
 
 
-/* ==========================================
-   CALCUL SOMMES DUES
-========================================== */
-
-function commitmentPaid(
-  id
-){
-
-  return state.expenses
-
-    .filter(
-
-      expense =>
-        expense.commitmentId
-        ===
-        id
-
-    )
-
-    .reduce(
-
-      (total,expense) =>
-
-        total
-        +
-        num(
-          expense.dzd
-        ),
-
-      0
-
-    );
-
-}
-
-
-
-function commitmentProgress(
-  commitment
-){
-
-  const due =
-    num(
-      commitment.amountDzd
-    );
-
-
-  if(
-    due <= 0
-  ){
-
-    return 0;
-
-  }
-
-
-  return Math.min(
-
-    100,
-
-    commitmentPaid(
-      commitment.id
-    )
-
-    /
-
-    due
-
-    *
-
-    100
-
-  );
-
-}
-
-
-
-function commitmentStatus(
-  commitment
-){
-
-  const paid =
-    commitmentPaid(
-      commitment.id
-    );
-
-
-  const due =
-    num(
-      commitment.amountDzd
-    );
-
-
-  if(
-    paid <= 0
-  ){
-
-    return 'À commencer';
-
-  }
-
-
-  if(
-    paid >= due
-  ){
-
-    return 'Payé';
-
-  }
-
-
-  return 'En cours';
-
-}
-
-
-
-/* ==========================================
+/* =========================================
    NAVIGATION
-========================================== */
+========================================= */
 
 function showPage(
-  id
+  page
 ){
 
   $$('.page')
     .forEach(
 
-      page =>
+      element =>
 
-        page.classList.toggle(
+        element
+          .classList
+          .toggle(
 
-          'active',
+            'active',
 
-          page.id === id
+            element.id === page
 
-        )
+          )
 
     );
 
@@ -2216,35 +1887,42 @@ function showPage(
   $$('.tab')
     .forEach(
 
-      tab =>
+      element =>
 
-        tab.classList.toggle(
+        element
+          .classList
+          .toggle(
 
-          'active',
+            'active',
 
-          tab.dataset.page === id
+            element.dataset.page
+            ===
+            page
 
-        )
+          )
 
     );
 
 
   $('#addBtn')
-    .classList.toggle(
+    .classList
+    .toggle(
 
       'hidden',
 
-      id === 'commitments'
+      page ===
+      'commitments'
 
     );
 
 
   if(
-    id === 'charts'
+    page ===
+    'charts'
   ){
 
     setTimeout(
-      drawCharts,
+      draw,
       0
     );
 
@@ -2264,36 +1942,30 @@ $$('.tab')
 
     button =>
 
-      button.addEventListener(
-
-        'click',
-
+      button.onclick =
         () =>
           showPage(
             button.dataset.page
           )
 
-      )
-
   );
 
 
 
-/* ==========================================
-   AFFICHAGE D'UNE DEPENSE
-========================================== */
+/* =========================================
+   DEPENSE HTML
+========================================= */
 
-function expenseHtml(
+function expenseCard(
   expense,
   actions=true
 ){
 
-  const linked =
+  const commitment =
     state.commitments.find(
 
-      commitment =>
-        commitment.id
-        ===
+      item =>
+        item.id ===
         expense.commitmentId
 
     );
@@ -2317,7 +1989,7 @@ function expenseHtml(
     </div>
 
 
-    <div class="expense-main">
+    <div class="grow">
 
 
       <b class="truncate">
@@ -2353,35 +2025,20 @@ function expenseHtml(
 
 
       ${
-        expense.supplier
-        ?
-        `
-
-        <div class="small muted truncate">
-
-          ${esc(
-            expense.supplier
-          )}
-
-        </div>
-
-        `
-        :
-        ''
-      }
-
-
-      ${
-        linked
+        commitment
         ?
         `
 
         <div class="small muted truncate">
 
           🤝
-          ${esc(linked.label)}
+          ${esc(
+            commitment.label
+          )}
           ·
-          ${esc(linked.beneficiary)}
+          ${esc(
+            commitment.beneficiary
+          )}
 
         </div>
 
@@ -2398,9 +2055,7 @@ function expenseHtml(
 
         <div class="row-actions">
 
-
           <button
-            type="button"
             data-edit="${expense.id}">
 
             Modifier
@@ -2409,13 +2064,11 @@ function expenseHtml(
 
 
           <button
-            type="button"
             data-delete="${expense.id}">
 
             Supprimer
 
           </button>
-
 
         </div>
 
@@ -2457,409 +2110,9 @@ function expenseHtml(
 
 
 
-/* ==========================================
-   TOTAUX SOMMES DUES
-========================================== */
-
-function commitmentTotals(){
-
-  const due =
-    state.commitments.reduce(
-
-      (total,commitment) =>
-
-        total
-        +
-        num(
-          commitment.amountDzd
-        ),
-
-      0
-
-    );
-
-
-  const paid =
-    state.commitments.reduce(
-
-      (total,commitment) =>
-
-        total
-        +
-        commitmentPaid(
-          commitment.id
-        ),
-
-      0
-
-    );
-
-
-  return {
-
-    due,
-
-    paid,
-
-    remaining:
-      Math.max(
-        0,
-        due - paid
-      )
-
-  };
-
-}
-
-
-
-/* ==========================================
-   AFFICHAGE SOMMES DUES
-========================================== */
-
-function renderCommitments(){
-
-  const summary =
-    commitmentTotals();
-
-
-  $('#commitmentTotal')
-    .textContent =
-      moneyM(
-        summary.due
-      );
-
-
-  $('#commitmentPaid')
-    .textContent =
-      moneyM(
-        summary.paid
-      );
-
-
-  $('#commitmentRemaining')
-    .textContent =
-      moneyM(
-        summary.remaining
-      );
-
-
-  $('#homeCommitmentTotal')
-    .textContent =
-      moneyM(
-        summary.due
-      );
-
-
-  $('#homeCommitmentRemaining')
-    .textContent =
-      moneyM(
-        summary.remaining
-      );
-
-
-  if(
-    !state.commitments.length
-  ){
-
-    $('#commitmentList')
-      .innerHTML = `
-
-        <div class="card empty">
-
-          Aucune somme due enregistrée.
-
-        </div>
-
-      `;
-
-
-    updateCommitmentOptions();
-
-    return;
-
-  }
-
-
-
-  $('#commitmentList')
-    .innerHTML =
-
-      state.commitments.map(
-
-        commitment => {
-
-
-          const due =
-            num(
-              commitment.amountDzd
-            );
-
-
-          const paid =
-            commitmentPaid(
-              commitment.id
-            );
-
-
-          const remaining =
-            Math.max(
-              0,
-              due - paid
-            );
-
-
-          const progress =
-            commitmentProgress(
-              commitment
-            );
-
-
-          const status =
-            commitmentStatus(
-              commitment
-            );
-
-
-          const badge =
-
-            status === 'Payé'
-
-            ?
-
-            'badge-done'
-
-            :
-
-            status === 'À commencer'
-
-            ?
-
-            'badge-start'
-
-            :
-
-            'badge-progress';
-
-
-          const color =
-
-            status === 'Payé'
-
-            ?
-
-            '#16a34a'
-
-            :
-
-            '#0f766e';
-
-
-          return `
-
-          <article class="card">
-
-
-            <div class="bar-label">
-
-
-              <div>
-
-                <strong>
-
-                  ${
-                    commitment.category === 'Terrain'
-                    ?
-                    '🏡'
-                    :
-                    '👷'
-                  }
-
-                  ${esc(
-                    commitment.label
-                  )}
-
-                </strong>
-
-
-                <div class="small muted">
-
-                  ${esc(
-                    commitment.category
-                  )}
-
-                  ·
-
-                  ${esc(
-                    commitment.beneficiary
-                  )}
-
-                </div>
-
-              </div>
-
-
-              <span class="badge ${badge}">
-
-                ${status}
-
-              </span>
-
-
-            </div>
-
-
-            <div class="bar">
-
-              <i
-                style="
-                  width:${progress}%;
-                  background:${color};
-                ">
-              </i>
-
-            </div>
-
-
-            <div class="small muted mt">
-
-              ${fmt(
-                progress,
-                1
-              )} % versé
-
-            </div>
-
-
-
-            <div class="grid3 mt">
-
-
-              <div>
-
-                <div class="small muted">
-                  Somme due
-                </div>
-
-                <div class="summary-number">
-
-                  ${moneyM(
-                    due
-                  )}
-
-                </div>
-
-              </div>
-
-
-              <div>
-
-                <div class="small muted">
-                  Versé
-                </div>
-
-                <div class="summary-number">
-
-                  ${moneyM(
-                    paid
-                  )}
-
-                </div>
-
-              </div>
-
-
-              <div>
-
-                <div class="small muted">
-                  Reste
-                </div>
-
-                <div class="summary-number">
-
-                  ${moneyM(
-                    remaining
-                  )}
-
-                </div>
-
-              </div>
-
-
-            </div>
-
-
-            ${
-              commitment.comment
-              ?
-              `
-
-              <div class="small muted mt">
-
-                ${esc(
-                  commitment.comment
-                )}
-
-              </div>
-
-              `
-              :
-              ''
-            }
-
-
-            <div class="row-actions">
-
-
-              <button
-                type="button"
-                data-pay-commitment="${commitment.id}">
-
-                + Versement
-
-              </button>
-
-
-              <button
-                type="button"
-                data-edit-commitment="${commitment.id}">
-
-                Modifier
-
-              </button>
-
-
-              <button
-                type="button"
-                data-delete-commitment="${commitment.id}">
-
-                Supprimer
-
-              </button>
-
-
-            </div>
-
-
-          </article>
-
-          `;
-
-        }
-
-      )
-      .join('');
-
-
-  updateCommitmentOptions();
-
-}
-
-
-
-/* ==========================================
-   LISTE ENGAGEMENTS DANS DEPENSE
-========================================== */
+/* =========================================
+   OPTIONS SOMMES DUES
+========================================= */
 
 function updateCommitmentOptions(
   selected=''
@@ -2868,9 +2121,7 @@ function updateCommitmentOptions(
   let html = `
 
     <option value="">
-
-      Aucun engagement associé
-
+      Aucune
     </option>
 
   `;
@@ -2881,56 +2132,32 @@ function updateCommitmentOptions(
 
       commitment => {
 
-
-        const remaining =
-          Math.max(
-
-            0,
-
-            num(
-              commitment.amountDzd
-            )
-
-            -
-
-            commitmentPaid(
-              commitment.id
-            )
-
-          );
-
-
         html += `
 
-          <option
+        <option
+          value="${commitment.id}"
 
-            value="${commitment.id}"
+          ${
+            commitment.id
+            ===
+            selected
+            ?
+            'selected'
+            :
+            ''
+          }>
 
-            ${
-              commitment.id === selected
-              ?
-              'selected'
-              :
-              ''
-            }>
+          ${esc(
+            commitment.label
+          )}
 
-            ${esc(
-              commitment.label
-            )}
+          ·
 
-            ·
+          ${esc(
+            commitment.beneficiary
+          )}
 
-            ${esc(
-              commitment.beneficiary
-            )}
-
-            · reste
-
-            ${moneyM(
-              remaining
-            )}
-
-          </option>
+        </option>
 
         `;
 
@@ -2947,124 +2174,331 @@ function updateCommitmentOptions(
 
 
 
-/* ==========================================
-   AFFICHAGE GENERAL
-========================================== */
+/* =========================================
+   SOMMES DUES
+========================================= */
 
-function renderAll(){
+function renderCommitments(){
 
-  const total =
-    totals();
+  const due =
+    state.commitments.reduce(
 
+      (
+        total,
+        commitment
+      ) =>
 
-  $('#projectTitle')
-    .textContent =
+        total
+        +
+        num(
+          commitment.amountDzd
+        ),
 
-      state.project.name
-      ||
-      'Suivi construction';
+      0
 
-
-  $('#totalDzd')
-    .textContent =
-      moneyM(
-        total.dzd
-      );
-
-
-  $('#totalEur')
-    .textContent =
-      moneyE(
-        total.eur
-      );
+    );
 
 
-  $('#homeTerrain')
-    .textContent =
-      moneyM(
+  const amountPaid =
+    state.commitments.reduce(
 
-        catTotal(
-          'Terrain'
-        )
+      (
+        total,
+        commitment
+      ) =>
 
-      );
+        total
+        +
+        paid(
+          commitment.id
+        ),
 
+      0
 
-  $('#homeFournitures')
-    .textContent =
-      moneyM(
-
-        catTotal(
-          'Fournitures'
-        )
-
-      );
+    );
 
 
-  $('#homeMain')
+  const remaining =
+    Math.max(
+      0,
+      due - amountPaid
+    );
+
+
+  $('#dueTotal')
     .textContent =
       moneyM(
+        due
+      );
 
-        catTotal(
-          "Main-d'œuvre"
-        )
 
+  $('#homeDue')
+    .textContent =
+      moneyM(
+        due
+      );
+
+
+  $('#paidTotal')
+    .textContent =
+      moneyM(
+        amountPaid
+      );
+
+
+  $('#remainingTotal')
+    .textContent =
+      moneyM(
+        remaining
+      );
+
+
+  $('#homeRemaining')
+    .textContent =
+      moneyM(
+        remaining
       );
 
 
 
-  const recent =
-    [...state.expenses]
-
-      .sort(
-
-        (a,b) =>
-
-          String(
-            b.date
-          )
-          .localeCompare(
-            String(
-              a.date
-            )
-          )
-
-          ||
-
-          num(
-            b.createdAt
-          )
-
-          -
-
-          num(
-            a.createdAt
-          )
-
-      )
-
-      .slice(
-        0,
-        5
-      );
-
-
-
-  $('#recentList')
+  $('#commitmentList')
     .innerHTML =
 
-      recent.length
+      state.commitments.length
 
       ?
 
-      recent.map(
+      state.commitments.map(
 
-        expense =>
+        commitment => {
 
-          expenseHtml(
-            expense,
-            false
-          )
+
+          const commitmentPaid =
+            paid(
+              commitment.id
+            );
+
+
+          const rest =
+            Math.max(
+
+              0,
+
+              commitment.amountDzd
+              -
+              commitmentPaid
+
+            );
+
+
+          const percentage =
+
+            commitment.amountDzd
+
+            ?
+
+            Math.min(
+
+              100,
+
+              commitmentPaid
+              /
+              commitment.amountDzd
+              *
+              100
+
+            )
+
+            :
+
+            0;
+
+
+          const done =
+            commitmentPaid
+            >=
+            commitment.amountDzd;
+
+
+          return `
+
+          <article class="card">
+
+
+            <div class="bar-label">
+
+
+              <div>
+
+
+                <strong>
+
+                  ${
+                    commitment.category
+                    ===
+                    'Terrain'
+                    ?
+                    '🏡'
+                    :
+                    '👷'
+                  }
+
+                  ${esc(
+                    commitment.label
+                  )}
+
+                </strong>
+
+
+                <div class="small muted">
+
+                  ${esc(
+                    commitment.beneficiary
+                  )}
+
+                </div>
+
+
+              </div>
+
+
+              <span
+                class="
+                  badge
+                  ${
+                    done
+                    ?
+                    'done'
+                    :
+                    ''
+                  }
+                ">
+
+                ${
+                  done
+                  ?
+                  'Payé'
+                  :
+                  commitmentPaid
+                  ?
+                  'En cours'
+                  :
+                  'À commencer'
+                }
+
+              </span>
+
+
+            </div>
+
+
+            <div class="bar">
+
+              <i
+                style="
+                  width:${percentage}%
+                ">
+              </i>
+
+            </div>
+
+
+            <div class="small muted mt">
+
+              ${fmt(
+                percentage,
+                1
+              )} % versé
+
+            </div>
+
+
+            <div class="grid3 mt">
+
+
+              <div>
+
+                <div class="small muted">
+                  Dû
+                </div>
+
+                <b>
+                  ${moneyM(
+                    commitment.amountDzd
+                  )}
+                </b>
+
+              </div>
+
+
+              <div>
+
+                <div class="small muted">
+                  Versé
+                </div>
+
+                <b>
+                  ${moneyM(
+                    commitmentPaid
+                  )}
+                </b>
+
+              </div>
+
+
+              <div>
+
+                <div class="small muted">
+                  Reste
+                </div>
+
+                <b>
+                  ${moneyM(
+                    rest
+                  )}
+                </b>
+
+              </div>
+
+
+            </div>
+
+
+            <div class="row-actions">
+
+
+              <button
+                data-pay="${commitment.id}">
+
+                + Versement
+
+              </button>
+
+
+              <button
+                data-cedit="${commitment.id}">
+
+                Modifier
+
+              </button>
+
+
+              <button
+                data-cdelete="${commitment.id}">
+
+                Supprimer
+
+              </button>
+
+
+            </div>
+
+
+          </article>
+
+          `;
+
+        }
 
       ).join('')
 
@@ -3074,36 +2508,33 @@ function renderAll(){
 
       <div class="card empty">
 
-        Aucune dépense enregistrée.
+        Aucune somme due.
 
       </div>
 
       `;
 
 
-  renderExpenses();
-
-  renderCommitments();
+  updateCommitmentOptions();
 
 }
 
 
 
-/* ==========================================
-   LISTE DEPENSES
-========================================== */
+/* =========================================
+   DEPENSES
+========================================= */
 
 function renderExpenses(){
 
   const query =
     $('#search')
       .value
-      .trim()
       .toLowerCase();
 
 
-  const category =
-    $('#filterCategory')
+  const filter =
+    $('#filter')
       .value;
 
 
@@ -3112,72 +2543,36 @@ function renderExpenses(){
 
       .filter(
 
-        expense => {
+        expense =>
 
+          (
+            !filter
+            ||
+            expense.category
+            ===
+            filter
+          )
 
-          const commitment =
-            state.commitments.find(
+          &&
 
-              item =>
-                item.id
-                ===
-                expense.commitmentId
+          (
+            !query
 
-            );
+            ||
 
+            [
+              expense.description,
+              expense.category,
+              expense.subcategory,
+              expense.supplier
+            ]
 
-          const text = [
-
-            expense.description,
-
-            expense.category,
-
-            expense.subcategory,
-
-            expense.supplier,
-
-            expense.comment,
-
-            commitment
-            ?
-            commitment.label
-            :
-            '',
-
-            commitment
-            ?
-            commitment.beneficiary
-            :
-            ''
-
-          ]
-          .join(' ')
-          .toLowerCase();
-
-
-          return (
-
-            (
-              !category
-              ||
-              expense.category
-              ===
-              category
+            .join(' ')
+            .toLowerCase()
+            .includes(
+              query
             )
-
-            &&
-
-            (
-              !query
-              ||
-              text.includes(
-                query
-              )
-            )
-
-          );
-
-        }
+          )
 
       )
 
@@ -3192,18 +2587,6 @@ function renderExpenses(){
             String(
               a.date
             )
-          )
-
-          ||
-
-          num(
-            b.createdAt
-          )
-
-          -
-
-          num(
-            a.createdAt
           )
 
       );
@@ -3224,10 +2607,8 @@ function renderExpenses(){
       list.map(
 
         expense =>
-
-          expenseHtml(
-            expense,
-            true
+          expenseCard(
+            expense
           )
 
       ).join('')
@@ -3238,7 +2619,7 @@ function renderExpenses(){
 
       <div class="card empty">
 
-        Aucune dépense trouvée.
+        Aucune dépense.
 
       </div>
 
@@ -3248,31 +2629,122 @@ function renderExpenses(){
 
 
 
-$('#search')
-  .addEventListener(
+/* =========================================
+   AFFICHAGE GENERAL
+========================================= */
 
-    'input',
+function render(){
 
-    renderExpenses
-
-  );
-
-
-
-$('#filterCategory')
-  .addEventListener(
-
-    'change',
-
-    renderExpenses
-
-  );
+  const total =
+    totals();
 
 
+  $('#totalDzd')
+    .textContent =
+      moneyM(
+        total.dzd
+      );
 
-/* ==========================================
-   SOUS-CATEGORIES DEPENSE
-========================================== */
+
+  $('#totalEur')
+    .textContent =
+      moneyE(
+        total.eur
+      );
+
+
+  $('#homeTerrain')
+    .textContent =
+      moneyM(
+        cat(
+          'Terrain'
+        )
+      );
+
+
+  $('#homeSupplies')
+    .textContent =
+      moneyM(
+        cat(
+          'Fournitures'
+        )
+      );
+
+
+  $('#homeLabor')
+    .textContent =
+      moneyM(
+        cat(
+          "Main-d'œuvre"
+        )
+      );
+
+
+  const recent =
+    [...state.expenses]
+
+      .sort(
+
+        (a,b) =>
+
+          String(
+            b.date
+          )
+          .localeCompare(
+            String(
+              a.date
+            )
+          )
+
+      )
+
+      .slice(
+        0,
+        5
+      );
+
+
+  $('#recent')
+    .innerHTML =
+
+      recent.length
+
+      ?
+
+      recent.map(
+
+        expense =>
+          expenseCard(
+            expense,
+            false
+          )
+
+      ).join('')
+
+      :
+
+      `
+
+      <div class="card empty">
+
+        Aucune dépense.
+
+      </div>
+
+      `;
+
+
+  renderExpenses();
+
+  renderCommitments();
+
+}
+
+
+
+/* =========================================
+   SOUS-CATEGORIES
+========================================= */
 
 function updateSubs(
   selected=''
@@ -3288,75 +2760,11 @@ function updateSubs(
 
       subs[category]
 
-        .map(
-
-          value => `
-
-            <option
-
-              ${
-                value === selected
-                ?
-                'selected'
-                :
-                ''
-              }>
-
-              ${esc(value)}
-
-            </option>
-
-          `
-
-        )
-
-        .join('');
-
-}
-
-
-
-$('#category')
-  .addEventListener(
-
-    'change',
-
-    () =>
-      updateSubs()
-
-  );
-
-
-
-/* ==========================================
-   BENEFICIAIRES SOMMES DUES
-========================================== */
-
-function updateCommitmentBeneficiaries(
-  selected=''
-){
-
-  const category =
-    $('#commitmentCategory')
-      .value;
-
-
-  const beneficiaries =
-    commitmentBeneficiaries[
-      category
-    ];
-
-
-  $('#commitmentBeneficiary')
-    .innerHTML =
-
-      beneficiaries.map(
+      .map(
 
         value => `
 
           <option
-
-            value="${esc(value)}"
 
             ${
               value === selected
@@ -3373,6 +2781,62 @@ function updateCommitmentBeneficiaries(
         `
 
       )
+
+      .join('');
+
+}
+
+
+
+$('#category')
+  .onchange =
+    () =>
+      updateSubs();
+
+
+
+/* =========================================
+   BENEFICIAIRES
+========================================= */
+
+function updateBenefits(
+  selected=''
+){
+
+  const category =
+    $('#commitmentCategory')
+      .value;
+
+
+  $('#commitmentBeneficiary')
+    .innerHTML =
+
+      beneficiaries[
+        category
+      ]
+
+      .map(
+
+        value => `
+
+        <option
+
+          ${
+            value === selected
+            ?
+            'selected'
+            :
+            ''
+          }>
+
+          ${esc(value)}
+
+        </option>
+
+        `
+
+      )
+
       .join('');
 
 }
@@ -3380,23 +2844,18 @@ function updateCommitmentBeneficiaries(
 
 
 $('#commitmentCategory')
-  .addEventListener(
-
-    'change',
-
+  .onchange =
     () =>
-      updateCommitmentBeneficiaries()
-
-  );
+      updateBenefits();
 
 
 
-/* ==========================================
-   OUVRIR DEPENSE
-========================================== */
+/* =========================================
+   MODALE DEPENSE
+========================================= */
 
-function openModal(
-  id='',
+function openExpense(
+  expenseId='',
   commitmentId=''
 ){
 
@@ -3404,62 +2863,57 @@ function openModal(
     .reset();
 
 
-  $('#expenseId').value =
-    '';
-
-
-  $('#formTitle')
-    .textContent =
-      'Ajouter une dépense';
+  $('#expenseId')
+    .value =
+      '';
 
 
   $('#expenseDate')
     .value =
 
       new Date()
-        .toISOString()
-        .slice(
-          0,
-          10
-        );
+      .toISOString()
+      .slice(
+        0,
+        10
+      );
 
 
   updateSubs();
 
+  updateCommitmentOptions(
+    commitmentId
+  );
 
 
-  if(id){
+
+  if(expenseId){
 
 
     const expense =
       state.expenses.find(
 
         item =>
-          item.id === id
+          item.id
+          ===
+          expenseId
 
       );
 
 
-    if(!expense){
-      return;
-    }
+    $('#expenseId')
+      .value =
+        expense.id;
 
 
-    $('#formTitle')
-      .textContent =
-        'Modifier la dépense';
+    $('#expenseDate')
+      .value =
+        expense.date;
 
 
-    $('#expenseId').value =
-      expense.id;
-
-
-    $('#expenseDate').value =
-      expense.date;
-
-
-    $('#category').value =
-      expense.category;
+    $('#category')
+      .value =
+        expense.category;
 
 
     updateSubs(
@@ -3467,62 +2921,62 @@ function openModal(
     );
 
 
-    $('#description').value =
-      expense.description;
+    $('#description')
+      .value =
+        expense.description;
 
 
-    $('#supplier').value =
-      expense.supplier
-      ||
-      '';
+    $('#supplier')
+      .value =
+        expense.supplier
+        ||
+        '';
 
 
-    /*
-     * Anciennes opérations EUR
-     * restent affichées en EUR.
-     *
-     * Les opérations DZD / MDZD
-     * sont affichées en millions.
-     */
+    $('#amount')
+      .value =
 
-    $('#amount').value =
+        expense.currency
+        ===
+        'EUR'
 
-      expense.currency === 'EUR'
+        ?
 
-      ?
+        expense.amount
 
-      expense.amount
+        :
 
-      :
-
-      num(
         expense.dzd
-      )
-      /
-      1000000;
+        /
+        1000000;
 
 
-    $('#currency').value =
+    $('#currency')
+      .value =
 
-      expense.currency === 'EUR'
+        expense.currency
+        ===
+        'EUR'
 
-      ?
+        ?
 
-      'EUR'
+        'EUR'
 
-      :
+        :
 
-      'MDZD';
-
-
-    $('#rate').value =
-      expense.rate;
+        'MDZD';
 
 
-    $('#comment').value =
-      expense.comment
-      ||
-      '';
+    $('#rate')
+      .value =
+        expense.rate;
+
+
+    $('#comment')
+      .value =
+        expense.comment
+        ||
+        '';
 
 
     updateCommitmentOptions(
@@ -3535,55 +2989,46 @@ function openModal(
 
   }
 
-  else{
+
+  else if(
+    commitmentId
+  ){
 
 
-    updateCommitmentOptions(
-      commitmentId
+    const commitment =
+      state.commitments.find(
+
+        item =>
+          item.id
+          ===
+          commitmentId
+
+      );
+
+
+    $('#category')
+      .value =
+        commitment.category;
+
+
+    updateSubs(
+      commitment.beneficiary
     );
 
 
-    if(commitmentId){
+    $('#supplier')
+      .value =
+        commitment.beneficiary;
 
 
-      const commitment =
-        state.commitments.find(
+    $('#description')
+      .value =
 
-          item =>
-            item.id
-            ===
-            commitmentId
+        'Versement '
 
-        );
+        +
 
-
-      if(commitment){
-
-
-        $('#category').value =
-          commitment.category;
-
-
-        updateSubs(
-          commitment.beneficiary
-        );
-
-
-        $('#supplier').value =
-          commitment.beneficiary;
-
-
-        $('#description').value =
-
-          'Versement '
-
-          +
-
-          commitment.label;
-
-      }
-
-    }
+        commitment.label;
 
   }
 
@@ -3601,11 +3046,7 @@ function openModal(
 
 
 
-/* ==========================================
-   FERMER DEPENSE
-========================================== */
-
-function closeModal(){
+function closeExpense(){
 
   $('#expenseModal')
     .classList
@@ -3618,54 +3059,21 @@ function closeModal(){
 
 
 $('#addBtn')
-  .addEventListener(
-
-    'click',
-
+  .onclick =
     () =>
-      openModal()
-
-  );
+      openExpense();
 
 
 
-$('#closeModal')
-  .addEventListener(
-
-    'click',
-
-    closeModal
-
-  );
+$('#closeExpense')
+  .onclick =
+    closeExpense;
 
 
 
-$('#expenseModal')
-  .addEventListener(
-
-    'click',
-
-    event => {
-
-      if(
-        event.target.id
-        ===
-        'expenseModal'
-      ){
-
-        closeModal();
-
-      }
-
-    }
-
-  );
-
-
-
-/* ==========================================
-   CONVERSION EUR / MILLIONS DZD
-========================================== */
+/* =========================================
+   CONVERSION
+========================================= */
 
 function updateConversion(){
 
@@ -3683,15 +3091,10 @@ function updateConversion(){
     );
 
 
-  const currency =
-    $('#currency')
-      .value;
-
-
   if(
-    amount <= 0
+    !amount
     ||
-    rate <= 0
+    !rate
   ){
 
     $('#conversion')
@@ -3705,26 +3108,12 @@ function updateConversion(){
   }
 
 
-
-  /*
-   * Exemple :
-   *
-   * 1000 EUR
-   * x 0.0276
-   * =
-   * 27.600 M DZD
-   */
-
-
   if(
-    currency === 'EUR'
+    $('#currency')
+      .value
+    ===
+    'EUR'
   ){
-
-    const millions =
-      amount
-      *
-      rate;
-
 
     $('#conversion')
       .textContent =
@@ -3740,7 +3129,7 @@ function updateConversion(){
         +
 
         fmt(
-          millions,
+          amount * rate,
           3
         )
 
@@ -3751,24 +3140,6 @@ function updateConversion(){
   }
 
   else{
-
-
-    /*
-     * Exemple :
-     *
-     * 27.600 M DZD
-     * /
-     * 0.0276
-     * =
-     * 1000 EUR
-     */
-
-
-    const euros =
-      amount
-      /
-      rate;
-
 
     $('#conversion')
       .textContent =
@@ -3789,7 +3160,7 @@ function updateConversion(){
         +
 
         moneyE(
-          euros
+          amount / rate
         );
 
   }
@@ -3805,102 +3176,106 @@ function updateConversion(){
 ]
 .forEach(
 
-  id =>
+  element =>
 
-    $('#' + id)
-      .addEventListener(
-
-        'input',
-
+    $('#' + element)
+      .oninput =
         updateConversion
-
-      )
 
 );
 
 
 
-/* ==========================================
+/* =========================================
    ENREGISTRER DEPENSE
-========================================== */
+========================================= */
 
 $('#expenseForm')
-  .addEventListener(
-
-    'submit',
-
-    event => {
+  .onsubmit = event => {
 
 
-      event.preventDefault();
+    event.preventDefault();
 
 
-      const amount =
-        num(
-          $('#amount')
-            .value
-        );
+    const amount =
+      num(
+        $('#amount').value
+      );
 
 
-      const rate =
-        num(
-          $('#rate')
-            .value
-        );
+    const rate =
+      num(
+        $('#rate').value
+      );
 
 
-      const currency =
-        $('#currency')
-          .value;
+    const currency =
+      $('#currency').value;
 
 
-      if(
-        amount <= 0
+    if(
+      !amount
+      ||
+      !rate
+    ){
+
+      return;
+
+    }
+
+
+    const expenseId =
+      $('#expenseId').value;
+
+
+    const oldExpense =
+      state.expenses.find(
+
+        item =>
+          item.id
+          ===
+          expenseId
+
+      );
+
+
+    const object = {
+
+      id:
+        expenseId
         ||
-        rate <= 0
-      ){
+        id(),
 
-        alert(
-          'Montant ou taux invalide.'
-        );
+      date:
+        $('#expenseDate').value,
 
-        return;
+      category:
+        $('#category').value,
 
-      }
+      subcategory:
+        $('#subcategory').value,
 
+      description:
+        $('#description')
+          .value
+          .trim(),
 
-      const oldId =
-        $('#expenseId')
-          .value;
+      supplier:
+        $('#supplier')
+          .value
+          .trim(),
 
+      commitmentId:
+        $('#expenseCommitment')
+          .value,
 
-      const old =
-        state.expenses.find(
+      amount,
 
-          item =>
-            item.id
-            ===
-            oldId
+      currency,
 
-        );
+      rate,
 
-
-      const id =
-        oldId
-        ||
-        createId();
-
-
-
-      /*
-       * IMPORTANT
-       *
-       * Le stockage interne reste
-       * toujours en DZD complets.
-       */
-
-
-      const dzd =
+      dzd:
 
         currency === 'EUR'
 
@@ -3916,11 +3291,9 @@ $('#expenseForm')
 
         amount
         *
-        1000000;
+        1000000,
 
-
-
-      const eur =
+      eur:
 
         currency === 'EUR'
 
@@ -3932,197 +3305,148 @@ $('#expenseForm')
 
         amount
         /
-        rate;
-
-
-
-      const item = {
-
-        id,
-
-        date:
-          $('#expenseDate')
-            .value,
-
-        category:
-          $('#category')
-            .value,
-
-        subcategory:
-          $('#subcategory')
-            .value,
-
-        description:
-          $('#description')
-            .value
-            .trim(),
-
-        supplier:
-          $('#supplier')
-            .value
-            .trim(),
-
-        commitmentId:
-          $('#expenseCommitment')
-            .value,
-
-        amount,
-
-        currency,
-
         rate,
 
-        dzd,
+      comment:
+        $('#comment')
+          .value
+          .trim(),
 
-        eur,
+      createdAt:
+        oldExpense?.createdAt
+        ||
+        Date.now()
 
-        comment:
-          $('#comment')
-            .value
-            .trim(),
+    };
 
-        createdAt:
-          old
+
+    state.expenses =
+
+      oldExpense
+
+      ?
+
+      state.expenses.map(
+
+        item =>
+          item.id
+          ===
+          expenseId
+
           ?
-          old.createdAt
+
+          object
+
           :
-          Date.now(),
 
-        updatedAt:
-          Date.now()
+          item
 
-      };
+      )
+
+      :
+
+      [
+        ...state.expenses,
+        object
+      ];
 
 
+    save();
+
+    closeExpense();
+
+};
+
+
+
+/* =========================================
+   ACTIONS DEPENSE
+========================================= */
+
+$('#expenseList')
+  .onclick = event => {
+
+
+    if(
+      event.target
+        .dataset
+        .edit
+    ){
+
+      openExpense(
+
+        event.target
+          .dataset
+          .edit
+
+      );
+
+    }
+
+
+    if(
+
+      event.target
+        .dataset
+        .delete
+
+      &&
+
+      confirm(
+        'Supprimer ?'
+      )
+
+    ){
 
       state.expenses =
 
-        old
-
-        ?
-
-        state.expenses.map(
+        state.expenses.filter(
 
           expense =>
-            expense.id === id
-            ?
-            item
-            :
-            expense
+            expense.id
+            !==
+            event.target
+              .dataset
+              .delete
 
-        )
-
-        :
-
-        [
-          ...state.expenses,
-          item
-        ];
+        );
 
 
       save();
 
-      closeModal();
-
     }
 
-  );
+};
 
 
 
-/* ==========================================
-   MODIFIER / SUPPRIMER DEPENSE
-========================================== */
+/* =========================================
+   MODALE SOMME DUE
+========================================= */
 
-$('#expenseList')
-  .addEventListener(
-
-    'click',
-
-    event => {
-
-
-      const editId =
-        event.target
-          .dataset
-          .edit;
-
-
-      const deleteId =
-        event.target
-          .dataset
-          .delete;
-
-
-      if(editId){
-
-        openModal(
-          editId
-        );
-
-      }
-
-
-      if(
-        deleteId
-        &&
-        confirm(
-          'Supprimer cette dépense ?'
-        )
-      ){
-
-        state.expenses =
-
-          state.expenses.filter(
-
-            expense =>
-              expense.id
-              !==
-              deleteId
-
-          );
-
-
-        save();
-
-      }
-
-    }
-
-  );
-
-
-
-/* ==========================================
-   OUVRIR SOMME DUE
-========================================== */
-
-function openCommitmentModal(
-  id=''
+function openCommitment(
+  commitmentId=''
 ){
 
   $('#commitmentForm')
     .reset();
 
 
-  $('#commitmentId').value =
-    '';
+  $('#commitmentId')
+    .value =
+      '';
 
 
-  $('#commitmentFormTitle')
-    .textContent =
-      'Ajouter une somme due';
+  $('#commitmentCategory')
+    .value =
+      'Terrain';
 
 
-  $('#commitmentCategory').value =
-    'Terrain';
-
-
-  updateCommitmentBeneficiaries();
+  updateBenefits();
 
 
 
-  if(id){
+  if(commitmentId){
 
 
     const commitment =
@@ -4131,53 +3455,62 @@ function openCommitmentModal(
         item =>
           item.id
           ===
-          id
+          commitmentId
 
       );
 
 
-    if(!commitment){
-      return;
-    }
+    $('#commitmentId')
+      .value =
+        commitment.id;
 
 
-    $('#commitmentFormTitle')
-      .textContent =
-        'Modifier la somme due';
+    $('#commitmentLabel')
+      .value =
+        commitment.label;
 
 
-    $('#commitmentId').value =
-      commitment.id;
+    $('#commitmentCategory')
+      .value =
+        commitment.category;
 
 
-    $('#commitmentLabel').value =
-      commitment.label;
-
-
-    $('#commitmentCategory').value =
-      commitment.category;
-
-
-    updateCommitmentBeneficiaries(
+    updateBenefits(
       commitment.beneficiary
     );
 
 
-    $('#commitmentAmount').value =
+    /*
+     * Toujours exactement
+     * trois décimales.
+     */
 
-      num(
-        commitment.amountDzd
-      )
+    $('#commitmentAmount')
+      .value =
 
-      /
+        fmt(
+          commitment.amountDzd
+          /
+          1000000,
+          3
+        )
 
-      1000000;
+        .replace(
+          /\u202f/g,
+          ''
+        )
+
+        .replace(
+          ',',
+          '.'
+        );
 
 
-    $('#commitmentComment').value =
-      commitment.comment
-      ||
-      '';
+    $('#commitmentComment')
+      .value =
+        commitment.comment
+        ||
+        '';
 
   }
 
@@ -4192,11 +3525,7 @@ function openCommitmentModal(
 
 
 
-/* ==========================================
-   FERMER SOMME DUE
-========================================== */
-
-function closeCommitmentModal(){
+function closeCommitment(){
 
   $('#commitmentModal')
     .classList
@@ -4208,356 +3537,386 @@ function closeCommitmentModal(){
 
 
 
-$('#newCommitmentBtn')
-  .addEventListener(
-
-    'click',
-
+$('#newCommitment')
+  .onclick =
     () =>
-      openCommitmentModal()
+      openCommitment();
 
-  );
 
 
+$('#closeCommitment')
+  .onclick =
+    closeCommitment;
 
-$('#closeCommitmentModal')
-  .addEventListener(
 
-    'click',
 
-    closeCommitmentModal
+/* =========================================
+   VALIDATION EXACTEMENT 3 DECIMALES
+========================================= */
 
-  );
+function parse3(
+  value
+){
 
+  /*
+   * La virgule française et le point
+   * sont tous les deux acceptés.
+   *
+   * Exemples valides :
+   *
+   * 0,670
+   * 0.670
+   * 1,500
+   * 27,600
+   *
+   * Exemples invalides :
+   *
+   * 1,5
+   * 0,67
+   * 0,6700
+   * 1
+   */
 
+  const normalized =
 
-$('#commitmentModal')
-  .addEventListener(
+    String(
+      value ?? ''
+    )
 
-    'click',
+    .trim()
 
-    event => {
+    .replace(
+      ',',
+      '.'
+    );
 
-      if(
-        event.target.id
-        ===
-        'commitmentModal'
-      ){
 
-        closeCommitmentModal();
+  if(
+    !/^\d+\.\d{3}$/
+      .test(
+        normalized
+      )
+  ){
 
-      }
+    return null;
 
-    }
+  }
 
-  );
 
+  const parsed =
+    Number(
+      normalized
+    );
 
 
-/* ==========================================
-   ENREGISTRER SOMME DUE
-========================================== */
+  return (
 
-$('#commitmentForm')
-  .addEventListener(
+    Number.isFinite(
+      parsed
+    )
 
-    'submit',
+    &&
 
-    event => {
+    parsed > 0
 
+  )
 
-      event.preventDefault();
+  ?
 
+  parsed
 
-      /*
-       * La somme est saisie
-       * directement en millions.
-       *
-       * Ex :
-       * 0.670 = 670 000 DZD
-       */
+  :
 
-
-      const amountMillions =
-        num(
-          $('#commitmentAmount')
-            .value
-        );
-
-
-      if(
-        amountMillions <= 0
-      ){
-
-        alert(
-          'Somme invalide.'
-        );
-
-        return;
-
-      }
-
-
-      const oldId =
-        $('#commitmentId')
-          .value;
-
-
-      const old =
-        state.commitments.find(
-
-          item =>
-            item.id
-            ===
-            oldId
-
-        );
-
-
-      const id =
-        oldId
-        ||
-        createId();
-
-
-
-      const item = {
-
-        id,
-
-        label:
-          $('#commitmentLabel')
-            .value
-            .trim(),
-
-        category:
-          $('#commitmentCategory')
-            .value,
-
-        beneficiary:
-          $('#commitmentBeneficiary')
-            .value,
-
-        /*
-         * Conversion millions
-         * vers DZD complets.
-         */
-
-        amountDzd:
-          amountMillions
-          *
-          1000000,
-
-        comment:
-          $('#commitmentComment')
-            .value
-            .trim(),
-
-        createdAt:
-          old
-          ?
-          old.createdAt
-          :
-          Date.now(),
-
-        updatedAt:
-          Date.now()
-
-      };
-
-
-
-      state.commitments =
-
-        old
-
-        ?
-
-        state.commitments.map(
-
-          commitment =>
-            commitment.id
-            ===
-            id
-
-            ?
-
-            item
-
-            :
-
-            commitment
-
-        )
-
-        :
-
-        [
-          ...state.commitments,
-          item
-        ];
-
-
-      save();
-
-      closeCommitmentModal();
-
-    }
-
-  );
-
-
-
-/* ==========================================
-   ACTIONS SOMMES DUES
-========================================== */
-
-$('#commitmentList')
-  .addEventListener(
-
-    'click',
-
-    event => {
-
-
-      const payId =
-        event.target
-          .dataset
-          .payCommitment;
-
-
-      const editId =
-        event.target
-          .dataset
-          .editCommitment;
-
-
-      const deleteId =
-        event.target
-          .dataset
-          .deleteCommitment;
-
-
-
-      /*
-       * Ajouter directement
-       * un versement à cet engagement.
-       */
-
-      if(payId){
-
-        openModal(
-          '',
-          payId
-        );
-
-        return;
-
-      }
-
-
-
-      if(editId){
-
-        openCommitmentModal(
-          editId
-        );
-
-        return;
-
-      }
-
-
-
-      if(deleteId){
-
-
-        const hasPayments =
-          state.expenses.some(
-
-            expense =>
-              expense.commitmentId
-              ===
-              deleteId
-
-          );
-
-
-        if(hasPayments){
-
-          alert(
-
-            'Des versements sont associés à cette somme due.'
-
-          );
-
-          return;
-
-        }
-
-
-        if(
-          confirm(
-            'Supprimer cette somme due ?'
-          )
-        ){
-
-          state.commitments =
-
-            state.commitments.filter(
-
-              commitment =>
-                commitment.id
-                !==
-                deleteId
-
-            );
-
-
-          save();
-
-        }
-
-      }
-
-    }
-
-  );
-
-
-
-/* ==========================================
-   GRAPHIQUES
-========================================== */
-
-function drawCharts(){
-
-  drawLine();
-
-  drawBars();
+  null;
 
 }
 
 
 
-function drawLine(){
+$('#commitmentAmount')
+  .oninput = event => {
+
+    event.target
+      .setCustomValidity(
+        ''
+      );
+
+  };
+
+
+
+/* =========================================
+   ENREGISTRER SOMME DUE
+========================================= */
+
+$('#commitmentForm')
+  .onsubmit = event => {
+
+
+    event.preventDefault();
+
+
+    const amountMillions =
+      parse3(
+
+        $('#commitmentAmount')
+          .value
+
+      );
+
+
+    if(
+      amountMillions
+      ===
+      null
+    ){
+
+      $('#commitmentAmount')
+        .setCustomValidity(
+
+          'Saisissez exactement 3 décimales, par exemple 0,670.'
+
+        );
+
+
+      $('#commitmentAmount')
+        .reportValidity();
+
+
+      $('#commitmentAmount')
+        .focus();
+
+
+      return;
+
+    }
+
+
+    $('#commitmentAmount')
+      .setCustomValidity(
+        ''
+      );
+
+
+    const commitmentId =
+      $('#commitmentId')
+        .value;
+
+
+    const oldCommitment =
+      state.commitments.find(
+
+        item =>
+          item.id
+          ===
+          commitmentId
+
+      );
+
+
+    const object = {
+
+      id:
+        commitmentId
+        ||
+        id(),
+
+      label:
+        $('#commitmentLabel')
+          .value
+          .trim(),
+
+      category:
+        $('#commitmentCategory')
+          .value,
+
+      beneficiary:
+        $('#commitmentBeneficiary')
+          .value,
+
+      /*
+       * 0,670 million
+       * devient
+       * 670 000 DZD en mémoire.
+       */
+
+      amountDzd:
+        amountMillions
+        *
+        1000000,
+
+      comment:
+        $('#commitmentComment')
+          .value
+          .trim(),
+
+      createdAt:
+        oldCommitment?.createdAt
+        ||
+        Date.now()
+
+    };
+
+
+    state.commitments =
+
+      oldCommitment
+
+      ?
+
+      state.commitments.map(
+
+        item =>
+          item.id
+          ===
+          commitmentId
+
+          ?
+
+          object
+
+          :
+
+          item
+
+      )
+
+      :
+
+      [
+        ...state.commitments,
+        object
+      ];
+
+
+    save();
+
+    closeCommitment();
+
+};
+
+
+
+/* =========================================
+   ACTIONS SOMMES DUES
+========================================= */
+
+$('#commitmentList')
+  .onclick = event => {
+
+
+    if(
+      event.target
+        .dataset
+        .pay
+    ){
+
+      openExpense(
+
+        '',
+
+        event.target
+          .dataset
+          .pay
+
+      );
+
+    }
+
+
+    if(
+      event.target
+        .dataset
+        .cedit
+    ){
+
+      openCommitment(
+
+        event.target
+          .dataset
+          .cedit
+
+      );
+
+    }
+
+
+    if(
+      event.target
+        .dataset
+        .cdelete
+    ){
+
+
+      const commitmentId =
+        event.target
+          .dataset
+          .cdelete;
+
+
+      if(
+
+        state.expenses.some(
+
+          expense =>
+            expense.commitmentId
+            ===
+            commitmentId
+
+        )
+
+      ){
+
+        alert(
+          'Des versements sont associés.'
+        );
+
+        return;
+
+      }
+
+
+      if(
+        confirm(
+          'Supprimer ?'
+        )
+      ){
+
+        state.commitments =
+
+          state.commitments.filter(
+
+            commitment =>
+              commitment.id
+              !==
+              commitmentId
+
+          );
+
+
+        save();
+
+      }
+
+    }
+
+};
+
+
+
+/* =========================================
+   GRAPHIQUES
+========================================= */
+
+function draw(){
 
   const canvas =
-    $('#lineChart');
+    $('#chart');
 
 
   const rect =
     canvas
       .getBoundingClientRect();
-
-
-  if(
-    !rect.width
-  ){
-
-    return;
-
-  }
 
 
   const ratio =
@@ -4578,13 +3937,13 @@ function drawLine(){
     ratio;
 
 
-  const ctx =
+  const context =
     canvas.getContext(
       '2d'
     );
 
 
-  ctx.setTransform(
+  context.setTransform(
     ratio,
     0,
     0,
@@ -4594,65 +3953,38 @@ function drawLine(){
   );
 
 
-  const width =
-    rect.width;
-
-
-  const height =
-    rect.height;
-
-
-  const padding =
-    32;
-
-
-  ctx.clearRect(
-    0,
-    0,
-    width,
-    height
-  );
-
-
-
   const grouped = {};
 
 
+  state.expenses.forEach(
 
-  state.expenses
-    .forEach(
+    expense => {
 
-      expense => {
+      grouped[
+        expense.date
+      ] =
 
-        grouped[
-          expense.date
-        ] =
+        (
+          grouped[
+            expense.date
+          ]
+          ||
+          0
+        )
 
-          (
-            grouped[
-              expense.date
-            ]
-            ||
-            0
-          )
+        +
 
-          +
+        expense.dzd
+        /
+        1000000;
 
-          num(
-            expense.dzd
-          )
-          /
-          1000000;
+    }
 
-      }
-
-    );
-
+  );
 
 
   let running =
     0;
-
 
 
   const points =
@@ -4664,142 +3996,72 @@ function drawLine(){
 
     .map(
 
-      date => ({
+      key =>
 
-        date,
-
-        value:
-
-          running +=
-            grouped[date]
-
-      })
+        running +=
+          grouped[key]
 
     );
 
+
+  context.clearRect(
+    0,
+    0,
+    rect.width,
+    rect.height
+  );
 
 
   if(
     !points.length
   ){
 
-    ctx.fillStyle =
-      '#64748b';
-
-
-    ctx.textAlign =
-      'center';
-
-
-    ctx.font =
-      '13px system-ui';
-
-
-    ctx.fillText(
-
-      'Ajoutez des dépenses pour afficher la courbe',
-
-      width / 2,
-
-      height / 2
-
-    );
-
-
     return;
 
   }
 
 
-
   const maximum =
     Math.max(
-
-      ...points.map(
-        point =>
-          point.value
-      ),
-
-      1
-
+      ...points
     );
 
 
-
-  ctx.strokeStyle =
-    '#e2e8f0';
-
-
-  ctx.lineWidth =
-    1;
+  const padding =
+    25;
 
 
-
-  for(
-    let i=0;
-    i<5;
-    i++
-  ){
-
-    const y =
-
-      padding
-
-      +
-
-      (
-        height
-        -
-        2*padding
-      )
-
-      *
-
-      i/4;
-
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      padding,
-      y
-    );
-
-    ctx.lineTo(
-      width-padding,
-      y
-    );
-
-    ctx.stroke();
-
-  }
-
-
-
-  ctx.strokeStyle =
+  context.strokeStyle =
     '#0f766e';
 
 
-  ctx.lineWidth =
+  context.lineWidth =
     3;
 
 
-  ctx.beginPath();
+  context.beginPath();
 
 
 
   points.forEach(
 
-    (point,index) => {
+    (
+      value,
+      index
+    ) => {
 
 
       const x =
 
-        points.length === 1
+        points.length
+        ===
+        1
 
         ?
 
-        width/2
+        rect.width
+        /
+        2
 
         :
 
@@ -4808,7 +4070,7 @@ function drawLine(){
         +
 
         (
-          width
+          rect.width
           -
           2*padding
         )
@@ -4828,7 +4090,7 @@ function drawLine(){
 
       const y =
 
-        height
+        rect.height
 
         -
 
@@ -4837,24 +4099,23 @@ function drawLine(){
         -
 
         (
-          height
+          rect.height
           -
           2*padding
         )
 
         *
 
-        point.value
+        value
 
         /
 
         maximum;
 
 
-
       if(index){
 
-        ctx.lineTo(
+        context.lineTo(
           x,
           y
         );
@@ -4863,7 +4124,7 @@ function drawLine(){
 
       else{
 
-        ctx.moveTo(
+        context.moveTo(
           x,
           y
         );
@@ -4875,44 +4136,9 @@ function drawLine(){
   );
 
 
-  ctx.stroke();
+  context.stroke();
 
 
-
-  ctx.fillStyle =
-    '#64748b';
-
-
-  ctx.font =
-    '11px system-ui';
-
-
-  ctx.fillText(
-
-    fmt(
-      maximum,
-      3
-    )
-
-    +
-
-    ' M',
-
-    4,
-
-    padding
-
-  );
-
-}
-
-
-
-/* ==========================================
-   BARRES
-========================================== */
-
-function drawBars(){
 
   const categories = [
 
@@ -4927,41 +4153,30 @@ function drawBars(){
   ];
 
 
-  const colors = [
-
-    '#0284c7',
-
-    '#f59e0b',
-
-    '#0f766e',
-
-    '#8b5cf6'
-
-  ];
-
-
   const values =
     categories.map(
-      catTotal
+      cat
     );
 
 
-  const maximum =
+  const maxValue =
     Math.max(
       ...values,
       1
     );
 
 
-
-  $('#categoryBars')
+  $('#bars')
     .innerHTML =
 
       categories.map(
 
-        (category,index) => `
+        (
+          category,
+          index
+        ) => `
 
-        <div class="bar-row">
+        <div class="mt">
 
 
           <div class="bar-label">
@@ -4992,14 +4207,10 @@ function drawBars(){
                 width:${
                   values[index]
                   /
-                  maximum
+                  maxValue
                   *
                   100
-                }%;
-
-                background:${
-                  colors[index]
-                };
+                }%
               ">
             </i>
 
@@ -5011,484 +4222,198 @@ function drawBars(){
         `
 
       )
+
       .join('');
-
-
-
-  const months = {};
-
-
-
-  state.expenses
-    .forEach(
-
-      expense => {
-
-
-        const month =
-          String(
-            expense.date
-          )
-          .slice(
-            0,
-            7
-          );
-
-
-        if(!month){
-
-          return;
-
-        }
-
-
-        months[month] =
-
-          (
-            months[month]
-            ||
-            0
-          )
-
-          +
-
-          num(
-            expense.dzd
-          );
-
-      }
-
-    );
-
-
-
-  const entries =
-    Object.entries(
-      months
-    )
-    .sort();
-
-
-
-  const monthMaximum =
-    Math.max(
-
-      ...entries.map(
-        item =>
-          item[1]
-      ),
-
-      1
-
-    );
-
-
-
-  $('#monthBars')
-    .innerHTML =
-
-      entries.length
-
-      ?
-
-      entries.map(
-
-        ([month,value]) => `
-
-        <div class="bar-row">
-
-
-          <div class="bar-label">
-
-            <span>
-
-              ${month}
-
-            </span>
-
-            <b>
-
-              ${moneyM(
-                value
-              )}
-
-            </b>
-
-          </div>
-
-
-          <div class="bar">
-
-            <i
-              style="
-                width:${
-                  value
-                  /
-                  monthMaximum
-                  *
-                  100
-                }%;
-
-                background:#14b8a6;
-              ">
-            </i>
-
-          </div>
-
-
-        </div>
-
-        `
-
-      )
-      .join('')
-
-      :
-
-      `
-
-      <div class="empty">
-
-        Aucune donnée mensuelle.
-
-      </div>
-
-      `;
 
 }
 
 
 
-/* ==========================================
-   TELECHARGEMENT
-========================================== */
+/* =========================================
+   EXPORT
+========================================= */
 
 function download(
   name,
-  content,
+  text,
   type
 ){
 
-  const blob =
-    new Blob(
-
-      [
-        content
-      ],
-
-      {
-        type
-      }
-
-    );
-
-
-  const url =
-    URL.createObjectURL(
-      blob
-    );
-
-
-  const link =
+  const anchor =
     document.createElement(
       'a'
     );
 
 
-  link.href =
-    url;
+  anchor.href =
+    URL.createObjectURL(
 
+      new Blob(
 
-  link.download =
-    name;
+        [
+          text
+        ],
 
+        {
+          type
+        }
 
-  document.body
-    .appendChild(
-      link
+      )
+
     );
 
 
-  link.click();
+  anchor.download =
+    name;
 
 
-  link.remove();
-
-
-  setTimeout(
-
-    () =>
-      URL.revokeObjectURL(
-        url
-      ),
-
-    1000
-
-  );
+  anchor.click();
 
 }
 
 
 
-/* ==========================================
-   EXPORT JSON
-========================================== */
-
 $('#exportJson')
-  .addEventListener(
+  .onclick = () =>
 
-    'click',
+    download(
 
-    () => {
+      'sauvegarde_DarFiKhoriba.json',
 
+      JSON.stringify(
+        state,
+        null,
+        2
+      ),
 
-      const backup = {
+      'application/json'
 
-        version:3,
-
-        exportedAt:
-          new Date()
-            .toISOString(),
-
-        project:
-          state.project,
-
-        expenses:
-          state.expenses,
-
-        commitments:
-          state.commitments
-
-      };
+    );
 
 
-      download(
-
-        'sauvegarde_DarFiKhoriba.json',
-
-        JSON.stringify(
-          backup,
-          null,
-          2
-        ),
-
-        'application/json'
-
-      );
-
-    }
-
-  );
-
-
-
-/* ==========================================
-   EXPORT CSV
-========================================== */
 
 $('#exportCsv')
-  .addEventListener(
-
-    'click',
-
-    () => {
+  .onclick = () => {
 
 
-      const quote =
-        value =>
+    const quote =
+      value =>
 
-          '"'
-
-          +
-
-          String(
-            value ?? ''
-          )
-          .replace(
-            /"/g,
-            '""'
-          )
-
-          +
-
-          '"';
-
-
-
-      const columns = [
-
-        'date',
-
-        'categorie',
-
-        'sous_categorie',
-
-        'description',
-
-        'beneficiaire',
-
-        'somme_due_associee',
-
-        'montant_saisi',
-
-        'devise',
-
-        'taux_millions_dzd_par_eur',
-
-        'montant_dzd',
-
-        'montant_eur',
-
-        'commentaire'
-
-      ];
-
-
-
-      const rows =
-        state.expenses.map(
-
-          expense => {
-
-
-            const commitment =
-              state.commitments.find(
-
-                item =>
-                  item.id
-                  ===
-                  expense.commitmentId
-
-              );
-
-
-            return [
-
-              expense.date,
-
-              expense.category,
-
-              expense.subcategory,
-
-              expense.description,
-
-              expense.supplier,
-
-              commitment
-              ?
-              commitment.label
-              :
-              '',
-
-              expense.amount,
-
-              expense.currency,
-
-              expense.rate,
-
-              expense.dzd,
-
-              expense.eur,
-
-              expense.comment
-
-            ]
-
-            .map(
-              quote
-            )
-
-            .join(';');
-
-          }
-
-        );
-
-
-
-      download(
-
-        'depenses_DarFiKhoriba.csv',
-
-        '\ufeff'
+        '"'
 
         +
 
-        columns
-          .map(quote)
+        String(
+          value ?? ''
+        )
+
+        .replace(
+          /"/g,
+          '""'
+        )
+
+        +
+
+        '"';
+
+
+    const rows =
+      state.expenses.map(
+
+        expense =>
+
+          [
+
+            expense.date,
+
+            expense.category,
+
+            expense.subcategory,
+
+            expense.description,
+
+            expense.supplier,
+
+            expense.amount,
+
+            expense.currency,
+
+            expense.rate,
+
+            expense.dzd,
+
+            expense.eur
+
+          ]
+
+          .map(
+            quote
+          )
+
           .join(';')
-
-        +
-
-        '\n'
-
-        +
-
-        rows.join(
-          '\n'
-        ),
-
-        'text/csv;charset=utf-8'
 
       );
 
-    }
 
-  );
+    download(
+
+      'depenses.csv',
+
+      '\ufeff'
+
+      +
+
+      'date;categorie;sous_categorie;description;beneficiaire;montant;devise;taux;dzd;eur'
+
+      +
+
+      '\n'
+
+      +
+
+      rows.join(
+        '\n'
+      ),
+
+      'text/csv'
+
+    );
+
+};
 
 
 
-/* ==========================================
-   IMPORT JSON
-========================================== */
+/* =========================================
+   IMPORT
+========================================= */
 
 $('#importBtn')
-  .addEventListener(
-
-    'click',
-
+  .onclick =
     () =>
       $('#importFile')
-        .click()
-
-  );
+        .click();
 
 
 
 $('#importFile')
-  .addEventListener(
-
-    'change',
-
+  .onchange =
     async event => {
 
 
       try{
 
 
-        const file =
-          event.target
-            .files[0];
-
-
-        if(!file){
-
-          return;
-
-        }
-
-
         const imported =
           JSON.parse(
 
-            await file.text()
+            await event.target
+              .files[0]
+              .text()
 
           );
 
 
         if(
-          !imported
-          ||
           !Array.isArray(
             imported.expenses
           )
@@ -5499,160 +4424,95 @@ $('#importFile')
         }
 
 
+        state = {
 
-        if(
-          confirm(
-            'Remplacer les données actuelles ?'
-          )
-        ){
+          expenses:
+            imported.expenses,
 
+          commitments:
 
-          state = {
-
-            project:
-
-              imported.project
-
-              ||
-
-              {
-                name:'Suivi construction'
-              },
-
-
-            expenses:
-
-              imported.expenses,
-
-
-            commitments:
-
-              Array.isArray(
-                imported.commitments
-              )
-
-              ?
-
+            Array.isArray(
               imported.commitments
+            )
 
-              :
+            ?
 
-              []
+            imported.commitments
 
-          };
+            :
 
+            []
 
-          save();
-
-
-          alert(
-            'Sauvegarde restaurée.'
-          );
-
-        }
-
-      }
-
-      catch(error){
-
-        alert(
-          'Fichier JSON invalide.'
-        );
-
-      }
-
-
-      event.target.value =
-        '';
-
-    }
-
-  );
-
-
-
-/* ==========================================
-   EFFACER TOUT
-========================================== */
-
-$('#clearBtn')
-  .addEventListener(
-
-    'click',
-
-    () => {
-
-
-      if(
-
-        confirm(
-          'Toutes les données seront supprimées. Continuer ?'
-        )
-
-        &&
-
-        confirm(
-          'Confirmer la suppression définitive ?'
-        )
-
-      ){
-
-
-        state =
-          structuredClone(
-            defaults
-          );
+        };
 
 
         save();
 
       }
 
-    }
+      catch(error){
 
-  );
+        alert(
+          'Fichier invalide.'
+        );
+
+      }
+
+    };
 
 
 
-/* ==========================================
-   REDIMENSIONNEMENT
-========================================== */
+/* =========================================
+   EFFACER
+========================================= */
 
-window.addEventListener(
+$('#clearBtn')
+  .onclick = () => {
 
-  'resize',
-
-  () => {
 
     if(
-      $('#charts')
-        .classList
-        .contains(
-          'active'
-        )
+      confirm(
+        'Tout supprimer ?'
+      )
     ){
 
-      drawCharts();
+      state =
+        structuredClone(
+          DEF
+        );
+
+
+      save();
 
     }
 
-  }
-
-);
+  };
 
 
 
-/* ==========================================
+$('#search')
+  .oninput =
+    renderExpenses;
+
+
+
+$('#filter')
+  .onchange =
+    renderExpenses;
+
+
+
+/* =========================================
    INITIALISATION
-========================================== */
+========================================= */
 
 updateSubs();
 
-updateCommitmentBeneficiaries();
+updateBenefits();
 
 updateCommitmentOptions();
 
-renderAll();
+render();
 
 
 })();
@@ -5661,9 +4521,7 @@ renderAll();
 
 
 
-<!-- ==========================================
-     SERVICE WORKER
-========================================== -->
+<!-- SERVICE WORKER -->
 
 <script>
 
@@ -5673,51 +4531,16 @@ if(
   navigator
 ){
 
-  window.addEventListener(
+  addEventListener(
 
     'load',
 
-    () => {
+    () =>
 
       navigator.serviceWorker
-
         .register(
           './sw.js'
         )
-
-        .then(
-
-          registration => {
-
-            console.log(
-
-              'Service Worker enregistré :',
-
-              registration.scope
-
-            );
-
-          }
-
-        )
-
-        .catch(
-
-          error => {
-
-            console.error(
-
-              'Erreur Service Worker :',
-
-              error
-
-            );
-
-          }
-
-        );
-
-    }
 
   );
 
@@ -5727,5 +4550,4 @@ if(
 
 
 </body>
-
 </html>
