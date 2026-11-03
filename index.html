@@ -1,0 +1,2715 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<title>Suivi construction maison</title>
+
+<style>
+:root{
+  --bg:#f1f5f9;
+  --card:#fff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --primary:#0f766e;
+  --primary2:#14b8a6;
+  --danger:#dc2626;
+  --warn:#f59e0b;
+  --shadow:0 8px 25px rgba(15,23,42,.08)
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:var(--bg);
+  color:var(--text)
+}
+
+button,input,select,textarea{font:inherit}
+
+.app{
+  max-width:560px;
+  margin:auto;
+  min-height:100vh;
+  padding:18px 16px 98px
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px
+}
+
+.eyebrow{
+  font-size:11px;
+  color:var(--muted);
+  font-weight:800;
+  letter-spacing:.08em
+}
+
+.top h1{
+  font-size:22px;
+  margin:3px 0
+}
+
+.logo{
+  width:48px;
+  height:48px;
+  border-radius:16px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--primary),var(--primary2));
+  font-size:24px;
+  box-shadow:var(--shadow)
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:16px;
+  box-shadow:var(--shadow)
+}
+
+.hero{
+  background:linear-gradient(135deg,#0f766e,#115e59);
+  color:#fff;
+  border:0
+}
+
+.hero .muted{color:#ccfbf1}
+
+.big{
+  font-size:29px;
+  font-weight:900;
+  margin:5px 0
+}
+
+.muted{color:var(--muted)}
+.small{font-size:12px}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px
+}
+
+.mt{margin-top:12px}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:20px 2px 10px
+}
+
+.section-title h2{
+  font-size:17px;
+  margin:0
+}
+
+.stat strong{
+  display:block;
+  font-size:17px;
+  margin-top:5px
+}
+
+.progress{
+  height:10px;
+  background:#ccfbf1;
+  border-radius:99px;
+  overflow:hidden;
+  margin-top:10px
+}
+
+.progress>i{
+  display:block;
+  height:100%;
+  background:#2dd4bf;
+  width:0
+}
+
+.btn{
+  border:0;
+  border-radius:13px;
+  padding:12px 14px;
+  font-weight:800;
+  cursor:pointer
+}
+
+.btn-primary{
+  background:var(--primary);
+  color:white
+}
+
+.btn-soft{
+  background:#ccfbf1;
+  color:#115e59
+}
+
+.btn-danger{
+  background:#fee2e2;
+  color:#991b1b
+}
+
+.btn-line{
+  background:white;
+  border:1px solid var(--line);
+  color:var(--text)
+}
+
+.wide{width:100%}
+
+.fab{
+  position:fixed;
+  right:max(20px,calc((100vw - 560px)/2 + 20px));
+  bottom:88px;
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  border:0;
+  background:var(--primary);
+  color:#fff;
+  font-size:30px;
+  box-shadow:0 12px 28px rgba(15,118,110,.36);
+  cursor:pointer;
+  z-index:5
+}
+
+.tabs{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(100%,560px);
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--line);
+  padding:7px 6px calc(7px + env(safe-area-inset-bottom));
+  z-index:4
+}
+
+.tab{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:6px 2px;
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer
+}
+
+.tab span{
+  display:block;
+  font-size:20px;
+  margin-bottom:2px
+}
+
+.tab.active{color:var(--primary)}
+
+.page{display:none}
+.page.active{display:block}
+
+.list{
+  display:grid;
+  gap:10px
+}
+
+.expense{
+  display:flex;
+  gap:12px;
+  align-items:center
+}
+
+.ico{
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:#f0fdfa;
+  font-size:21px;
+  flex:none
+}
+
+.expense-main{
+  min-width:0;
+  flex:1
+}
+
+.expense-main b,
+.expense-main div{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+
+.amount{
+  text-align:right;
+  flex:none
+}
+
+.amount strong{display:block}
+
+.toolbar{
+  display:grid;
+  grid-template-columns:1fr 120px;
+  gap:8px;
+  margin-bottom:12px
+}
+
+input,select,textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #cbd5e1;
+  border-radius:12px;
+  background:#fff;
+  color:var(--text)
+}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  color:#475569;
+  margin-bottom:5px
+}
+
+.field{margin-bottom:12px}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.55);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  z-index:10
+}
+
+.modal.open{display:flex}
+
+.sheet{
+  width:min(100%,560px);
+  max-height:92vh;
+  overflow:auto;
+  background:#fff;
+  border-radius:24px 24px 0 0;
+  padding:18px 16px calc(18px + env(safe-area-inset-bottom))
+}
+
+.sheet-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px
+}
+
+.sheet-head h2{margin:0}
+
+.close{
+  border:0;
+  background:#e2e8f0;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  font-size:20px
+}
+
+.conversion{
+  background:#f0fdfa;
+  color:#115e59;
+  padding:12px;
+  border-radius:12px;
+  font-weight:700;
+  margin-bottom:12px
+}
+
+.row-actions{
+  display:flex;
+  gap:7px;
+  margin-top:8px
+}
+
+.row-actions button{
+  padding:6px 9px;
+  border-radius:9px;
+  border:1px solid var(--line);
+  background:#fff;
+  font-size:12px
+}
+
+.bar-row{margin:14px 0}
+
+.bar-label{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  margin-bottom:6px
+}
+
+.bar{
+  height:13px;
+  background:#e2e8f0;
+  border-radius:99px;
+  overflow:hidden
+}
+
+.bar i{
+  height:100%;
+  display:block;
+  border-radius:99px
+}
+
+.chart-wrap{height:260px}
+
+.chart-wrap canvas{
+  width:100%;
+  height:100%
+}
+
+.empty{
+  text-align:center;
+  padding:25px;
+  color:var(--muted)
+}
+
+.notice{
+  font-size:12px;
+  background:#fff7ed;
+  color:#9a3412;
+  padding:10px;
+  border-radius:12px
+}
+
+.hidden{display:none!important}
+
+@media(max-width:380px){
+  .grid3{grid-template-columns:1fr}
+  .toolbar{grid-template-columns:1fr}
+  .big{font-size:25px}
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+<header class="top">
+  <div>
+    <div class="eyebrow">MON PROJET</div>
+    <h1 id="projectTitle">Construction de ma maison</h1>
+    <div class="small muted" id="saveStatus">
+      Sauvegarde locale active
+    </div>
+  </div>
+
+  <div class="logo">🏠</div>
+</header>
+
+
+<!-- ACCUEIL -->
+
+<section id="home" class="page active">
+
+  <div class="card hero">
+    <div class="muted small">TOTAL DES DÉPENSES</div>
+
+    <div class="big" id="totalDzd">0 DZD</div>
+    <div id="totalEur">0 €</div>
+
+    <div class="progress">
+      <i id="globalProgress"></i>
+    </div>
+
+    <div class="small mt" id="budgetLine">
+      Budget non défini
+    </div>
+  </div>
+
+
+  <div class="grid3 mt">
+
+    <div class="card stat">
+      <span>🏡</span>
+      <div class="small muted">Terrain</div>
+      <strong id="homeTerrain">0 DZD</strong>
+    </div>
+
+    <div class="card stat">
+      <span>🧱</span>
+      <div class="small muted">Fournitures</div>
+      <strong id="homeFournitures">0 DZD</strong>
+    </div>
+
+    <div class="card stat">
+      <span>👷</span>
+      <div class="small muted">Main-d'œuvre</div>
+      <strong id="homeMain">0 DZD</strong>
+    </div>
+
+  </div>
+
+
+  <div class="section-title">
+    <h2>Dernières dépenses</h2>
+
+    <button
+      class="btn btn-soft"
+      onclick="showPage('expenses')">
+      Tout voir
+    </button>
+  </div>
+
+  <div id="recentList" class="list"></div>
+
+</section>
+
+
+<!-- DEPENSES -->
+
+<section id="expenses" class="page">
+
+  <div class="section-title">
+    <h2>Dépenses</h2>
+    <strong id="expenseCount">0</strong>
+  </div>
+
+  <div class="toolbar">
+
+    <input
+      id="search"
+      type="search"
+      placeholder="Rechercher ciment, maçon…">
+
+    <select id="filterCategory">
+      <option value="">Toutes catégories</option>
+      <option>Terrain</option>
+      <option>Fournitures</option>
+      <option>Main-d'œuvre</option>
+      <option>Autres</option>
+    </select>
+
+  </div>
+
+  <div id="expenseList" class="list"></div>
+
+</section>
+
+
+<!-- COURBES -->
+
+<section id="charts" class="page">
+
+  <div class="section-title">
+    <h2>Courbes et répartition</h2>
+  </div>
+
+
+  <div class="card">
+
+    <strong>Évolution cumulée des dépenses</strong>
+
+    <div class="small muted">
+      Montants convertis en DZD selon le taux de chaque opération
+    </div>
+
+    <div class="chart-wrap">
+      <canvas id="lineChart"></canvas>
+    </div>
+
+  </div>
+
+
+  <div class="card mt">
+
+    <strong>Répartition par catégorie</strong>
+
+    <div id="categoryBars"></div>
+
+  </div>
+
+
+  <div class="card mt">
+
+    <strong>Dépenses mensuelles</strong>
+
+    <div id="monthBars"></div>
+
+  </div>
+
+</section>
+
+
+<!-- BUDGET -->
+
+<section id="budget" class="page">
+
+  <div class="section-title">
+    <h2>Budget du projet</h2>
+  </div>
+
+
+  <form id="budgetForm" class="card">
+
+    <div class="field">
+      <label>Nom du projet</label>
+      <input id="projectName" maxlength="80">
+    </div>
+
+
+    <div class="field">
+      <label>Budget global (DZD)</label>
+
+      <input
+        id="budgetGlobal"
+        type="number"
+        min="0"
+        step="0.01">
+    </div>
+
+
+    <div class="grid2">
+
+      <div class="field">
+        <label>Terrain</label>
+        <input id="budgetTerrain" type="number" min="0">
+      </div>
+
+      <div class="field">
+        <label>Fournitures</label>
+        <input id="budgetFournitures" type="number" min="0">
+      </div>
+
+    </div>
+
+
+    <div class="grid2">
+
+      <div class="field">
+        <label>Main-d'œuvre</label>
+        <input id="budgetMain" type="number" min="0">
+      </div>
+
+      <div class="field">
+        <label>Autres</label>
+        <input id="budgetAutres" type="number" min="0">
+      </div>
+
+    </div>
+
+
+    <button
+      class="btn btn-primary wide"
+      type="submit">
+
+      Enregistrer le budget
+
+    </button>
+
+  </form>
+
+
+  <div class="section-title">
+    <h2>Sauvegarde et transfert</h2>
+  </div>
+
+
+  <div class="card">
+
+    <div class="notice">
+      Les données sont conservées dans le stockage local de ce navigateur.
+      Exportez régulièrement une sauvegarde JSON pour les protéger en cas
+      de changement de téléphone ou de suppression des données du navigateur.
+    </div>
+
+
+    <div class="grid2 mt">
+
+      <button
+        id="exportJson"
+        class="btn btn-line"
+        type="button">
+
+        Exporter JSON
+
+      </button>
+
+
+      <button
+        id="exportCsv"
+        class="btn btn-line"
+        type="button">
+
+        Exporter CSV
+
+      </button>
+
+    </div>
+
+
+    <div class="grid2 mt">
+
+      <button
+        id="importBtn"
+        class="btn btn-soft"
+        type="button">
+
+        Importer JSON
+
+      </button>
+
+
+      <button
+        id="clearBtn"
+        class="btn btn-danger"
+        type="button">
+
+        Tout effacer
+
+      </button>
+
+    </div>
+
+
+    <input
+      id="importFile"
+      class="hidden"
+      type="file"
+      accept="application/json,.json">
+
+  </div>
+
+</section>
+
+
+<!-- BOUTON AJOUT -->
+
+<button
+  class="fab"
+  id="addBtn"
+  aria-label="Ajouter une dépense">
+
+  +
+
+</button>
+
+
+<!-- NAVIGATION -->
+
+<nav class="tabs" aria-label="Navigation principale">
+
+  <button class="tab active" data-page="home">
+    <span>🏠</span>
+    Accueil
+  </button>
+
+  <button class="tab" data-page="expenses">
+    <span>💰</span>
+    Dépenses
+  </button>
+
+  <button class="tab" data-page="charts">
+    <span>📈</span>
+    Courbes
+  </button>
+
+  <button class="tab" data-page="budget">
+    <span>🎯</span>
+    Budget
+  </button>
+
+</nav>
+
+</main>
+
+
+<!-- FORMULAIRE DEPENSE -->
+
+<div
+  class="modal"
+  id="expenseModal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="formTitle">
+
+<form class="sheet" id="expenseForm">
+
+  <div class="sheet-head">
+
+    <h2 id="formTitle">
+      Ajouter une dépense
+    </h2>
+
+    <button
+      type="button"
+      class="close"
+      id="closeModal">
+
+      ×
+
+    </button>
+
+  </div>
+
+
+  <input type="hidden" id="expenseId">
+
+
+  <div class="field">
+
+    <label>Date</label>
+
+    <input
+      id="expenseDate"
+      type="date"
+      required>
+
+  </div>
+
+
+  <div class="grid2">
+
+    <div class="field">
+
+      <label>Catégorie</label>
+
+      <select id="category">
+        <option>Terrain</option>
+        <option>Fournitures</option>
+        <option>Main-d'œuvre</option>
+        <option>Autres</option>
+      </select>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Sous-catégorie</label>
+
+      <select id="subcategory"></select>
+
+    </div>
+
+  </div>
+
+
+  <div class="field">
+
+    <label>Description</label>
+
+    <input
+      id="description"
+      maxlength="120"
+      placeholder="Ex. 50 sacs de ciment"
+      required>
+
+  </div>
+
+
+  <div class="field">
+
+    <label>Fournisseur / artisan</label>
+
+    <input
+      id="supplier"
+      maxlength="100"
+      placeholder="Facultatif">
+
+  </div>
+
+
+  <div class="grid2">
+
+    <div class="field">
+
+      <label>Montant</label>
+
+      <input
+        id="amount"
+        type="number"
+        min="0.01"
+        step="0.01"
+        required>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>Devise</label>
+
+      <select id="currency">
+        <option value="DZD">DZD</option>
+        <option value="EUR">EUR</option>
+      </select>
+
+    </div>
+
+  </div>
+
+
+  <div class="field">
+
+    <label>
+      Taux de conversion : DZD pour 1 €
+    </label>
+
+    <input
+      id="rate"
+      type="number"
+      min="0.0001"
+      step="0.0001"
+      placeholder="Ex. 250"
+      required>
+
+  </div>
+
+
+  <div id="conversion" class="conversion">
+    Saisissez le montant et le taux.
+  </div>
+
+
+  <div class="field">
+
+    <label>Commentaire</label>
+
+    <textarea
+      id="comment"
+      rows="2"
+      maxlength="300"></textarea>
+
+  </div>
+
+
+  <button
+    class="btn btn-primary wide"
+    type="submit">
+
+    Enregistrer la dépense
+
+  </button>
+
+</form>
+
+</div>
+
+
+<script>
+(() => {
+
+'use strict';
+
+const KEY = 'suivi_maison_v1';
+
+
+const defaults = {
+
+  project:{
+    name:'Construction de ma maison',
+    budget:0,
+
+    budgets:{
+      'Terrain':0,
+      'Fournitures':0,
+      "Main-d'œuvre":0,
+      'Autres':0
+    }
+  },
+
+  expenses:[]
+};
+
+
+const subs = {
+
+  'Terrain':[
+    'Achat du terrain',
+    'Notaire',
+    'Bornage',
+    'Autres'
+  ],
+
+  'Fournitures':[
+    'Ciment',
+    'Ferraille',
+    'Briques',
+    'Sable',
+    'Gravier',
+    'Bois',
+    'Plomberie',
+    'Électricité',
+    'Carrelage',
+    'Peinture',
+    'Autres'
+  ],
+
+  "Main-d'œuvre":[
+    'Maçon',
+    'Électricien',
+    'Plombier',
+    'Carreleur',
+    'Peintre',
+    'Menuisier',
+    'Autres'
+  ],
+
+  'Autres':[
+    'Transport',
+    'Location matériel',
+    'Administratif',
+    'Imprévu',
+    'Autres'
+  ]
+};
+
+
+const icons = {
+  'Terrain':'🏡',
+  'Fournitures':'🧱',
+  "Main-d'œuvre":'👷',
+  'Autres':'📦'
+};
+
+
+let state = load();
+
+
+function load(){
+
+  try{
+
+    const x =
+      JSON.parse(localStorage.getItem(KEY));
+
+    return (
+      x &&
+      x.project &&
+      Array.isArray(x.expenses)
+    )
+      ? x
+      : structuredClone(defaults);
+
+  }
+  catch(e){
+
+    return structuredClone(defaults);
+
+  }
+}
+
+
+function save(){
+
+  localStorage.setItem(
+    KEY,
+    JSON.stringify(state)
+  );
+
+  document.querySelector('#saveStatus')
+    .textContent =
+      'Sauvegardé localement à ' +
+      new Date().toLocaleTimeString(
+        'fr-FR',
+        {
+          hour:'2-digit',
+          minute:'2-digit'
+        }
+      );
+
+  renderAll();
+}
+
+
+const $ =
+  s => document.querySelector(s);
+
+const $$ =
+  s => [...document.querySelectorAll(s)];
+
+
+const num =
+  x => Number(x) || 0;
+
+
+const clamp =
+  (x,a,b) =>
+    Math.min(
+      b,
+      Math.max(a,x)
+    );
+
+
+const fmt = (n,d=0) =>
+  new Intl.NumberFormat(
+    'fr-FR',
+    {
+      minimumFractionDigits:d,
+      maximumFractionDigits:d
+    }
+  ).format(num(n));
+
+
+const moneyD =
+  n => fmt(n,2) + ' DZD';
+
+
+const moneyE =
+  n => fmt(n,2) + ' €';
+
+
+const esc = s =>
+  String(s ?? '')
+  .replace(
+    /[&<>'"]/g,
+    c => ({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      "'":'&#39;',
+      '"':'&quot;'
+    }[c])
+  );
+
+
+function totals(){
+
+  return state.expenses.reduce(
+
+    (a,x) => ({
+      dzd:a.dzd + x.dzd,
+      eur:a.eur + x.eur
+    }),
+
+    {
+      dzd:0,
+      eur:0
+    }
+
+  );
+
+}
+
+
+function catTotal(cat){
+
+  return state.expenses
+    .filter(x => x.category === cat)
+    .reduce(
+      (s,x) => s + x.dzd,
+      0
+    );
+
+}
+
+
+function showPage(id){
+
+  $$('.page')
+    .forEach(
+      x => x.classList.toggle(
+        'active',
+        x.id === id
+      )
+    );
+
+
+  $$('.tab')
+    .forEach(
+      x => x.classList.toggle(
+        'active',
+        x.dataset.page === id
+      )
+    );
+
+
+  $('#addBtn')
+    .classList.toggle(
+      'hidden',
+      id === 'budget'
+    );
+
+
+  if(id === 'charts'){
+
+    setTimeout(
+      drawCharts,
+      0
+    );
+
+  }
+
+}
+
+
+window.showPage = showPage;
+
+
+$$('.tab').forEach(
+
+  b => b.addEventListener(
+
+    'click',
+
+    () => showPage(
+      b.dataset.page
+    )
+
+  )
+
+);
+
+
+function expenseHtml(
+  x,
+  actions=true
+){
+
+  return `
+
+<article class="card expense">
+
+  <div class="ico">
+    ${icons[x.category] || '📦'}
+  </div>
+
+  <div class="expense-main">
+
+    <b>
+      ${esc(x.description)}
+    </b>
+
+    <div class="small muted">
+
+      ${esc(x.date)}
+      ·
+      ${esc(x.category)}
+      ·
+      ${esc(x.subcategory || '')}
+
+    </div>
+
+    ${
+      x.supplier
+      ?
+      `<div class="small muted">
+        ${esc(x.supplier)}
+      </div>`
+      :
+      ''
+    }
+
+    ${
+      actions
+      ?
+      `
+      <div class="row-actions">
+
+        <button data-edit="${x.id}">
+          Modifier
+        </button>
+
+        <button data-delete="${x.id}">
+          Supprimer
+        </button>
+
+      </div>
+      `
+      :
+      ''
+    }
+
+  </div>
+
+  <div class="amount">
+
+    <strong>
+      ${moneyD(x.dzd)}
+    </strong>
+
+    <span class="small muted">
+      ${moneyE(x.eur)}
+    </span>
+
+  </div>
+
+</article>
+
+`;
+
+}
+
+
+function renderAll(){
+
+  const t = totals();
+
+  const budget =
+    num(state.project.budget);
+
+  const pct =
+    budget
+      ? clamp(
+          t.dzd / budget * 100,
+          0,
+          100
+        )
+      : 0;
+
+
+  $('#projectTitle')
+    .textContent =
+      state.project.name;
+
+
+  $('#totalDzd')
+    .textContent =
+      moneyD(t.dzd);
+
+
+  $('#totalEur')
+    .textContent =
+      moneyE(t.eur);
+
+
+  $('#globalProgress')
+    .style.width =
+      pct + '%';
+
+
+  $('#budgetLine')
+    .textContent =
+      budget
+      ?
+      `${fmt(pct,1)} % du budget · Reste ${moneyD(
+        Math.max(
+          0,
+          budget - t.dzd
+        )
+      )}`
+      :
+      'Budget non défini';
+
+
+  $('#homeTerrain')
+    .textContent =
+      moneyD(
+        catTotal('Terrain')
+      );
+
+
+  $('#homeFournitures')
+    .textContent =
+      moneyD(
+        catTotal('Fournitures')
+      );
+
+
+  $('#homeMain')
+    .textContent =
+      moneyD(
+        catTotal("Main-d'œuvre")
+      );
+
+
+  const recent =
+    [...state.expenses]
+    .sort(
+      (a,b) =>
+        b.date.localeCompare(a.date)
+        ||
+        b.createdAt - a.createdAt
+    )
+    .slice(0,4);
+
+
+  $('#recentList')
+    .innerHTML =
+      recent.length
+      ?
+      recent
+        .map(
+          x => expenseHtml(
+            x,
+            false
+          )
+        )
+        .join('')
+      :
+      `
+      <div class="card empty">
+        Aucune dépense enregistrée.
+      </div>
+      `;
+
+
+  renderExpenses();
+  fillBudget();
+
+}
+
+
+function renderExpenses(){
+
+  const q =
+    $('#search')
+      .value
+      .toLowerCase();
+
+
+  const c =
+    $('#filterCategory')
+      .value;
+
+
+  const list =
+    [...state.expenses]
+
+    .filter(
+      x =>
+        (!c || x.category === c)
+        &&
+        (
+          !q
+          ||
+          [
+            x.description,
+            x.category,
+            x.subcategory,
+            x.supplier,
+            x.comment
+          ]
+          .join(' ')
+          .toLowerCase()
+          .includes(q)
+        )
+    )
+
+    .sort(
+      (a,b) =>
+        b.date.localeCompare(a.date)
+        ||
+        b.createdAt - a.createdAt
+    );
+
+
+  $('#expenseCount')
+    .textContent =
+      list.length;
+
+
+  $('#expenseList')
+    .innerHTML =
+      list.length
+      ?
+      list
+        .map(
+          x => expenseHtml(
+            x,
+            true
+          )
+        )
+        .join('')
+      :
+      `
+      <div class="card empty">
+        Aucun résultat.
+      </div>
+      `;
+
+}
+
+
+$('#search')
+  .addEventListener(
+    'input',
+    renderExpenses
+  );
+
+
+$('#filterCategory')
+  .addEventListener(
+    'change',
+    renderExpenses
+  );
+
+
+$('#expenseList')
+  .addEventListener(
+
+    'click',
+
+    e => {
+
+      const edit =
+        e.target.dataset.edit;
+
+      const del =
+        e.target.dataset.delete;
+
+
+      if(edit){
+
+        openModal(edit);
+
+      }
+
+
+      if(
+        del
+        &&
+        confirm(
+          'Supprimer cette dépense ?'
+        )
+      ){
+
+        state.expenses =
+          state.expenses.filter(
+            x => x.id !== del
+          );
+
+        save();
+
+      }
+
+    }
+
+  );
+
+
+function updateSubs(selected){
+
+  const cat =
+    $('#category').value;
+
+
+  $('#subcategory')
+    .innerHTML =
+      subs[cat]
+      .map(
+        x =>
+          `<option${
+            x === selected
+              ? ' selected'
+              : ''
+          }>${esc(x)}</option>`
+      )
+      .join('');
+
+}
+
+
+$('#category')
+  .addEventListener(
+
+    'change',
+
+    () => updateSubs()
+
+  );
+
+
+function openModal(id){
+
+  $('#expenseForm').reset();
+
+  $('#expenseId').value = '';
+
+  $('#formTitle')
+    .textContent =
+      'Ajouter une dépense';
+
+
+  $('#expenseDate').value =
+    new Date()
+      .toISOString()
+      .slice(0,10);
+
+
+  updateSubs();
+
+
+  if(id){
+
+    const x =
+      state.expenses
+        .find(
+          y => y.id === id
+        );
+
+
+    if(!x)
+      return;
+
+
+    $('#formTitle')
+      .textContent =
+        'Modifier la dépense';
+
+
+    $('#expenseId').value =
+      x.id;
+
+
+    $('#expenseDate').value =
+      x.date;
+
+
+    $('#category').value =
+      x.category;
+
+
+    updateSubs(
+      x.subcategory
+    );
+
+
+    $('#description').value =
+      x.description;
+
+
+    $('#supplier').value =
+      x.supplier || '';
+
+
+    $('#amount').value =
+      x.amount;
+
+
+    $('#currency').value =
+      x.currency;
+
+
+    $('#rate').value =
+      x.rate;
+
+
+    $('#comment').value =
+      x.comment || '';
+
+  }
+
+
+  updateConversion();
+
+
+  $('#expenseModal')
+    .classList
+    .add('open');
+
+}
+
+
+function closeModal(){
+
+  $('#expenseModal')
+    .classList
+    .remove('open');
+
+}
+
+
+$('#addBtn')
+  .addEventListener(
+
+    'click',
+
+    () => openModal()
+
+  );
+
+
+$('#closeModal')
+  .addEventListener(
+    'click',
+    closeModal
+  );
+
+
+$('#expenseModal')
+  .addEventListener(
+
+    'click',
+
+    e => {
+
+      if(
+        e.target.id ===
+        'expenseModal'
+      ){
+
+        closeModal();
+
+      }
+
+    }
+
+  );
+
+
+function updateConversion(){
+
+  const a =
+    num(
+      $('#amount').value
+    );
+
+
+  const r =
+    num(
+      $('#rate').value
+    );
+
+
+  const c =
+    $('#currency').value;
+
+
+  if(
+    a <= 0
+    ||
+    r <= 0
+  ){
+
+    $('#conversion')
+      .textContent =
+        'Saisissez un montant et un taux valides.';
+
+    return;
+
+  }
+
+
+  $('#conversion')
+    .textContent =
+      c === 'DZD'
+      ?
+      `${moneyD(a)} = ${moneyE(
+        a / r
+      )}`
+      :
+      `${moneyE(a)} = ${moneyD(
+        a * r
+      )}`;
+
+}
+
+
+[
+  'amount',
+  'rate',
+  'currency'
+]
+.forEach(
+
+  id =>
+    $('#'+id)
+      .addEventListener(
+        'input',
+        updateConversion
+      )
+
+);
+
+
+$('#expenseForm')
+  .addEventListener(
+
+    'submit',
+
+    e => {
+
+      e.preventDefault();
+
+
+      const amount =
+        num(
+          $('#amount').value
+        );
+
+
+      const rate =
+        num(
+          $('#rate').value
+        );
+
+
+      const currency =
+        $('#currency').value;
+
+
+      if(
+        amount <= 0
+        ||
+        rate <= 0
+      )
+        return;
+
+
+      const id =
+        $('#expenseId').value
+        ||
+        (
+          (
+            crypto.randomUUID
+            &&
+            crypto.randomUUID()
+          )
+          ||
+          Date.now().toString(36)
+        );
+
+
+      const old =
+        state.expenses
+          .find(
+            x => x.id === id
+          );
+
+
+      const item = {
+
+        id,
+
+        date:
+          $('#expenseDate').value,
+
+        category:
+          $('#category').value,
+
+        subcategory:
+          $('#subcategory').value,
+
+        description:
+          $('#description')
+            .value
+            .trim(),
+
+        supplier:
+          $('#supplier')
+            .value
+            .trim(),
+
+        amount,
+
+        currency,
+
+        rate,
+
+        dzd:
+          currency === 'DZD'
+            ? amount
+            : amount * rate,
+
+        eur:
+          currency === 'EUR'
+            ? amount
+            : amount / rate,
+
+        comment:
+          $('#comment')
+            .value
+            .trim(),
+
+        createdAt:
+          old
+            ? old.createdAt
+            : Date.now(),
+
+        updatedAt:
+          Date.now()
+
+      };
+
+
+      state.expenses =
+        old
+        ?
+        state.expenses.map(
+          x =>
+            x.id === id
+            ? item
+            : x
+        )
+        :
+        [
+          ...state.expenses,
+          item
+        ];
+
+
+      save();
+
+      closeModal();
+
+    }
+
+  );
+
+
+function fillBudget(){
+
+  const p =
+    state.project;
+
+
+  $('#projectName').value =
+    p.name;
+
+
+  $('#budgetGlobal').value =
+    p.budget || '';
+
+
+  $('#budgetTerrain').value =
+    p.budgets['Terrain'] || '';
+
+
+  $('#budgetFournitures').value =
+    p.budgets['Fournitures'] || '';
+
+
+  $('#budgetMain').value =
+    p.budgets["Main-d'œuvre"] || '';
+
+
+  $('#budgetAutres').value =
+    p.budgets['Autres'] || '';
+
+}
+
+
+$('#budgetForm')
+  .addEventListener(
+
+    'submit',
+
+    e => {
+
+      e.preventDefault();
+
+
+      state.project = {
+
+        name:
+          $('#projectName')
+            .value
+            .trim()
+          ||
+          'Construction de ma maison',
+
+        budget:
+          num(
+            $('#budgetGlobal').value
+          ),
+
+        budgets:{
+
+          'Terrain':
+            num(
+              $('#budgetTerrain').value
+            ),
+
+          'Fournitures':
+            num(
+              $('#budgetFournitures').value
+            ),
+
+          "Main-d'œuvre":
+            num(
+              $('#budgetMain').value
+            ),
+
+          'Autres':
+            num(
+              $('#budgetAutres').value
+            )
+
+        }
+
+      };
+
+
+      save();
+
+      alert(
+        'Budget enregistré.'
+      );
+
+    }
+
+  );
+
+
+function drawCharts(){
+
+  drawLine();
+  drawBars();
+
+}
+
+
+function drawLine(){
+
+  const cvs =
+    $('#lineChart');
+
+
+  const rect =
+    cvs.getBoundingClientRect();
+
+
+  const dpr =
+    devicePixelRatio || 1;
+
+
+  cvs.width =
+    rect.width * dpr;
+
+
+  cvs.height =
+    rect.height * dpr;
+
+
+  const ctx =
+    cvs.getContext('2d');
+
+
+  ctx.scale(
+    dpr,
+    dpr
+  );
+
+
+  const w =
+    rect.width;
+
+
+  const h =
+    rect.height;
+
+
+  const p = 30;
+
+
+  ctx.clearRect(
+    0,
+    0,
+    w,
+    h
+  );
+
+
+  const grouped = {};
+
+
+  [...state.expenses]
+
+    .sort(
+      (a,b) =>
+        a.date.localeCompare(b.date)
+    )
+
+    .forEach(
+
+      x =>
+
+        grouped[x.date] =
+          (
+            grouped[x.date]
+            ||
+            0
+          )
+          +
+          x.dzd
+
+    );
+
+
+  let run = 0;
+
+
+  const pts =
+    Object.entries(grouped)
+      .map(
+        ([date,v]) => ({
+          date,
+          v:run += v
+        })
+      );
+
+
+  if(!pts.length){
+
+    ctx.fillStyle =
+      '#64748b';
+
+    ctx.textAlign =
+      'center';
+
+    ctx.fillText(
+      'Ajoutez des dépenses pour afficher la courbe',
+      w/2,
+      h/2
+    );
+
+    return;
+
+  }
+
+
+  const max =
+    Math.max(
+      ...pts.map(
+        x => x.v
+      ),
+      1
+    );
+
+
+  ctx.strokeStyle =
+    '#cbd5e1';
+
+  ctx.lineWidth = 1;
+
+
+  for(
+    let i=0;
+    i<5;
+    i++
+  ){
+
+    const y =
+      p +
+      (
+        h - 2*p
+      )
+      *
+      i/4;
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      p,
+      y
+    );
+
+    ctx.lineTo(
+      w-p,
+      y
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  ctx.strokeStyle =
+    '#0f766e';
+
+  ctx.lineWidth = 3;
+
+  ctx.beginPath();
+
+
+  pts.forEach(
+
+    (x,i) => {
+
+      const px =
+        pts.length === 1
+        ?
+        w/2
+        :
+        p
+        +
+        (
+          w - 2*p
+        )
+        *
+        i
+        /
+        (
+          pts.length - 1
+        );
+
+
+      const py =
+        h - p
+        -
+        (
+          h - 2*p
+        )
+        *
+        x.v
+        /
+        max;
+
+
+      if(i)
+        ctx.lineTo(
+          px,
+          py
+        );
+      else
+        ctx.moveTo(
+          px,
+          py
+        );
+
+    }
+
+  );
+
+
+  ctx.stroke();
+
+
+  ctx.fillStyle =
+    '#0f766e';
+
+
+  pts.forEach(
+
+    (x,i) => {
+
+      const px =
+        pts.length === 1
+        ?
+        w/2
+        :
+        p
+        +
+        (
+          w - 2*p
+        )
+        *
+        i
+        /
+        (
+          pts.length - 1
+        );
+
+
+      const py =
+        h - p
+        -
+        (
+          h - 2*p
+        )
+        *
+        x.v
+        /
+        max;
+
+
+      ctx.beginPath();
+
+      ctx.arc(
+        px,
+        py,
+        4,
+        0,
+        Math.PI*2
+      );
+
+      ctx.fill();
+
+    }
+
+  );
+
+
+  ctx.fillStyle =
+    '#64748b';
+
+
+  ctx.font =
+    '11px system-ui';
+
+
+  ctx.textAlign =
+    'left';
+
+
+  ctx.fillText(
+    '0',
+    4,
+    h-p+4
+  );
+
+
+  ctx.fillText(
+    fmt(max),
+    4,
+    p+4
+  );
+
+}
+
+
+function drawBars(){
+
+  const cats = [
+    'Terrain',
+    'Fournitures',
+    "Main-d'œuvre",
+    'Autres'
+  ];
+
+
+  const colors = [
+    '#0284c7',
+    '#f59e0b',
+    '#0f766e',
+    '#8b5cf6'
+  ];
+
+
+  const vals =
+    cats.map(
+      catTotal
+    );
+
+
+  const max =
+    Math.max(
+      ...vals,
+      1
+    );
+
+
+  $('#categoryBars')
+    .innerHTML =
+
+      cats.map(
+
+        (c,i) => `
+
+        <div class="bar-row">
+
+          <div class="bar-label">
+
+            <span>
+              ${icons[c]}
+              ${c}
+            </span>
+
+            <b>
+              ${moneyD(vals[i])}
+            </b>
+
+          </div>
+
+          <div class="bar">
+
+            <i style="
+              width:${
+                vals[i]
+                /
+                max
+                *
+                100
+              }%;
+              background:${colors[i]}
+            "></i>
+
+          </div>
+
+        </div>
+
+        `
+
+      ).join('');
+
+
+  const months = {};
+
+
+  state.expenses
+    .forEach(
+
+      x => {
+
+        const m =
+          x.date.slice(
+            0,
+            7
+          );
+
+
+        months[m] =
+          (
+            months[m]
+            ||
+            0
+          )
+          +
+          x.dzd;
+
+      }
+
+    );
+
+
+  const entries =
+    Object.entries(months)
+      .sort();
+
+
+  const mm =
+    Math.max(
+      ...entries.map(
+        x => x[1]
+      ),
+      1
+    );
+
+
+  $('#monthBars')
+    .innerHTML =
+
+      entries.length
+
+      ?
+
+      entries.map(
+
+        ([m,v]) => `
+
+        <div class="bar-row">
+
+          <div class="bar-label">
+
+            <span>${m}</span>
+
+            <b>
+              ${moneyD(v)}
+            </b>
+
+          </div>
+
+          <div class="bar">
+
+            <i style="
+              width:${
+                v/mm*100
+              }%;
+              background:#14b8a6
+            "></i>
+
+          </div>
+
+        </div>
+
+        `
+
+      ).join('')
+
+      :
+
+      `
+      <div class="empty">
+        Aucune donnée mensuelle.
+      </div>
+      `;
+
+}
+
+
+function download(
+  name,
+  text,
+  type
+){
+
+  const a =
+    document.createElement(
+      'a'
+    );
+
+
+  a.href =
+    URL.createObjectURL(
+
+      new Blob(
+        [text],
+        {type}
+      )
+
+    );
+
+
+  a.download =
+    name;
+
+
+  a.click();
+
+
+  setTimeout(
+
+    () =>
+      URL.revokeObjectURL(
+        a.href
+      ),
+
+    1000
+
+  );
+
+}
+
+
+$('#exportJson')
+  .addEventListener(
+
+    'click',
+
+    () =>
+      download(
+
+        'sauvegarde_chantier.json',
+
+        JSON.stringify(
+          state,
+          null,
+          2
+        ),
+
+        'application/json'
+
+      )
+
+  );
+
+
+$('#exportCsv')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      const cols = [
+        'date',
+        'categorie',
+        'sous_categorie',
+        'description',
+        'fournisseur',
+        'montant_origine',
+        'devise',
+        'taux_dzd_par_eur',
+        'montant_dzd',
+        'montant_eur',
+        'commentaire'
+      ];
+
+
+      const q =
+        v =>
+          '"'
+          +
+          String(v ?? '')
+          .replace(
+            /"/g,
+            '""'
+          )
+          +
+          '"';
+
+
+      const rows =
+        state.expenses
+        .map(
+
+          x => [
+
+            x.date,
+            x.category,
+            x.subcategory,
+            x.description,
+            x.supplier,
+            x.amount,
+            x.currency,
+            x.rate,
+            x.dzd,
+            x.eur,
+            x.comment
+
+          ]
+          .map(q)
+          .join(';')
+
+        );
+
+
+      download(
+
+        'depenses_chantier.csv',
+
+        '\ufeff'
+        +
+        cols.join(';')
+        +
+        '\n'
+        +
+        rows.join('\n'),
+
+        'text/csv;charset=utf-8'
+
+      );
+
+    }
+
+  );
+
+
+$('#importBtn')
+  .addEventListener(
+
+    'click',
+
+    () =>
+      $('#importFile')
+        .click()
+
+  );
+
+
+$('#importFile')
+  .addEventListener(
+
+    'change',
+
+    async e => {
+
+      try{
+
+        const x =
+          JSON.parse(
+
+            await
+              e.target
+              .files[0]
+              .text()
+
+          );
+
+
+        if(
+          !x.project
+          ||
+          !Array.isArray(
+            x.expenses
+          )
+        )
+          throw Error();
+
+
+        if(
+          confirm(
+            'Remplacer les données actuelles par cette sauvegarde ?'
+          )
+        ){
+
+          state = x;
+
+          save();
+
+          alert(
+            'Sauvegarde importée.'
+          );
+
+        }
+
+      }
+      catch(err){
+
+        alert(
+          'Fichier JSON invalide.'
+        );
+
+      }
+
+
+      e.target.value = '';
+
+    }
+
+  );
+
+
+$('#clearBtn')
+  .addEventListener(
+
+    'click',
+
+    () => {
+
+      if(
+        confirm(
+          'Cette action supprimera toutes les dépenses et le budget de ce navigateur. Continuer ?'
+        )
+      ){
+
+        state =
+          structuredClone(
+            defaults
+          );
+
+        save();
+
+      }
+
+    }
+
+  );
+
+
+window.addEventListener(
+
+  'resize',
+
+  () => {
+
+    if(
+      $('#charts')
+        .classList
+        .contains('active')
+    ){
+
+      drawCharts();
+
+    }
+
+  }
+
+);
+
+
+renderAll();
+
+})();
+</script>
+
+</body>
+</html>
