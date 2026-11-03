@@ -40,8 +40,6 @@
         --primary: #0f766e;
         --primary-light: #14b8a6;
         --danger: #dc2626;
-        --warning: #f59e0b;
-        --success: #16a34a;
         --shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
       }
 
@@ -86,7 +84,7 @@
         max-width: 560px;
         min-height: 100vh;
         margin: 0 auto;
-        padding: 18px 16px 100px;
+        padding: 18px 16px 105px;
         overflow-x: hidden;
       }
 
@@ -259,7 +257,6 @@
       .page {
         display: none;
         width: 100%;
-        max-width: 100%;
         min-width: 0;
       }
 
@@ -274,14 +271,9 @@
         gap: 10px;
       }
 
-      /*
-       * Cartes de dépenses.
-       */
-
       .expense {
         display: flex;
         width: 100%;
-        max-width: 100%;
         min-width: 0;
         align-items: center;
         gap: 10px;
@@ -305,29 +297,23 @@
         overflow: hidden;
       }
 
-      .expense .content > b {
+      .expense .content > b,
+      .expense .small {
         display: block;
         max-width: 100%;
         overflow: hidden;
-        font-size: 16px;
-        line-height: 1.25;
         text-overflow: ellipsis;
         white-space: nowrap;
+      }
+
+      .expense .content > b {
+        font-size: 16px;
+        line-height: 1.25;
       }
 
       .expense .small {
-        max-width: 100%;
-        overflow: hidden;
         font-size: 13px;
         line-height: 1.35;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .truncate {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
       }
 
       .expense .amount {
@@ -343,22 +329,11 @@
         display: block;
         overflow: hidden;
         font-size: 16px;
-        line-height: 1.25;
-        text-overflow: ellipsis;
-      }
-
-      .expense .amount .small {
-        display: block;
-        margin-top: 3px;
-        overflow: hidden;
-        font-size: 13px;
         text-overflow: ellipsis;
       }
 
       .toolbar {
         display: grid;
-        width: 100%;
-        min-width: 0;
         grid-template-columns: minmax(0, 1fr) 140px;
         gap: 8px;
         margin-bottom: 12px;
@@ -395,7 +370,6 @@
         z-index: 10;
         inset: 0;
         display: none;
-        max-width: 100%;
         align-items: flex-end;
         justify-content: center;
         overflow-x: hidden;
@@ -408,7 +382,6 @@
 
       .sheet {
         width: min(100%, 560px);
-        max-width: 100%;
         max-height: 92vh;
         overflow-x: hidden;
         overflow-y: auto;
@@ -421,7 +394,6 @@
 
       .sheet-head {
         display: flex;
-        min-width: 0;
         align-items: center;
         justify-content: space-between;
         gap: 10px;
@@ -431,7 +403,6 @@
       .sheet-head h2 {
         min-width: 0;
         margin: 0;
-        font-size: 21px;
       }
 
       .close {
@@ -446,7 +417,6 @@
 
       .information {
         width: 100%;
-        max-width: 100%;
         margin-bottom: 12px;
         padding: 12px;
         overflow-wrap: anywhere;
@@ -458,7 +428,6 @@
 
       .warning {
         width: 100%;
-        max-width: 100%;
         margin-top: 12px;
         padding: 10px;
         overflow-wrap: anywhere;
@@ -501,22 +470,8 @@
         background: var(--primary);
       }
 
-      .bar-label {
-        min-width: 0;
-      }
-
-      .bar-label > * {
-        min-width: 0;
-      }
-
-      .bar-label b {
-        text-align: right;
-        overflow-wrap: anywhere;
-      }
-
       .history {
         width: 100%;
-        max-width: 100%;
         margin-top: 12px;
         padding-top: 8px;
         overflow-x: hidden;
@@ -525,8 +480,6 @@
 
       .payment-row {
         display: grid;
-        width: 100%;
-        min-width: 0;
         grid-template-columns: 88px minmax(0, 1fr) auto;
         gap: 8px;
         padding: 9px 0;
@@ -543,7 +496,6 @@
 
       .chart {
         width: 100%;
-        max-width: 100%;
         height: 260px;
         margin-top: 12px;
         overflow: hidden;
@@ -552,9 +504,60 @@
       .chart canvas {
         display: block;
         width: 100%;
-        max-width: 100%;
         height: 100%;
       }
+
+      /*
+       * Réglages et sauvegardes.
+       */
+
+      .settings-notice {
+        width: 100%;
+        padding: 12px;
+        overflow-wrap: anywhere;
+        border-radius: 12px;
+        background: #fff7ed;
+        color: #9a3412;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .settings-grid {
+        display: grid;
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .settings-grid .button {
+        width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+
+      .settings-details {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .settings-detail {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .settings-detail span,
+      .settings-detail strong {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+
+      /*
+       * Navigation à cinq rubriques.
+       */
 
       .tabs {
         position: fixed;
@@ -563,13 +566,12 @@
         left: 50%;
         display: grid;
         width: min(100%, 560px);
-        max-width: 100%;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         transform: translateX(-50%);
         border-top: 1px solid var(--line);
         background: rgba(255, 255, 255, 0.97);
         padding:
-          7px 6px
+          7px 4px
           calc(7px + env(safe-area-inset-bottom));
       }
 
@@ -580,7 +582,7 @@
         border: 0;
         background: transparent;
         color: var(--muted);
-        font-size: 11px;
+        font-size: 10px;
         font-weight: 800;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -588,7 +590,7 @@
 
       .tab span {
         display: block;
-        font-size: 20px;
+        font-size: 19px;
       }
 
       .tab.active {
@@ -608,7 +610,6 @@
         border: 0;
         border-radius: 50%;
         background: var(--primary);
-        box-shadow: 0 12px 28px rgba(15, 118, 110, 0.36);
         color: #ffffff;
         font-size: 30px;
       }
@@ -623,10 +624,6 @@
         text-align: center;
       }
 
-      /*
-       * Optimisation mobile.
-       */
-
       @media (max-width: 480px) {
         .app {
           padding-right: 12px;
@@ -635,11 +632,9 @@
 
         .card {
           padding: 14px;
-          border-radius: 18px;
         }
 
         .grid3 {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 7px;
         }
 
@@ -660,7 +655,6 @@
           width: 40px;
           height: 40px;
           flex-basis: 40px;
-          font-size: 19px;
         }
 
         .expense .content > b {
@@ -678,42 +672,13 @@
         .expense .amount strong {
           font-size: 15px;
         }
-
-        .expense .amount .small {
-          font-size: 12px;
-        }
-
-        .row-actions {
-          gap: 5px;
-        }
-
-        .row-actions button {
-          padding: 6px 8px;
-          font-size: 12px;
-        }
       }
 
-      /*
-       * Très petits écrans :
-       * le montant passe sous la description.
-       */
-
       @media (max-width: 360px) {
-        .top h1 {
-          font-size: 22px;
-        }
-
-        .eyebrow {
-          font-size: 11px;
-        }
-
-        .big {
-          font-size: 27px;
-        }
-
         .grid2,
         .grid3,
-        .toolbar {
+        .toolbar,
+        .settings-grid {
           grid-template-columns: 1fr;
         }
 
@@ -750,23 +715,6 @@
         .expense .amount .small {
           margin-left: 8px;
         }
-
-        .payment-row {
-          grid-template-columns: 78px minmax(0, 1fr);
-        }
-
-        .payment-row b {
-          grid-column: 2;
-          text-align: left;
-        }
-
-        .section-title {
-          align-items: flex-start;
-        }
-
-        .section-title h2 {
-          font-size: 18px;
-        }
       }
     </style>
   </head>
@@ -779,9 +727,7 @@
             KHORIBA City - Hocine &amp; Djamila
           </div>
 
-          <h1>
-            Suivi construction
-          </h1>
+          <h1>Suivi construction</h1>
 
           <div
             id="saveStatus"
@@ -791,9 +737,7 @@
           </div>
         </div>
 
-        <div class="logo">
-          🏠
-        </div>
+        <div class="logo">🏠</div>
       </header>
 
       <!-- ACCUEIL -->
@@ -858,9 +802,7 @@
         </div>
 
         <div class="section-title">
-          <h2>
-            Dernières dépenses
-          </h2>
+          <h2>Dernières dépenses</h2>
 
           <button
             class="button button-soft"
@@ -877,9 +819,7 @@
         ></div>
 
         <div class="section-title">
-          <h2>
-            Reste à payer
-          </h2>
+          <h2>Reste à payer</h2>
 
           <button
             class="button button-soft"
@@ -920,13 +860,8 @@
         class="page"
       >
         <div class="section-title">
-          <h2>
-            Dépenses
-          </h2>
-
-          <strong id="expenseCount">
-            0
-          </strong>
+          <h2>Dépenses</h2>
+          <strong id="expenseCount">0</strong>
         </div>
 
         <div class="toolbar">
@@ -937,25 +872,11 @@
           />
 
           <select id="filter">
-            <option value="">
-              Toutes
-            </option>
-
-            <option>
-              Terrain
-            </option>
-
-            <option>
-              Fournitures
-            </option>
-
-            <option>
-              Main-d'œuvre
-            </option>
-
-            <option>
-              Autres
-            </option>
+            <option value="">Toutes</option>
+            <option>Terrain</option>
+            <option>Fournitures</option>
+            <option>Main-d'œuvre</option>
+            <option>Autres</option>
           </select>
         </div>
 
@@ -972,9 +893,7 @@
         class="page"
       >
         <div class="section-title">
-          <h2>
-            Courbes et répartition
-          </h2>
+          <h2>Courbes et répartition</h2>
         </div>
 
         <div class="card">
@@ -1015,9 +934,7 @@
         class="page"
       >
         <div class="section-title">
-          <h2>
-            Sommes dues
-          </h2>
+          <h2>Sommes dues</h2>
 
           <button
             id="newCommitment"
@@ -1061,15 +978,116 @@
         </div>
 
         <div class="section-title">
-          <h2>
-            Détail
-          </h2>
+          <h2>Détail</h2>
         </div>
 
         <div
           id="commitmentList"
           class="list"
         ></div>
+      </section>
+
+      <!-- RÉGLAGES -->
+
+      <section
+        id="settings"
+        class="page"
+      >
+        <div class="section-title">
+          <h2>Réglages</h2>
+        </div>
+
+        <div class="card">
+          <strong>
+            Sauvegarde et transfert
+          </strong>
+
+          <div class="settings-notice mt">
+            Les données sont conservées dans le stockage local de ce
+            navigateur. Exportez régulièrement une sauvegarde JSON pour les
+            protéger en cas de changement de téléphone ou de suppression des
+            données du navigateur.
+          </div>
+
+          <div class="settings-grid mt">
+            <button
+              id="exportJsonButton"
+              class="button button-line"
+              type="button"
+            >
+              Exporter JSON
+            </button>
+
+            <button
+              id="exportCsvButton"
+              class="button button-line"
+              type="button"
+            >
+              Exporter CSV
+            </button>
+
+            <button
+              id="importJsonButton"
+              class="button button-soft"
+              type="button"
+            >
+              Importer JSON
+            </button>
+
+            <button
+              id="clearDataButton"
+              class="button button-danger"
+              type="button"
+            >
+              Tout effacer
+            </button>
+          </div>
+
+          <input
+            id="importJsonFile"
+            class="hidden"
+            type="file"
+            accept=".json,application/json"
+          />
+        </div>
+
+        <div class="card mt">
+          <strong>
+            Informations locales
+          </strong>
+
+          <div class="settings-details">
+            <div class="settings-detail">
+              <span class="muted">
+                Nombre de dépenses
+              </span>
+
+              <strong id="settingsExpenseCount">
+                0
+              </strong>
+            </div>
+
+            <div class="settings-detail">
+              <span class="muted">
+                Nombre de sommes dues
+              </span>
+
+              <strong id="settingsCommitmentCount">
+                0
+              </strong>
+            </div>
+
+            <div class="settings-detail">
+              <span class="muted">
+                Dernière sauvegarde locale
+              </span>
+
+              <strong id="settingsLastSave">
+                Non disponible
+              </strong>
+            </div>
+          </div>
+        </div>
       </section>
 
       <button
@@ -1080,6 +1098,8 @@
       >
         +
       </button>
+
+      <!-- NAVIGATION À 5 RUBRIQUES -->
 
       <nav
         class="tabs"
@@ -1120,6 +1140,15 @@
           <span>🤝</span>
           Sommes dues
         </button>
+
+        <button
+          class="tab"
+          data-page="settings"
+          type="button"
+        >
+          <span>⚙️</span>
+          Réglages
+        </button>
       </nav>
     </main>
 
@@ -1142,7 +1171,6 @@
             id="closeExpense"
             class="close"
             type="button"
-            aria-label="Fermer"
           >
             ×
           </button>
@@ -1222,7 +1250,6 @@
         <div
           id="paymentLimit"
           class="information hidden"
-          aria-live="polite"
         ></div>
 
         <div class="grid2">
@@ -1236,7 +1263,6 @@
               type="number"
               min="0.000001"
               step="0.000001"
-              inputmode="decimal"
               required
             />
           </div>
@@ -1247,13 +1273,8 @@
             </label>
 
             <select id="expenseCurrency">
-              <option value="DZD">
-                DZD
-              </option>
-
-              <option value="EUR">
-                EUR
-              </option>
+              <option value="DZD">DZD</option>
+              <option value="EUR">EUR</option>
             </select>
           </div>
         </div>
@@ -1268,14 +1289,9 @@
             type="number"
             min="0.000001"
             step="0.000001"
-            inputmode="decimal"
             placeholder="Ex. 0.0276"
             required
           />
-
-          <div class="small muted mt">
-            Taux utilisé pour calculer l’équivalent DZD / EUR.
-          </div>
         </div>
 
         <div
@@ -1325,7 +1341,6 @@
             id="closeCommitment"
             class="close"
             type="button"
-            aria-label="Fermer"
           >
             ×
           </button>
@@ -1397,7 +1412,7 @@
           />
 
           <div class="small muted mt">
-            Saisissez exactement 3 décimales.
+            Exactement 3 décimales.
           </div>
         </div>
 
@@ -1428,6 +1443,9 @@
 
         const STORAGE_KEY =
           "suivi_maison_v1";
+
+        const SAVE_TIME_KEY =
+          "suivi_maison_last_save";
 
         const DEFAULT_STATE = {
           expenses: [],
@@ -1536,13 +1554,11 @@
           );
         }
 
-        function formatDzd(valueInDzd) {
+        function formatDzd(value) {
           return (
             formatNumber(
               Math.round(
-                numberValue(
-                  valueInDzd,
-                ),
+                numberValue(value),
               )
                 /
                 1_000_000,
@@ -1553,22 +1569,17 @@
           );
         }
 
-        function formatEuro(
-          valueInEuro,
-        ) {
+        function formatEuro(value) {
           if (
-            valueInEuro === null
+            value === null
             ||
-            valueInEuro === undefined
+            value === undefined
           ) {
             return "—";
           }
 
           return (
-            formatNumber(
-              valueInEuro,
-              2,
-            )
+            formatNumber(value, 2)
             +
             " €"
           );
@@ -1617,7 +1628,7 @@
 
         function loadState() {
           try {
-            const savedState =
+            const saved =
               JSON.parse(
                 localStorage.getItem(
                   STORAGE_KEY,
@@ -1625,22 +1636,22 @@
               );
 
             if (
-              savedState
+              saved
               &&
               Array.isArray(
-                savedState.expenses,
+                saved.expenses,
               )
             ) {
               return {
                 expenses:
-                  savedState.expenses,
+                  saved.expenses,
 
                 commitments:
                   Array.isArray(
-                    savedState.commitments,
+                    saved.commitments,
                   )
                     ?
-                    savedState.commitments
+                    saved.commitments
                     :
                     [],
               };
@@ -1661,28 +1672,30 @@
           loadState();
 
         function saveState() {
+          const savedAt =
+            new Date();
+
           localStorage.setItem(
             STORAGE_KEY,
-            JSON.stringify(
-              state,
-            ),
+            JSON.stringify(state),
+          );
+
+          localStorage.setItem(
+            SAVE_TIME_KEY,
+            savedAt.toISOString(),
           );
 
           $("#saveStatus")
             .textContent =
               "Sauvegardé à "
               +
-              new Date()
-                .toLocaleTimeString(
-                  "fr-FR",
-                  {
-                    hour:
-                      "2-digit",
-
-                    minute:
-                      "2-digit",
-                  },
-                );
+              savedAt.toLocaleTimeString(
+                "fr-FR",
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                },
+              );
 
           renderApplication();
         }
@@ -1693,7 +1706,6 @@
         ) {
           return Math.round(
             state.expenses
-
               .filter(
                 (expense) =>
                   expense.commitmentId
@@ -1704,7 +1716,6 @@
                     !==
                     excludedExpenseId,
               )
-
               .reduce(
                 (
                   total,
@@ -1717,7 +1728,6 @@
                       expense.dzd,
                     ),
                   ),
-
                 0,
               ),
           );
@@ -1731,8 +1741,8 @@
             state.commitments.find(
               (item) =>
                 item.id
-                ===
-                commitmentId,
+                  ===
+                  commitmentId,
             );
 
           if (!commitment) {
@@ -1755,14 +1765,12 @@
           commitmentId,
         ) {
           return state.expenses
-
             .filter(
               (expense) =>
                 expense.commitmentId
-                ===
-                commitmentId,
+                  ===
+                  commitmentId,
             )
-
             .sort(
               (a, b) =>
                 String(
@@ -1774,6 +1782,10 @@
                 ),
             );
         }
+
+        /*
+         * Navigation.
+         */
 
         function showPage(pageId) {
           $$(".page")
@@ -1801,9 +1813,9 @@
           $("#addExpense")
             .classList.toggle(
               "hidden",
-              pageId
-                ===
-                "commitments",
+              pageId === "commitments"
+              ||
+              pageId === "settings",
             );
 
           if (pageId === "charts") {
@@ -1811,6 +1823,10 @@
               drawCharts,
               0,
             );
+          }
+
+          if (pageId === "settings") {
+            renderSettings();
           }
         }
 
@@ -1831,6 +1847,10 @@
             },
           );
 
+        /*
+         * Listes dynamiques.
+         */
+
         function updateSubcategories(
           selected = "",
         ) {
@@ -1843,11 +1863,8 @@
               SUBCATEGORIES[
                 category
               ]
-
                 .map(
-                  (
-                    subcategory,
-                  ) => `
+                  (subcategory) => `
                     <option
                       ${
                         subcategory
@@ -1865,7 +1882,6 @@
                     </option>
                   `,
                 )
-
                 .join("");
         }
 
@@ -1881,11 +1897,8 @@
               BENEFICIARIES[
                 category
               ]
-
                 .map(
-                  (
-                    beneficiary,
-                  ) => `
+                  (beneficiary) => `
                     <option
                       ${
                         beneficiary
@@ -1903,14 +1916,13 @@
                     </option>
                   `,
                 )
-
                 .join("");
 
           updateCustomBeneficiary();
         }
 
         function updateCustomBeneficiary() {
-          const isCustom =
+          const custom =
             $("#commitmentBeneficiary")
               .value
             ===
@@ -1919,12 +1931,12 @@
           $("#customBeneficiaryField")
             .classList.toggle(
               "hidden",
-              !isCustom,
+              !custom,
             );
 
           $("#customBeneficiary")
             .required =
-              isCustom;
+              custom;
         }
 
         function updateCommitmentOptions(
@@ -1938,9 +1950,7 @@
 
           state.commitments
             .forEach(
-              (
-                commitment,
-              ) => {
+              (commitment) => {
                 const remaining =
                   Math.max(
                     0,
@@ -1953,9 +1963,7 @@
                   <option
                     value="${commitment.id}"
                     ${
-                      commitment.id
-                        ===
-                        selected
+                      commitment.id === selected
                         ?
                         "selected"
                         :
@@ -1988,9 +1996,9 @@
             state.commitments.find(
               (item) =>
                 item.id
-                ===
-                $("#expenseCommitment")
-                  .value,
+                  ===
+                  $("#expenseCommitment")
+                    .value,
             );
 
           if (!commitment) {
@@ -2044,11 +2052,9 @@
             $("#paymentLimit");
 
           if (!commitmentId) {
-            information
-              .classList
-              .add(
-                "hidden",
-              );
+            information.classList.add(
+              "hidden",
+            );
 
             information.textContent =
               "";
@@ -2062,11 +2068,9 @@
               expenseId,
             );
 
-          information
-            .classList
-            .remove(
-              "hidden",
-            );
+          information.classList.remove(
+            "hidden",
+          );
 
           information.textContent =
             remaining <= 0
@@ -2112,9 +2116,7 @@
           if (currency === "EUR") {
             $("#conversionInfo")
               .textContent =
-                formatEuro(
-                  amount,
-                )
+                formatEuro(amount)
                 +
                 " = "
                 +
@@ -2142,6 +2144,10 @@
               );
         }
 
+        /*
+         * Dépenses.
+         */
+
         function expenseHtml(
           expense,
           actions = true,
@@ -2150,8 +2156,8 @@
             state.commitments.find(
               (item) =>
                 item.id
-                ===
-                expense.commitmentId,
+                  ===
+                  expense.commitmentId,
             );
 
           return `
@@ -2277,17 +2283,14 @@
 
           const expenses =
             state.expenses
-
               .filter(
                 (expense) => {
                   const correctCategory =
                     !filter
                     ||
-                    expense.category
-                      ===
-                      filter;
+                    expense.category === filter;
 
-                  const searchableText = [
+                  const text = [
                     expense.description,
                     expense.supplier,
                     expense.subcategory,
@@ -2296,22 +2299,17 @@
                     .join(" ")
                     .toLowerCase();
 
-                  const correctSearch =
-                    !query
-                    ||
-                    searchableText
-                      .includes(
-                        query,
-                      );
-
                   return (
                     correctCategory
                     &&
-                    correctSearch
+                    (
+                      !query
+                      ||
+                      text.includes(query)
+                    )
                   );
                 },
               )
-
               .sort(
                 (a, b) =>
                   String(
@@ -2348,6 +2346,10 @@
                 `;
         }
 
+        /*
+         * Sommes dues.
+         */
+
         function renderCommitments() {
           const totalDue =
             Math.round(
@@ -2362,7 +2364,6 @@
                     numberValue(
                       commitment.amountDzd,
                     ),
-
                   0,
                 ),
             );
@@ -2380,7 +2381,6 @@
                     paidAmount(
                       commitment.id,
                     ),
-
                   0,
                 ),
             );
@@ -2388,22 +2388,16 @@
           const totalRemaining =
             Math.max(
               0,
-              totalDue
-              -
-              totalPaid,
+              totalDue - totalPaid,
             );
 
           $("#dueTotal")
             .textContent =
-              formatDzd(
-                totalDue,
-              );
+              formatDzd(totalDue);
 
           $("#paidTotal")
             .textContent =
-              formatDzd(
-                totalPaid,
-              );
+              formatDzd(totalPaid);
 
           $("#remainingTotal")
             .textContent =
@@ -2413,9 +2407,7 @@
 
           $("#homeDue")
             .textContent =
-              formatDzd(
-                totalDue,
-              );
+              formatDzd(totalDue);
 
           $("#homeRemaining")
             .textContent =
@@ -2438,11 +2430,8 @@
           $("#commitmentList")
             .innerHTML =
               state.commitments
-
                 .map(
-                  (
-                    commitment,
-                  ) => {
+                  (commitment) => {
                     const paid =
                       paidAmount(
                         commitment.id,
@@ -2461,30 +2450,21 @@
                         rawRemaining,
                       );
 
-                    const overpayment =
-                      Math.max(
-                        0,
-                        -rawRemaining,
-                      );
-
-                    const realPercentage =
+                    const percentage =
                       commitment.amountDzd
                         ?
-                        (
-                          paid
-                          /
-                          commitment.amountDzd
+                        Math.min(
+                          100,
+                          (
+                            paid
+                            /
+                            commitment.amountDzd
+                          )
+                          *
+                          100,
                         )
-                        *
-                        100
                         :
                         0;
-
-                    const barPercentage =
-                      Math.min(
-                        100,
-                        realPercentage,
-                      );
 
                     const history =
                       paymentsForCommitment(
@@ -2525,16 +2505,8 @@
 
                         <div class="bar mt">
                           <i
-                            style="width:${barPercentage}%"
+                            style="width:${percentage}%"
                           ></i>
-                        </div>
-
-                        <div class="small muted mt">
-                          ${formatNumber(
-                            realPercentage,
-                            1,
-                          )}
-                          % versé
                         </div>
 
                         <div class="grid3 mt">
@@ -2574,22 +2546,6 @@
                             </b>
                           </div>
                         </div>
-
-                        ${
-                          overpayment > 0
-                            ?
-                            `
-                              <div class="warning">
-                                Donnée incohérente :
-                                dépassement de
-                                ${formatDzd(
-                                  overpayment,
-                                )}
-                              </div>
-                            `
-                            :
-                            ""
-                        }
 
                         <div class="row-actions">
                           <button
@@ -2666,127 +2622,149 @@
                     `;
                   },
                 )
-
                 .join("");
 
           updateCommitmentOptions();
         }
 
+        /*
+         * Réglages.
+         */
+
+        function renderSettings() {
+          $("#settingsExpenseCount")
+            .textContent =
+              state.expenses.length;
+
+          $("#settingsCommitmentCount")
+            .textContent =
+              state.commitments.length;
+
+          const savedAt =
+            localStorage.getItem(
+              SAVE_TIME_KEY,
+            );
+
+          if (!savedAt) {
+            $("#settingsLastSave")
+              .textContent =
+                "Non disponible";
+
+            return;
+          }
+
+          const saveDate =
+            new Date(savedAt);
+
+          $("#settingsLastSave")
+            .textContent =
+              Number.isNaN(
+                saveDate.getTime(),
+              )
+                ?
+                "Non disponible"
+                :
+                saveDate.toLocaleString(
+                  "fr-FR",
+                );
+        }
+
         function renderApplication() {
           const totalDzd =
-            state.expenses
-              .reduce(
-                (
-                  total,
-                  expense,
-                ) =>
-                  total
-                  +
-                  Math.round(
-                    numberValue(
-                      expense.dzd,
-                    ),
+            state.expenses.reduce(
+              (
+                total,
+                expense,
+              ) =>
+                total
+                +
+                Math.round(
+                  numberValue(
+                    expense.dzd,
                   ),
-
-                0,
-              );
+                ),
+              0,
+            );
 
           const totalEuro =
-            state.expenses
-              .reduce(
+            state.expenses.reduce(
+              (
+                total,
+                expense,
+              ) =>
+                total
+                +
                 (
-                  total,
-                  expense,
-                ) =>
-                  total
-                  +
-                  (
-                    expense.eur == null
-                      ?
-                      0
-                      :
-                      numberValue(
-                        expense.eur,
-                      )
-                  ),
-
-                0,
-              );
+                  expense.eur == null
+                    ?
+                    0
+                    :
+                    numberValue(
+                      expense.eur,
+                    )
+                ),
+              0,
+            );
 
           $("#totalDzd")
             .textContent =
-              formatDzd(
-                totalDzd,
-              );
+              formatDzd(totalDzd);
 
           $("#totalEur")
             .textContent =
-              formatEuro(
-                totalEuro,
-              );
+              formatEuro(totalEuro);
 
-          const categoryMappings = [
+          [
             [
               "#homeTerrain",
               "Terrain",
             ],
-
             [
               "#homeSupplies",
               "Fournitures",
             ],
-
             [
               "#homeLabor",
               "Main-d'œuvre",
             ],
-          ];
-
-          categoryMappings
-            .forEach(
-              (
-                [
-                  selector,
-                  category,
-                ],
-              ) => {
-                const total =
-                  state.expenses
-
-                    .filter(
-                      (expense) =>
-                        expense.category
-                          ===
-                          category,
-                    )
-
-                    .reduce(
-                      (
-                        sum,
-                        expense,
-                      ) =>
-                        sum
-                        +
-                        Math.round(
-                          numberValue(
-                            expense.dzd,
-                          ),
+          ].forEach(
+            (
+              [
+                selector,
+                category,
+              ],
+            ) => {
+              const total =
+                state.expenses
+                  .filter(
+                    (expense) =>
+                      expense.category
+                        ===
+                        category,
+                  )
+                  .reduce(
+                    (
+                      sum,
+                      expense,
+                    ) =>
+                      sum
+                      +
+                      Math.round(
+                        numberValue(
+                          expense.dzd,
                         ),
+                      ),
+                    0,
+                  );
 
-                      0,
-                    );
-
-                $(selector)
-                  .textContent =
-                    formatDzd(
-                      total,
-                    );
-              },
-            );
+              $(selector)
+                .textContent =
+                  formatDzd(total);
+            },
+          );
 
           const recent =
             [...state.expenses]
-
               .sort(
                 (a, b) =>
                   String(
@@ -2797,11 +2775,7 @@
                     ),
                   ),
               )
-
-              .slice(
-                0,
-                5,
-              );
+              .slice(0, 5);
 
           $("#recentExpenses")
             .innerHTML =
@@ -2825,6 +2799,7 @@
 
           renderExpenses();
           renderCommitments();
+          renderSettings();
 
           if (
             $("#charts")
@@ -2836,6 +2811,10 @@
             drawCharts();
           }
         }
+
+        /*
+         * Formulaire dépense.
+         */
 
         function openExpense(
           expenseId = "",
@@ -2860,10 +2839,7 @@
             .value =
               new Date()
                 .toISOString()
-                .slice(
-                  0,
-                  10,
-                );
+                .slice(0, 10);
 
           updateSubcategories();
           updateCommitmentOptions(
@@ -2948,9 +2924,7 @@
               ||
               "",
             );
-          } else if (
-            commitmentId
-          ) {
+          } else if (commitmentId) {
             synchronizeCommitment();
           }
 
@@ -2958,16 +2932,14 @@
           updatePaymentLimit();
 
           $("#expenseModal")
-            .classList
-            .add(
+            .classList.add(
               "open",
             );
         }
 
         function closeExpense() {
           $("#expenseModal")
-            .classList
-            .remove(
+            .classList.remove(
               "open",
             );
         }
@@ -3038,9 +3010,7 @@
                   ?
                   amount
                   :
-                  amount
-                  /
-                  rate;
+                  amount / rate;
 
               const commitmentId =
                 $("#expenseCommitment")
@@ -3061,19 +3031,18 @@
                   alert(
                     "Versement refusé.\n\n"
                     +
-                    "Cette somme due est déjà entièrement payée.\n"
-                    +
-                    "Aucun versement supplémentaire n'est autorisé.",
+                    "Cette somme due est déjà entièrement payée.",
                   );
 
-                  updatePaymentLimit();
                   return;
                 }
 
                 if (
                   maximumAllowed !== null
                   &&
-                  amountDzd > maximumAllowed
+                  amountDzd
+                    >
+                    maximumAllowed
                 ) {
                   alert(
                     "Versement refusé.\n\n"
@@ -3090,20 +3059,9 @@
                     +
                     formatDzd(
                       amountDzd,
-                    )
-                    +
-                    "\n"
-                    +
-                    "Dépassement : "
-                    +
-                    formatDzd(
-                      amountDzd
-                      -
-                      maximumAllowed,
                     ),
                   );
 
-                  updatePaymentLimit();
                   return;
                 }
               }
@@ -3167,17 +3125,14 @@
               state.expenses =
                 oldExpense
                   ?
-                  state.expenses
-                    .map(
-                      (item) =>
-                        item.id
-                          ===
-                          expenseId
-                          ?
-                          expense
-                          :
-                          item,
-                    )
+                  state.expenses.map(
+                    (item) =>
+                      item.id === expenseId
+                        ?
+                        expense
+                        :
+                        item,
+                  )
                   :
                   [
                     ...state.expenses,
@@ -3189,6 +3144,10 @@
             },
           );
 
+        /*
+         * Formulaire somme due.
+         */
+
         function parseThreeDecimals(
           value,
         ) {
@@ -3197,29 +3156,20 @@
               value ?? "",
             )
               .trim()
-              .replace(
-                ",",
-                ".",
-              );
+              .replace(",", ".");
 
           if (
             !/^\d+\.\d{3}$/
-              .test(
-                normalized,
-              )
+              .test(normalized)
           ) {
             return null;
           }
 
           const parsed =
-            Number(
-              normalized,
-            );
+            Number(normalized);
 
           return (
-            Number.isFinite(
-              parsed,
-            )
+            Number.isFinite(parsed)
             &&
             parsed > 0
           )
@@ -3281,10 +3231,9 @@
             const predefined =
               BENEFICIARIES[
                 commitment.category
-              ]
-                .includes(
-                  commitment.beneficiary,
-                );
+              ].includes(
+                commitment.beneficiary,
+              );
 
             updateBeneficiaries(
               predefined
@@ -3308,10 +3257,7 @@
                   1_000_000
                 )
                   .toFixed(3)
-                  .replace(
-                    ".",
-                    ",",
-                  );
+                  .replace(".", ",");
 
             $("#commitmentComment")
               .value =
@@ -3321,16 +3267,14 @@
           }
 
           $("#commitmentModal")
-            .classList
-            .add(
+            .classList.add(
               "open",
             );
         }
 
         function closeCommitment() {
           $("#commitmentModal")
-            .classList
-            .remove(
+            .classList.remove(
               "open",
             );
         }
@@ -3386,11 +3330,11 @@
                   0;
 
               if (
-                amountDzd < alreadyPaid
+                amountDzd
+                  <
+                  alreadyPaid
               ) {
                 alert(
-                  "Modification refusée.\n\n"
-                  +
                   "La somme due ne peut pas être inférieure au total déjà versé.",
                 );
 
@@ -3456,17 +3400,16 @@
               state.commitments =
                 oldCommitment
                   ?
-                  state.commitments
-                    .map(
-                      (item) =>
-                        item.id
-                          ===
-                          commitmentId
-                          ?
-                          commitment
-                          :
-                          item,
-                    )
+                  state.commitments.map(
+                    (item) =>
+                      item.id
+                        ===
+                        commitmentId
+                        ?
+                        commitment
+                        :
+                        item,
+                  )
                   :
                   [
                     ...state.commitments,
@@ -3477,6 +3420,10 @@
               closeCommitment();
             },
           );
+
+        /*
+         * Actions.
+         */
 
         $("#expenseList")
           .addEventListener(
@@ -3493,9 +3440,7 @@
                   .deleteExpense;
 
               if (editId) {
-                openExpense(
-                  editId,
-                );
+                openExpense(editId);
               }
 
               if (
@@ -3506,13 +3451,12 @@
                 )
               ) {
                 state.expenses =
-                  state.expenses
-                    .filter(
-                      (expense) =>
-                        expense.id
-                          !==
-                          deleteId,
-                    );
+                  state.expenses.filter(
+                    (expense) =>
+                      expense.id
+                        !==
+                        deleteId,
+                  );
 
                 saveState();
               }
@@ -3572,28 +3516,23 @@
                   "#history-"
                   +
                   historyId,
-                )
-                  .classList
-                  .toggle(
-                    "hidden",
-                  );
+                ).classList.toggle(
+                  "hidden",
+                );
               }
 
               if (editId) {
-                openCommitment(
-                  editId,
-                );
+                openCommitment(editId);
               }
 
               if (deleteId) {
                 const hasPayments =
-                  state.expenses
-                    .some(
-                      (expense) =>
-                        expense.commitmentId
-                          ===
-                          deleteId,
-                    );
+                  state.expenses.some(
+                    (expense) =>
+                      expense.commitmentId
+                        ===
+                        deleteId,
+                  );
 
                 if (hasPayments) {
                   alert(
@@ -3609,13 +3548,12 @@
                   )
                 ) {
                   state.commitments =
-                    state.commitments
-                      .filter(
-                        (commitment) =>
-                          commitment.id
-                            !==
-                            deleteId,
-                      );
+                    state.commitments.filter(
+                      (commitment) =>
+                        commitment.id
+                          !==
+                          deleteId,
+                    );
 
                   saveState();
                 }
@@ -3642,8 +3580,7 @@
           }
 
           const rectangle =
-            canvas
-              .getBoundingClientRect();
+            canvas.getBoundingClientRect();
 
           if (
             rectangle.width <= 0
@@ -3673,9 +3610,7 @@
             );
 
           const context =
-            canvas.getContext(
-              "2d",
-            );
+            canvas.getContext("2d");
 
           context.setTransform(
             pixelRatio,
@@ -3754,9 +3689,7 @@
             Object.keys(
               amountsByDate,
             )
-
               .sort()
-
               .map(
                 (date) => {
                   cumulativeAmount +=
@@ -3767,7 +3700,7 @@
                   return {
                     date,
 
-                    displayedAmount:
+                    value:
                       cumulativeAmount
                       /
                       1_000_000,
@@ -3785,9 +3718,6 @@
             context.textAlign =
               "center";
 
-            context.textBaseline =
-              "middle";
-
             context.fillText(
               "Ajoutez des dépenses pour afficher la courbe",
               width / 2,
@@ -3801,7 +3731,7 @@
             Math.max(
               ...points.map(
                 (point) =>
-                  point.displayedAmount,
+                  point.value,
               ),
               1,
             );
@@ -3823,67 +3753,35 @@
           context.strokeStyle =
             "#e2e8f0";
 
-          context.fillStyle =
-            "#64748b";
-
           context.lineWidth =
             1;
-
-          context.font =
-            "11px system-ui";
-
-          context.textAlign =
-            "right";
-
-          context.textBaseline =
-            "middle";
 
           for (
             let index = 0;
             index <= 4;
             index += 1
           ) {
-            const ratio =
-              index / 4;
-
             const y =
               paddingTop
               +
-              graphHeight
-              *
-              ratio;
-
-            const value =
-              maximum
-              *
               (
-                1
-                -
-                ratio
-              );
+                graphHeight
+                *
+                index
+              )
+              /
+              4;
 
             context.beginPath();
-
             context.moveTo(
               paddingLeft,
               y,
             );
-
             context.lineTo(
               width - paddingRight,
               y,
             );
-
             context.stroke();
-
-            context.fillText(
-              formatNumber(
-                value,
-                3,
-              ),
-              paddingLeft - 6,
-              y,
-            );
           }
 
           context.strokeStyle =
@@ -3891,12 +3789,6 @@
 
           context.lineWidth =
             3;
-
-          context.lineJoin =
-            "round";
-
-          context.lineCap =
-            "round";
 
           context.beginPath();
 
@@ -3934,82 +3826,20 @@
                 (
                   graphHeight
                   *
-                  point.displayedAmount
+                  point.value
                 )
                 /
                 maximum;
 
               if (index === 0) {
-                context.moveTo(
-                  x,
-                  y,
-                );
+                context.moveTo(x, y);
               } else {
-                context.lineTo(
-                  x,
-                  y,
-                );
+                context.lineTo(x, y);
               }
             },
           );
 
           context.stroke();
-
-          context.fillStyle =
-            "#0f766e";
-
-          points.forEach(
-            (
-              point,
-              index,
-            ) => {
-              const x =
-                points.length === 1
-                  ?
-                  paddingLeft
-                  +
-                  graphWidth / 2
-                  :
-                  paddingLeft
-                  +
-                  (
-                    graphWidth
-                    *
-                    index
-                  )
-                  /
-                  (
-                    points.length
-                    -
-                    1
-                  );
-
-              const y =
-                paddingTop
-                +
-                graphHeight
-                -
-                (
-                  graphHeight
-                  *
-                  point.displayedAmount
-                )
-                /
-                maximum;
-
-              context.beginPath();
-
-              context.arc(
-                x,
-                y,
-                4,
-                0,
-                Math.PI * 2,
-              );
-
-              context.fill();
-            },
-          );
         }
 
         function drawCategoryBars() {
@@ -4032,14 +3862,12 @@
               (category) =>
                 Math.round(
                   state.expenses
-
                     .filter(
                       (expense) =>
                         expense.category
                           ===
                           category,
                     )
-
                     .reduce(
                       (
                         total,
@@ -4052,7 +3880,6 @@
                             expense.dzd,
                           ),
                         ),
-
                       0,
                     ),
                 ),
@@ -4067,7 +3894,6 @@
           $("#categoryBars")
             .innerHTML =
               categories
-
                 .map(
                   (
                     category,
@@ -4098,7 +3924,6 @@
                     </div>
                   `,
                 )
-
                 .join("");
         }
 
@@ -4113,11 +3938,7 @@
                     expense.date
                     ||
                     "",
-                  )
-                    .slice(
-                      0,
-                      7,
-                    );
+                  ).slice(0, 7);
 
                 if (!month) {
                   return;
@@ -4175,7 +3996,6 @@
           $("#monthBars")
             .innerHTML =
               entries
-
                 .map(
                   (
                     [
@@ -4186,15 +4006,11 @@
                     <div class="mt">
                       <div class="bar-label">
                         <span>
-                          ${escapeHtml(
-                            month,
-                          )}
+                          ${escapeHtml(month)}
                         </span>
 
                         <b>
-                          ${formatDzd(
-                            amount,
-                          )}
+                          ${formatDzd(amount)}
                         </b>
                       </div>
 
@@ -4209,8 +4025,301 @@
                     </div>
                   `,
                 )
-
                 .join("");
+        }
+
+        /*
+         * Sauvegardes.
+         */
+
+        function createTimestamp(
+          date = new Date(),
+        ) {
+          const year =
+            String(
+              date.getFullYear(),
+            );
+
+          const month =
+            String(
+              date.getMonth() + 1,
+            ).padStart(2, "0");
+
+          const day =
+            String(
+              date.getDate(),
+            ).padStart(2, "0");
+
+          const hours =
+            String(
+              date.getHours(),
+            ).padStart(2, "0");
+
+          const minutes =
+            String(
+              date.getMinutes(),
+            ).padStart(2, "0");
+
+          const seconds =
+            String(
+              date.getSeconds(),
+            ).padStart(2, "0");
+
+          return (
+            `${year}-${month}-${day}`
+            +
+            `_`
+            +
+            `${hours}-${minutes}-${seconds}`
+          );
+        }
+
+        function downloadFile(
+          fileName,
+          content,
+          type,
+        ) {
+          const blob =
+            new Blob(
+              [content],
+              {
+                type,
+              },
+            );
+
+          const objectUrl =
+            URL.createObjectURL(blob);
+
+          const link =
+            document.createElement("a");
+
+          link.href =
+            objectUrl;
+
+          link.download =
+            fileName;
+
+          document.body.appendChild(
+            link,
+          );
+
+          link.click();
+          link.remove();
+
+          window.setTimeout(
+            () => {
+              URL.revokeObjectURL(
+                objectUrl,
+              );
+            },
+            1000,
+          );
+        }
+
+        function exportJson() {
+          const exportedAt =
+            new Date();
+
+          const backup = {
+            application:
+              "DarFiKhoriba",
+
+            version:
+              15,
+
+            exportedAt:
+              exportedAt
+                .toISOString(),
+
+            expenses:
+              state.expenses,
+
+            commitments:
+              state.commitments,
+          };
+
+          downloadFile(
+            `DarFiKhoriba_sauvegarde_${createTimestamp(exportedAt)}.json`,
+            JSON.stringify(
+              backup,
+              null,
+              2,
+            ),
+            "application/json;charset=utf-8",
+          );
+        }
+
+        function quoteCsv(value) {
+          return (
+            '"'
+            +
+            String(
+              value ?? "",
+            ).replace(
+              /"/g,
+              '""',
+            )
+            +
+            '"'
+          );
+        }
+
+        function exportCsv() {
+          const columns = [
+            "date",
+            "categorie",
+            "sous_categorie",
+            "description",
+            "beneficiaire",
+            "montant_saisi",
+            "devise",
+            "taux",
+            "montant_dzd",
+            "montant_eur",
+            "engagement",
+            "commentaire",
+          ];
+
+          const rows =
+            state.expenses.map(
+              (expense) =>
+                [
+                  expense.date,
+                  expense.category,
+                  expense.subcategory,
+                  expense.description,
+                  expense.supplier,
+                  expense.amount,
+                  expense.currency,
+                  expense.rate,
+                  expense.dzd,
+                  expense.eur,
+                  expense.commitmentId,
+                  expense.comment,
+                ]
+                  .map(quoteCsv)
+                  .join(";"),
+            );
+
+          const csv =
+            "\ufeff"
+            +
+            columns
+              .map(quoteCsv)
+              .join(";")
+            +
+            "\n"
+            +
+            rows.join("\n");
+
+          downloadFile(
+            `DarFiKhoriba_depenses_${createTimestamp()}.csv`,
+            csv,
+            "text/csv;charset=utf-8",
+          );
+        }
+
+        function validateBackup(data) {
+          if (
+            !data
+            ||
+            typeof data !== "object"
+            ||
+            !Array.isArray(
+              data.expenses,
+            )
+          ) {
+            return false;
+          }
+
+          if (
+            data.commitments !== undefined
+            &&
+            !Array.isArray(
+              data.commitments,
+            )
+          ) {
+            return false;
+          }
+
+          const commitments =
+            data.commitments
+            ||
+            [];
+
+          const commitmentIds =
+            new Set(
+              commitments.map(
+                (commitment) =>
+                  commitment.id,
+              ),
+            );
+
+          const validExpenses =
+            data.expenses.every(
+              (expense) =>
+                expense
+                &&
+                typeof expense.id
+                  ===
+                  "string"
+                &&
+                typeof expense.date
+                  ===
+                  "string"
+                &&
+                typeof expense.description
+                  ===
+                  "string"
+                &&
+                Number.isFinite(
+                  Number(
+                    expense.dzd,
+                  ),
+                )
+                &&
+                (
+                  !expense.commitmentId
+                  ||
+                  commitmentIds.has(
+                    expense.commitmentId,
+                  )
+                ),
+            );
+
+          const validCommitments =
+            commitments.every(
+              (commitment) =>
+                commitment
+                &&
+                typeof commitment.id
+                  ===
+                  "string"
+                &&
+                typeof commitment.label
+                  ===
+                  "string"
+                &&
+                typeof commitment.beneficiary
+                  ===
+                  "string"
+                &&
+                Number.isFinite(
+                  Number(
+                    commitment.amountDzd,
+                  ),
+                )
+                &&
+                Number(
+                  commitment.amountDzd,
+                ) > 0,
+            );
+
+          return (
+            validExpenses
+            &&
+            validCommitments
+          );
         }
 
         /*
@@ -4287,34 +4396,6 @@
             closeCommitment,
           );
 
-        $("#expenseModal")
-          .addEventListener(
-            "click",
-            (event) => {
-              if (
-                event.target.id
-                  ===
-                  "expenseModal"
-              ) {
-                closeExpense();
-              }
-            },
-          );
-
-        $("#commitmentModal")
-          .addEventListener(
-            "click",
-            (event) => {
-              if (
-                event.target.id
-                  ===
-                  "commitmentModal"
-              ) {
-                closeCommitment();
-              }
-            },
-          );
-
         $("#search")
           .addEventListener(
             "input",
@@ -4325,6 +4406,165 @@
           .addEventListener(
             "change",
             renderExpenses,
+          );
+
+        $("#exportJsonButton")
+          .addEventListener(
+            "click",
+            exportJson,
+          );
+
+        $("#exportCsvButton")
+          .addEventListener(
+            "click",
+            exportCsv,
+          );
+
+        $("#importJsonButton")
+          .addEventListener(
+            "click",
+            () => {
+              $("#importJsonFile")
+                .click();
+            },
+          );
+
+        $("#importJsonFile")
+          .addEventListener(
+            "change",
+            async (event) => {
+              try {
+                const file =
+                  event.target.files[0];
+
+                if (!file) {
+                  return;
+                }
+
+                const imported =
+                  JSON.parse(
+                    await file.text(),
+                  );
+
+                if (
+                  !validateBackup(
+                    imported,
+                  )
+                ) {
+                  throw new Error(
+                    "Sauvegarde invalide",
+                  );
+                }
+
+                const replace =
+                  confirm(
+                    "La restauration remplacera toutes les données actuelles.\n\n"
+                    +
+                    `Fichier : ${file.name}\n`
+                    +
+                    `Dépenses : ${imported.expenses.length}\n`
+                    +
+                    `Sommes dues : ${(imported.commitments || []).length}\n\n`
+                    +
+                    "Continuer ?",
+                  );
+
+                if (!replace) {
+                  return;
+                }
+
+                state = {
+                  expenses:
+                    imported.expenses.map(
+                      (expense) => ({
+                        ...expense,
+
+                        dzd:
+                          Math.round(
+                            numberValue(
+                              expense.dzd,
+                            ),
+                          ),
+
+                        eur:
+                          expense.eur == null
+                            ?
+                            null
+                            :
+                            numberValue(
+                              expense.eur,
+                            ),
+                      }),
+                    ),
+
+                  commitments:
+                    (
+                      imported.commitments
+                      ||
+                      []
+                    ).map(
+                      (commitment) => ({
+                        ...commitment,
+
+                        amountDzd:
+                          Math.round(
+                            numberValue(
+                              commitment.amountDzd,
+                            ),
+                          ),
+                      }),
+                    ),
+                };
+
+                saveState();
+
+                alert(
+                  "La sauvegarde JSON a été restaurée.",
+                );
+              } catch (error) {
+                console.error(error);
+
+                alert(
+                  "Import refusé : fichier JSON invalide ou incohérent.",
+                );
+              } finally {
+                event.target.value =
+                  "";
+              }
+            },
+          );
+
+        $("#clearDataButton")
+          .addEventListener(
+            "click",
+            () => {
+              if (
+                !confirm(
+                  "Toutes les dépenses et les sommes dues seront supprimées.\n\nContinuer ?",
+                )
+              ) {
+                return;
+              }
+
+              if (
+                !confirm(
+                  "Confirmer la suppression définitive ?",
+                )
+              ) {
+                return;
+              }
+
+              state =
+                structuredClone(
+                  DEFAULT_STATE,
+                );
+
+              saveState();
+
+              alert(
+                "Toutes les données ont été supprimées.",
+              );
+            },
           );
 
         window.addEventListener(
