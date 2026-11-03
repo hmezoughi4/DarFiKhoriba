@@ -1,4 +1,4 @@
-const CACHE_NAME = "ma-maison-v1";
+const CACHE_NAME = "ma-maison-v2";
 
 const FILES_TO_CACHE = [
     "./",
@@ -9,7 +9,9 @@ const FILES_TO_CACHE = [
 ];
 
 
-/* Installation */
+/* ==================================================
+   INSTALLATION DU SERVICE WORKER
+================================================== */
 
 self.addEventListener("install", event => {
 
@@ -19,6 +21,10 @@ self.addEventListener("install", event => {
             .open(CACHE_NAME)
             .then(cache => {
 
+                console.log(
+                    "Mise en cache des fichiers de l'application"
+                );
+
                 return cache.addAll(
                     FILES_TO_CACHE
                 );
@@ -27,12 +33,19 @@ self.addEventListener("install", event => {
 
     );
 
+    /*
+     * Permet au nouveau Service Worker
+     * de passer directement à l'étape d'activation.
+     */
     self.skipWaiting();
 
 });
 
 
-/* Activation */
+/* ==================================================
+   ACTIVATION
+   Suppression des anciens caches
+================================================== */
 
 self.addEventListener("activate", event => {
 
@@ -48,7 +61,14 @@ self.addEventListener("activate", event => {
 
                         if(key !== CACHE_NAME) {
 
-                            return caches.delete(key);
+                            console.log(
+                                "Suppression ancien cache :",
+                                key
+                            );
+
+                            return caches.delete(
+                                key
+                            );
 
                         }
 
@@ -57,30 +77,66 @@ self.addEventListener("activate", event => {
                 );
 
             })
+            .then(() => {
+
+                /*
+                 * Le nouveau Service Worker prend
+                 * immédiatement le contrôle des pages.
+                 */
+                return self.clients.claim();
+
+            })
 
     );
-
-    self.clients.claim();
 
 });
 
 
-/* Requêtes réseau */
+/* ==================================================
+   INTERCEPTION DES REQUETES
+================================================== */
 
 self.addEventListener("fetch", event => {
 
+    /*
+     * On ne gère que les requêtes GET.
+     */
     if(event.request.method !== "GET") {
         return;
     }
 
+
     event.respondWith(
 
+        /*
+         * On essaie d'abord Internet.
+         */
         fetch(event.request)
 
             .then(response => {
 
-                const copy =
+                /*
+                 * On ne met en cache que les réponses
+                 * valides.
+                 */
+                if(
+                    !response
+                    ||
+                    response.status !== 200
+                ) {
+
+                    return response;
+
+                }
+
+
+                /*
+                 * Une réponse ne peut être consommée
+                 * qu'une fois, donc on la clone.
+                 */
+                const responseCopy =
                     response.clone();
+
 
                 caches
                     .open(CACHE_NAME)
@@ -88,10 +144,11 @@ self.addEventListener("fetch", event => {
 
                         cache.put(
                             event.request,
-                            copy
+                            responseCopy
                         );
 
                     });
+
 
                 return response;
 
@@ -99,9 +156,38 @@ self.addEventListener("fetch", event => {
 
             .catch(() => {
 
-                return caches.match(
-                    event.request
-                );
+                /*
+                 * Si Internet n'est pas disponible,
+                 * on recherche la ressource dans le cache.
+                 */
+                return caches
+                    .match(event.request)
+                    .then(cachedResponse => {
+
+                        if(cachedResponse) {
+
+                            return cachedResponse;
+
+                        }
+
+
+                        /*
+                         * Pour une navigation hors connexion,
+                         * on renvoie index.html si disponible.
+                         */
+                        if(
+                            event.request.mode
+                            ===
+                            "navigate"
+                        ) {
+
+                            return caches.match(
+                                "./index.html"
+                            );
+
+                        }
+
+                    });
 
             })
 
