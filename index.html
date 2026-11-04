@@ -67,7 +67,9 @@
     .expense .content { min-width: 0; flex: 1; overflow: hidden; }
     .expense .content > b, .expense .small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .expense .amount { max-width: 42%; flex: 0 0 auto; text-align: right; white-space: nowrap; }
-    .toolbar { display: grid; grid-template-columns: minmax(0, 1fr) 140px; gap: 8px; margin-bottom: 12px; }
+    .toolbar { display: grid; grid-template-columns: minmax(0, 1fr) 140px; gap: 8px; margin-bottom: 10px; }
+    .advanced-toolbar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
+    .filter-dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
     input, select, textarea { width: 100%; min-width: 0; padding: 13px; border: 1px solid #cbd5e1; border-radius: 12px; background: #ffffff; color: var(--text); font-size: 17px; }
     label { display: block; margin-bottom: 6px; color: #475569; font-size: 14px; font-weight: 800; }
     .field { margin-bottom: 12px; }
@@ -80,6 +82,12 @@
     .information { margin-bottom: 12px; padding: 12px; border-radius: 12px; background: #f0fdfa; color: #115e59; font-weight: 700; }
     .row-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 9px; }
     .row-actions button { padding: 7px 10px; border: 1px solid var(--line); border-radius: 9px; background: #ffffff; font-size: 13px; }
+    .summary-card { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+    .summary-cell { min-width: 0; padding: 10px; border-radius: 12px; background: #f8fafc; }
+    .summary-cell strong { display: block; margin-top: 4px; overflow-wrap: anywhere; }
+    .category-overview { display: grid; gap: 10px; margin-bottom: 12px; }
+    .category-row { padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: #ffffff; }
+    .category-head { display: flex; justify-content: space-between; gap: 10px; }
     .commitment-top { display: flex; width: 100%; min-width: 0; align-items: flex-start; justify-content: space-between; gap: 12px; }
     .commitment-title { min-width: 0; flex: 1; }
     .commitment-title strong { display: block; overflow-wrap: anywhere; }
@@ -98,6 +106,12 @@
     .payment-row > * { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .settings-notice { padding: 12px; border-radius: 12px; background: #fff7ed; color: #9a3412; font-size: 13px; }
     .settings-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .stats-list { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    .stats-list .stat { padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .stats-list .stat:last-child { border-bottom: 0; }
+    .settings-details { display: grid; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .settings-detail { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .settings-detail strong { text-align: right; font-size: 14px; }
     .commitment-toolbar { display: flex; width: 100%; align-items: center; gap: 8px; margin-bottom: 12px; }
     .commitment-toolbar select { flex: 1; padding: 11px 38px 11px 12px; font-size: 14px; font-weight: 700; }
     .commitment-toolbar .button { flex: 0 0 auto; padding: 11px 12px; font-size: 14px; white-space: nowrap; }
@@ -110,9 +124,11 @@
     .floating-button { position: fixed; z-index: 5; right: max(20px, calc((100vw - 560px) / 2 + 20px)); bottom: 88px; width: 58px; height: 58px; border: 0; border-radius: 50%; background: var(--primary); color: #ffffff; font-size: 30px; }
     .hidden { display: none !important; }
     .empty { padding: 24px; color: var(--muted); text-align: center; }
-
     .chart-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
     .chart-unit { flex: 0 0 auto; padding: 6px 10px; border-radius: 999px; background: #ccfbf1; color: #115e59; font-size: 12px; font-weight: 900; }
+    .period-buttons { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+    .period-button { padding: 8px 10px; border: 1px solid var(--line); border-radius: 999px; background: #ffffff; color: var(--muted); font-size: 12px; font-weight: 800; }
+    .period-button.active { border-color: var(--primary); background: #ccfbf1; color: #115e59; }
     .chart-container { position: relative; width: 100%; min-height: 300px; overflow-x: auto; overflow-y: hidden; border-radius: 14px; background: #ffffff; }
     .expense-chart-svg { display: block; width: 100%; min-width: 500px; height: auto; overflow: visible; }
     .chart-grid-line { stroke: #e2e8f0; stroke-width: 1; stroke-dasharray: 4 4; }
@@ -120,34 +136,12 @@
     .chart-axis-label { fill: #64748b; font: 11px system-ui, sans-serif; }
     .chart-axis-title { fill: #475569; font: 800 11px system-ui, sans-serif; }
     .chart-line { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .chart-line-total { stroke-width: 5; }
     .chart-point { stroke: #ffffff; stroke-width: 2; }
     .chart-empty { display: grid; min-height: 260px; place-items: center; padding: 24px; color: var(--muted); text-align: center; }
     .chart-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 14px; }
     .chart-legend-item { display: inline-flex; align-items: center; gap: 7px; color: #475569; font-size: 12px; font-weight: 800; }
     .chart-legend-color { width: 11px; height: 11px; flex: 0 0 11px; border-radius: 50%; }
-
-	.stats-list { display: grid; grid-template-columns: 1fr; gap: 12px;}
-	.stats-list .stat { padding: 10px 0; border-bottom: 1px solid var(--line);}
-	.stats-list .stat:last-child {  border-bottom: 0;}
-	.settings-details {
-  display: grid;
-  gap: 10px;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-}
-
-.settings-detail {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.settings-detail strong {
-  text-align: right;
-  font-size: 14px;
-}
 
     @media (max-width: 480px) {
       .app { padding-left: 12px; padding-right: 12px; }
@@ -159,10 +153,11 @@
       .commitment-toolbar select, .commitment-toolbar .button { font-size: 13px; }
       .chart-container { min-height: 270px; }
       .expense-chart-svg { min-width: 470px; }
+      .summary-card { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 350px) {
-      .grid2, .grid3, .toolbar, .settings-grid, .commitment-toolbar { display: grid; grid-template-columns: 1fr; }
+      .grid2, .grid3, .toolbar, .advanced-toolbar, .filter-dates, .settings-grid, .commitment-toolbar { display: grid; grid-template-columns: 1fr; }
       .commitment-toolbar .button { width: 100%; }
     }
   </style>
@@ -200,9 +195,26 @@
 
     <section class="page" id="expenses">
       <div class="section-title"><h2>Dépenses</h2><strong id="expenseCount">0</strong></div>
-      <div class="toolbar">
+      <div class="card category-overview" id="categoryOverview"></div>
+      <div class="toolbar mt">
         <input id="search" type="search" placeholder="Rechercher…">
-        <select id="filter"><option value="">Toutes</option><option>Terrain</option><option>Fournitures</option><option>Main-d'œuvre</option><option>Autres</option></select>
+        <select id="filter"><option value="">Toutes les catégories</option><option>Terrain</option><option>Fournitures</option><option>Main-d'œuvre</option><option>Autres</option></select>
+      </div>
+      <div class="advanced-toolbar">
+        <select id="subcategoryFilter"><option value="">Toutes les sous-catégories</option></select>
+        <select id="currencyFilter"><option value="">Toutes les devises</option><option value="DZD">DZD</option><option value="EUR">EUR</option></select>
+        <select id="supplierFilter"><option value="">Tous les bénéficiaires</option></select>
+        <select id="expenseSort"><option value="date-desc">Plus récent</option><option value="date-asc">Plus ancien</option><option value="amount-desc">Montant décroissant</option><option value="amount-asc">Montant croissant</option></select>
+      </div>
+      <div class="filter-dates">
+        <div><label for="expenseDateFrom">Du</label><input id="expenseDateFrom" type="date"></div>
+        <div><label for="expenseDateTo">Au</label><input id="expenseDateTo" type="date"></div>
+      </div>
+      <button class="button button-line wide" id="resetExpenseFilters" type="button">Réinitialiser les filtres</button>
+      <div class="summary-card mt">
+        <div class="summary-cell"><div class="small muted">Résultats</div><strong id="filteredExpenseCount">0</strong></div>
+        <div class="summary-cell"><div class="small muted">Total DZD</div><strong id="filteredTotalDzd">0,000 DZD</strong></div>
+        <div class="summary-cell"><div class="small muted">Total EUR</div><strong id="filteredTotalEur">0,00 €</strong></div>
       </div>
       <div class="list" id="expenseList"></div>
     </section>
@@ -210,10 +222,19 @@
     <section class="page" id="charts">
       <div class="section-title"><h2>Courbes</h2></div>
       <div class="card">
-        <div class="chart-header">
-          <div><strong>Évolution des dépenses</strong><div class="small muted">Montants cumulés par date et par catégorie</div></div>
-          <div class="chart-unit">DZD</div>
+        <div class="chart-header"><div><strong>Évolution des dépenses</strong><div class="small muted">Montants cumulés par date, catégorie et total</div></div><div class="chart-unit">DZD</div></div>
+        <div class="period-buttons" id="chartPeriodButtons">
+          <button class="period-button active" data-period="all" type="button">Tout</button>
+          <button class="period-button" data-period="30" type="button">30 jours</button>
+          <button class="period-button" data-period="90" type="button">3 mois</button>
+          <button class="period-button" data-period="180" type="button">6 mois</button>
+          <button class="period-button" data-period="365" type="button">1 an</button>
         </div>
+        <div class="filter-dates">
+          <div><label for="chartDateFrom">Du</label><input id="chartDateFrom" type="date"></div>
+          <div><label for="chartDateTo">Au</label><input id="chartDateTo" type="date"></div>
+        </div>
+        <div id="chartPeriodSummary" class="information">Toutes les dépenses</div>
         <div id="expenseChart" class="chart-container" role="img" aria-label="Évolution des dépenses en DZD"></div>
         <div id="chartLegend" class="chart-legend"></div>
       </div>
@@ -235,94 +256,29 @@
       <div class="list" id="commitmentList"></div>
     </section>
 
-<section class="page" id="settings">
-  <div class="section-title">
-    <h2>Réglages</h2>
-  </div>
-
-<div class="card">
-  <strong>Statistiques</strong>
-
-  <div class="stats-list mt">
-    <div class="stat">
-      <div class="small muted">Dépenses</div>
-      <strong id="settingsExpenseCount">0</strong>
-    </div>
-
-    <div class="stat">
-      <div class="small muted">Total DZD</div>
-      <strong id="settingsTotalDzd">0,000 DZD</strong>
-    </div>
-
-    <div class="stat">
-      <div class="small muted">Total EUR</div>
-      <strong id="settingsTotalEur">0,00 €</strong>
-    </div>
-  </div>
-
-  <div class="settings-details">
-    <div class="settings-detail">
-      <span class="small muted">
-        Dernière sauvegarde locale
-      </span>
-
-      <strong id="settingsLastSave">
-        Jamais
-      </strong>
-    </div>
-  </div>
-</div>
-
-<div class="card mt">
-  <strong>Sauvegarde et transfert</strong>
-
-    <div class="settings-notice mt">
-      Les données sont enregistrées localement.
-      Exportez régulièrement une sauvegarde JSON.
-    </div>
-
-    <div class="settings-grid mt">
-      <button
-        class="button button-line"
-        id="exportJsonButton"
-        type="button"
-      >
-        Exporter JSON
-      </button>
-
-      <button
-        class="button button-line"
-        id="exportCsvButton"
-        type="button"
-      >
-        Exporter CSV
-      </button>
-
-      <button
-        class="button button-soft"
-        id="importJsonButton"
-        type="button"
-      >
-        Importer JSON
-      </button>
-
-      <button
-        class="button button-danger"
-        id="clearDataButton"
-        type="button"
-      >
-        Tout effacer
-      </button>
-    </div>
-
-    <input
-      accept=".json,application/json"
-      class="hidden"
-      id="importJsonFile"
-      type="file"
-    >
-  </div>
-</section>
+    <section class="page" id="settings">
+      <div class="section-title"><h2>Réglages</h2></div>
+      <div class="card">
+        <strong>Statistiques</strong>
+        <div class="stats-list mt">
+          <div class="stat"><div class="small muted">Dépenses</div><strong id="settingsExpenseCount">0</strong></div>
+          <div class="stat"><div class="small muted">Total DZD</div><strong id="settingsTotalDzd">0,000 DZD</strong></div>
+          <div class="stat"><div class="small muted">Total EUR</div><strong id="settingsTotalEur">0,00 €</strong></div>
+        </div>
+        <div class="settings-details"><div class="settings-detail"><span class="small muted">Dernière sauvegarde locale</span><strong id="settingsLastSave">Jamais</strong></div></div>
+      </div>
+      <div class="card mt">
+        <strong>Sauvegarde et transfert</strong>
+        <div class="settings-notice mt">Les données sont enregistrées localement. Exportez régulièrement une sauvegarde JSON.</div>
+        <div class="settings-grid mt">
+          <button class="button button-line" id="exportJsonButton" type="button">Exporter JSON</button>
+          <button class="button button-line" id="exportCsvButton" type="button">Exporter CSV</button>
+          <button class="button button-soft" id="importJsonButton" type="button">Importer JSON</button>
+          <button class="button button-danger" id="clearDataButton" type="button">Tout effacer</button>
+        </div>
+        <input class="hidden" id="importJsonFile" type="file" accept=".json,application/json">
+      </div>
+    </section>
 
     <button class="floating-button" id="addExpense" type="button" aria-label="Ajouter une dépense">+</button>
     <nav class="tabs">
@@ -378,13 +334,9 @@
     (() => {
       "use strict";
 
-		const STORAGE_KEY = "suivi_maison_v1";
-		const SAVE_TIME_KEY = "suivi_maison_last_save";
-		
-		const DEFAULT_STATE = {
-		  expenses: [],
-		  commitments: []
-		};
+      const STORAGE_KEY = "suivi_maison_v1";
+      const SAVE_TIME_KEY = "suivi_maison_last_save";
+      const DEFAULT_STATE = { expenses: [], commitments: [] };
       const SUBCATEGORIES = {
         Terrain: ["Achat du terrain", "Notaire", "Bornage", "Autres"],
         Fournitures: ["Ciment", "Ferraille", "Briques", "Sable", "Gravier", "Bois", "Plomberie", "Électricité", "Carrelage", "Peinture", "Autres"],
@@ -393,7 +345,7 @@
       };
       const BENEFICIARIES = { Terrain: ["Wassini", "Khalida", "Autres"], "Main-d'œuvre": ["Maçon", "Plombier", "Électricien", "Carreleur", "Peintre", "Menuisier", "Autres"] };
       const ICONS = { Terrain: "🏡", Fournitures: "🧱", "Main-d'œuvre": "👷", Autres: "📦" };
-      const CHART_COLORS = { Terrain: "#0f766e", Fournitures: "#2563eb", "Main-d'œuvre": "#f59e0b", Autres: "#9333ea" };
+      const CHART_COLORS = { Terrain: "#0f766e", Fournitures: "#2563eb", "Main-d'œuvre": "#f59e0b", Autres: "#9333ea", Total: "#111827" };
       const $ = (selector) => document.querySelector(selector);
       const $$ = (selector) => [...document.querySelectorAll(selector)];
       const num = (value) => Number(value) || 0;
@@ -411,62 +363,26 @@
         return structuredClone(DEFAULT_STATE);
       }
 
-		function updateLastSaveDisplay() {
-		  const element = $("#settingsLastSave");
-		
-		  if (!element) {
-		    return;
-		  }
-		
-		  const savedAt = localStorage.getItem(SAVE_TIME_KEY);
-		
-		  if (!savedAt) {
-		    element.textContent = "Jamais";
-		    return;
-		  }
-		
-		  const date = new Date(savedAt);
-		
-		  if (Number.isNaN(date.getTime())) {
-		    element.textContent = "Date inconnue";
-		    return;
-		  }
-		
-		  element.textContent = date.toLocaleString("fr-FR", {
-		    day: "2-digit",
-		    month: "2-digit",
-		    year: "numeric",
-		    hour: "2-digit",
-		    minute: "2-digit"
-		  });
-		}
-		
+      function updateLastSaveDisplay() {
+        const savedAt = localStorage.getItem(SAVE_TIME_KEY);
+        if (!savedAt) { $("#settingsLastSave").textContent = "Jamais"; return; }
+        const date = new Date(savedAt);
+        $("#settingsLastSave").textContent = Number.isNaN(date.getTime()) ? "Date inconnue" : date.toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+      }
+
       let state = load();
       let finishedCommitmentsCollapsed = false;
       let chartResizeTimer;
+      let chartPeriod = "all";
 
-		function save() {
-		  const date = new Date();
-		
-		  localStorage.setItem(
-		    STORAGE_KEY,
-		    JSON.stringify(state)
-		  );
-		
-		  localStorage.setItem(
-		    SAVE_TIME_KEY,
-		    date.toISOString()
-		  );
-		
-		  $("#saveStatus").textContent =
-		    `Sauvegardé à ${date.toLocaleTimeString("fr-FR", {
-		      hour: "2-digit",
-		      minute: "2-digit"
-		    })}`;
-		
-		  updateLastSaveDisplay();
-		  render();
-		}
+      function save() {
+        const date = new Date();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        localStorage.setItem(SAVE_TIME_KEY, date.toISOString());
+        $("#saveStatus").textContent = `Sauvegardé à ${date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`;
+        updateLastSaveDisplay();
+        render();
+      }
 
       const paid = (commitmentId, excluded = "") => Math.round(state.expenses.filter((expense) => expense.commitmentId === commitmentId && expense.id !== excluded).reduce((total, expense) => total + Math.round(num(expense.dzd)), 0));
       const remaining = (commitmentId, excluded = "") => { const commitment = state.commitments.find((item) => item.id === commitmentId); return commitment ? Math.round(num(commitment.amountDzd) - paid(commitmentId, excluded)) : null; };
@@ -476,10 +392,9 @@
         $$(".page").forEach((page) => page.classList.toggle("active", page.id === pageId));
         $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.page === pageId));
         $("#addExpense").classList.toggle("hidden", pageId === "commitments" || pageId === "settings");
-        if (pageId === "charts") window.requestAnimationFrame(() => { drawExpenseChart(); drawBars(); });
+        if (pageId === "charts") requestAnimationFrame(() => { drawExpenseChart(); drawBars(); });
       }
       window.showPage = showPage;
-      $$(".tab").forEach((tab) => tab.addEventListener("click", () => showPage(tab.dataset.page)));
 
       function updateSubs(selected = "") {
         const category = $("#expenseCategory").value;
@@ -502,6 +417,19 @@
         $("#expenseCommitment").innerHTML = '<option value="">Aucune</option>' + state.commitments.map((commitment) => `<option value="${commitment.id}" ${commitment.id === selected ? "selected" : ""}>${esc(commitment.label)} · ${esc(commitment.beneficiary)} · reste ${dzd(Math.max(0, remaining(commitment.id)))}</option>`).join("");
       }
 
+      function updateExpenseFilterOptions() {
+        const currentSubcategory = $("#subcategoryFilter").value;
+        const currentSupplier = $("#supplierFilter").value;
+        const category = $("#filter").value;
+        const source = category ? state.expenses.filter((expense) => expense.category === category) : state.expenses;
+        const subcategories = [...new Set(source.map((expense) => expense.subcategory).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
+        const suppliers = [...new Set(state.expenses.map((expense) => expense.supplier).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
+        $("#subcategoryFilter").innerHTML = '<option value="">Toutes les sous-catégories</option>' + subcategories.map((item) => `<option value="${esc(item)}">${esc(item)}</option>`).join("");
+        $("#supplierFilter").innerHTML = '<option value="">Tous les bénéficiaires</option>' + suppliers.map((item) => `<option value="${esc(item)}">${esc(item)}</option>`).join("");
+        if (subcategories.includes(currentSubcategory)) $("#subcategoryFilter").value = currentSubcategory;
+        if (suppliers.includes(currentSupplier)) $("#supplierFilter").value = currentSupplier;
+      }
+
       function status(progress) {
         if (progress <= 0) return { label: "À débuter", cls: "status-start", value: "start" };
         if (progress >= 100) return { label: "Terminé", cls: "status-done", value: "done" };
@@ -514,12 +442,29 @@
         return `<article class="card expense"><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(expense.date)} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}${actions ? `<div class="row-actions"><button data-edit-expense="${expense.id}">Modifier</button><button data-delete-expense="${expense.id}">Supprimer</button></div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
       }
 
+      function renderCategoryOverview() {
+        const categories = Object.keys(ICONS);
+        $("#categoryOverview").innerHTML = `<strong>Totaux par catégorie</strong>${categories.map((category) => { const total = state.expenses.filter((expense) => expense.category === category).reduce((sum, expense) => sum + num(expense.dzd), 0); const count = state.expenses.filter((expense) => expense.category === category).length; return `<div class="category-row"><div class="category-head"><span>${ICONS[category]} ${esc(category)}</span><strong>${dzd(total)}</strong></div><div class="small muted">${count} dépense${count > 1 ? "s" : ""}</div></div>`; }).join("")}`;
+      }
+
       function renderExpenses() {
         const query = $("#search").value.trim().toLowerCase();
-        const filter = $("#filter").value;
-        const expenses = state.expenses.filter((expense) => (!filter || expense.category === filter) && (!query || [expense.description, expense.supplier, expense.subcategory, expense.comment].join(" ").toLowerCase().includes(query))).sort((a, b) => String(b.date).localeCompare(String(a.date)));
-        $("#expenseCount").textContent = expenses.length;
-        $("#expenseList").innerHTML = expenses.length ? expenses.map((expense) => expenseHtml(expense)).join("") : '<div class="card empty">Aucune dépense.</div>';
+        const category = $("#filter").value;
+        const subcategory = $("#subcategoryFilter").value;
+        const currency = $("#currencyFilter").value;
+        const supplier = $("#supplierFilter").value;
+        const from = $("#expenseDateFrom").value;
+        const to = $("#expenseDateTo").value;
+        const sort = $("#expenseSort").value;
+        let expenses = state.expenses.filter((expense) => (!category || expense.category === category) && (!subcategory || expense.subcategory === subcategory) && (!currency || expense.currency === currency) && (!supplier || expense.supplier === supplier) && (!from || expense.date >= from) && (!to || expense.date <= to) && (!query || [expense.description, expense.supplier, expense.subcategory, expense.comment].join(" ").toLowerCase().includes(query)));
+        expenses.sort((a, b) => sort === "date-asc" ? String(a.date).localeCompare(String(b.date)) : sort === "amount-desc" ? num(b.dzd) - num(a.dzd) : sort === "amount-asc" ? num(a.dzd) - num(b.dzd) : String(b.date).localeCompare(String(a.date)));
+        const totalDzd = expenses.reduce((sum, expense) => sum + num(expense.dzd), 0);
+        const totalEur = expenses.reduce((sum, expense) => sum + num(expense.eur), 0);
+        $("#expenseCount").textContent = state.expenses.length;
+        $("#filteredExpenseCount").textContent = expenses.length;
+        $("#filteredTotalDzd").textContent = dzd(totalDzd);
+        $("#filteredTotalEur").textContent = eur(totalEur);
+        $("#expenseList").innerHTML = expenses.length ? expenses.map((expense) => expenseHtml(expense)).join("") : '<div class="card empty">Aucune dépense pour ces filtres.</div>';
       }
 
       function renderCommitments() {
@@ -530,19 +475,32 @@
         const filter = $("#commitmentStatusFilter").value;
         const list = state.commitments.filter((item) => { const progress = num(item.amountDzd) > 0 ? Math.max(0, Math.min(100, paid(item.id) / num(item.amountDzd) * 100)) : 0; return !filter || status(progress).value === filter; });
         if (!list.length) { $("#commitmentList").innerHTML = `<div class="card empty">${state.commitments.length ? "Aucune somme due pour ce statut." : "Aucune somme due."}</div>`; updateCommitmentOptions(); return; }
-        $("#commitmentList").innerHTML = list.map((item) => {
-          const paidAmount = paid(item.id); const dueAmount = Math.round(num(item.amountDzd)); const balanceAmount = Math.max(0, dueAmount - paidAmount); const progress = dueAmount > 0 ? Math.max(0, Math.min(100, paidAmount / dueAmount * 100)) : 0; const currentStatus = status(progress); const done = progress >= 100; const history = payments(item.id);
-          return `<article class="card commitment-card ${done && finishedCommitmentsCollapsed ? "collapsed" : ""}"><div class="commitment-top"><div class="commitment-title"><strong>${item.category === "Terrain" ? "🏡" : "👷"} ${esc(item.label)}</strong><div class="small muted mt">${esc(item.category)} · ${esc(item.beneficiary)}</div></div><span class="status-badge ${currentStatus.cls}">${currentStatus.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(progress, 1)} %</span></div><div class="bar"><i style="width:${progress}%;background:${color(progress)}"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(dueAmount)}</b></div><div><div class="small muted">Versé</div><b>${dzd(paidAmount)}</b></div><div><div class="small muted">Reste</div><b>${dzd(balanceAmount)}</b></div></div><div class="row-actions">${done ? "" : `<button data-add-payment="${item.id}">+ Versement</button>`}<button data-toggle-history="${item.id}">Historique (${history.length})</button><button data-edit-commitment="${item.id}">Modifier</button><button data-delete-commitment="${item.id}">Supprimer</button></div><div id="history-${item.id}" class="history hidden">${history.length ? history.map((expense) => `<div class="payment-row"><span>${esc(expense.date)}</span><span>${esc(expense.description)}</span><b>${dzd(expense.dzd)}</b></div>`).join("") : '<div class="small muted">Aucun versement.</div>'}</div></div></article>`;
-        }).join("");
+        $("#commitmentList").innerHTML = list.map((item) => { const paidAmount = paid(item.id); const dueAmount = Math.round(num(item.amountDzd)); const balanceAmount = Math.max(0, dueAmount - paidAmount); const progress = dueAmount > 0 ? Math.max(0, Math.min(100, paidAmount / dueAmount * 100)) : 0; const currentStatus = status(progress); const done = progress >= 100; const history = payments(item.id); return `<article class="card commitment-card ${done && finishedCommitmentsCollapsed ? "collapsed" : ""}"><div class="commitment-top"><div class="commitment-title"><strong>${item.category === "Terrain" ? "🏡" : "👷"} ${esc(item.label)}</strong><div class="small muted mt">${esc(item.category)} · ${esc(item.beneficiary)}</div></div><span class="status-badge ${currentStatus.cls}">${currentStatus.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(progress, 1)} %</span></div><div class="bar"><i style="width:${progress}%;background:${color(progress)}"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(dueAmount)}</b></div><div><div class="small muted">Versé</div><b>${dzd(paidAmount)}</b></div><div><div class="small muted">Reste</div><b>${dzd(balanceAmount)}</b></div></div><div class="row-actions">${done ? "" : `<button data-add-payment="${item.id}">+ Versement</button>`}<button data-toggle-history="${item.id}">Historique (${history.length})</button><button data-edit-commitment="${item.id}">Modifier</button><button data-delete-commitment="${item.id}">Supprimer</button></div><div id="history-${item.id}" class="history hidden">${history.length ? history.map((expense) => `<div class="payment-row"><span>${esc(expense.date)}</span><span>${esc(expense.description)}</span><b>${dzd(expense.dzd)}</b></div>`).join("") : '<div class="small muted">Aucun versement.</div>'}</div></div></article>`; }).join("");
         updateCommitmentOptions();
       }
 
+      function getChartExpenseRange() {
+        let from = $("#chartDateFrom").value;
+        let to = $("#chartDateTo").value;
+        if (!from && !to && chartPeriod !== "all") {
+          const dates = state.expenses.map((expense) => expense.date).filter(Boolean).sort();
+          const end = dates.length ? new Date(`${dates[dates.length - 1]}T00:00:00`) : new Date();
+          const start = new Date(end); start.setDate(start.getDate() - Number(chartPeriod) + 1);
+          from = start.toISOString().slice(0, 10); to = end.toISOString().slice(0, 10);
+        }
+        return { from, to };
+      }
+
       function getChartData() {
-        const categories = Object.keys(ICONS); const byDate = new Map();
-        state.expenses.forEach((expense) => { if (!expense.date) return; if (!byDate.has(expense.date)) byDate.set(expense.date, Object.fromEntries(categories.map((category) => [category, 0]))); if (expense.category in byDate.get(expense.date)) byDate.get(expense.date)[expense.category] += num(expense.dzd); });
+        const categories = Object.keys(ICONS);
+        const { from, to } = getChartExpenseRange();
+        const filtered = state.expenses.filter((expense) => expense.date && (!from || expense.date >= from) && (!to || expense.date <= to));
+        const byDate = new Map();
+        filtered.forEach((expense) => { if (!byDate.has(expense.date)) byDate.set(expense.date, Object.fromEntries(categories.map((category) => [category, 0]))); if (expense.category in byDate.get(expense.date)) byDate.get(expense.date)[expense.category] += num(expense.dzd); });
         const cumulative = Object.fromEntries(categories.map((category) => [category, 0]));
-        const points = [...byDate.keys()].sort().map((date) => { categories.forEach((category) => { cumulative[category] += byDate.get(date)[category]; }); return { date, values: { ...cumulative } }; });
-        return { categories, points };
+        const points = [...byDate.keys()].sort().map((date) => { categories.forEach((category) => { cumulative[category] += byDate.get(date)[category]; }); return { date, values: { ...cumulative, Total: categories.reduce((sum, category) => sum + cumulative[category], 0) } }; });
+        $("#chartPeriodSummary").textContent = `${filtered.length} dépense${filtered.length > 1 ? "s" : ""} · ${dzd(filtered.reduce((sum, expense) => sum + num(expense.dzd), 0))}${from || to ? ` · ${from || "début"} au ${to || "présent"}` : " · toutes les dates"}`;
+        return { categories: [...categories, "Total"], points };
       }
 
       function niceMaximum(value) { if (value <= 0) return 1e6; const magnitude = 10 ** Math.floor(Math.log10(value)); const normalized = value / magnitude; return (normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10) * magnitude; }
@@ -551,7 +509,7 @@
 
       function drawExpenseChart() {
         const host = $("#expenseChart"); const legend = $("#chartLegend"); const { categories, points } = getChartData();
-        if (!points.length) { host.innerHTML = '<div class="chart-empty">Ajoutez au moins une dépense pour afficher le graphique.</div>'; legend.innerHTML = ""; return; }
+        if (!points.length) { host.innerHTML = '<div class="chart-empty">Aucune dépense sur cette période.</div>'; legend.innerHTML = ""; return; }
         const width = Math.max(host.clientWidth || 500, 500); const height = 320; const margin = { top: 22, right: 18, bottom: 54, left: 76 }; const plotWidth = width - margin.left - margin.right; const plotHeight = height - margin.top - margin.bottom;
         const maximum = niceMaximum(Math.max(...points.flatMap((point) => categories.map((category) => point.values[category])), 0));
         const x = (index) => points.length === 1 ? margin.left + plotWidth / 2 : margin.left + index / (points.length - 1) * plotWidth;
@@ -559,70 +517,23 @@
         const grid = Array.from({ length: 6 }, (_, index) => { const value = maximum / 5 * index; const position = y(value); return `<line class="chart-grid-line" x1="${margin.left}" x2="${width - margin.right}" y1="${position}" y2="${position}"></line><text class="chart-axis-label" text-anchor="end" x="${margin.left - 10}" y="${position + 4}">${esc(shortDzd(value))}</text>`; }).join("");
         const step = Math.max(1, Math.ceil(points.length / 5));
         const labels = points.map((point, index) => index % step === 0 || index === points.length - 1 ? `<text class="chart-axis-label" text-anchor="middle" x="${x(index)}" y="${height - 28}">${esc(shortDate(point.date))}</text>` : "").join("");
-        const lines = categories.map((category) => { const coordinates = points.map((point, index) => ({ x: x(index), y: y(point.values[category]), value: point.values[category], date: point.date })); const polyline = coordinates.map((point) => `${point.x},${point.y}`).join(" "); const circles = coordinates.map((point) => { const title = `${category}, ${point.date}, ${dzd(point.value)}`; return `<circle class="chart-point" cx="${point.x}" cy="${point.y}" r="4" fill="${CHART_COLORS[category]}"><title>${esc(title)}</title></circle>`; }).join(""); return `<polyline class="chart-line" points="${polyline}" stroke="${CHART_COLORS[category]}"></polyline>${circles}`; }).join("");
-       host.innerHTML = `
-  <svg
-    class="expense-chart-svg"
-    viewBox="0 0 ${width} ${height}"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    ${grid}
-
-    <line
-      class="chart-axis-line"
-      x1="${margin.left}"
-      x2="${margin.left}"
-      y1="${margin.top}"
-      y2="${margin.top + plotHeight}"
-    ></line>
-
-    <line
-      class="chart-axis-line"
-      x1="${margin.left}"
-      x2="${width - margin.right}"
-      y1="${margin.top + plotHeight}"
-      y2="${margin.top + plotHeight}"
-    ></line>
-
-    <text
-      class="chart-axis-title"
-      text-anchor="middle"
-      transform="
-        rotate(
-          -90
-          17
-          ${margin.top + plotHeight / 2}
-        )
-      "
-      x="17"
-      y="${margin.top + plotHeight / 2}"
-    >
-      Montant cumulé en DZD
-    </text>
-
-    ${labels}
-    ${lines}
-  </svg>
-`;
-		  legend.innerHTML = categories.map((category) => `<div class="chart-legend-item"><span class="chart-legend-color" style="background:${CHART_COLORS[category]}"></span><span>${ICONS[category]} ${esc(category)}</span></div>`).join("");
+        const lines = categories.map((category) => { const coordinates = points.map((point, index) => ({ x: x(index), y: y(point.values[category]), value: point.values[category], date: point.date })); const polyline = coordinates.map((point) => `${point.x},${point.y}`).join(" "); const circles = coordinates.map((point) => `<circle class="chart-point" cx="${point.x}" cy="${point.y}" r="${category === "Total" ? 4.5 : 3.5}" fill="${CHART_COLORS[category]}"><title>${esc(`${category}, ${point.date}, ${dzd(point.value)}`)}</title></circle>`).join(""); return `<polyline class="chart-line ${category === "Total" ? "chart-line-total" : ""}" points="${polyline}" stroke="${CHART_COLORS[category]}"></polyline>${circles}`; }).join("");
+        host.innerHTML = `<svg class="expense-chart-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">${grid}<line class="chart-axis-line" x1="${margin.left}" x2="${margin.left}" y1="${margin.top}" y2="${margin.top + plotHeight}"></line><line class="chart-axis-line" x1="${margin.left}" x2="${width - margin.right}" y1="${margin.top + plotHeight}" y2="${margin.top + plotHeight}"></line><text class="chart-axis-title" text-anchor="middle" transform="rotate(-90 17 ${margin.top + plotHeight / 2})" x="17" y="${margin.top + plotHeight / 2}">Montant cumulé en DZD</text>${labels}${lines}</svg>`;
+        legend.innerHTML = categories.map((category) => `<div class="chart-legend-item"><span class="chart-legend-color" style="background:${CHART_COLORS[category]}"></span><span>${category === "Total" ? "💰" : ICONS[category]} ${esc(category)}</span></div>`).join("");
       }
 
       function drawBars() {
-        const categories = Object.keys(ICONS); const values = categories.map((category) => state.expenses.filter((expense) => expense.category === category).reduce((total, expense) => total + num(expense.dzd), 0)); const maximum = Math.max(...values, 1);
+        const categories = Object.keys(ICONS); const { from, to } = getChartExpenseRange(); const source = state.expenses.filter((expense) => (!from || expense.date >= from) && (!to || expense.date <= to)); const values = categories.map((category) => source.filter((expense) => expense.category === category).reduce((total, expense) => total + num(expense.dzd), 0)); const maximum = Math.max(...values, 1);
         $("#categoryBars").innerHTML = categories.map((category, index) => `<div class="mt"><div class="bar-label"><span>${ICONS[category]} ${esc(category)}</span><b>${dzd(values[index])}</b></div><div class="bar"><i style="width:${values[index] / maximum * 100}%;background:${CHART_COLORS[category]}"></i></div></div>`).join("");
       }
 
       function render() {
         const total = state.expenses.reduce((sum, expense) => sum + Math.round(num(expense.dzd)), 0); const totalEur = state.expenses.reduce((sum, expense) => sum + num(expense.eur), 0);
-        $("#totalDzd").textContent = dzd(total); 
-        $("#totalEur").textContent = eur(totalEur);
-        $("#settingsExpenseCount").textContent = state.expenses.length;
-        $("#settingsTotalDzd").textContent = dzd(total);
-        $("#settingsTotalEur").textContent = eur(totalEur);
+        $("#totalDzd").textContent = dzd(total); $("#totalEur").textContent = eur(totalEur); $("#settingsExpenseCount").textContent = state.expenses.length; $("#settingsTotalDzd").textContent = dzd(total); $("#settingsTotalEur").textContent = eur(totalEur);
         [["#homeTerrain", "Terrain"], ["#homeSupplies", "Fournitures"], ["#homeLabor", "Main-d'œuvre"]].forEach(([selector, category]) => { $(selector).textContent = dzd(state.expenses.filter((expense) => expense.category === category).reduce((sum, expense) => sum + num(expense.dzd), 0)); });
         const recent = [...state.expenses].sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 2);
         $("#recentExpenses").innerHTML = recent.length ? recent.map((expense) => expenseHtml(expense, false)).join("") : '<div class="card empty">Aucune dépense.</div>';
-        renderExpenses(); renderCommitments(); drawExpenseChart(); drawBars();
+        updateExpenseFilterOptions(); renderCategoryOverview(); renderExpenses(); renderCommitments(); drawExpenseChart(); drawBars();
       }
 
       function openExpense(expenseId = "", commitmentId = "") {
@@ -635,29 +546,20 @@
       function updateConversion() { const amount = num($("#expenseAmount").value); const rate = num($("#exchangeRate").value); const currency = $("#expenseCurrency").value; $("#conversionInfo").textContent = amount > 0 && rate > 0 ? (currency === "EUR" ? `${eur(amount)} = ${fmt(amount * rate, 3)} DZD` : `${fmt(amount, 3)} DZD = ${eur(amount / rate)}`) : "Saisissez le montant et le taux."; }
       function updateLimit() { const commitmentId = $("#expenseCommitment").value; const box = $("#paymentLimit"); if (!commitmentId) { box.classList.add("hidden"); return; } box.classList.remove("hidden"); const balance = remaining(commitmentId, $("#expenseId").value); box.textContent = balance <= 0 ? "Somme due entièrement payée." : `Reste maximal autorisé : ${dzd(balance)}`; }
 
-      $("#expenseForm").addEventListener("submit", (event) => {
-        event.preventDefault(); const amount = num($("#expenseAmount").value); const rate = num($("#exchangeRate").value); const currency = $("#expenseCurrency").value; const expenseId = $("#expenseId").value; const commitmentId = $("#expenseCommitment").value; const amountDzd = Math.round((currency === "EUR" ? amount * rate : amount) * 1e6);
-        if (commitmentId && amountDzd > remaining(commitmentId, expenseId)) { alert(`Versement refusé. Reste maximal : ${dzd(remaining(commitmentId, expenseId))}`); return; }
-        const old = state.expenses.find((item) => item.id === expenseId); const object = { id: expenseId || id(), date: $("#expenseDate").value, category: $("#expenseCategory").value, subcategory: $("#expenseSubcategory").value, description: $("#expenseDescription").value.trim(), supplier: $("#expenseSupplier").value.trim(), commitmentId, amount, currency, rate, dzd: amountDzd, eur: currency === "EUR" ? amount : amount / rate, comment: $("#expenseComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() };
-        state.expenses = old ? state.expenses.map((item) => item.id === expenseId ? object : item) : [...state.expenses, object]; save(); $("#expenseModal").classList.remove("open");
-      });
+      $("#expenseForm").addEventListener("submit", (event) => { event.preventDefault(); const amount = num($("#expenseAmount").value); const rate = num($("#exchangeRate").value); const currency = $("#expenseCurrency").value; const expenseId = $("#expenseId").value; const commitmentId = $("#expenseCommitment").value; const amountDzd = Math.round((currency === "EUR" ? amount * rate : amount) * 1e6); if (commitmentId && amountDzd > remaining(commitmentId, expenseId)) { alert(`Versement refusé. Reste maximal : ${dzd(remaining(commitmentId, expenseId))}`); return; } const old = state.expenses.find((item) => item.id === expenseId); const object = { id: expenseId || id(), date: $("#expenseDate").value, category: $("#expenseCategory").value, subcategory: $("#expenseSubcategory").value, description: $("#expenseDescription").value.trim(), supplier: $("#expenseSupplier").value.trim(), commitmentId, amount, currency, rate, dzd: amountDzd, eur: currency === "EUR" ? amount : amount / rate, comment: $("#expenseComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() }; state.expenses = old ? state.expenses.map((item) => item.id === expenseId ? object : item) : [...state.expenses, object]; save(); $("#expenseModal").classList.remove("open"); });
 
-      function openCommitment(commitmentId = "") {
-        $("#commitmentForm").reset(); $("#commitmentId").value = ""; $("#commitmentCategory").value = "Terrain"; updateBens();
-        if (commitmentId) { const commitment = state.commitments.find((item) => item.id === commitmentId); if (!commitment) return; $("#commitmentId").value = commitment.id; $("#commitmentLabel").value = commitment.label; $("#commitmentCategory").value = commitment.category; const known = BENEFICIARIES[commitment.category].includes(commitment.beneficiary); updateBens(known ? commitment.beneficiary : "Autres"); if (!known) $("#customBeneficiary").value = commitment.beneficiary; $("#commitmentAmount").value = (commitment.amountDzd / 1e6).toFixed(3).replace(".", ","); $("#commitmentComment").value = commitment.comment || ""; }
-        $("#commitmentModal").classList.add("open");
-      }
+      function openCommitment(commitmentId = "") { $("#commitmentForm").reset(); $("#commitmentId").value = ""; $("#commitmentCategory").value = "Terrain"; updateBens(); if (commitmentId) { const commitment = state.commitments.find((item) => item.id === commitmentId); if (!commitment) return; $("#commitmentId").value = commitment.id; $("#commitmentLabel").value = commitment.label; $("#commitmentCategory").value = commitment.category; const known = BENEFICIARIES[commitment.category].includes(commitment.beneficiary); updateBens(known ? commitment.beneficiary : "Autres"); if (!known) $("#customBeneficiary").value = commitment.beneficiary; $("#commitmentAmount").value = (commitment.amountDzd / 1e6).toFixed(3).replace(".", ","); $("#commitmentComment").value = commitment.comment || ""; } $("#commitmentModal").classList.add("open"); }
 
-      $("#commitmentForm").addEventListener("submit", (event) => {
-        event.preventDefault(); const raw = $("#commitmentAmount").value.trim().replace(",", "."); if (!/^\d+\.\d{3}$/.test(raw)) { alert("Saisissez exactement 3 décimales."); return; }
-        const commitmentId = $("#commitmentId").value; const old = state.commitments.find((item) => item.id === commitmentId); const amountDzd = Math.round(Number(raw) * 1e6); if (old && amountDzd < paid(commitmentId)) { alert("La somme ne peut pas être inférieure au total versé."); return; }
-        const choice = $("#commitmentBeneficiary").value; const beneficiary = choice === "Autres" ? $("#customBeneficiary").value.trim() : choice; const object = { id: commitmentId || id(), label: $("#commitmentLabel").value.trim(), category: $("#commitmentCategory").value, beneficiary, amountDzd, comment: $("#commitmentComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() };
-        state.commitments = old ? state.commitments.map((item) => item.id === commitmentId ? object : item) : [...state.commitments, object]; save(); $("#commitmentModal").classList.remove("open");
-      });
+      $("#commitmentForm").addEventListener("submit", (event) => { event.preventDefault(); const raw = $("#commitmentAmount").value.trim().replace(",", "."); if (!/^\d+\.\d{3}$/.test(raw)) { alert("Saisissez exactement 3 décimales."); return; } const commitmentId = $("#commitmentId").value; const old = state.commitments.find((item) => item.id === commitmentId); const amountDzd = Math.round(Number(raw) * 1e6); if (old && amountDzd < paid(commitmentId)) { alert("La somme ne peut pas être inférieure au total versé."); return; } const choice = $("#commitmentBeneficiary").value; const beneficiary = choice === "Autres" ? $("#customBeneficiary").value.trim() : choice; const object = { id: commitmentId || id(), label: $("#commitmentLabel").value.trim(), category: $("#commitmentCategory").value, beneficiary, amountDzd, comment: $("#commitmentComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() }; state.commitments = old ? state.commitments.map((item) => item.id === commitmentId ? object : item) : [...state.commitments, object]; save(); $("#commitmentModal").classList.remove("open"); });
 
+      $$(".tab").forEach((tab) => tab.addEventListener("click", () => showPage(tab.dataset.page)));
       $("#expenseList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.editExpense) openExpense(data.editExpense); if (data.deleteExpense && confirm("Supprimer cette dépense ?")) { state.expenses = state.expenses.filter((item) => item.id !== data.deleteExpense); save(); } });
       $("#commitmentList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.addPayment) openExpense("", data.addPayment); if (data.toggleHistory) $(`#history-${data.toggleHistory}`).classList.toggle("hidden"); if (data.editCommitment) openCommitment(data.editCommitment); if (data.deleteCommitment) { if (state.expenses.some((item) => item.commitmentId === data.deleteCommitment)) { alert("Des versements sont associés."); return; } if (confirm("Supprimer cette somme due ?")) { state.commitments = state.commitments.filter((item) => item.id !== data.deleteCommitment); save(); } } });
-
+      ["search", "subcategoryFilter", "currencyFilter", "supplierFilter", "expenseSort", "expenseDateFrom", "expenseDateTo"].forEach((idValue) => $(`#${idValue}`).addEventListener(idValue === "search" ? "input" : "change", renderExpenses));
+      $("#filter").addEventListener("change", () => { updateExpenseFilterOptions(); renderExpenses(); });
+      $("#resetExpenseFilters").addEventListener("click", () => { $("#search").value = ""; $("#filter").value = ""; updateExpenseFilterOptions(); $("#subcategoryFilter").value = ""; $("#currencyFilter").value = ""; $("#supplierFilter").value = ""; $("#expenseSort").value = "date-desc"; $("#expenseDateFrom").value = ""; $("#expenseDateTo").value = ""; renderExpenses(); });
+      $("#chartPeriodButtons").addEventListener("click", (event) => { const button = event.target.closest("[data-period]"); if (!button) return; chartPeriod = button.dataset.period; $("#chartDateFrom").value = ""; $("#chartDateTo").value = ""; $$(".period-button").forEach((item) => item.classList.toggle("active", item === button)); drawExpenseChart(); drawBars(); });
+      ["chartDateFrom", "chartDateTo"].forEach((idValue) => $(`#${idValue}`).addEventListener("change", () => { chartPeriod = "all"; $$(".period-button").forEach((item) => item.classList.toggle("active", item.dataset.period === "all")); drawExpenseChart(); drawBars(); }));
       $("#expenseCategory").addEventListener("change", () => updateSubs());
       $("#commitmentCategory").addEventListener("change", () => updateBens());
       $("#commitmentBeneficiary").addEventListener("change", updateCustom);
@@ -669,261 +571,19 @@
       $("#newCommitment").addEventListener("click", () => openCommitment());
       $("#closeExpense").addEventListener("click", () => $("#expenseModal").classList.remove("open"));
       $("#closeCommitment").addEventListener("click", () => $("#commitmentModal").classList.remove("open"));
-      $("#search").addEventListener("input", renderExpenses);
-      $("#filter").addEventListener("change", renderExpenses);
       $("#commitmentStatusFilter").addEventListener("change", renderCommitments);
       $("#toggleFinishedCommitments").addEventListener("click", () => { finishedCommitmentsCollapsed = !finishedCommitmentsCollapsed; const button = $("#toggleFinishedCommitments"); button.textContent = finishedCommitmentsCollapsed ? "Afficher terminées" : "Masquer terminées"; button.setAttribute("aria-expanded", String(!finishedCommitmentsCollapsed)); renderCommitments(); });
 
-		function download(name, text, type) {
-		  const url = URL.createObjectURL(
-		    new Blob([text], { type })
-		  );
-		
-		  const anchor = document.createElement("a");
-		
-		  anchor.href = url;
-		  anchor.download = name;
-		
-		  document.body.appendChild(anchor);
-		  anchor.click();
-		  anchor.remove();
-		
-		  setTimeout(() => {
-		    URL.revokeObjectURL(url);
-		  }, 1000);
-		}
-		
-		function createSafetyBackup(reason = "securite") {
-		  const hasData =
-		    state.expenses.length > 0 ||
-		    state.commitments.length > 0;
-		
-		  if (!hasData) {
-		    return false;
-		  }
-		
-		  const now = new Date();
-		
-		  const datePart = now
-		    .toISOString()
-		    .slice(0, 19)
-		    .replace(/:/g, "-");
-		
-		  const fileName =
-		    `DarFiKhoriba_${reason}_${datePart}.json`;
-		
-		  const backup = {
-		    backupDate: now.toISOString(),
-		    backupReason: reason,
-		    expenses: state.expenses,
-		    commitments: state.commitments
-		  };
-		
-		  download(
-		    fileName,
-		    JSON.stringify(backup, null, 2),
-		    "application/json"
-		  );
-		
-		  return true;
-		}
-		
-		$("#exportJsonButton").addEventListener(
-		  "click",
-		  () => {
-		    const now = new Date();
-		
-		    const exportData = {
-		      backupDate: now.toISOString(),
-		      backupReason: "export_manuel",
-		      expenses: state.expenses,
-		      commitments: state.commitments
-		    };
-		
-		    download(
-		      "DarFiKhoriba_sauvegarde.json",
-		      JSON.stringify(exportData, null, 2),
-		      "application/json"
-		    );
-		  }
-		);
-		
-		$("#exportCsvButton").addEventListener(
-		  "click",
-		  () => {
-		    const rows = state.expenses.map((expense) => {
-		      return [
-		        expense.date,
-		        expense.category,
-		        expense.subcategory,
-		        expense.description,
-		        expense.supplier,
-		        expense.dzd,
-		        expense.eur
-		      ]
-		        .map((value) => {
-		          return `"${String(value ?? "")
-		            .replace(/"/g, '""')}"`;
-		        })
-		        .join(";");
-		    });
-		
-		    const header =
-		      '\ufeff"date";"categorie";' +
-		      '"sous_categorie";"description";' +
-		      '"beneficiaire";"montant_dzd";' +
-		      '"montant_eur"\n';
-		
-		    download(
-		      "DarFiKhoriba_depenses.csv",
-		      header + rows.join("\n"),
-		      "text/csv"
-		    );
-		  }
-		);
-		
-		$("#importJsonButton").addEventListener(
-		  "click",
-		  () => {
-		    $("#importJsonFile").click();
-		  }
-		);
-		
-		$("#importJsonFile").addEventListener(
-		  "change",
-		  async (event) => {
-		    const file = event.target.files?.[0];
-		
-		    if (!file) {
-		      return;
-		    }
-		
-		    try {
-		      const imported = JSON.parse(
-		        await file.text()
-		      );
-		
-		      if (
-		        !Array.isArray(imported.expenses) ||
-		        !Array.isArray(imported.commitments)
-		      ) {
-		        throw new Error(
-		          "Le fichier ne contient pas les tableaux requis."
-		        );
-		      }
-		
-		      const confirmed = confirm(
-		        "Remplacer toutes les données actuelles ?\n\n" +
-		        "Une sauvegarde JSON des données actuelles " +
-		        "sera téléchargée avant l'import."
-		      );
-		
-		      if (!confirmed) {
-		        event.target.value = "";
-		        return;
-		      }
-		
-		      const backupCreated =
-		        createSafetyBackup("avant_import");
-		
-		      /*
-		       * Petit délai destiné à laisser le navigateur
-		       * lancer le téléchargement avant le remplacement.
-		       */
-		      if (backupCreated) {
-		        await new Promise((resolve) => {
-		          setTimeout(resolve, 350);
-		        });
-		      }
-		
-		      state = {
-		        expenses: imported.expenses,
-		        commitments: imported.commitments
-		      };
-		
-		      save();
-		
-		      alert(
-		        backupCreated
-		          ? "Import terminé.\n\n" +
-		            "La sauvegarde des anciennes données " +
-		            "a été téléchargée."
-		          : "Import terminé.\n\n" +
-		            "Aucune ancienne donnée n'était à sauvegarder."
-		      );
-		    } catch (error) {
-		      console.error(error);
-		
-		      alert(
-		        "Fichier JSON invalide.\n\n" +
-		        "Aucune donnée actuelle n'a été modifiée."
-		      );
-		    } finally {
-		      event.target.value = "";
-		    }
-		  }
-		);
-		
-		$("#clearDataButton").addEventListener(
-		  "click",
-		  async () => {
-		    const hasData =
-		      state.expenses.length > 0 ||
-		      state.commitments.length > 0;
-		
-		    if (!hasData) {
-		      alert("Il n'y a aucune donnée à effacer.");
-		      return;
-		    }
-		
-		    const confirmed = confirm(
-		      "Supprimer définitivement toutes les données ?\n\n" +
-		      "Une sauvegarde JSON sera téléchargée " +
-		      "avant l'effacement."
-		    );
-		
-		    if (!confirmed) {
-		      return;
-		    }
-		
-		    const backupCreated =
-		      createSafetyBackup("avant_effacement");
-		
-		    if (!backupCreated) {
-		      alert(
-		        "La sauvegarde n'a pas pu être préparée. " +
-		        "L'effacement est annulé."
-		      );
-		
-		      return;
-		    }
-		
-		    /*
-		     * Le court délai laisse le temps au navigateur
-		     * de démarrer le téléchargement.
-		     */
-		    await new Promise((resolve) => {
-		      setTimeout(resolve, 350);
-		    });
-		
-		    state = structuredClone(DEFAULT_STATE);
-		
-		    save();
-		
-		    alert(
-		      "Toutes les données ont été effacées.\n\n" +
-		      "La sauvegarde de sécurité a été téléchargée."
-		    );
-		  }
-		);
-
+      function download(name, text, type) { const url = URL.createObjectURL(new Blob([text], { type })); const anchor = document.createElement("a"); anchor.href = url; anchor.download = name; document.body.appendChild(anchor); anchor.click(); anchor.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
+      function createSafetyBackup(reason = "securite") { if (!state.expenses.length && !state.commitments.length) return false; const now = new Date(); const datePart = now.toISOString().slice(0, 19).replace(/:/g, "-"); download(`DarFiKhoriba_${reason}_${datePart}.json`, JSON.stringify({ backupDate: now.toISOString(), backupReason: reason, expenses: state.expenses, commitments: state.commitments }, null, 2), "application/json"); return true; }
+      $("#exportJsonButton").addEventListener("click", () => download("DarFiKhoriba_sauvegarde.json", JSON.stringify({ backupDate: new Date().toISOString(), backupReason: "export_manuel", expenses: state.expenses, commitments: state.commitments }, null, 2), "application/json"));
+      $("#exportCsvButton").addEventListener("click", () => { const rows = state.expenses.map((expense) => [expense.date, expense.category, expense.subcategory, expense.description, expense.supplier, expense.dzd, expense.eur].map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`).join(";")); download("DarFiKhoriba_depenses.csv", '\ufeff"date";"categorie";"sous_categorie";"description";"beneficiaire";"montant_dzd";"montant_eur"\n' + rows.join("\n"), "text/csv"); });
+      $("#importJsonButton").addEventListener("click", () => $("#importJsonFile").click());
+      $("#importJsonFile").addEventListener("change", async (event) => { const file = event.target.files?.[0]; if (!file) return; try { const imported = JSON.parse(await file.text()); if (!Array.isArray(imported.expenses) || !Array.isArray(imported.commitments)) throw new Error(); if (!confirm("Remplacer toutes les données actuelles ?\n\nUne sauvegarde JSON sera téléchargée avant l'import.")) return; const backupCreated = createSafetyBackup("avant_import"); if (backupCreated) await new Promise((resolve) => setTimeout(resolve, 350)); state = { expenses: imported.expenses, commitments: imported.commitments }; save(); alert(backupCreated ? "Import terminé. La sauvegarde des anciennes données a été téléchargée." : "Import terminé."); } catch (error) { console.error(error); alert("Fichier JSON invalide. Aucune donnée n'a été modifiée."); } finally { event.target.value = ""; } });
+      $("#clearDataButton").addEventListener("click", async () => { if (!state.expenses.length && !state.commitments.length) { alert("Il n'y a aucune donnée à effacer."); return; } if (!confirm("Supprimer définitivement toutes les données ?\n\nUne sauvegarde JSON sera téléchargée avant l'effacement.")) return; if (!createSafetyBackup("avant_effacement")) return; await new Promise((resolve) => setTimeout(resolve, 350)); state = structuredClone(DEFAULT_STATE); save(); alert("Toutes les données ont été effacées. La sauvegarde de sécurité a été téléchargée."); });
       window.addEventListener("resize", () => { clearTimeout(chartResizeTimer); chartResizeTimer = setTimeout(() => { if ($("#charts").classList.contains("active")) drawExpenseChart(); }, 150); });
 
-      updateSubs();
-		updateBens();
-		updateCommitmentOptions();
-		updateLastSaveDisplay();
-		render();
+      updateSubs(); updateBens(); updateCommitmentOptions(); updateExpenseFilterOptions(); updateLastSaveDisplay(); render();
     })();
   </script>
 
