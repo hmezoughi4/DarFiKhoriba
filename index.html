@@ -67,7 +67,7 @@
     .expense .content { min-width: 0; flex: 1; overflow: hidden; }
     .expense .content > b, .expense .small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .expense .amount { max-width: 42%; flex: 0 0 auto; text-align: right; white-space: nowrap; }
-    .toolbar { display: grid; grid-template-columns: minmax(0, 1fr) 140px; gap: 8px; margin-bottom: 10px; }
+    .toolbar { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(120px, 0.9fr) minmax(120px, 0.9fr); gap: 8px; margin-bottom: 10px; }
     .advanced-toolbar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
     .filter-dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
     input, select, textarea { width: 100%; min-width: 0; padding: 13px; border: 1px solid #cbd5e1; border-radius: 12px; background: #ffffff; color: var(--text); font-size: 17px; }
@@ -153,11 +153,12 @@
       .commitment-toolbar select, .commitment-toolbar .button { font-size: 13px; }
       .chart-container { min-height: 270px; }
       .expense-chart-svg { min-width: 470px; }
-      .summary-card { grid-template-columns: 1fr; }
+      .toolbar { grid-template-columns: minmax(0, 1.25fr) minmax(105px, 0.8fr) minmax(105px, 0.8fr); gap: 6px; }
+      .toolbar input, .toolbar select { padding: 11px 9px; font-size: 14px; }
     }
 
     @media (max-width: 350px) {
-      .grid2, .grid3, .toolbar, .advanced-toolbar, .filter-dates, .settings-grid, .commitment-toolbar { display: grid; grid-template-columns: 1fr; }
+      .grid2, .grid3, .filter-dates, .settings-grid, .commitment-toolbar { display: grid; grid-template-columns: 1fr; }
       .commitment-toolbar .button { width: 100%; }
     }
   </style>
@@ -194,29 +195,46 @@
     </section>
 
     <section class="page" id="expenses">
-      <div class="section-title"><h2>Dépenses</h2><strong id="expenseCount">0</strong></div>
-      <div class="card category-overview" id="categoryOverview"></div>
-      <div class="toolbar mt">
+      <div class="section-title">
+        <h2>Dépenses</h2>
+        <strong id="expenseCount">0</strong>
+      </div>
+
+      <div class="toolbar">
         <input id="search" type="search" placeholder="Rechercher…">
-        <select id="filter"><option value="">Toutes les catégories</option><option>Terrain</option><option>Fournitures</option><option>Main-d'œuvre</option><option>Autres</option></select>
+
+        <select id="filter" aria-label="Filtrer par catégorie">
+          <option value="">Toutes les catégories</option>
+          <option>Terrain</option>
+          <option>Fournitures</option>
+          <option>Main-d'œuvre</option>
+          <option>Autres</option>
+        </select>
+
+        <select id="expenseSort" aria-label="Trier les dépenses">
+          <option value="date-desc">Plus récent</option>
+          <option value="date-asc">Plus ancien</option>
+          <option value="amount-desc">Montant décroissant</option>
+          <option value="amount-asc">Montant croissant</option>
+        </select>
       </div>
-      <div class="advanced-toolbar">
-        <select id="subcategoryFilter"><option value="">Toutes les sous-catégories</option></select>
-        <select id="currencyFilter"><option value="">Toutes les devises</option><option value="DZD">DZD</option><option value="EUR">EUR</option></select>
-        <select id="supplierFilter"><option value="">Tous les bénéficiaires</option></select>
-        <select id="expenseSort"><option value="date-desc">Plus récent</option><option value="date-asc">Plus ancien</option><option value="amount-desc">Montant décroissant</option><option value="amount-asc">Montant croissant</option></select>
-      </div>
+
       <div class="filter-dates">
-        <div><label for="expenseDateFrom">Du</label><input id="expenseDateFrom" type="date"></div>
-        <div><label for="expenseDateTo">Au</label><input id="expenseDateTo" type="date"></div>
+        <div>
+          <label for="expenseDateFrom">Du</label>
+          <input id="expenseDateFrom" type="date">
+        </div>
+        <div>
+          <label for="expenseDateTo">Au</label>
+          <input id="expenseDateTo" type="date">
+        </div>
       </div>
-      <button class="button button-line wide" id="resetExpenseFilters" type="button">Réinitialiser les filtres</button>
-      <div class="summary-card mt">
-        <div class="summary-cell"><div class="small muted">Résultats</div><strong id="filteredExpenseCount">0</strong></div>
-        <div class="summary-cell"><div class="small muted">Total DZD</div><strong id="filteredTotalDzd">0,000 DZD</strong></div>
-        <div class="summary-cell"><div class="small muted">Total EUR</div><strong id="filteredTotalEur">0,00 €</strong></div>
-      </div>
-      <div class="list" id="expenseList"></div>
+
+      <button class="button button-line wide" id="resetExpenseFilters" type="button">
+        Réinitialiser les filtres
+      </button>
+
+      <div class="list mt" id="expenseList"></div>
     </section>
 
     <section class="page" id="charts">
@@ -418,16 +436,7 @@
       }
 
       function updateExpenseFilterOptions() {
-        const currentSubcategory = $("#subcategoryFilter").value;
-        const currentSupplier = $("#supplierFilter").value;
-        const category = $("#filter").value;
-        const source = category ? state.expenses.filter((expense) => expense.category === category) : state.expenses;
-        const subcategories = [...new Set(source.map((expense) => expense.subcategory).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
-        const suppliers = [...new Set(state.expenses.map((expense) => expense.supplier).filter(Boolean))].sort((a, b) => a.localeCompare(b, "fr"));
-        $("#subcategoryFilter").innerHTML = '<option value="">Toutes les sous-catégories</option>' + subcategories.map((item) => `<option value="${esc(item)}">${esc(item)}</option>`).join("");
-        $("#supplierFilter").innerHTML = '<option value="">Tous les bénéficiaires</option>' + suppliers.map((item) => `<option value="${esc(item)}">${esc(item)}</option>`).join("");
-        if (subcategories.includes(currentSubcategory)) $("#subcategoryFilter").value = currentSubcategory;
-        if (suppliers.includes(currentSupplier)) $("#supplierFilter").value = currentSupplier;
+        // Aucun filtre secondaire à alimenter dans la vue simplifiée.
       }
 
       function status(progress) {
@@ -442,29 +451,52 @@
         return `<article class="card expense"><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(expense.date)} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}${actions ? `<div class="row-actions"><button data-edit-expense="${expense.id}">Modifier</button><button data-delete-expense="${expense.id}">Supprimer</button></div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
       }
 
-      function renderCategoryOverview() {
-        const categories = Object.keys(ICONS);
-        $("#categoryOverview").innerHTML = `<strong>Totaux par catégorie</strong>${categories.map((category) => { const total = state.expenses.filter((expense) => expense.category === category).reduce((sum, expense) => sum + num(expense.dzd), 0); const count = state.expenses.filter((expense) => expense.category === category).length; return `<div class="category-row"><div class="category-head"><span>${ICONS[category]} ${esc(category)}</span><strong>${dzd(total)}</strong></div><div class="small muted">${count} dépense${count > 1 ? "s" : ""}</div></div>`; }).join("")}`;
-      }
-
       function renderExpenses() {
         const query = $("#search").value.trim().toLowerCase();
         const category = $("#filter").value;
-        const subcategory = $("#subcategoryFilter").value;
-        const currency = $("#currencyFilter").value;
-        const supplier = $("#supplierFilter").value;
         const from = $("#expenseDateFrom").value;
         const to = $("#expenseDateTo").value;
         const sort = $("#expenseSort").value;
-        let expenses = state.expenses.filter((expense) => (!category || expense.category === category) && (!subcategory || expense.subcategory === subcategory) && (!currency || expense.currency === currency) && (!supplier || expense.supplier === supplier) && (!from || expense.date >= from) && (!to || expense.date <= to) && (!query || [expense.description, expense.supplier, expense.subcategory, expense.comment].join(" ").toLowerCase().includes(query)));
-        expenses.sort((a, b) => sort === "date-asc" ? String(a.date).localeCompare(String(b.date)) : sort === "amount-desc" ? num(b.dzd) - num(a.dzd) : sort === "amount-asc" ? num(a.dzd) - num(b.dzd) : String(b.date).localeCompare(String(a.date)));
-        const totalDzd = expenses.reduce((sum, expense) => sum + num(expense.dzd), 0);
-        const totalEur = expenses.reduce((sum, expense) => sum + num(expense.eur), 0);
-        $("#expenseCount").textContent = state.expenses.length;
-        $("#filteredExpenseCount").textContent = expenses.length;
-        $("#filteredTotalDzd").textContent = dzd(totalDzd);
-        $("#filteredTotalEur").textContent = eur(totalEur);
-        $("#expenseList").innerHTML = expenses.length ? expenses.map((expense) => expenseHtml(expense)).join("") : '<div class="card empty">Aucune dépense pour ces filtres.</div>';
+
+        let expenses = state.expenses.filter((expense) => {
+          const searchableText = [
+            expense.description,
+            expense.supplier,
+            expense.subcategory,
+            expense.comment
+          ]
+            .join(" ")
+            .toLowerCase();
+
+          return (
+            (!category || expense.category === category) &&
+            (!from || expense.date >= from) &&
+            (!to || expense.date <= to) &&
+            (!query || searchableText.includes(query))
+          );
+        });
+
+        expenses.sort((a, b) => {
+          if (sort === "date-asc") {
+            return String(a.date).localeCompare(String(b.date));
+          }
+
+          if (sort === "amount-desc") {
+            return num(b.dzd) - num(a.dzd);
+          }
+
+          if (sort === "amount-asc") {
+            return num(a.dzd) - num(b.dzd);
+          }
+
+          return String(b.date).localeCompare(String(a.date));
+        });
+
+        $("#expenseCount").textContent = expenses.length;
+
+        $("#expenseList").innerHTML = expenses.length
+          ? expenses.map((expense) => expenseHtml(expense)).join("")
+          : '<div class="card empty">Aucune dépense pour ces filtres.</div>';
       }
 
       function renderCommitments() {
@@ -533,7 +565,7 @@
         [["#homeTerrain", "Terrain"], ["#homeSupplies", "Fournitures"], ["#homeLabor", "Main-d'œuvre"]].forEach(([selector, category]) => { $(selector).textContent = dzd(state.expenses.filter((expense) => expense.category === category).reduce((sum, expense) => sum + num(expense.dzd), 0)); });
         const recent = [...state.expenses].sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 2);
         $("#recentExpenses").innerHTML = recent.length ? recent.map((expense) => expenseHtml(expense, false)).join("") : '<div class="card empty">Aucune dépense.</div>';
-        updateExpenseFilterOptions(); renderCategoryOverview(); renderExpenses(); renderCommitments(); drawExpenseChart(); drawBars();
+        renderExpenses(); renderCommitments(); drawExpenseChart(); drawBars();
       }
 
       function openExpense(expenseId = "", commitmentId = "") {
@@ -555,9 +587,23 @@
       $$(".tab").forEach((tab) => tab.addEventListener("click", () => showPage(tab.dataset.page)));
       $("#expenseList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.editExpense) openExpense(data.editExpense); if (data.deleteExpense && confirm("Supprimer cette dépense ?")) { state.expenses = state.expenses.filter((item) => item.id !== data.deleteExpense); save(); } });
       $("#commitmentList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.addPayment) openExpense("", data.addPayment); if (data.toggleHistory) $(`#history-${data.toggleHistory}`).classList.toggle("hidden"); if (data.editCommitment) openCommitment(data.editCommitment); if (data.deleteCommitment) { if (state.expenses.some((item) => item.commitmentId === data.deleteCommitment)) { alert("Des versements sont associés."); return; } if (confirm("Supprimer cette somme due ?")) { state.commitments = state.commitments.filter((item) => item.id !== data.deleteCommitment); save(); } } });
-      ["search", "subcategoryFilter", "currencyFilter", "supplierFilter", "expenseSort", "expenseDateFrom", "expenseDateTo"].forEach((idValue) => $(`#${idValue}`).addEventListener(idValue === "search" ? "input" : "change", renderExpenses));
-      $("#filter").addEventListener("change", () => { updateExpenseFilterOptions(); renderExpenses(); });
-      $("#resetExpenseFilters").addEventListener("click", () => { $("#search").value = ""; $("#filter").value = ""; updateExpenseFilterOptions(); $("#subcategoryFilter").value = ""; $("#currencyFilter").value = ""; $("#supplierFilter").value = ""; $("#expenseSort").value = "date-desc"; $("#expenseDateFrom").value = ""; $("#expenseDateTo").value = ""; renderExpenses(); });
+      ["search", "expenseSort", "expenseDateFrom", "expenseDateTo"].forEach((idValue) => {
+        $(`#${idValue}`).addEventListener(
+          idValue === "search" ? "input" : "change",
+          renderExpenses
+        );
+      });
+
+      $("#filter").addEventListener("change", renderExpenses);
+
+      $("#resetExpenseFilters").addEventListener("click", () => {
+        $("#search").value = "";
+        $("#filter").value = "";
+        $("#expenseSort").value = "date-desc";
+        $("#expenseDateFrom").value = "";
+        $("#expenseDateTo").value = "";
+        renderExpenses();
+      });
       $("#chartPeriodButtons").addEventListener("click", (event) => { const button = event.target.closest("[data-period]"); if (!button) return; chartPeriod = button.dataset.period; $("#chartDateFrom").value = ""; $("#chartDateTo").value = ""; $$(".period-button").forEach((item) => item.classList.toggle("active", item === button)); drawExpenseChart(); drawBars(); });
       ["chartDateFrom", "chartDateTo"].forEach((idValue) => $(`#${idValue}`).addEventListener("change", () => { chartPeriod = "all"; $$(".period-button").forEach((item) => item.classList.toggle("active", item.dataset.period === "all")); drawExpenseChart(); drawBars(); }));
       $("#expenseCategory").addEventListener("change", () => updateSubs());
@@ -583,7 +629,7 @@
       $("#clearDataButton").addEventListener("click", async () => { if (!state.expenses.length && !state.commitments.length) { alert("Il n'y a aucune donnée à effacer."); return; } if (!confirm("Supprimer définitivement toutes les données ?\n\nUne sauvegarde JSON sera téléchargée avant l'effacement.")) return; if (!createSafetyBackup("avant_effacement")) return; await new Promise((resolve) => setTimeout(resolve, 350)); state = structuredClone(DEFAULT_STATE); save(); alert("Toutes les données ont été effacées. La sauvegarde de sécurité a été téléchargée."); });
       window.addEventListener("resize", () => { clearTimeout(chartResizeTimer); chartResizeTimer = setTimeout(() => { if ($("#charts").classList.contains("active")) drawExpenseChart(); }, 150); });
 
-      updateSubs(); updateBens(); updateCommitmentOptions(); updateExpenseFilterOptions(); updateLastSaveDisplay(); render();
+      updateSubs(); updateBens(); updateCommitmentOptions(); updateLastSaveDisplay(); render();
     })();
   </script>
 
