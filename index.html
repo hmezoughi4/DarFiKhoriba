@@ -1,499 +1,500 @@
 <!DOCTYPE html>
 <html lang="fr">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-  <meta content="#0f766e" name="theme-color"/>
-  <meta content="yes" name="mobile-web-app-capable"/>
-  <title>
-   DarFiKhoriba
-  </title>
-  <link href="./manifest.json" rel="manifest"/>
-  <link href="./home-192.png" rel="apple-touch-icon"/>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>DarFiKhoriba</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./home-192.png">
+
   <style>
-   :root{--background:#f1f5f9;--card:#fff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--primary:#0f766e;--primary-light:#14b8a6;--danger:#dc2626;--start-t:#b91c1c;--start-b:#fee2e2;--progress-t:#a16207;--progress-b:#fef3c7;--done-t:#15803d;--done-b:#dcfce7;--shadow:0 8px 25px rgba(15,23,42,.08)}
-    *{box-sizing:border-box}html,body{width:100%;max-width:100%;overflow-x:hidden}body{margin:0;background:var(--background);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:17px}button,input,select,textarea{max-width:100%;font:inherit}button{cursor:pointer}.app{width:100%;max-width:560px;min-height:100vh;margin:0 auto;padding:18px 16px 105px;overflow-x:hidden}.top,.section-title,.bar-label{display:flex;min-width:0;align-items:center;justify-content:space-between;gap:10px}.top{margin-bottom:16px}.top>div:first-child{min-width:0;flex:1}.eyebrow{overflow:hidden;color:var(--muted);font-size:13px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}.top h1{margin:3px 0;font-size:25px}.logo{display:grid;width:48px;height:48px;flex:0 0 48px;place-items:center;border-radius:16px;background:linear-gradient(135deg,var(--primary),var(--primary-light));box-shadow:var(--shadow);font-size:27px}.card{width:100%;min-width:0;padding:16px;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:var(--shadow)}.hero{border:0;background:linear-gradient(135deg,#0f766e,#115e59);color:#fff}.hero .muted{color:#ccfbf1}.big{margin:5px 0;overflow-wrap:anywhere;font-size:32px;font-weight:900}.small{font-size:14px}.muted{color:var(--muted)}.mt{margin-top:12px}.grid2,.grid3{display:grid;width:100%;min-width:0;gap:10px}.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.section-title{margin:20px 2px 10px}.section-title h2{margin:0;font-size:20px}.stat strong{display:block;margin-top:5px;overflow-wrap:anywhere;font-size:17px;line-height:1.25}.button{padding:12px 14px;border:0;border-radius:13px;font-size:16px;font-weight:800}.button-primary{background:var(--primary);color:#fff}.button-soft{background:#ccfbf1;color:#115e59}.button-line{border:1px solid var(--line);background:#fff;color:var(--text)}.button-danger{background:#fee2e2;color:#991b1b}.wide{width:100%}.page{display:none;width:100%;min-width:0}.page.active{display:block}.list{display:grid;width:100%;min-width:0;gap:10px}.expense{display:flex;width:100%;min-width:0;align-items:center;gap:10px}.expense .icon{display:grid;width:44px;height:44px;flex:0 0 44px;place-items:center;border-radius:14px;background:#f0fdfa;font-size:21px}.expense .content{min-width:0;flex:1;overflow:hidden}.expense .content>b,.expense .small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.expense .amount{max-width:42%;flex:0 0 auto;text-align:right;white-space:nowrap}.toolbar{display:grid;grid-template-columns:minmax(0,1fr) 140px;gap:8px;margin-bottom:12px}input,select,textarea{width:100%;min-width:0;padding:13px;border:1px solid #cbd5e1;border-radius:12px;background:#fff;color:var(--text);font-size:17px}label{display:block;margin-bottom:6px;color:#475569;font-size:14px;font-weight:800}.field{margin-bottom:12px}.modal{position:fixed;z-index:10;inset:0;display:none;align-items:flex-end;justify-content:center;background:rgba(15,23,42,.55)}.modal.open{display:flex}.sheet{width:min(100%,560px);max-height:92vh;overflow-y:auto;padding:18px 16px calc(18px + env(safe-area-inset-bottom));border-radius:24px 24px 0 0;background:#fff}.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.sheet-head h2{margin:0}.close{width:36px;height:36px;border:0;border-radius:50%;background:#e2e8f0;font-size:20px}.information{margin-bottom:12px;padding:12px;border-radius:12px;background:#f0fdfa;color:#115e59;font-weight:700}.row-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}.row-actions button{padding:7px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;font-size:13px}.commitment-top{display:flex;width:100%;min-width:0;align-items:flex-start;justify-content:space-between;gap:12px}.commitment-title{min-width:0;flex:1}.commitment-title strong{display:block;overflow-wrap:anywhere}.status-badge{flex:0 0 auto;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900;white-space:nowrap}.status-start{background:var(--start-b);color:var(--start-t)}.status-progress{background:var(--progress-b);color:var(--progress-t)}.status-done{background:var(--done-b);color:var(--done-t)}.progress-section{margin-top:14px}.progress-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}.progress-label{color:var(--muted);font-size:13px}.progress-percentage{font-size:15px;font-weight:900}.bar{width:100%;height:14px;overflow:hidden;border-radius:999px;background:#eef2f7;box-shadow:inset 0 1px 2px rgba(15,23,42,.08)}.bar i{display:block;height:100%;border-radius:inherit}.history{margin-top:12px;padding-top:8px;border-top:1px solid var(--line)}.payment-row{display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}.payment-row>*{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.settings-notice{padding:12px;border-radius:12px;background:#fff7ed;color:#9a3412;font-size:13px}.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.settings-details{display:grid;gap:10px;margin-top:12px}.settings-detail{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.commitment-toolbar{display:flex;width:100%;align-items:center;gap:8px;margin-bottom:12px}.commitment-toolbar select{flex:1;padding:11px 38px 11px 12px;font-size:14px;font-weight:700}.commitment-toolbar .button{flex:0 0 auto;padding:11px 12px;font-size:14px;white-space:nowrap}.commitment-collapsible{width:100%;min-width:0}.commitment-card.collapsed{padding:14px;border-color:#bbf7d0;background:#f8fffa}.commitment-card.collapsed .commitment-collapsible{display:none}.tabs{position:fixed;z-index:4;bottom:0;left:50%;display:grid;width:min(100%,560px);grid-template-columns:repeat(5,minmax(0,1fr));transform:translateX(-50%);border-top:1px solid var(--line);background:rgba(255,255,255,.97);padding:7px 4px calc(7px + env(safe-area-inset-bottom))}.tab{min-width:0;padding:6px 1px;overflow:hidden;border:0;background:transparent;color:var(--muted);font-size:10px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}.tab span{display:block;font-size:19px}.tab.active{color:var(--primary)}.floating-button{position:fixed;z-index:5;right:max(20px,calc((100vw - 560px)/2 + 20px));bottom:88px;width:58px;height:58px;border:0;border-radius:50%;background:var(--primary);color:#fff;font-size:30px}.hidden{display:none!important}.empty{padding:24px;color:var(--muted);text-align:center}
-    @media(max-width:480px){.app{padding-left:12px;padding-right:12px}.card{padding:14px}.grid3{gap:7px}.stat{padding:12px 8px}.stat strong{font-size:15px}.status-badge{padding:5px 8px;font-size:11px}.commitment-toolbar select,.commitment-toolbar .button{font-size:13px}}
-    @media(max-width:350px){.grid2,.grid3,.toolbar,.settings-grid,.commitment-toolbar{grid-template-columns:1fr;display:grid}.commitment-toolbar .button{width:100%}}
+    :root {
+      --background: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --primary: #0f766e;
+      --primary-light: #14b8a6;
+      --danger: #dc2626;
+      --start-t: #b91c1c;
+      --start-b: #fee2e2;
+      --progress-t: #a16207;
+      --progress-b: #fef3c7;
+      --done-t: #15803d;
+      --done-b: #dcfce7;
+      --shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+    body { margin: 0; background: var(--background); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 17px; }
+    button, input, select, textarea { max-width: 100%; font: inherit; }
+    button { cursor: pointer; }
+    .app { width: 100%; max-width: 560px; min-height: 100vh; margin: 0 auto; padding: 18px 16px 105px; overflow-x: hidden; }
+    .top, .section-title, .bar-label { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 10px; }
+    .top { margin-bottom: 16px; }
+    .top > div:first-child { min-width: 0; flex: 1; }
+    .eyebrow { overflow: hidden; color: var(--muted); font-size: 13px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+    .top h1 { margin: 3px 0; font-size: 25px; }
+    .logo { display: grid; width: 48px; height: 48px; flex: 0 0 48px; place-items: center; border-radius: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); box-shadow: var(--shadow); font-size: 27px; }
+    .card { width: 100%; min-width: 0; padding: 16px; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
+    .hero { border: 0; background: linear-gradient(135deg, #0f766e, #115e59); color: #ffffff; }
+    .hero .muted { color: #ccfbf1; }
+    .big { margin: 5px 0; overflow-wrap: anywhere; font-size: 32px; font-weight: 900; }
+    .small { font-size: 14px; }
+    .muted { color: var(--muted); }
+    .mt { margin-top: 12px; }
+    .grid2, .grid3 { display: grid; width: 100%; min-width: 0; gap: 10px; }
+    .grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .section-title { margin: 20px 2px 10px; }
+    .section-title h2 { margin: 0; font-size: 20px; }
+    .stat strong { display: block; margin-top: 5px; overflow-wrap: anywhere; font-size: 17px; line-height: 1.25; }
+    .button { padding: 12px 14px; border: 0; border-radius: 13px; font-size: 16px; font-weight: 800; }
+    .button-primary { background: var(--primary); color: #ffffff; }
+    .button-soft { background: #ccfbf1; color: #115e59; }
+    .button-line { border: 1px solid var(--line); background: #ffffff; color: var(--text); }
+    .button-danger { background: #fee2e2; color: #991b1b; }
+    .wide { width: 100%; }
+    .page { display: none; width: 100%; min-width: 0; }
+    .page.active { display: block; }
+    .list { display: grid; width: 100%; min-width: 0; gap: 10px; }
+    .expense { display: flex; width: 100%; min-width: 0; align-items: center; gap: 10px; }
+    .expense .icon { display: grid; width: 44px; height: 44px; flex: 0 0 44px; place-items: center; border-radius: 14px; background: #f0fdfa; font-size: 21px; }
+    .expense .content { min-width: 0; flex: 1; overflow: hidden; }
+    .expense .content > b, .expense .small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .expense .amount { max-width: 42%; flex: 0 0 auto; text-align: right; white-space: nowrap; }
+    .toolbar { display: grid; grid-template-columns: minmax(0, 1fr) 140px; gap: 8px; margin-bottom: 12px; }
+    input, select, textarea { width: 100%; min-width: 0; padding: 13px; border: 1px solid #cbd5e1; border-radius: 12px; background: #ffffff; color: var(--text); font-size: 17px; }
+    label { display: block; margin-bottom: 6px; color: #475569; font-size: 14px; font-weight: 800; }
+    .field { margin-bottom: 12px; }
+    .modal { position: fixed; z-index: 10; inset: 0; display: none; align-items: flex-end; justify-content: center; background: rgba(15, 23, 42, 0.55); }
+    .modal.open { display: flex; }
+    .sheet { width: min(100%, 560px); max-height: 92vh; overflow-y: auto; padding: 18px 16px calc(18px + env(safe-area-inset-bottom)); border-radius: 24px 24px 0 0; background: #ffffff; }
+    .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+    .sheet-head h2 { margin: 0; }
+    .close { width: 36px; height: 36px; border: 0; border-radius: 50%; background: #e2e8f0; font-size: 20px; }
+    .information { margin-bottom: 12px; padding: 12px; border-radius: 12px; background: #f0fdfa; color: #115e59; font-weight: 700; }
+    .row-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 9px; }
+    .row-actions button { padding: 7px 10px; border: 1px solid var(--line); border-radius: 9px; background: #ffffff; font-size: 13px; }
+    .commitment-top { display: flex; width: 100%; min-width: 0; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .commitment-title { min-width: 0; flex: 1; }
+    .commitment-title strong { display: block; overflow-wrap: anywhere; }
+    .status-badge { flex: 0 0 auto; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 900; white-space: nowrap; }
+    .status-start { background: var(--start-b); color: var(--start-t); }
+    .status-progress { background: var(--progress-b); color: var(--progress-t); }
+    .status-done { background: var(--done-b); color: var(--done-t); }
+    .progress-section { margin-top: 14px; }
+    .progress-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 7px; }
+    .progress-label { color: var(--muted); font-size: 13px; }
+    .progress-percentage { font-size: 15px; font-weight: 900; }
+    .bar { width: 100%; height: 14px; overflow: hidden; border-radius: 999px; background: #eef2f7; box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.08); }
+    .bar i { display: block; height: 100%; border-radius: inherit; }
+    .history { margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--line); }
+    .payment-row { display: grid; grid-template-columns: 88px minmax(0, 1fr) auto; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .payment-row > * { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .settings-notice { padding: 12px; border-radius: 12px; background: #fff7ed; color: #9a3412; font-size: 13px; }
+    .settings-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .commitment-toolbar { display: flex; width: 100%; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .commitment-toolbar select { flex: 1; padding: 11px 38px 11px 12px; font-size: 14px; font-weight: 700; }
+    .commitment-toolbar .button { flex: 0 0 auto; padding: 11px 12px; font-size: 14px; white-space: nowrap; }
+    .commitment-card.collapsed { padding: 14px; border-color: #bbf7d0; background: #f8fffa; }
+    .commitment-card.collapsed .commitment-collapsible { display: none; }
+    .tabs { position: fixed; z-index: 4; bottom: 0; left: 50%; display: grid; width: min(100%, 560px); grid-template-columns: repeat(5, minmax(0, 1fr)); transform: translateX(-50%); border-top: 1px solid var(--line); background: rgba(255, 255, 255, 0.97); padding: 7px 4px calc(7px + env(safe-area-inset-bottom)); }
+    .tab { min-width: 0; padding: 6px 1px; overflow: hidden; border: 0; background: transparent; color: var(--muted); font-size: 10px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+    .tab span { display: block; font-size: 19px; }
+    .tab.active { color: var(--primary); }
+    .floating-button { position: fixed; z-index: 5; right: max(20px, calc((100vw - 560px) / 2 + 20px)); bottom: 88px; width: 58px; height: 58px; border: 0; border-radius: 50%; background: var(--primary); color: #ffffff; font-size: 30px; }
+    .hidden { display: none !important; }
+    .empty { padding: 24px; color: var(--muted); text-align: center; }
+
+    .chart-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .chart-unit { flex: 0 0 auto; padding: 6px 10px; border-radius: 999px; background: #ccfbf1; color: #115e59; font-size: 12px; font-weight: 900; }
+    .chart-container { position: relative; width: 100%; min-height: 300px; overflow-x: auto; overflow-y: hidden; border-radius: 14px; background: #ffffff; }
+    .expense-chart-svg { display: block; width: 100%; min-width: 500px; height: auto; overflow: visible; }
+    .chart-grid-line { stroke: #e2e8f0; stroke-width: 1; stroke-dasharray: 4 4; }
+    .chart-axis-line { stroke: #94a3b8; stroke-width: 1.2; }
+    .chart-axis-label { fill: #64748b; font: 11px system-ui, sans-serif; }
+    .chart-axis-title { fill: #475569; font: 800 11px system-ui, sans-serif; }
+    .chart-line { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .chart-point { stroke: #ffffff; stroke-width: 2; }
+    .chart-empty { display: grid; min-height: 260px; place-items: center; padding: 24px; color: var(--muted); text-align: center; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 14px; }
+    .chart-legend-item { display: inline-flex; align-items: center; gap: 7px; color: #475569; font-size: 12px; font-weight: 800; }
+    .chart-legend-color { width: 11px; height: 11px; flex: 0 0 11px; border-radius: 50%; }
+
+    @media (max-width: 480px) {
+      .app { padding-left: 12px; padding-right: 12px; }
+      .card { padding: 14px; }
+      .grid3 { gap: 7px; }
+      .stat { padding: 12px 8px; }
+      .stat strong { font-size: 15px; }
+      .status-badge { padding: 5px 8px; font-size: 11px; }
+      .commitment-toolbar select, .commitment-toolbar .button { font-size: 13px; }
+      .chart-container { min-height: 270px; }
+      .expense-chart-svg { min-width: 470px; }
+    }
+
+    @media (max-width: 350px) {
+      .grid2, .grid3, .toolbar, .settings-grid, .commitment-toolbar { display: grid; grid-template-columns: 1fr; }
+      .commitment-toolbar .button { width: 100%; }
+    }
   </style>
- </head>
- <body>
+</head>
+<body>
   <main class="app">
-   <header class="top">
-    <div>
-     <div class="eyebrow">
-      KHORIBA City - Hocine & Djamila
-     </div>
-     <h1>
-      Suivi construction
-     </h1>
-     <div class="small muted" id="saveStatus">
-      Sauvegarde locale active
-     </div>
-    </div>
-    <div aria-label="Algérie" class="logo">
-     🇩🇿
-    </div>
-   </header>
-   <section class="page active" id="home">
-    <div class="card hero">
-     <div class="small muted">
-      TOTAL DES DÉPENSES
-     </div>
-     <div class="big" id="totalDzd">
-      0,000 DZD
-     </div>
-     <div id="totalEur">
-      0,00 €
-     </div>
-    </div>
-    <div class="grid3 mt">
-     <div class="card stat">
-      🏡
-      <div class="small muted">
-       Terrain
+    <header class="top">
+      <div>
+        <div class="eyebrow">KHORIBA City - Hocine &amp; Djamila</div>
+        <h1>Suivi construction</h1>
+        <div class="small muted" id="saveStatus">Sauvegarde locale active</div>
       </div>
-      <strong id="homeTerrain">
-       0,000 DZD
-      </strong>
-     </div>
-     <div class="card stat">
-      🧱
-      <div class="small muted">
-       Fournitures
+      <div class="logo" aria-label="Algérie">🇩🇿</div>
+    </header>
+
+    <section class="page active" id="home">
+      <div class="card hero">
+        <div class="small muted">TOTAL DES DÉPENSES</div>
+        <div class="big" id="totalDzd">0,000 DZD</div>
+        <div id="totalEur">0,00 €</div>
       </div>
-      <strong id="homeSupplies">
-       0,000 DZD
-      </strong>
-     </div>
-     <div class="card stat">
-      👷
-      <div class="small muted">
-       Main-d'œuvre
+      <div class="grid3 mt">
+        <div class="card stat">🏡<div class="small muted">Terrain</div><strong id="homeTerrain">0,000 DZD</strong></div>
+        <div class="card stat">🧱<div class="small muted">Fournitures</div><strong id="homeSupplies">0,000 DZD</strong></div>
+        <div class="card stat">👷<div class="small muted">Main-d'œuvre</div><strong id="homeLabor">0,000 DZD</strong></div>
       </div>
-      <strong id="homeLabor">
-       0,000 DZD
-      </strong>
-     </div>
-    </div>
-    <div class="section-title">
-     <h2>
-      Dernières dépenses
-     </h2>
-     <button class="button button-soft" onclick="showPage('expenses')" type="button">
-      Tout voir
-     </button>
-    </div>
-    <div class="list" id="recentExpenses">
-    </div>
-    <div class="section-title">
-     <h2>
-      Reste à payer
-     </h2>
-     <button class="button button-soft" onclick="showPage('commitments')" type="button">
-      Détail
-     </button>
-    </div>
-    <div class="card grid2">
-     <div>
-      <div class="small muted">
-       Total convenu
+      <div class="section-title"><h2>Dernières dépenses</h2><button class="button button-soft" type="button" onclick="showPage('expenses')">Tout voir</button></div>
+      <div class="list" id="recentExpenses"></div>
+      <div class="section-title"><h2>Reste à payer</h2><button class="button button-soft" type="button" onclick="showPage('commitments')">Détail</button></div>
+      <div class="card grid2">
+        <div><div class="small muted">Total convenu</div><strong id="homeDue">0,000 DZD</strong></div>
+        <div><div class="small muted">Reste</div><strong id="homeRemaining">0,000 DZD</strong></div>
       </div>
-      <strong id="homeDue">
-       0,000 DZD
-      </strong>
-     </div>
-     <div>
-      <div class="small muted">
-       Reste
+    </section>
+
+    <section class="page" id="expenses">
+      <div class="section-title"><h2>Dépenses</h2><strong id="expenseCount">0</strong></div>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Rechercher…">
+        <select id="filter"><option value="">Toutes</option><option>Terrain</option><option>Fournitures</option><option>Main-d'œuvre</option><option>Autres</option></select>
       </div>
-      <strong id="homeRemaining">
-       0,000 DZD
-      </strong>
-     </div>
-    </div>
-   </section>
-   <section class="page" id="expenses">
-    <div class="section-title">
-     <h2>
-      Dépenses
-     </h2>
-     <strong id="expenseCount">
-      0
-     </strong>
-    </div>
-    <div class="toolbar">
-     <input id="search" placeholder="Rechercher…" type="search"/>
-     <select id="filter">
-      <option value="">
-       Toutes
-      </option>
-      <option>
-       Terrain
-      </option>
-      <option>
-       Fournitures
-      </option>
-      <option>
-       Main-d'œuvre
-      </option>
-      <option>
-       Autres
-      </option>
-     </select>
-    </div>
-    <div class="list" id="expenseList">
-    </div>
-   </section>
-   <section class="page" id="charts">
-    <div class="section-title">
-     <h2>
-      Répartition
-     </h2>
-    </div>
-    <div class="card">
-     <strong>
-      Répartition par catégorie
-     </strong>
-     <div id="categoryBars">
-     </div>
-    </div>
-   </section>
-   <section class="page" id="commitments">
-    <div class="section-title">
-     <h2>
-      Sommes dues
-     </h2>
-     <button class="button button-primary" id="newCommitment" type="button">
-      + Ajouter
-     </button>
-    </div>
-    <div class="grid3">
-     <div class="card stat">
-      <div class="small muted">
-       Convenu
+      <div class="list" id="expenseList"></div>
+    </section>
+
+    <section class="page" id="charts">
+      <div class="section-title"><h2>Courbes</h2></div>
+      <div class="card">
+        <div class="chart-header">
+          <div><strong>Évolution des dépenses</strong><div class="small muted">Montants cumulés par date et par catégorie</div></div>
+          <div class="chart-unit">DZD</div>
+        </div>
+        <div id="expenseChart" class="chart-container" role="img" aria-label="Évolution des dépenses en DZD"></div>
+        <div id="chartLegend" class="chart-legend"></div>
       </div>
-      <strong id="dueTotal">
-       0,000 DZD
-      </strong>
-     </div>
-     <div class="card stat">
-      <div class="small muted">
-       Versé
+      <div class="card mt"><strong>Répartition par catégorie</strong><div id="categoryBars"></div></div>
+    </section>
+
+    <section class="page" id="commitments">
+      <div class="section-title"><h2>Sommes dues</h2><button class="button button-primary" id="newCommitment" type="button">+ Ajouter</button></div>
+      <div class="grid3">
+        <div class="card stat"><div class="small muted">Convenu</div><strong id="dueTotal">0,000 DZD</strong></div>
+        <div class="card stat"><div class="small muted">Versé</div><strong id="paidTotal">0,000 DZD</strong></div>
+        <div class="card stat"><div class="small muted">Reste</div><strong id="remainingTotal">0,000 DZD</strong></div>
       </div>
-      <strong id="paidTotal">
-       0,000 DZD
-      </strong>
-     </div>
-     <div class="card stat">
-      <div class="small muted">
-       Reste
+      <div class="section-title"><h2>Détail</h2></div>
+      <div class="commitment-toolbar">
+        <select id="commitmentStatusFilter" aria-label="Filtrer les sommes dues par statut"><option value="">Tous les statuts</option><option value="done">Terminé</option><option value="progress">En cours</option><option value="start">À débuter</option></select>
+        <button class="button button-soft" id="toggleFinishedCommitments" type="button" aria-expanded="true">Masquer terminées</button>
       </div>
-      <strong id="remainingTotal">
-       0,000 DZD
-      </strong>
-     </div>
-    </div>
-    <div class="section-title">
-     <h2>
-      Détail
-     </h2>
-    </div>
-    <div class="commitment-toolbar">
-     <select aria-label="Filtrer les sommes dues par statut" id="commitmentStatusFilter">
-      <option value="">
-       Tous les statuts
-      </option>
-      <option value="done">
-       Terminé
-      </option>
-      <option value="progress">
-       En cours
-      </option>
-      <option value="start">
-       À débuter
-      </option>
-     </select>
-     <button aria-expanded="true" class="button button-soft" id="toggleFinishedCommitments" type="button">
-      Masquer terminées
-     </button>
-    </div>
-    <div class="list" id="commitmentList">
-    </div>
-   </section>
-   <section class="page" id="settings">
-    <div class="section-title">
-     <h2>
-      Réglages
-     </h2>
-    </div>
-    <div class="card">
-     <strong>
-      Sauvegarde et transfert
-     </strong>
-     <div class="settings-notice mt">
-      Les données sont enregistrées localement. Exportez régulièrement une sauvegarde JSON.
-     </div>
-     <div class="settings-grid mt">
-      <button class="button button-line" id="exportJsonButton">
-       Exporter JSON
-      </button>
-      <button class="button button-line" id="exportCsvButton">
-       Exporter CSV
-      </button>
-      <button class="button button-soft" id="importJsonButton">
-       Importer JSON
-      </button>
-      <button class="button button-danger" id="clearDataButton">
-       Tout effacer
-      </button>
-     </div>
-     <input accept=".json,application/json" class="hidden" id="importJsonFile" type="file"/>
-    </div>
-   </section>
-   <button aria-label="Ajouter une dépense" class="floating-button" id="addExpense" type="button">
-    +
-   </button>
-   <nav class="tabs">
-    <button class="tab active" data-page="home">
-     <span>
-      🏠
-     </span>
-     Accueil
-    </button>
-    <button class="tab" data-page="expenses">
-     <span>
-      💰
-     </span>
-     Dépenses
-    </button>
-    <button class="tab" data-page="charts">
-     <span>
-      📈
-     </span>
-     Courbes
-    </button>
-    <button class="tab" data-page="commitments">
-     <span>
-      🤝
-     </span>
-     Sommes dues
-    </button>
-    <button class="tab" data-page="settings">
-     <span>
-      ⚙️
-     </span>
-     Réglages
-    </button>
-   </nav>
+      <div class="list" id="commitmentList"></div>
+    </section>
+
+    <section class="page" id="settings">
+      <div class="section-title"><h2>Réglages</h2></div>
+      <div class="card">
+        <strong>Sauvegarde et transfert</strong>
+        <div class="settings-notice mt">Les données sont enregistrées localement. Exportez régulièrement une sauvegarde JSON.</div>
+        <div class="settings-grid mt">
+          <button class="button button-line" id="exportJsonButton">Exporter JSON</button>
+          <button class="button button-line" id="exportCsvButton">Exporter CSV</button>
+          <button class="button button-soft" id="importJsonButton">Importer JSON</button>
+          <button class="button button-danger" id="clearDataButton">Tout effacer</button>
+        </div>
+        <input class="hidden" id="importJsonFile" type="file" accept=".json,application/json">
+      </div>
+    </section>
+
+    <button class="floating-button" id="addExpense" type="button" aria-label="Ajouter une dépense">+</button>
+    <nav class="tabs">
+      <button class="tab active" data-page="home"><span>🏠</span>Accueil</button>
+      <button class="tab" data-page="expenses"><span>💰</span>Dépenses</button>
+      <button class="tab" data-page="charts"><span>📈</span>Courbes</button>
+      <button class="tab" data-page="commitments"><span>🤝</span>Sommes dues</button>
+      <button class="tab" data-page="settings"><span>⚙️</span>Réglages</button>
+    </nav>
   </main>
+
   <div class="modal" id="expenseModal">
-   <form class="sheet" id="expenseForm">
-    <div class="sheet-head">
-     <h2 id="expenseTitle">
-      Ajouter une dépense
-     </h2>
-     <button class="close" id="closeExpense" type="button">
-      ×
-     </button>
-    </div>
-    <input id="expenseId" type="hidden"/>
-    <div class="field">
-     <label for="expenseDate">
-      Date
-     </label>
-     <input id="expenseDate" required="" type="date"/>
-    </div>
-    <div class="grid2">
-     <div class="field">
-      <label>
-       Catégorie
-      </label>
-      <select id="expenseCategory">
-       <option>
-        Terrain
-       </option>
-       <option>
-        Fournitures
-       </option>
-       <option>
-        Main-d'œuvre
-       </option>
-       <option>
-        Autres
-       </option>
-      </select>
-     </div>
-     <div class="field">
-      <label>
-       Sous-catégorie
-      </label>
-      <select id="expenseSubcategory">
-      </select>
-     </div>
-    </div>
-    <div class="field">
-     <label>
-      Description
-     </label>
-     <input id="expenseDescription" required=""/>
-    </div>
-    <div class="field">
-     <label>
-      Fournisseur / bénéficiaire
-     </label>
-     <input id="expenseSupplier"/>
-    </div>
-    <div class="field">
-     <label>
-      Somme due associée
-     </label>
-     <select id="expenseCommitment">
-     </select>
-    </div>
-    <div class="information hidden" id="paymentLimit">
-    </div>
-    <div class="grid2">
-     <div class="field">
-      <label>
-       Montant
-      </label>
-      <input id="expenseAmount" min="0.000001" required="" step="0.000001" type="number"/>
-     </div>
-     <div class="field">
-      <label>
-       Devise
-      </label>
-      <select id="expenseCurrency">
-       <option value="DZD">
-        DZD
-       </option>
-       <option value="EUR">
-        EUR
-       </option>
-      </select>
-     </div>
-    </div>
-    <div class="field">
-     <label>
-      Taux de conversion
-     </label>
-     <input id="exchangeRate" min="0.000001" required="" step="0.000001" type="number"/>
-    </div>
-    <div class="information" id="conversionInfo">
-     Saisissez le montant et le taux.
-    </div>
-    <div class="field">
-     <label>
-      Commentaire
-     </label>
-     <textarea id="expenseComment" rows="2"></textarea>
-    </div>
-    <button class="button button-primary wide" type="submit">
-     Enregistrer
-    </button>
-   </form>
+    <form class="sheet" id="expenseForm">
+      <div class="sheet-head"><h2 id="expenseTitle">Ajouter une dépense</h2><button class="close" id="closeExpense" type="button">×</button></div>
+      <input id="expenseId" type="hidden">
+      <div class="field"><label for="expenseDate">Date</label><input id="expenseDate" type="date" required></div>
+      <div class="grid2">
+        <div class="field"><label for="expenseCategory">Catégorie</label><select id="expenseCategory"><option>Terrain</option><option>Fournitures</option><option>Main-d'œuvre</option><option>Autres</option></select></div>
+        <div class="field"><label for="expenseSubcategory">Sous-catégorie</label><select id="expenseSubcategory"></select></div>
+      </div>
+      <div class="field"><label for="expenseDescription">Description</label><input id="expenseDescription" required></div>
+      <div class="field"><label for="expenseSupplier">Fournisseur / bénéficiaire</label><input id="expenseSupplier"></div>
+      <div class="field"><label for="expenseCommitment">Somme due associée</label><select id="expenseCommitment"></select></div>
+      <div class="information hidden" id="paymentLimit"></div>
+      <div class="grid2">
+        <div class="field"><label for="expenseAmount">Montant</label><input id="expenseAmount" type="number" min="0.000001" step="0.000001" required></div>
+        <div class="field"><label for="expenseCurrency">Devise</label><select id="expenseCurrency"><option value="DZD">DZD</option><option value="EUR">EUR</option></select></div>
+      </div>
+      <div class="field"><label for="exchangeRate">Taux de conversion</label><input id="exchangeRate" type="number" min="0.000001" step="0.000001" required></div>
+      <div class="information" id="conversionInfo">Saisissez le montant et le taux.</div>
+      <div class="field"><label for="expenseComment">Commentaire</label><textarea id="expenseComment" rows="2"></textarea></div>
+      <button class="button button-primary wide" type="submit">Enregistrer</button>
+    </form>
   </div>
+
   <div class="modal" id="commitmentModal">
-   <form class="sheet" id="commitmentForm">
-    <div class="sheet-head">
-     <h2 id="commitmentTitle">
-      Ajouter une somme due
-     </h2>
-     <button class="close" id="closeCommitment" type="button">
-      ×
-     </button>
-    </div>
-    <input id="commitmentId" type="hidden"/>
-    <div class="field">
-     <label>
-      Objet
-     </label>
-     <input id="commitmentLabel" required=""/>
-    </div>
-    <div class="grid2">
-     <div class="field">
-      <label>
-       Catégorie
-      </label>
-      <select id="commitmentCategory">
-       <option>
-        Terrain
-       </option>
-       <option>
-        Main-d'œuvre
-       </option>
-      </select>
-     </div>
-     <div class="field">
-      <label>
-       Bénéficiaire / métier
-      </label>
-      <select id="commitmentBeneficiary">
-      </select>
-     </div>
-    </div>
-    <div class="field hidden" id="customBeneficiaryField">
-     <label>
-      Nom du bénéficiaire
-     </label>
-     <input id="customBeneficiary"/>
-    </div>
-    <div class="field">
-     <label>
-      Somme totale en DZD
-     </label>
-     <input id="commitmentAmount" inputmode="decimal" placeholder="Ex. 0,670" required="" type="text"/>
-     <div class="small muted mt">
-      Exactement 3 décimales.
-     </div>
-    </div>
-    <div class="field">
-     <label>
-      Commentaire
-     </label>
-     <textarea id="commitmentComment" rows="3"></textarea>
-    </div>
-    <button class="button button-primary wide" type="submit">
-     Enregistrer
-    </button>
-   </form>
+    <form class="sheet" id="commitmentForm">
+      <div class="sheet-head"><h2 id="commitmentTitle">Ajouter une somme due</h2><button class="close" id="closeCommitment" type="button">×</button></div>
+      <input id="commitmentId" type="hidden">
+      <div class="field"><label for="commitmentLabel">Objet</label><input id="commitmentLabel" required></div>
+      <div class="grid2">
+        <div class="field"><label for="commitmentCategory">Catégorie</label><select id="commitmentCategory"><option>Terrain</option><option>Main-d'œuvre</option></select></div>
+        <div class="field"><label for="commitmentBeneficiary">Bénéficiaire / métier</label><select id="commitmentBeneficiary"></select></div>
+      </div>
+      <div class="field hidden" id="customBeneficiaryField"><label for="customBeneficiary">Nom du bénéficiaire</label><input id="customBeneficiary"></div>
+      <div class="field"><label for="commitmentAmount">Somme totale en DZD</label><input id="commitmentAmount" type="text" inputmode="decimal" placeholder="Ex. 0,670" required><div class="small muted mt">Exactement 3 décimales.</div></div>
+      <div class="field"><label for="commitmentComment">Commentaire</label><textarea id="commitmentComment" rows="3"></textarea></div>
+      <button class="button button-primary wide" type="submit">Enregistrer</button>
+    </form>
   </div>
+
   <script>
-   (()=>{"use strict";
-const STORAGE_KEY="suivi_maison_v1",SAVE_TIME_KEY="suivi_maison_last_save";const DEFAULT_STATE={expenses:[],commitments:[]};
-const SUBCATEGORIES={Terrain:["Achat du terrain","Notaire","Bornage","Autres"],Fournitures:["Ciment","Ferraille","Briques","Sable","Gravier","Bois","Plomberie","Électricité","Carrelage","Peinture","Autres"],"Main-d'œuvre":["Maçon","Plombier","Électricien","Carreleur","Peintre","Menuisier","Autres"],Autres:["Transport","Location matériel","Administratif","Imprévu","Autres"]};
-const BENEFICIARIES={Terrain:["Wassini","Khalida","Autres"],"Main-d'œuvre":["Maçon","Plombier","Électricien","Carreleur","Peintre","Menuisier","Autres"]};const ICONS={Terrain:"🏡",Fournitures:"🧱","Main-d'œuvre":"👷",Autres:"📦"};
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];const num=v=>Number(v)||0;const fmt=(v,d=0)=>new Intl.NumberFormat("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d}).format(num(v));const dzd=v=>fmt(Math.round(num(v))/1e6,3)+" DZD";const eur=v=>v==null?"—":fmt(v,2)+" €";const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));const id=()=>crypto.randomUUID?.()||Date.now().toString(36)+Math.random().toString(36).slice(2);
-function load(){try{const s=JSON.parse(localStorage.getItem(STORAGE_KEY));if(s&&Array.isArray(s.expenses))return{expenses:s.expenses,commitments:Array.isArray(s.commitments)?s.commitments:[]}}catch(e){console.error(e)}return structuredClone(DEFAULT_STATE)}let state=load(),finishedCommitmentsCollapsed=false;
-function save(){const d=new Date();localStorage.setItem(STORAGE_KEY,JSON.stringify(state));localStorage.setItem(SAVE_TIME_KEY,d.toISOString());$("#saveStatus").textContent="Sauvegardé à "+d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});render()}
-const paid=(cid,excluded="")=>Math.round(state.expenses.filter(e=>e.commitmentId===cid&&e.id!==excluded).reduce((t,e)=>t+Math.round(num(e.dzd)),0));const remaining=(cid,excluded="")=>{const c=state.commitments.find(x=>x.id===cid);return c?Math.round(num(c.amountDzd)-paid(cid,excluded)):null};const payments=cid=>state.expenses.filter(e=>e.commitmentId===cid).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-function showPage(p){$$('.page').forEach(x=>x.classList.toggle('active',x.id===p));$$('.tab').forEach(x=>x.classList.toggle('active',x.dataset.page===p));$("#addExpense").classList.toggle("hidden",p==="commitments"||p==="settings");if(p==="charts")drawBars()}window.showPage=showPage;$$('.tab').forEach(t=>t.addEventListener('click',()=>showPage(t.dataset.page)));
-function updateSubs(sel=""){const c=$("#expenseCategory").value;$("#expenseSubcategory").innerHTML=SUBCATEGORIES[c].map(x=>`<option ${x===sel?'selected':''}>${esc(x)}</option>`).join('')}
-function updateBens(sel=""){const c=$("#commitmentCategory").value;$("#commitmentBeneficiary").innerHTML=BENEFICIARIES[c].map(x=>`<option ${x===sel?'selected':''}>${esc(x)}</option>`).join('');updateCustom()}
-function updateCustom(){const on=$("#commitmentBeneficiary").value==="Autres";$("#customBeneficiaryField").classList.toggle('hidden',!on);$("#customBeneficiary").required=on}
-function updateCommitmentOptions(sel=""){$("#expenseCommitment").innerHTML='<option value="">Aucune</option>'+state.commitments.map(c=>`<option value="${c.id}" ${c.id===sel?'selected':''}>${esc(c.label)} · ${esc(c.beneficiary)} · reste ${dzd(Math.max(0,remaining(c.id)))}</option>`).join('')}
-function status(p){return p<=0?{label:"À débuter",cls:"status-start",value:"start"}:p>=100?{label:"Terminé",cls:"status-done",value:"done"}:{label:"En cours",cls:"status-progress",value:"progress"}}
-function color(p){return `hsl(${Math.round(Math.max(0,Math.min(100,p))*1.2)},70%,76%)`}
-function expenseHtml(e,actions=true){return `<article class="card expense"><div class="icon">${ICONS[e.category]||'📦'}</div><div class="content"><b>${esc(e.description)}</b><div class="small muted">${esc(e.date)} · ${esc(e.category)} · ${esc(e.subcategory||'')}</div>${e.supplier?`<div class="small muted">${esc(e.supplier)}</div>`:''}${actions?`<div class="row-actions"><button data-edit-expense="${e.id}">Modifier</button><button data-delete-expense="${e.id}">Supprimer</button></div>`:''}</div><div class="amount"><strong>${dzd(e.dzd)}</strong><span class="small muted">${eur(e.eur)}</span></div></article>`}
-function renderExpenses(){const q=$("#search").value.trim().toLowerCase(),f=$("#filter").value;const a=state.expenses.filter(e=>(!f||e.category===f)&&(!q||[e.description,e.supplier,e.subcategory,e.comment].join(' ').toLowerCase().includes(q))).sort((a,b)=>String(b.date).localeCompare(String(a.date)));$("#expenseCount").textContent=a.length;$("#expenseList").innerHTML=a.length?a.map(e=>expenseHtml(e,true)).join(''):'<div class="card empty">Aucune dépense.</div>'}
-function renderCommitments(){const due=Math.round(state.commitments.reduce((t,c)=>t+num(c.amountDzd),0)),pd=Math.round(state.commitments.reduce((t,c)=>t+paid(c.id),0)),rem=Math.max(0,due-pd);$("#dueTotal").textContent=dzd(due);$("#paidTotal").textContent=dzd(pd);$("#remainingTotal").textContent=dzd(rem);$("#homeDue").textContent=dzd(due);$("#homeRemaining").textContent=dzd(rem);const filter=$("#commitmentStatusFilter").value;const list=state.commitments.filter(c=>{const p=num(c.amountDzd)>0?Math.max(0,Math.min(100,paid(c.id)/num(c.amountDzd)*100)):0;return !filter||status(p).value===filter});if(!list.length){$("#commitmentList").innerHTML=`<div class="card empty">${state.commitments.length?'Aucune somme due pour ce statut.':'Aucune somme due.'}</div>`;updateCommitmentOptions();return}$("#commitmentList").innerHTML=list.map(c=>{const pd=paid(c.id),due=Math.round(num(c.amountDzd)),rem=Math.max(0,due-pd),p=due>0?Math.max(0,Math.min(100,pd/due*100)):0,s=status(p),done=p>=100,collapsed=done&&finishedCommitmentsCollapsed,h=payments(c.id);return `<article class="card commitment-card ${collapsed?'collapsed':''}"><div class="commitment-top"><div class="commitment-title"><strong>${c.category==='Terrain'?'🏡':'👷'} ${esc(c.label)}</strong><div class="small muted mt">${esc(c.category)} · ${esc(c.beneficiary)}</div></div><span class="status-badge ${s.cls}">${s.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(p,1)} %</span></div><div class="bar"><i style="width:${p}%;background:${color(p)}"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(due)}</b></div><div><div class="small muted">Versé</div><b>${dzd(pd)}</b></div><div><div class="small muted">Reste</div><b>${dzd(rem)}</b></div></div><div class="row-actions">${done?'':`<button data-add-payment="${c.id}">+ Versement</button>`}<button data-toggle-history="${c.id}">Historique (${h.length})</button><button data-edit-commitment="${c.id}">Modifier</button><button data-delete-commitment="${c.id}">Supprimer</button></div><div id="history-${c.id}" class="history hidden">${h.length?h.map(e=>`<div class="payment-row"><span>${esc(e.date)}</span><span>${esc(e.description)}</span><b>${dzd(e.dzd)}</b></div>`).join(''):'<div class="small muted">Aucun versement.</div>'}</div></div></article>`}).join('');updateCommitmentOptions()}
-function render(){const total=state.expenses.reduce((t,e)=>t+Math.round(num(e.dzd)),0),te=state.expenses.reduce((t,e)=>t+num(e.eur),0);$("#totalDzd").textContent=dzd(total);$("#totalEur").textContent=eur(te);[["#homeTerrain","Terrain"],["#homeSupplies","Fournitures"],["#homeLabor","Main-d'œuvre"]].forEach(([s,c])=>$(s).textContent=dzd(state.expenses.filter(e=>e.category===c).reduce((t,e)=>t+num(e.dzd),0)));const recent=[...state.expenses].sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,2);$("#recentExpenses").innerHTML=recent.length?recent.map(e=>expenseHtml(e,false)).join(''):'<div class="card empty">Aucune dépense.</div>';renderExpenses();renderCommitments();drawBars()}
-function openExpense(eid="",cid=""){$("#expenseForm").reset();$("#expenseId").value='';$("#expenseDate").value=new Date().toISOString().slice(0,10);updateSubs();updateCommitmentOptions(cid);if(eid){const e=state.expenses.find(x=>x.id===eid);if(!e)return;$("#expenseId").value=e.id;$("#expenseDate").value=e.date;$("#expenseCategory").value=e.category;updateSubs(e.subcategory);$("#expenseDescription").value=e.description;$("#expenseSupplier").value=e.supplier||'';$("#expenseAmount").value=e.currency==='EUR'?e.amount:e.dzd/1e6;$("#expenseCurrency").value=e.currency;$("#exchangeRate").value=e.rate;$("#expenseComment").value=e.comment||'';updateCommitmentOptions(e.commitmentId||'')}else if(cid){const c=state.commitments.find(x=>x.id===cid);if(c){$("#expenseCommitment").value=cid;$("#expenseCategory").value=c.category;updateSubs();$("#expenseSupplier").value=c.beneficiary;$("#expenseDescription").value='Versement '+c.label}}updateConversion();updateLimit();$("#expenseModal").classList.add('open')}
-function updateConversion(){const a=num($("#expenseAmount").value),r=num($("#exchangeRate").value),c=$("#expenseCurrency").value;$("#conversionInfo").textContent=a>0&&r>0?(c==='EUR'?`${eur(a)} = ${fmt(a*r,3)} DZD`:`${fmt(a,3)} DZD = ${eur(a/r)}`):'Saisissez le montant et le taux.'}
-function updateLimit(){const cid=$("#expenseCommitment").value,box=$("#paymentLimit");if(!cid){box.classList.add('hidden');return}box.classList.remove('hidden');const r=remaining(cid,$("#expenseId").value);box.textContent=r<=0?'Somme due entièrement payée.':'Reste maximal autorisé : '+dzd(r)}
-$("#expenseForm").addEventListener('submit',e=>{e.preventDefault();const amount=num($("#expenseAmount").value),rate=num($("#exchangeRate").value),currency=$("#expenseCurrency").value,eid=$("#expenseId").value,cid=$("#expenseCommitment").value,d=Math.round((currency==='EUR'?amount*rate:amount)*1e6);if(cid&&d>remaining(cid,eid)){alert('Versement refusé. Reste maximal : '+dzd(remaining(cid,eid)));return}const old=state.expenses.find(x=>x.id===eid),obj={id:eid||id(),date:$("#expenseDate").value,category:$("#expenseCategory").value,subcategory:$("#expenseSubcategory").value,description:$("#expenseDescription").value.trim(),supplier:$("#expenseSupplier").value.trim(),commitmentId:cid,amount,currency,rate,dzd:d,eur:currency==='EUR'?amount:amount/rate,comment:$("#expenseComment").value.trim(),createdAt:old?.createdAt||Date.now(),updatedAt:Date.now()};state.expenses=old?state.expenses.map(x=>x.id===eid?obj:x):[...state.expenses,obj];save();$("#expenseModal").classList.remove('open')});
-function openCommitment(cid=''){ $("#commitmentForm").reset();$("#commitmentId").value='';$("#commitmentCategory").value='Terrain';updateBens();if(cid){const c=state.commitments.find(x=>x.id===cid);if(!c)return;$("#commitmentId").value=c.id;$("#commitmentLabel").value=c.label;$("#commitmentCategory").value=c.category;const pre=BENEFICIARIES[c.category].includes(c.beneficiary);updateBens(pre?c.beneficiary:'Autres');if(!pre)$("#customBeneficiary").value=c.beneficiary;$("#commitmentAmount").value=(c.amountDzd/1e6).toFixed(3).replace('.',',');$("#commitmentComment").value=c.comment||''}$("#commitmentModal").classList.add('open')}
-$("#commitmentForm").addEventListener('submit',e=>{e.preventDefault();const raw=$("#commitmentAmount").value.trim().replace(',','.');if(!/^\d+\.\d{3}$/.test(raw)){alert('Saisissez exactement 3 décimales.');return}const cid=$("#commitmentId").value,old=state.commitments.find(x=>x.id===cid),amountDzd=Math.round(Number(raw)*1e6);if(old&&amountDzd<paid(cid)){alert('La somme ne peut pas être inférieure au total versé.');return}const choice=$("#commitmentBeneficiary").value,beneficiary=choice==='Autres'?$("#customBeneficiary").value.trim():choice;const obj={id:cid||id(),label:$("#commitmentLabel").value.trim(),category:$("#commitmentCategory").value,beneficiary,amountDzd,comment:$("#commitmentComment").value.trim(),createdAt:old?.createdAt||Date.now(),updatedAt:Date.now()};state.commitments=old?state.commitments.map(x=>x.id===cid?obj:x):[...state.commitments,obj];save();$("#commitmentModal").classList.remove('open')});
-function drawBars(){const cats=Object.keys(ICONS),vals=cats.map(c=>state.expenses.filter(e=>e.category===c).reduce((t,e)=>t+num(e.dzd),0)),m=Math.max(...vals,1);$("#categoryBars").innerHTML=cats.map((c,i)=>`<div class="mt"><div class="bar-label"><span>${ICONS[c]} ${c}</span><b>${dzd(vals[i])}</b></div><div class="bar"><i style="width:${vals[i]/m*100}%;background:#99f6e4"></i></div></div>`).join('')}
-$("#expenseList").addEventListener('click',e=>{if(e.target.dataset.editExpense)openExpense(e.target.dataset.editExpense);if(e.target.dataset.deleteExpense&&confirm('Supprimer cette dépense ?')){state.expenses=state.expenses.filter(x=>x.id!==e.target.dataset.deleteExpense);save()}});$("#commitmentList").addEventListener('click',e=>{const d=e.target.dataset;if(d.addPayment)openExpense('',d.addPayment);if(d.toggleHistory)$("#history-"+d.toggleHistory).classList.toggle('hidden');if(d.editCommitment)openCommitment(d.editCommitment);if(d.deleteCommitment){if(state.expenses.some(x=>x.commitmentId===d.deleteCommitment)){alert('Des versements sont associés.');return}if(confirm('Supprimer cette somme due ?')){state.commitments=state.commitments.filter(x=>x.id!==d.deleteCommitment);save()}}});
-$("#expenseCategory").addEventListener('change',()=>updateSubs());$("#commitmentCategory").addEventListener('change',()=>updateBens());$("#commitmentBeneficiary").addEventListener('change',updateCustom);$("#expenseCommitment").addEventListener('change',updateLimit);$("#expenseAmount").addEventListener('input',updateConversion);$("#exchangeRate").addEventListener('input',updateConversion);$("#expenseCurrency").addEventListener('change',updateConversion);$("#addExpense").addEventListener('click',()=>openExpense());$("#newCommitment").addEventListener('click',()=>openCommitment());$("#closeExpense").addEventListener('click',()=>$("#expenseModal").classList.remove('open'));$("#closeCommitment").addEventListener('click',()=>$("#commitmentModal").classList.remove('open'));$("#search").addEventListener('input',renderExpenses);$("#filter").addEventListener('change',renderExpenses);$("#commitmentStatusFilter").addEventListener('change',renderCommitments);$("#toggleFinishedCommitments").addEventListener('click',()=>{finishedCommitmentsCollapsed=!finishedCommitmentsCollapsed;const b=$("#toggleFinishedCommitments");b.textContent=finishedCommitmentsCollapsed?'Afficher terminées':'Masquer terminées';b.setAttribute('aria-expanded',String(!finishedCommitmentsCollapsed));renderCommitments()});
-function download(name,text,type){const u=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}$("#exportJsonButton").addEventListener('click',()=>download('DarFiKhoriba_sauvegarde.json',JSON.stringify(state,null,2),'application/json'));$("#exportCsvButton").addEventListener('click',()=>{const rows=state.expenses.map(e=>[e.date,e.category,e.subcategory,e.description,e.supplier,e.dzd,e.eur].map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';'));download('DarFiKhoriba_depenses.csv','\ufeff"date";"categorie";"sous_categorie";"description";"beneficiaire";"montant_dzd";"montant_eur"\n'+rows.join('\n'),'text/csv')});$("#importJsonButton").addEventListener('click',()=>$("#importJsonFile").click());$("#importJsonFile").addEventListener('change',async e=>{try{const x=JSON.parse(await e.target.files[0].text());if(!Array.isArray(x.expenses)||!Array.isArray(x.commitments))throw 0;if(confirm('Remplacer toutes les données actuelles ?')){state=x;save()}}catch{alert('Fichier JSON invalide.')}e.target.value=''});$("#clearDataButton").addEventListener('click',()=>{if(confirm('Supprimer définitivement toutes les données ?')){state=structuredClone(DEFAULT_STATE);save()}});
-updateSubs();updateBens();updateCommitmentOptions();render();
-})();
+    (() => {
+      "use strict";
+
+      const STORAGE_KEY = "suivi_maison_v1";
+      const DEFAULT_STATE = { expenses: [], commitments: [] };
+      const SUBCATEGORIES = {
+        Terrain: ["Achat du terrain", "Notaire", "Bornage", "Autres"],
+        Fournitures: ["Ciment", "Ferraille", "Briques", "Sable", "Gravier", "Bois", "Plomberie", "Électricité", "Carrelage", "Peinture", "Autres"],
+        "Main-d'œuvre": ["Maçon", "Plombier", "Électricien", "Carreleur", "Peintre", "Menuisier", "Autres"],
+        Autres: ["Transport", "Location matériel", "Administratif", "Imprévu", "Autres"]
+      };
+      const BENEFICIARIES = { Terrain: ["Wassini", "Khalida", "Autres"], "Main-d'œuvre": ["Maçon", "Plombier", "Électricien", "Carreleur", "Peintre", "Menuisier", "Autres"] };
+      const ICONS = { Terrain: "🏡", Fournitures: "🧱", "Main-d'œuvre": "👷", Autres: "📦" };
+      const CHART_COLORS = { Terrain: "#0f766e", Fournitures: "#2563eb", "Main-d'œuvre": "#f59e0b", Autres: "#9333ea" };
+      const $ = (selector) => document.querySelector(selector);
+      const $$ = (selector) => [...document.querySelectorAll(selector)];
+      const num = (value) => Number(value) || 0;
+      const fmt = (value, digits = 0) => new Intl.NumberFormat("fr-FR", { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(num(value));
+      const dzd = (value) => `${fmt(Math.round(num(value)) / 1e6, 3)} DZD`;
+      const eur = (value) => value == null ? "—" : `${fmt(value, 2)} €`;
+      const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
+      const id = () => crypto.randomUUID?.() || Date.now().toString(36) + Math.random().toString(36).slice(2);
+
+      function load() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+          if (saved && Array.isArray(saved.expenses)) return { expenses: saved.expenses, commitments: Array.isArray(saved.commitments) ? saved.commitments : [] };
+        } catch (error) { console.error(error); }
+        return structuredClone(DEFAULT_STATE);
+      }
+
+      let state = load();
+      let finishedCommitmentsCollapsed = false;
+      let chartResizeTimer;
+
+      function save() {
+        const date = new Date();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        $("#saveStatus").textContent = `Sauvegardé à ${date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`;
+        render();
+      }
+
+      const paid = (commitmentId, excluded = "") => Math.round(state.expenses.filter((expense) => expense.commitmentId === commitmentId && expense.id !== excluded).reduce((total, expense) => total + Math.round(num(expense.dzd)), 0));
+      const remaining = (commitmentId, excluded = "") => { const commitment = state.commitments.find((item) => item.id === commitmentId); return commitment ? Math.round(num(commitment.amountDzd) - paid(commitmentId, excluded)) : null; };
+      const payments = (commitmentId) => state.expenses.filter((expense) => expense.commitmentId === commitmentId).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+
+      function showPage(pageId) {
+        $$(".page").forEach((page) => page.classList.toggle("active", page.id === pageId));
+        $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.page === pageId));
+        $("#addExpense").classList.toggle("hidden", pageId === "commitments" || pageId === "settings");
+        if (pageId === "charts") window.requestAnimationFrame(() => { drawExpenseChart(); drawBars(); });
+      }
+      window.showPage = showPage;
+      $$(".tab").forEach((tab) => tab.addEventListener("click", () => showPage(tab.dataset.page)));
+
+      function updateSubs(selected = "") {
+        const category = $("#expenseCategory").value;
+        $("#expenseSubcategory").innerHTML = SUBCATEGORIES[category].map((item) => `<option ${item === selected ? "selected" : ""}>${esc(item)}</option>`).join("");
+      }
+
+      function updateBens(selected = "") {
+        const category = $("#commitmentCategory").value;
+        $("#commitmentBeneficiary").innerHTML = BENEFICIARIES[category].map((item) => `<option ${item === selected ? "selected" : ""}>${esc(item)}</option>`).join("");
+        updateCustom();
+      }
+
+      function updateCustom() {
+        const active = $("#commitmentBeneficiary").value === "Autres";
+        $("#customBeneficiaryField").classList.toggle("hidden", !active);
+        $("#customBeneficiary").required = active;
+      }
+
+      function updateCommitmentOptions(selected = "") {
+        $("#expenseCommitment").innerHTML = '<option value="">Aucune</option>' + state.commitments.map((commitment) => `<option value="${commitment.id}" ${commitment.id === selected ? "selected" : ""}>${esc(commitment.label)} · ${esc(commitment.beneficiary)} · reste ${dzd(Math.max(0, remaining(commitment.id)))}</option>`).join("");
+      }
+
+      function status(progress) {
+        if (progress <= 0) return { label: "À débuter", cls: "status-start", value: "start" };
+        if (progress >= 100) return { label: "Terminé", cls: "status-done", value: "done" };
+        return { label: "En cours", cls: "status-progress", value: "progress" };
+      }
+
+      function color(progress) { return `hsl(${Math.round(Math.max(0, Math.min(100, progress)) * 1.2)}, 70%, 76%)`; }
+
+      function expenseHtml(expense, actions = true) {
+        return `<article class="card expense"><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(expense.date)} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}${actions ? `<div class="row-actions"><button data-edit-expense="${expense.id}">Modifier</button><button data-delete-expense="${expense.id}">Supprimer</button></div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
+      }
+
+      function renderExpenses() {
+        const query = $("#search").value.trim().toLowerCase();
+        const filter = $("#filter").value;
+        const expenses = state.expenses.filter((expense) => (!filter || expense.category === filter) && (!query || [expense.description, expense.supplier, expense.subcategory, expense.comment].join(" ").toLowerCase().includes(query))).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+        $("#expenseCount").textContent = expenses.length;
+        $("#expenseList").innerHTML = expenses.length ? expenses.map((expense) => expenseHtml(expense)).join("") : '<div class="card empty">Aucune dépense.</div>';
+      }
+
+      function renderCommitments() {
+        const due = Math.round(state.commitments.reduce((total, item) => total + num(item.amountDzd), 0));
+        const paidTotal = Math.round(state.commitments.reduce((total, item) => total + paid(item.id), 0));
+        const balance = Math.max(0, due - paidTotal);
+        $("#dueTotal").textContent = dzd(due); $("#paidTotal").textContent = dzd(paidTotal); $("#remainingTotal").textContent = dzd(balance); $("#homeDue").textContent = dzd(due); $("#homeRemaining").textContent = dzd(balance);
+        const filter = $("#commitmentStatusFilter").value;
+        const list = state.commitments.filter((item) => { const progress = num(item.amountDzd) > 0 ? Math.max(0, Math.min(100, paid(item.id) / num(item.amountDzd) * 100)) : 0; return !filter || status(progress).value === filter; });
+        if (!list.length) { $("#commitmentList").innerHTML = `<div class="card empty">${state.commitments.length ? "Aucune somme due pour ce statut." : "Aucune somme due."}</div>`; updateCommitmentOptions(); return; }
+        $("#commitmentList").innerHTML = list.map((item) => {
+          const paidAmount = paid(item.id); const dueAmount = Math.round(num(item.amountDzd)); const balanceAmount = Math.max(0, dueAmount - paidAmount); const progress = dueAmount > 0 ? Math.max(0, Math.min(100, paidAmount / dueAmount * 100)) : 0; const currentStatus = status(progress); const done = progress >= 100; const history = payments(item.id);
+          return `<article class="card commitment-card ${done && finishedCommitmentsCollapsed ? "collapsed" : ""}"><div class="commitment-top"><div class="commitment-title"><strong>${item.category === "Terrain" ? "🏡" : "👷"} ${esc(item.label)}</strong><div class="small muted mt">${esc(item.category)} · ${esc(item.beneficiary)}</div></div><span class="status-badge ${currentStatus.cls}">${currentStatus.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(progress, 1)} %</span></div><div class="bar"><i style="width:${progress}%;background:${color(progress)}"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(dueAmount)}</b></div><div><div class="small muted">Versé</div><b>${dzd(paidAmount)}</b></div><div><div class="small muted">Reste</div><b>${dzd(balanceAmount)}</b></div></div><div class="row-actions">${done ? "" : `<button data-add-payment="${item.id}">+ Versement</button>`}<button data-toggle-history="${item.id}">Historique (${history.length})</button><button data-edit-commitment="${item.id}">Modifier</button><button data-delete-commitment="${item.id}">Supprimer</button></div><div id="history-${item.id}" class="history hidden">${history.length ? history.map((expense) => `<div class="payment-row"><span>${esc(expense.date)}</span><span>${esc(expense.description)}</span><b>${dzd(expense.dzd)}</b></div>`).join("") : '<div class="small muted">Aucun versement.</div>'}</div></div></article>`;
+        }).join("");
+        updateCommitmentOptions();
+      }
+
+      function getChartData() {
+        const categories = Object.keys(ICONS); const byDate = new Map();
+        state.expenses.forEach((expense) => { if (!expense.date) return; if (!byDate.has(expense.date)) byDate.set(expense.date, Object.fromEntries(categories.map((category) => [category, 0]))); if (expense.category in byDate.get(expense.date)) byDate.get(expense.date)[expense.category] += num(expense.dzd); });
+        const cumulative = Object.fromEntries(categories.map((category) => [category, 0]));
+        const points = [...byDate.keys()].sort().map((date) => { categories.forEach((category) => { cumulative[category] += byDate.get(date)[category]; }); return { date, values: { ...cumulative } }; });
+        return { categories, points };
+      }
+
+      function niceMaximum(value) { if (value <= 0) return 1e6; const magnitude = 10 ** Math.floor(Math.log10(value)); const normalized = value / magnitude; return (normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10) * magnitude; }
+      function shortDzd(value) { if (value >= 1e9) return `${fmt(value / 1e9, 0)} Md`; if (value >= 1e6) return `${fmt(value / 1e6, 0)} M`; if (value >= 1e3) return `${fmt(value / 1e3, 0)} k`; return fmt(value, 0); }
+      function shortDate(value) { const date = new Date(`${value}T00:00:00`); return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" }); }
+
+      function drawExpenseChart() {
+        const host = $("#expenseChart"); const legend = $("#chartLegend"); const { categories, points } = getChartData();
+        if (!points.length) { host.innerHTML = '<div class="chart-empty">Ajoutez au moins une dépense pour afficher le graphique.</div>'; legend.innerHTML = ""; return; }
+        const width = Math.max(host.clientWidth || 500, 500); const height = 320; const margin = { top: 22, right: 18, bottom: 54, left: 76 }; const plotWidth = width - margin.left - margin.right; const plotHeight = height - margin.top - margin.bottom;
+        const maximum = niceMaximum(Math.max(...points.flatMap((point) => categories.map((category) => point.values[category])), 0));
+        const x = (index) => points.length === 1 ? margin.left + plotWidth / 2 : margin.left + index / (points.length - 1) * plotWidth;
+        const y = (value) => margin.top + plotHeight - Math.max(0, Math.min(1, value / maximum)) * plotHeight;
+        const grid = Array.from({ length: 6 }, (_, index) => { const value = maximum / 5 * index; const position = y(value); return `<line class="chart-grid-line" x1="${margin.left}" x2="${width - margin.right}" y1="${position}" y2="${position}"></line><text class="chart-axis-label" text-anchor="end" x="${margin.left - 10}" y="${position + 4}">${esc(shortDzd(value))}</text>`; }).join("");
+        const step = Math.max(1, Math.ceil(points.length / 5));
+        const labels = points.map((point, index) => index % step === 0 || index === points.length - 1 ? `<text class="chart-axis-label" text-anchor="middle" x="${x(index)}" y="${height - 28}">${esc(shortDate(point.date))}</text>` : "").join("");
+        const lines = categories.map((category) => { const coordinates = points.map((point, index) => ({ x: x(index), y: y(point.values[category]), value: point.values[category], date: point.date })); const polyline = coordinates.map((point) => `${point.x},${point.y}`).join(" "); const circles = coordinates.map((point) => { const title = `${category}, ${point.date}, ${dzd(point.value)}`; return `<circle class="chart-point" cx="${point.x}" cy="${point.y}" r="4" fill="${CHART_COLORS[category]}"><title>${esc(title)}</title></circle>`; }).join(""); return `<polyline class="chart-line" points="${polyline}" stroke="${CHART_COLORS[category]}"></polyline>${circles}`; }).join("");
+        host.innerHTML = `<svg class="expense-chart-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">${grid}<line class="chart-axis-line" x1="${margin.left}" x2="${margin.left}" y1="${margin.top}" y2="${margin.top + plotHeight}"></line><line class="chart-axis-line" x1="${margin.left}" x2="${width - margin.right}" y1="${margin.top + plotHeight}" y2="${margin.top + plotHeight}"></line><text class="chart-axis-title" text-anchor="middle" transform="rotate(-90 17 ${margin.top + plotHeight / 2})" x="17" y="${margin.top + plotHeight / 2}">Montant cumulé en DZD</text>${labels}${lines}</svg>`;
+        legend.innerHTML = categories.map((category) => `<div class="chart-legend-item"><span class="chart-legend-color" style="background:${CHART_COLORS[category]}"></span><span>${ICONS[category]} ${esc(category)}</span></div>`).join("");
+      }
+
+      function drawBars() {
+        const categories = Object.keys(ICONS); const values = categories.map((category) => state.expenses.filter((expense) => expense.category === category).reduce((total, expense) => total + num(expense.dzd), 0)); const maximum = Math.max(...values, 1);
+        $("#categoryBars").innerHTML = categories.map((category, index) => `<div class="mt"><div class="bar-label"><span>${ICONS[category]} ${esc(category)}</span><b>${dzd(values[index])}</b></div><div class="bar"><i style="width:${values[index] / maximum * 100}%;background:${CHART_COLORS[category]}"></i></div></div>`).join("");
+      }
+
+      function render() {
+        const total = state.expenses.reduce((sum, expense) => sum + Math.round(num(expense.dzd)), 0); const totalEur = state.expenses.reduce((sum, expense) => sum + num(expense.eur), 0);
+        $("#totalDzd").textContent = dzd(total); $("#totalEur").textContent = eur(totalEur);
+        [["#homeTerrain", "Terrain"], ["#homeSupplies", "Fournitures"], ["#homeLabor", "Main-d'œuvre"]].forEach(([selector, category]) => { $(selector).textContent = dzd(state.expenses.filter((expense) => expense.category === category).reduce((sum, expense) => sum + num(expense.dzd), 0)); });
+        const recent = [...state.expenses].sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 2);
+        $("#recentExpenses").innerHTML = recent.length ? recent.map((expense) => expenseHtml(expense, false)).join("") : '<div class="card empty">Aucune dépense.</div>';
+        renderExpenses(); renderCommitments(); drawExpenseChart(); drawBars();
+      }
+
+      function openExpense(expenseId = "", commitmentId = "") {
+        $("#expenseForm").reset(); $("#expenseId").value = ""; $("#expenseDate").value = new Date().toISOString().slice(0, 10); updateSubs(); updateCommitmentOptions(commitmentId);
+        if (expenseId) { const expense = state.expenses.find((item) => item.id === expenseId); if (!expense) return; $("#expenseId").value = expense.id; $("#expenseDate").value = expense.date; $("#expenseCategory").value = expense.category; updateSubs(expense.subcategory); $("#expenseDescription").value = expense.description; $("#expenseSupplier").value = expense.supplier || ""; $("#expenseAmount").value = expense.currency === "EUR" ? expense.amount : expense.dzd / 1e6; $("#expenseCurrency").value = expense.currency; $("#exchangeRate").value = expense.rate; $("#expenseComment").value = expense.comment || ""; updateCommitmentOptions(expense.commitmentId || ""); }
+        else if (commitmentId) { const commitment = state.commitments.find((item) => item.id === commitmentId); if (commitment) { $("#expenseCommitment").value = commitmentId; $("#expenseCategory").value = commitment.category; updateSubs(); $("#expenseSupplier").value = commitment.beneficiary; $("#expenseDescription").value = `Versement ${commitment.label}`; } }
+        updateConversion(); updateLimit(); $("#expenseModal").classList.add("open");
+      }
+
+      function updateConversion() { const amount = num($("#expenseAmount").value); const rate = num($("#exchangeRate").value); const currency = $("#expenseCurrency").value; $("#conversionInfo").textContent = amount > 0 && rate > 0 ? (currency === "EUR" ? `${eur(amount)} = ${fmt(amount * rate, 3)} DZD` : `${fmt(amount, 3)} DZD = ${eur(amount / rate)}`) : "Saisissez le montant et le taux."; }
+      function updateLimit() { const commitmentId = $("#expenseCommitment").value; const box = $("#paymentLimit"); if (!commitmentId) { box.classList.add("hidden"); return; } box.classList.remove("hidden"); const balance = remaining(commitmentId, $("#expenseId").value); box.textContent = balance <= 0 ? "Somme due entièrement payée." : `Reste maximal autorisé : ${dzd(balance)}`; }
+
+      $("#expenseForm").addEventListener("submit", (event) => {
+        event.preventDefault(); const amount = num($("#expenseAmount").value); const rate = num($("#exchangeRate").value); const currency = $("#expenseCurrency").value; const expenseId = $("#expenseId").value; const commitmentId = $("#expenseCommitment").value; const amountDzd = Math.round((currency === "EUR" ? amount * rate : amount) * 1e6);
+        if (commitmentId && amountDzd > remaining(commitmentId, expenseId)) { alert(`Versement refusé. Reste maximal : ${dzd(remaining(commitmentId, expenseId))}`); return; }
+        const old = state.expenses.find((item) => item.id === expenseId); const object = { id: expenseId || id(), date: $("#expenseDate").value, category: $("#expenseCategory").value, subcategory: $("#expenseSubcategory").value, description: $("#expenseDescription").value.trim(), supplier: $("#expenseSupplier").value.trim(), commitmentId, amount, currency, rate, dzd: amountDzd, eur: currency === "EUR" ? amount : amount / rate, comment: $("#expenseComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() };
+        state.expenses = old ? state.expenses.map((item) => item.id === expenseId ? object : item) : [...state.expenses, object]; save(); $("#expenseModal").classList.remove("open");
+      });
+
+      function openCommitment(commitmentId = "") {
+        $("#commitmentForm").reset(); $("#commitmentId").value = ""; $("#commitmentCategory").value = "Terrain"; updateBens();
+        if (commitmentId) { const commitment = state.commitments.find((item) => item.id === commitmentId); if (!commitment) return; $("#commitmentId").value = commitment.id; $("#commitmentLabel").value = commitment.label; $("#commitmentCategory").value = commitment.category; const known = BENEFICIARIES[commitment.category].includes(commitment.beneficiary); updateBens(known ? commitment.beneficiary : "Autres"); if (!known) $("#customBeneficiary").value = commitment.beneficiary; $("#commitmentAmount").value = (commitment.amountDzd / 1e6).toFixed(3).replace(".", ","); $("#commitmentComment").value = commitment.comment || ""; }
+        $("#commitmentModal").classList.add("open");
+      }
+
+      $("#commitmentForm").addEventListener("submit", (event) => {
+        event.preventDefault(); const raw = $("#commitmentAmount").value.trim().replace(",", "."); if (!/^\d+\.\d{3}$/.test(raw)) { alert("Saisissez exactement 3 décimales."); return; }
+        const commitmentId = $("#commitmentId").value; const old = state.commitments.find((item) => item.id === commitmentId); const amountDzd = Math.round(Number(raw) * 1e6); if (old && amountDzd < paid(commitmentId)) { alert("La somme ne peut pas être inférieure au total versé."); return; }
+        const choice = $("#commitmentBeneficiary").value; const beneficiary = choice === "Autres" ? $("#customBeneficiary").value.trim() : choice; const object = { id: commitmentId || id(), label: $("#commitmentLabel").value.trim(), category: $("#commitmentCategory").value, beneficiary, amountDzd, comment: $("#commitmentComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() };
+        state.commitments = old ? state.commitments.map((item) => item.id === commitmentId ? object : item) : [...state.commitments, object]; save(); $("#commitmentModal").classList.remove("open");
+      });
+
+      $("#expenseList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.editExpense) openExpense(data.editExpense); if (data.deleteExpense && confirm("Supprimer cette dépense ?")) { state.expenses = state.expenses.filter((item) => item.id !== data.deleteExpense); save(); } });
+      $("#commitmentList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.addPayment) openExpense("", data.addPayment); if (data.toggleHistory) $(`#history-${data.toggleHistory}`).classList.toggle("hidden"); if (data.editCommitment) openCommitment(data.editCommitment); if (data.deleteCommitment) { if (state.expenses.some((item) => item.commitmentId === data.deleteCommitment)) { alert("Des versements sont associés."); return; } if (confirm("Supprimer cette somme due ?")) { state.commitments = state.commitments.filter((item) => item.id !== data.deleteCommitment); save(); } } });
+
+      $("#expenseCategory").addEventListener("change", () => updateSubs());
+      $("#commitmentCategory").addEventListener("change", () => updateBens());
+      $("#commitmentBeneficiary").addEventListener("change", updateCustom);
+      $("#expenseCommitment").addEventListener("change", updateLimit);
+      $("#expenseAmount").addEventListener("input", updateConversion);
+      $("#exchangeRate").addEventListener("input", updateConversion);
+      $("#expenseCurrency").addEventListener("change", updateConversion);
+      $("#addExpense").addEventListener("click", () => openExpense());
+      $("#newCommitment").addEventListener("click", () => openCommitment());
+      $("#closeExpense").addEventListener("click", () => $("#expenseModal").classList.remove("open"));
+      $("#closeCommitment").addEventListener("click", () => $("#commitmentModal").classList.remove("open"));
+      $("#search").addEventListener("input", renderExpenses);
+      $("#filter").addEventListener("change", renderExpenses);
+      $("#commitmentStatusFilter").addEventListener("change", renderCommitments);
+      $("#toggleFinishedCommitments").addEventListener("click", () => { finishedCommitmentsCollapsed = !finishedCommitmentsCollapsed; const button = $("#toggleFinishedCommitments"); button.textContent = finishedCommitmentsCollapsed ? "Afficher terminées" : "Masquer terminées"; button.setAttribute("aria-expanded", String(!finishedCommitmentsCollapsed)); renderCommitments(); });
+
+      function download(name, text, type) { const url = URL.createObjectURL(new Blob([text], { type })); const anchor = document.createElement("a"); anchor.href = url; anchor.download = name; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
+      $("#exportJsonButton").addEventListener("click", () => download("DarFiKhoriba_sauvegarde.json", JSON.stringify(state, null, 2), "application/json"));
+      $("#exportCsvButton").addEventListener("click", () => { const rows = state.expenses.map((expense) => [expense.date, expense.category, expense.subcategory, expense.description, expense.supplier, expense.dzd, expense.eur].map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`).join(";")); download("DarFiKhoriba_depenses.csv", '\ufeff"date";"categorie";"sous_categorie";"description";"beneficiaire";"montant_dzd";"montant_eur"\n' + rows.join("\n"), "text/csv"); });
+      $("#importJsonButton").addEventListener("click", () => $("#importJsonFile").click());
+      $("#importJsonFile").addEventListener("change", async (event) => { try { const imported = JSON.parse(await event.target.files[0].text()); if (!Array.isArray(imported.expenses) || !Array.isArray(imported.commitments)) throw new Error(); if (confirm("Remplacer toutes les données actuelles ?")) { state = imported; save(); } } catch { alert("Fichier JSON invalide."); } event.target.value = ""; });
+      $("#clearDataButton").addEventListener("click", () => { if (confirm("Supprimer définitivement toutes les données ?")) { state = structuredClone(DEFAULT_STATE); save(); } });
+      window.addEventListener("resize", () => { clearTimeout(chartResizeTimer); chartResizeTimer = setTimeout(() => { if ($("#charts").classList.contains("active")) drawExpenseChart(); }, 150); });
+
+      updateSubs(); updateBens(); updateCommitmentOptions(); render();
+    })();
   </script>
+
   <script>
-   if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));
+    }
   </script>
- </body>
+</body>
 </html>
