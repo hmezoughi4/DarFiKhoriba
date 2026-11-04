@@ -126,6 +126,10 @@
     .chart-legend-item { display: inline-flex; align-items: center; gap: 7px; color: #475569; font-size: 12px; font-weight: 800; }
     .chart-legend-color { width: 11px; height: 11px; flex: 0 0 11px; border-radius: 50%; }
 
+	.stats-list { display: grid; grid-template-columns: 1fr; gap: 12px;}
+	.stats-list .stat { padding: 10px 0; border-bottom: 1px solid var(--line);}
+	.stats-list .stat:last-child {  border-bottom: 0;}
+
     @media (max-width: 480px) {
       .app { padding-left: 12px; padding-right: 12px; }
       .card { padding: 14px; }
@@ -217,26 +221,26 @@
     <h2>Réglages</h2>
   </div>
 
-  <div class="card">
-    <strong>Statistiques</strong>
+<div class="card">
+  <strong>Statistiques</strong>
 
-    <div class="grid3 mt">
-      <div class="stat">
-        <div class="small muted">Dépenses</div>
-        <strong id="settingsExpenseCount">0</strong>
-      </div>
+  <div class="stats-list mt">
+    <div class="stat">
+      <div class="small muted">Dépenses</div>
+      <strong id="settingsExpenseCount">0</strong>
+    </div>
 
-      <div class="stat">
-        <div class="small muted">Total DZD</div>
-        <strong id="settingsTotalDzd">0,000 DZD</strong>
-      </div>
+    <div class="stat">
+      <div class="small muted">Total DZD</div>
+      <strong id="settingsTotalDzd">0,000 DZD</strong>
+    </div>
 
-      <div class="stat">
-        <div class="small muted">Total EUR</div>
-        <strong id="settingsTotalEur">0,00 €</strong>
-      </div>
+    <div class="stat">
+      <div class="small muted">Total EUR</div>
+      <strong id="settingsTotalEur">0,00 €</strong>
     </div>
   </div>
+</div>
 
   <div class="card mt">
     <strong>Sauvegarde et transfert</strong>
