@@ -212,20 +212,82 @@
       <div class="list" id="commitmentList"></div>
     </section>
 
-    <section class="page" id="settings">
-      <div class="section-title"><h2>Réglages</h2></div>
-      <div class="card">
-        <strong>Sauvegarde et transfert</strong>
-        <div class="settings-notice mt">Les données sont enregistrées localement. Exportez régulièrement une sauvegarde JSON.</div>
-        <div class="settings-grid mt">
-          <button class="button button-line" id="exportJsonButton">Exporter JSON</button>
-          <button class="button button-line" id="exportCsvButton">Exporter CSV</button>
-          <button class="button button-soft" id="importJsonButton">Importer JSON</button>
-          <button class="button button-danger" id="clearDataButton">Tout effacer</button>
-        </div>
-        <input class="hidden" id="importJsonFile" type="file" accept=".json,application/json">
+<section class="page" id="settings">
+  <div class="section-title">
+    <h2>Réglages</h2>
+  </div>
+
+  <div class="card">
+    <strong>Statistiques</strong>
+
+    <div class="grid3 mt">
+      <div class="stat">
+        <div class="small muted">Dépenses</div>
+        <strong id="settingsExpenseCount">0</strong>
       </div>
-    </section>
+
+      <div class="stat">
+        <div class="small muted">Total DZD</div>
+        <strong id="settingsTotalDzd">0,000 DZD</strong>
+      </div>
+
+      <div class="stat">
+        <div class="small muted">Total EUR</div>
+        <strong id="settingsTotalEur">0,00 €</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt">
+    <strong>Sauvegarde et transfert</strong>
+
+    <div class="settings-notice mt">
+      Les données sont enregistrées localement.
+      Exportez régulièrement une sauvegarde JSON.
+    </div>
+
+    <div class="settings-grid mt">
+      <button
+        class="button button-line"
+        id="exportJsonButton"
+        type="button"
+      >
+        Exporter JSON
+      </button>
+
+      <button
+        class="button button-line"
+        id="exportCsvButton"
+        type="button"
+      >
+        Exporter CSV
+      </button>
+
+      <button
+        class="button button-soft"
+        id="importJsonButton"
+        type="button"
+      >
+        Importer JSON
+      </button>
+
+      <button
+        class="button button-danger"
+        id="clearDataButton"
+        type="button"
+      >
+        Tout effacer
+      </button>
+    </div>
+
+    <input
+      accept=".json,application/json"
+      class="hidden"
+      id="importJsonFile"
+      type="file"
+    >
+  </div>
+</section>
 
     <button class="floating-button" id="addExpense" type="button" aria-label="Ajouter une dépense">+</button>
     <nav class="tabs">
@@ -423,7 +485,11 @@
 
       function render() {
         const total = state.expenses.reduce((sum, expense) => sum + Math.round(num(expense.dzd)), 0); const totalEur = state.expenses.reduce((sum, expense) => sum + num(expense.eur), 0);
-        $("#totalDzd").textContent = dzd(total); $("#totalEur").textContent = eur(totalEur);
+        $("#totalDzd").textContent = dzd(total); 
+        $("#totalEur").textContent = eur(totalEur);
+        $("#settingsExpenseCount").textContent = state.expenses.length;
+        $("#settingsTotalDzd").textContent = dzd(total);
+        $("#settingsTotalEur").textContent = eur(totalEur);
         [["#homeTerrain", "Terrain"], ["#homeSupplies", "Fournitures"], ["#homeLabor", "Main-d'œuvre"]].forEach(([selector, category]) => { $(selector).textContent = dzd(state.expenses.filter((expense) => expense.category === category).reduce((sum, expense) => sum + num(expense.dzd), 0)); });
         const recent = [...state.expenses].sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 2);
         $("#recentExpenses").innerHTML = recent.length ? recent.map((expense) => expenseHtml(expense, false)).join("") : '<div class="card empty">Aucune dépense.</div>';
