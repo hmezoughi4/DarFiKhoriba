@@ -1126,6 +1126,39 @@
         text-align: center;
       }
 
+      .commitment-toolbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      
+      .commitment-toolbar .button {
+        white-space: nowrap;
+      }
+      
+      .commitment-collapsible {
+        min-width: 0;
+      }
+      
+      .commitment-card.collapsed {
+        padding-bottom: 16px;
+      }
+      
+      .commitment-card.collapsed .commitment-collapsible {
+        display: none;
+      }
+      
+      @media (max-width: 420px) {
+        .commitment-toolbar {
+          grid-template-columns: 1fr;
+        }
+      
+        .commitment-toolbar .button {
+          width: 100%;
+        }
+      }
+            
       /*
        * ================================================================
        * MOBILE
@@ -1545,16 +1578,47 @@
           </div>
         </div>
 
-        <div class="section-title">
-          <h2>
-            Détail
-          </h2>
-        </div>
+<div class="section-title">
+  <h2>
+    Détail
+  </h2>
+</div>
 
-        <div
-          id="commitmentList"
-          class="list"
-        ></div>
+<div class="commitment-toolbar">
+  <select
+    id="commitmentStatusFilter"
+    aria-label="Filtrer les sommes dues par statut"
+  >
+    <option value="">
+      Tous les statuts
+    </option>
+
+    <option value="done">
+      Terminé
+    </option>
+
+    <option value="progress">
+      En cours
+    </option>
+
+    <option value="start">
+      À débuter
+    </option>
+  </select>
+
+  <button
+    id="toggleFinishedCommitments"
+    class="button button-soft"
+    type="button"
+  >
+    Replier les terminées
+  </button>
+</div>
+
+<div
+  id="commitmentList"
+  class="list"
+></div>
       </section>
 
       <!-- ============================================================
@@ -2374,9 +2438,9 @@
           );
         }
 
-        let state =
-          loadState();
-
+        let state = loadState();
+        let finishedCommitmentsCollapsed = false;
+        
         function saveState() {
           const savedAt =
             new Date();
@@ -3151,6 +3215,44 @@
               totalPaid,
             );
 
+                  const selectedStatus =
+          $("#commitmentStatusFilter")?.value || "";
+        
+        const filteredCommitments =
+          state.commitments.filter((commitment) => {
+            const amountDue =
+              Math.round(
+                numberValue(commitment.amountDzd),
+              );
+        
+            const paid =
+              paidAmount(commitment.id);
+        
+            const percentage =
+              amountDue > 0
+                ? Math.max(
+                    0,
+                    Math.min(
+                      100,
+                      (paid / amountDue) * 100,
+                    ),
+                  )
+                : 0;
+        
+            let statusValue = "progress";
+        
+            if (percentage <= 0) {
+              statusValue = "start";
+            } else if (percentage >= 100) {
+              statusValue = "done";
+            }
+        
+            return (
+              !selectedStatus ||
+              selectedStatus === statusValue
+            );
+          });
+                  
           $("#dueTotal")
             .textContent =
               formatDzd(totalDue);
@@ -3261,16 +3363,32 @@
                         percentage,
                       );
 
+                    const isFinished =
+                    percentage >= 100;
+                  
+                  const isCollapsed =
+                    isFinished &&
+                    finishedCommitmentsCollapsed;
+                    
+
                     const history =
                       paymentsForCommitment(
                         commitment.id,
                       );
 
                     return `
-                      <article class="card">
+                     <article
+                        class="
+                          card
+                          commitment-card
+                          ${isCollapsed ? "collapsed" : ""}
+                        "
+                      >
 
                         <div class="commitment-top">
 
+                        <div class="commitment-collapsible">
+                        
                           <div class="commitment-title">
 
                             <strong>
@@ -5503,6 +5621,29 @@
             },
           );
 
+        $("#commitmentStatusFilter")
+  .addEventListener(
+    "change",
+    renderCommitments,
+  );
+
+$("#toggleFinishedCommitments")
+  .addEventListener(
+    "click",
+    () => {
+      finishedCommitmentsCollapsed =
+        !finishedCommitmentsCollapsed;
+
+      $("#toggleFinishedCommitments")
+        .textContent =
+          finishedCommitmentsCollapsed
+            ? "Déplier les terminées"
+            : "Replier les terminées";
+
+      renderCommitments();
+    },
+  );
+        
         window.addEventListener(
           "resize",
           () => {
