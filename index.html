@@ -129,6 +129,25 @@
 	.stats-list { display: grid; grid-template-columns: 1fr; gap: 12px;}
 	.stats-list .stat { padding: 10px 0; border-bottom: 1px solid var(--line);}
 	.stats-list .stat:last-child {  border-bottom: 0;}
+	.settings-details {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.settings-detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.settings-detail strong {
+  text-align: right;
+  font-size: 14px;
+}
 
     @media (max-width: 480px) {
       .app { padding-left: 12px; padding-right: 12px; }
@@ -240,10 +259,22 @@
       <strong id="settingsTotalEur">0,00 €</strong>
     </div>
   </div>
+
+  <div class="settings-details">
+    <div class="settings-detail">
+      <span class="small muted">
+        Dernière sauvegarde locale
+      </span>
+
+      <strong id="settingsLastSave">
+        Jamais
+      </strong>
+    </div>
+  </div>
 </div>
 
-  <div class="card mt">
-    <strong>Sauvegarde et transfert</strong>
+<div class="card mt">
+  <strong>Sauvegarde et transfert</strong>
 
     <div class="settings-notice mt">
       Les données sont enregistrées localement.
@@ -347,8 +378,13 @@
     (() => {
       "use strict";
 
-      const STORAGE_KEY = "suivi_maison_v1";
-      const DEFAULT_STATE = { expenses: [], commitments: [] };
+		const STORAGE_KEY = "suivi_maison_v1";
+		const SAVE_TIME_KEY = "suivi_maison_last_save";
+		
+		const DEFAULT_STATE = {
+		  expenses: [],
+		  commitments: []
+		};
       const SUBCATEGORIES = {
         Terrain: ["Achat du terrain", "Notaire", "Bornage", "Autres"],
         Fournitures: ["Ciment", "Ferraille", "Briques", "Sable", "Gravier", "Bois", "Plomberie", "Électricité", "Carrelage", "Peinture", "Autres"],
@@ -375,16 +411,62 @@
         return structuredClone(DEFAULT_STATE);
       }
 
+		function updateLastSaveDisplay() {
+		  const element = $("#settingsLastSave");
+		
+		  if (!element) {
+		    return;
+		  }
+		
+		  const savedAt = localStorage.getItem(SAVE_TIME_KEY);
+		
+		  if (!savedAt) {
+		    element.textContent = "Jamais";
+		    return;
+		  }
+		
+		  const date = new Date(savedAt);
+		
+		  if (Number.isNaN(date.getTime())) {
+		    element.textContent = "Date inconnue";
+		    return;
+		  }
+		
+		  element.textContent = date.toLocaleString("fr-FR", {
+		    day: "2-digit",
+		    month: "2-digit",
+		    year: "numeric",
+		    hour: "2-digit",
+		    minute: "2-digit"
+		  });
+		}
+		
       let state = load();
       let finishedCommitmentsCollapsed = false;
       let chartResizeTimer;
 
-      function save() {
-        const date = new Date();
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        $("#saveStatus").textContent = `Sauvegardé à ${date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`;
-        render();
-      }
+		function save() {
+		  const date = new Date();
+		
+		  localStorage.setItem(
+		    STORAGE_KEY,
+		    JSON.stringify(state)
+		  );
+		
+		  localStorage.setItem(
+		    SAVE_TIME_KEY,
+		    date.toISOString()
+		  );
+		
+		  $("#saveStatus").textContent =
+		    `Sauvegardé à ${date.toLocaleTimeString("fr-FR", {
+		      hour: "2-digit",
+		      minute: "2-digit"
+		    })}`;
+		
+		  updateLastSaveDisplay();
+		  render();
+		}
 
       const paid = (commitmentId, excluded = "") => Math.round(state.expenses.filter((expense) => expense.commitmentId === commitmentId && expense.id !== excluded).reduce((total, expense) => total + Math.round(num(expense.dzd)), 0));
       const remaining = (commitmentId, excluded = "") => { const commitment = state.commitments.find((item) => item.id === commitmentId); return commitment ? Math.round(num(commitment.amountDzd) - paid(commitmentId, excluded)) : null; };
@@ -478,8 +560,51 @@
         const step = Math.max(1, Math.ceil(points.length / 5));
         const labels = points.map((point, index) => index % step === 0 || index === points.length - 1 ? `<text class="chart-axis-label" text-anchor="middle" x="${x(index)}" y="${height - 28}">${esc(shortDate(point.date))}</text>` : "").join("");
         const lines = categories.map((category) => { const coordinates = points.map((point, index) => ({ x: x(index), y: y(point.values[category]), value: point.values[category], date: point.date })); const polyline = coordinates.map((point) => `${point.x},${point.y}`).join(" "); const circles = coordinates.map((point) => { const title = `${category}, ${point.date}, ${dzd(point.value)}`; return `<circle class="chart-point" cx="${point.x}" cy="${point.y}" r="4" fill="${CHART_COLORS[category]}"><title>${esc(title)}</title></circle>`; }).join(""); return `<polyline class="chart-line" points="${polyline}" stroke="${CHART_COLORS[category]}"></polyline>${circles}`; }).join("");
-        host.innerHTML = `<svg class="expense-chart-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">${grid}<line class="chart-axis-line" x1="${margin.left}" x2="${margin.left}" y1="${margin.top}" y2="${margin.top + plotHeight}"></line><line class="chart-axis-line" x1="${margin.left}" x2="${width - margin.right}" y1="${margin.top + plotHeight}" y2="${margin.top + plotHeight}"></line><text class="chart-axis-title" text-anchor="middle" transform="rotate(-90 17 ${margin.top + plotHeight / 2})" x="17" y="${margin.top + plotHeight / 2}">Montant cumulé en DZD</text>${labels}${lines}</svg>`;
-        legend.innerHTML = categories.map((category) => `<div class="chart-legend-item"><span class="chart-legend-color" style="background:${CHART_COLORS[category]}"></span><span>${ICONS[category]} ${esc(category)}</span></div>`).join("");
+       host.innerHTML = `
+  <svg
+    class="expense-chart-svg"
+    viewBox="0 0 ${width} ${height}"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    ${grid}
+
+    <line
+      class="chart-axis-line"
+      x1="${margin.left}"
+      x2="${margin.left}"
+      y1="${margin.top}"
+      y2="${margin.top + plotHeight}"
+    ></line>
+
+    <line
+      class="chart-axis-line"
+      x1="${margin.left}"
+      x2="${width - margin.right}"
+      y1="${margin.top + plotHeight}"
+      y2="${margin.top + plotHeight}"
+    ></line>
+
+    <text
+      class="chart-axis-title"
+      text-anchor="middle"
+      transform="
+        rotate(
+          -90
+          17
+          ${margin.top + plotHeight / 2}
+        )
+      "
+      x="17"
+      y="${margin.top + plotHeight / 2}"
+    >
+      Montant cumulé en DZD
+    </text>
+
+    ${labels}
+    ${lines}
+  </svg>
+`;
+		  legend.innerHTML = categories.map((category) => `<div class="chart-legend-item"><span class="chart-legend-color" style="background:${CHART_COLORS[category]}"></span><span>${ICONS[category]} ${esc(category)}</span></div>`).join("");
       }
 
       function drawBars() {
@@ -549,15 +674,256 @@
       $("#commitmentStatusFilter").addEventListener("change", renderCommitments);
       $("#toggleFinishedCommitments").addEventListener("click", () => { finishedCommitmentsCollapsed = !finishedCommitmentsCollapsed; const button = $("#toggleFinishedCommitments"); button.textContent = finishedCommitmentsCollapsed ? "Afficher terminées" : "Masquer terminées"; button.setAttribute("aria-expanded", String(!finishedCommitmentsCollapsed)); renderCommitments(); });
 
-      function download(name, text, type) { const url = URL.createObjectURL(new Blob([text], { type })); const anchor = document.createElement("a"); anchor.href = url; anchor.download = name; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
-      $("#exportJsonButton").addEventListener("click", () => download("DarFiKhoriba_sauvegarde.json", JSON.stringify(state, null, 2), "application/json"));
-      $("#exportCsvButton").addEventListener("click", () => { const rows = state.expenses.map((expense) => [expense.date, expense.category, expense.subcategory, expense.description, expense.supplier, expense.dzd, expense.eur].map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`).join(";")); download("DarFiKhoriba_depenses.csv", '\ufeff"date";"categorie";"sous_categorie";"description";"beneficiaire";"montant_dzd";"montant_eur"\n' + rows.join("\n"), "text/csv"); });
-      $("#importJsonButton").addEventListener("click", () => $("#importJsonFile").click());
-      $("#importJsonFile").addEventListener("change", async (event) => { try { const imported = JSON.parse(await event.target.files[0].text()); if (!Array.isArray(imported.expenses) || !Array.isArray(imported.commitments)) throw new Error(); if (confirm("Remplacer toutes les données actuelles ?")) { state = imported; save(); } } catch { alert("Fichier JSON invalide."); } event.target.value = ""; });
-      $("#clearDataButton").addEventListener("click", () => { if (confirm("Supprimer définitivement toutes les données ?")) { state = structuredClone(DEFAULT_STATE); save(); } });
+		function download(name, text, type) {
+		  const url = URL.createObjectURL(
+		    new Blob([text], { type })
+		  );
+		
+		  const anchor = document.createElement("a");
+		
+		  anchor.href = url;
+		  anchor.download = name;
+		
+		  document.body.appendChild(anchor);
+		  anchor.click();
+		  anchor.remove();
+		
+		  setTimeout(() => {
+		    URL.revokeObjectURL(url);
+		  }, 1000);
+		}
+		
+		function createSafetyBackup(reason = "securite") {
+		  const hasData =
+		    state.expenses.length > 0 ||
+		    state.commitments.length > 0;
+		
+		  if (!hasData) {
+		    return false;
+		  }
+		
+		  const now = new Date();
+		
+		  const datePart = now
+		    .toISOString()
+		    .slice(0, 19)
+		    .replace(/:/g, "-");
+		
+		  const fileName =
+		    `DarFiKhoriba_${reason}_${datePart}.json`;
+		
+		  const backup = {
+		    backupDate: now.toISOString(),
+		    backupReason: reason,
+		    expenses: state.expenses,
+		    commitments: state.commitments
+		  };
+		
+		  download(
+		    fileName,
+		    JSON.stringify(backup, null, 2),
+		    "application/json"
+		  );
+		
+		  return true;
+		}
+		
+		$("#exportJsonButton").addEventListener(
+		  "click",
+		  () => {
+		    const now = new Date();
+		
+		    const exportData = {
+		      backupDate: now.toISOString(),
+		      backupReason: "export_manuel",
+		      expenses: state.expenses,
+		      commitments: state.commitments
+		    };
+		
+		    download(
+		      "DarFiKhoriba_sauvegarde.json",
+		      JSON.stringify(exportData, null, 2),
+		      "application/json"
+		    );
+		  }
+		);
+		
+		$("#exportCsvButton").addEventListener(
+		  "click",
+		  () => {
+		    const rows = state.expenses.map((expense) => {
+		      return [
+		        expense.date,
+		        expense.category,
+		        expense.subcategory,
+		        expense.description,
+		        expense.supplier,
+		        expense.dzd,
+		        expense.eur
+		      ]
+		        .map((value) => {
+		          return `"${String(value ?? "")
+		            .replace(/"/g, '""')}"`;
+		        })
+		        .join(";");
+		    });
+		
+		    const header =
+		      '\ufeff"date";"categorie";' +
+		      '"sous_categorie";"description";' +
+		      '"beneficiaire";"montant_dzd";' +
+		      '"montant_eur"\n';
+		
+		    download(
+		      "DarFiKhoriba_depenses.csv",
+		      header + rows.join("\n"),
+		      "text/csv"
+		    );
+		  }
+		);
+		
+		$("#importJsonButton").addEventListener(
+		  "click",
+		  () => {
+		    $("#importJsonFile").click();
+		  }
+		);
+		
+		$("#importJsonFile").addEventListener(
+		  "change",
+		  async (event) => {
+		    const file = event.target.files?.[0];
+		
+		    if (!file) {
+		      return;
+		    }
+		
+		    try {
+		      const imported = JSON.parse(
+		        await file.text()
+		      );
+		
+		      if (
+		        !Array.isArray(imported.expenses) ||
+		        !Array.isArray(imported.commitments)
+		      ) {
+		        throw new Error(
+		          "Le fichier ne contient pas les tableaux requis."
+		        );
+		      }
+		
+		      const confirmed = confirm(
+		        "Remplacer toutes les données actuelles ?\n\n" +
+		        "Une sauvegarde JSON des données actuelles " +
+		        "sera téléchargée avant l'import."
+		      );
+		
+		      if (!confirmed) {
+		        event.target.value = "";
+		        return;
+		      }
+		
+		      const backupCreated =
+		        createSafetyBackup("avant_import");
+		
+		      /*
+		       * Petit délai destiné à laisser le navigateur
+		       * lancer le téléchargement avant le remplacement.
+		       */
+		      if (backupCreated) {
+		        await new Promise((resolve) => {
+		          setTimeout(resolve, 350);
+		        });
+		      }
+		
+		      state = {
+		        expenses: imported.expenses,
+		        commitments: imported.commitments
+		      };
+		
+		      save();
+		
+		      alert(
+		        backupCreated
+		          ? "Import terminé.\n\n" +
+		            "La sauvegarde des anciennes données " +
+		            "a été téléchargée."
+		          : "Import terminé.\n\n" +
+		            "Aucune ancienne donnée n'était à sauvegarder."
+		      );
+		    } catch (error) {
+		      console.error(error);
+		
+		      alert(
+		        "Fichier JSON invalide.\n\n" +
+		        "Aucune donnée actuelle n'a été modifiée."
+		      );
+		    } finally {
+		      event.target.value = "";
+		    }
+		  }
+		);
+		
+		$("#clearDataButton").addEventListener(
+		  "click",
+		  async () => {
+		    const hasData =
+		      state.expenses.length > 0 ||
+		      state.commitments.length > 0;
+		
+		    if (!hasData) {
+		      alert("Il n'y a aucune donnée à effacer.");
+		      return;
+		    }
+		
+		    const confirmed = confirm(
+		      "Supprimer définitivement toutes les données ?\n\n" +
+		      "Une sauvegarde JSON sera téléchargée " +
+		      "avant l'effacement."
+		    );
+		
+		    if (!confirmed) {
+		      return;
+		    }
+		
+		    const backupCreated =
+		      createSafetyBackup("avant_effacement");
+		
+		    if (!backupCreated) {
+		      alert(
+		        "La sauvegarde n'a pas pu être préparée. " +
+		        "L'effacement est annulé."
+		      );
+		
+		      return;
+		    }
+		
+		    /*
+		     * Le court délai laisse le temps au navigateur
+		     * de démarrer le téléchargement.
+		     */
+		    await new Promise((resolve) => {
+		      setTimeout(resolve, 350);
+		    });
+		
+		    state = structuredClone(DEFAULT_STATE);
+		
+		    save();
+		
+		    alert(
+		      "Toutes les données ont été effacées.\n\n" +
+		      "La sauvegarde de sécurité a été téléchargée."
+		    );
+		  }
+		);
+
       window.addEventListener("resize", () => { clearTimeout(chartResizeTimer); chartResizeTimer = setTimeout(() => { if ($("#charts").classList.contains("active")) drawExpenseChart(); }, 150); });
 
-      updateSubs(); updateBens(); updateCommitmentOptions(); render();
+      updateSubs();
+		updateBens();
+		updateCommitmentOptions();
+		updateLastSaveDisplay();
+		render();
     })();
   </script>
 
