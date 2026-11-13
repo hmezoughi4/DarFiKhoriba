@@ -45,6 +45,14 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+        .arabe {
+  overflow: hidden;
+  color: yellow;
+  font-size: 18px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
     .top h1 { margin: 3px 0; font-size: 25px; }
     .logo { display: grid; width: 48px; height: 48px; flex: 0 0 48px; place-items: center; border-radius: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); box-shadow: var(--shadow); font-size: 27px; }
     .card { width: 100%; min-width: 0; padding: 16px; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
@@ -183,7 +191,7 @@
     <header class="top">
       <div>
         <div class="eyebrow">Hocine &amp; Djamila</div>
-        <h1>خوريبة بناء</h1>
+        <div class="arabe">خوريبة بناء</div>
         <div class="small muted" id="saveStatus">Sauvegarde locale active</div>
       </div>
       <div class="top-actions"><button class="quick-export-button" id="quickExportJson" type="button" aria-label="Exporter rapidement la sauvegarde JSON" title="Sauvegarde JSON rapide">💾</button><button class="theme-button" id="themeToggle" type="button" aria-label="Basculer mode clair ou sombre">🌙</button><div class="logo" aria-label="Algérie">🇩🇿</div></div>
