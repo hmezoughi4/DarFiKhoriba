@@ -221,15 +221,37 @@
     @media(max-width:390px){.quick-action{font-size:0;padding:0;width:48px;justify-content:center}.quick-action span{font-size:22px}.grid3{grid-template-columns:1fr}.stat{min-height:auto}.tab{padding:7px 2px}}
     @keyframes pageIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 
+  
+    /* ===== Mobile + accessibilité ===== */
+    .skip-link{position:fixed;top:8px;left:8px;z-index:1000;transform:translateY(-160%);padding:10px 14px;border-radius:10px;background:var(--text);color:var(--card);font-weight:800;text-decoration:none}.skip-link:focus{transform:none}
+    :where(button,a,input,select,textarea):focus-visible{outline:3px solid var(--primary-light)!important;outline-offset:3px!important}
+    button,.tab,.quick-action{min-height:44px}.close{min-width:44px;min-height:44px}
+    .tab{touch-action:manipulation}.tab[aria-current="page"]{font-weight:850}
+    .small,.muted{line-height:1.45}.button,.quick-action,.tab{letter-spacing:.01em}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.card:hover,.theme-toggle:hover,.quick-action:hover{transform:none!important}}
+    @media (forced-colors:active){.card,.sheet,.tabs,input,select,textarea,.button,.quick-action{border:1px solid ButtonText}.tab.active{outline:2px solid Highlight}.progress>div{background:Highlight}}
+    @media(max-width:600px){
+      body{font-size:16px;-webkit-text-size-adjust:100%}.app{padding:14px 12px calc(154px + env(safe-area-inset-bottom))}.top{align-items:flex-start;margin-bottom:10px}.top h1{font-size:24px}.eyebrow{font-size:11px;white-space:normal;line-height:1.35}
+      .hero{padding:20px 18px;border-radius:18px}.hero .big{font-size:34px;overflow-wrap:anywhere}.grid3{display:grid;grid-template-columns:1fr 1fr!important;gap:10px}.grid3 .stat:first-child{grid-column:1/-1}.stat{min-height:88px!important;padding:12px!important}.stat strong{font-size:15px!important;overflow-wrap:anywhere}
+      .section-title{margin-top:22px;align-items:center}.section-title h2{font-size:18px}.list{gap:10px}.expense-row,.commitment-row{padding:14px}.row-actions{gap:8px;flex-wrap:wrap}.row-actions button{min-height:44px}
+      .toolbar{display:grid;grid-template-columns:1fr;gap:9px}.toolbar input,.toolbar select{width:100%;min-height:48px}.field input,.field select,.field textarea{min-height:48px;font-size:16px}.field textarea{min-height:88px}
+      .modal{padding:0;align-items:flex-end}.sheet{width:100%;max-height:92dvh;overflow-y:auto;padding:16px 14px calc(20px + env(safe-area-inset-bottom));border-radius:22px 22px 0 0}.sheet-head{position:sticky;top:-16px;z-index:3;background:var(--surface);padding:14px 0 10px;margin-top:-10px}.sheet-head h2{font-size:20px}
+      .action-dock{right:12px;bottom:calc(86px + env(safe-area-inset-bottom));left:12px;justify-content:flex-end}.quick-action{min-height:50px;padding:0 15px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+      .tabs{bottom:calc(8px + env(safe-area-inset-bottom));width:calc(100% - 16px);padding:5px;border-radius:18px}.tab{min-height:58px;font-size:10px;line-height:1.15;gap:4px}.tab span{font-size:20px}
+      .chart-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.grid2{grid-template-columns:1fr!important}
+    }
+    @media(max-width:380px){.app{padding-left:10px;padding-right:10px}.grid3{grid-template-columns:1fr!important}.grid3 .stat:first-child{grid-column:auto}.quick-action{font-size:13px!important;width:auto!important;padding:0 12px!important}.quick-action span{font-size:19px}.tab{font-size:9px}}
+
   </style>
 </head>
 <body>
-  <main class="app">
+  <a class="skip-link" href="#home">Aller au contenu principal</a>
+  <main class="app" id="mainContent">
     <header class="top">
       <div>
         <div class="eyebrow">KHORIBA City - Hocine &amp; Djamila</div>
         <h1>Suivi construction</h1>
-        <div class="small muted" id="saveStatus">Sauvegarde locale active</div>
+        <div class="small muted" id="saveStatus" role="status" aria-live="polite">Sauvegarde locale active</div>
       </div>
       <div class="header-actions"><button class="theme-toggle" id="themeToggle" type="button" aria-label="Changer de thème" title="Mode clair / sombre"><span id="themeIcon">☾</span></button><div class="logo" aria-label="Algérie">🇩🇿</div></div>
     </header>
@@ -237,7 +259,7 @@
     <section class="page active" id="home">
       <div class="card hero">
         <div class="small muted">TOTAL DES DÉPENSES</div>
-        <div class="big" id="totalDzd">0,000 DZD</div>
+        <div class="big" id="totalDzd" aria-live="polite">0,000 DZD</div>
         <div id="totalEur">0,00 €</div>
       </div>
       <div class="grid3 mt">
@@ -358,19 +380,19 @@
       </div>
     </section>
 
-    <div class="action-dock" id="actionDock"><button class="quick-action quick-expense" id="addExpense" type="button"><span>＋</span> Dépense</button><button class="quick-action quick-payment" id="addPayment" type="button"><span>↓</span> Versement</button></div>
-    <nav class="tabs">
-      <button class="tab active" data-page="home"><span>🏠</span>Accueil</button>
-      <button class="tab" data-page="expenses"><span>💰</span>Dépenses</button>
-      <button class="tab" data-page="charts"><span>📊</span>Analyse</button>
-      <button class="tab" data-page="commitments"><span>🤝</span>Sommes dues</button>
-      <button class="tab" data-page="settings"><span>⚙️</span>Réglages</button>
+    <div class="action-dock" id="actionDock"><button class="quick-action quick-expense" id="addExpense" type="button" aria-label="Ajouter une dépense"><span>＋</span> Dépense</button><button class="quick-action quick-payment" id="addPayment" type="button" aria-label="Enregistrer un versement"><span>↓</span> Versement</button></div>
+    <nav class="tabs" aria-label="Navigation principale">
+      <button class="tab active" data-page="home" aria-label="Accueil" aria-current="page"><span>🏠</span>Accueil</button>
+      <button class="tab" data-page="expenses" aria-label="Dépenses"><span>💰</span>Dépenses</button>
+      <button class="tab" data-page="charts" aria-label="Analyse"><span>📊</span>Analyse</button>
+      <button class="tab" data-page="commitments" aria-label="À payer"><span>🤝</span>Sommes dues</button>
+      <button class="tab" data-page="settings" aria-label="Réglages"><span>⚙️</span>Réglages</button>
     </nav>
   </main>
 
-  <div class="modal" id="expenseModal">
+  <div class="modal" id="expenseModal" role="dialog" aria-modal="true" aria-labelledby="expenseTitle">
     <form class="sheet" id="expenseForm">
-      <div class="sheet-head"><h2 id="expenseTitle">Ajouter une dépense</h2><button class="close" id="closeExpense" type="button">×</button></div>
+      <div class="sheet-head"><h2 id="expenseTitle">Ajouter une dépense</h2><button class="close" id="closeExpense" type="button" aria-label="Fermer le formulaire de dépense">×</button></div>
       <input id="expenseId" type="hidden">
       <div class="field"><label for="expenseDate">Date</label><input id="expenseDate" type="date" required></div>
       <div class="grid2">
@@ -392,9 +414,9 @@
     </form>
   </div>
 
-  <div class="modal" id="commitmentModal">
+  <div class="modal" id="commitmentModal" role="dialog" aria-modal="true" aria-labelledby="commitmentTitle">
     <form class="sheet" id="commitmentForm">
-      <div class="sheet-head"><h2 id="commitmentTitle">Ajouter une somme due</h2><button class="close" id="closeCommitment" type="button">×</button></div>
+      <div class="sheet-head"><h2 id="commitmentTitle">Ajouter une somme due</h2><button class="close" id="closeCommitment" type="button" aria-label="Fermer le formulaire de somme due">×</button></div>
       <input id="commitmentId" type="hidden">
       <div class="field"><label for="commitmentLabel">Objet</label><input id="commitmentLabel" required></div>
       <div class="grid2">
