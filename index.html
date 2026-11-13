@@ -37,14 +37,7 @@
     .top, .section-title, .bar-label { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 10px; }
     .top { margin-bottom: 16px; }
     .top > div:first-child { min-width: 0; flex: 1; }
-   .eyebrow {
-  overflow: hidden;
-  color: var(--primary);
-  font-size: 18px;
-  font-weight: 800;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+    .eyebrow { overflow: hidden; color: var(--muted); font-size: 13px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
     .top h1 { margin: 3px 0; font-size: 25px; }
     .logo { display: grid; width: 48px; height: 48px; flex: 0 0 48px; place-items: center; border-radius: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); box-shadow: var(--shadow); font-size: 27px; }
     .card { width: 100%; min-width: 0; padding: 16px; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
@@ -171,13 +164,7 @@
   
     /* Mode sombre et rubrique active */
     :root { --tab-active-bg: #ccfbf1; --sheet-bg: #ffffff; --input-bg: #ffffff; }
-    html[data-theme="dark"] {
-      color-scheme: dark;
-      --background:#0b1220; --card:#111827; --text:#f8fafc; --muted:#cbd5e1; --line:#334155;
-      --primary:#2dd4bf; --primary-light:#5eead4; --tab-active-bg:#134e4a; --sheet-bg:#111827; --input-bg:#0f172a;
-      --start-t:#fecaca; --start-b:#7f1d1d; --progress-t:#fde68a; --progress-b:#713f12; --done-t:#bbf7d0; --done-b:#14532d;
-      --shadow:0 8px 25px rgba(0,0,0,.28);
-    }
+    html[data-theme="dark"] { color-scheme: dark; --background:#0b1220; --card:#111827; --text:#f8fafc; --muted:#cbd5e1; --line:#334155; --primary:#2dd4bf; --primary-light:#5eead4; --tab-active-bg:#134e4a; --sheet-bg:#111827; --input-bg:#0f172a; --start-t:#fecaca; --start-b:#7f1d1d; --progress-t:#fde68a; --progress-b:#713f12; --done-t:#bbf7d0; --done-b:#14532d; --shadow:0 8px 25px rgba(0,0,0,.28); }
     .tab.active { background: var(--tab-active-bg); color: var(--primary); border-radius: 12px; }
     .theme-button { width:44px; height:44px; flex:0 0 44px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--text); font-size:20px; }
     .top-actions { display:flex; align-items:center; gap:8px; }
@@ -403,6 +390,7 @@
       const BENEFICIARIES = { Terrain: ["Wassini", "Khalida", "Autres"], "Main-d'œuvre": ["Maçon", "Plombier", "Électricien", "Carreleur", "Peintre", "Menuisier", "Autres"] };
       const ICONS = { Terrain: "🏡", Fournitures: "🧱", "Main-d'œuvre": "👷", Autres: "📦" };
       const CHART_COLORS = { Terrain: "#0f766e", Fournitures: "#2563eb", "Main-d'œuvre": "#f59e0b", Autres: "#9333ea", Total: "#111827" };
+      const chartColor = (category) => category === "Total" ? (document.documentElement.dataset.theme === "dark" ? "#f8fafc" : "#111827") : CHART_COLORS[category];
       const $ = (selector) => document.querySelector(selector);
       const $$ = (selector) => [...document.querySelectorAll(selector)];
       const num = (value) => Number(value) || 0;
@@ -588,14 +576,14 @@
         const grid = Array.from({ length: 6 }, (_, index) => { const value = maximum / 5 * index; const position = y(value); return `<line class="chart-grid-line" x1="${margin.left}" x2="${width - margin.right}" y1="${position}" y2="${position}"></line><text class="chart-axis-label" text-anchor="end" x="${margin.left - 10}" y="${position + 4}">${esc(shortDzd(value))}</text>`; }).join("");
         const step = Math.max(1, Math.ceil(points.length / 5));
         const labels = points.map((point, index) => index % step === 0 || index === points.length - 1 ? `<text class="chart-axis-label" text-anchor="middle" x="${x(index)}" y="${height - 28}">${esc(shortDate(point.date))}</text>` : "").join("");
-        const lines = categories.map((category) => { const coordinates = points.map((point, index) => ({ x: x(index), y: y(point.values[category]), value: point.values[category], date: point.date })); const polyline = coordinates.map((point) => `${point.x},${point.y}`).join(" "); const circles = coordinates.map((point) => `<circle class="chart-point" cx="${point.x}" cy="${point.y}" r="${category === "Total" ? 4.5 : 3.5}" fill="${CHART_COLORS[category]}"><title>${esc(`${category}, ${point.date}, ${dzd(point.value)}`)}</title></circle>`).join(""); return `<polyline class="chart-line ${category === "Total" ? "chart-line-total" : ""}" points="${polyline}" stroke="${CHART_COLORS[category]}"></polyline>${circles}`; }).join("");
+        const lines = categories.map((category) => { const coordinates = points.map((point, index) => ({ x: x(index), y: y(point.values[category]), value: point.values[category], date: point.date })); const polyline = coordinates.map((point) => `${point.x},${point.y}`).join(" "); const circles = coordinates.map((point) => `<circle class="chart-point" cx="${point.x}" cy="${point.y}" r="${category === "Total" ? 4.5 : 3.5}" fill="${chartColor(category)}"><title>${esc(`${category}, ${point.date}, ${dzd(point.value)}`)}</title></circle>`).join(""); return `<polyline class="chart-line ${category === "Total" ? "chart-line-total" : ""}" points="${polyline}" stroke="${chartColor(category)}"></polyline>${circles}`; }).join("");
         host.innerHTML = `<svg class="expense-chart-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">${grid}<line class="chart-axis-line" x1="${margin.left}" x2="${margin.left}" y1="${margin.top}" y2="${margin.top + plotHeight}"></line><line class="chart-axis-line" x1="${margin.left}" x2="${width - margin.right}" y1="${margin.top + plotHeight}" y2="${margin.top + plotHeight}"></line><text class="chart-axis-title" text-anchor="middle" transform="rotate(-90 17 ${margin.top + plotHeight / 2})" x="17" y="${margin.top + plotHeight / 2}">Montant cumulé en DZD</text>${labels}${lines}</svg>`;
-        legend.innerHTML = categories.map((category) => `<div class="chart-legend-item"><span class="chart-legend-color" style="background:${CHART_COLORS[category]}"></span><span>${category === "Total" ? "💰" : ICONS[category]} ${esc(category)}</span></div>`).join("");
+        legend.innerHTML = categories.map((category) => `<div class="chart-legend-item"><span class="chart-legend-color" style="background:${chartColor(category)}"></span><span>${category === "Total" ? "💰" : ICONS[category]} ${esc(category)}</span></div>`).join("");
       }
 
       function drawBars() {
         const categories = Object.keys(ICONS); const { from, to } = getChartExpenseRange(); const source = state.expenses.filter((expense) => (!from || expense.date >= from) && (!to || expense.date <= to)); const values = categories.map((category) => source.filter((expense) => expense.category === category).reduce((total, expense) => total + num(expense.dzd), 0)); const maximum = Math.max(...values, 1);
-        $("#categoryBars").innerHTML = categories.map((category, index) => `<div class="mt"><div class="bar-label"><span>${ICONS[category]} ${esc(category)}</span><b>${dzd(values[index])}</b></div><div class="bar"><i style="width:${values[index] / maximum * 100}%;background:${CHART_COLORS[category]}"></i></div></div>`).join("");
+        $("#categoryBars").innerHTML = categories.map((category, index) => `<div class="mt"><div class="bar-label"><span>${ICONS[category]} ${esc(category)}</span><b>${dzd(values[index])}</b></div><div class="bar"><i style="width:${values[index] / maximum * 100}%;background:${chartColor(category)}"></i></div></div>`).join("");
       }
 
       function render() {
@@ -682,6 +670,7 @@
         localStorage.setItem(THEME_KEY, theme);
         if (button) { button.textContent = theme === "dark" ? "☀️" : "🌙"; button.setAttribute("aria-label", theme === "dark" ? "Activer le mode clair" : "Activer le mode sombre"); }
         document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#0b1220" : "#0f766e");
+        if (typeof renderChart === "function") renderChart();
       };
       const saved = localStorage.getItem(THEME_KEY);
       const preferred = window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
