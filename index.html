@@ -189,7 +189,7 @@
       <div class="list" id="recentExpenses"></div>
       <div class="section-title"><h2>Reste à payer</h2><button class="button button-soft" type="button" onclick="showPage('commitments')">Détail</button></div>
       <div class="card grid2">
-        <div><div class="small muted">Total convenu</div><strong id="homeDue">0,000 DZD</strong></div>
+        <div><div class="small muted">Dû indicatif</div><strong id="homeDue">0,000 DZD</strong></div>
         <div><div class="small muted">Reste</div><strong id="homeRemaining">0,000 DZD</strong></div>
       </div>
     </section>
@@ -262,7 +262,7 @@
     <section class="page" id="commitments">
       <div class="section-title"><h2>Sommes dues</h2><button class="button button-primary" id="newCommitment" type="button">+ Ajouter</button></div>
       <div class="grid3">
-        <div class="card stat"><div class="small muted">Convenu</div><strong id="dueTotal">0,000 DZD</strong></div>
+        <div class="card stat"><div class="small muted">Dû indicatif</div><strong id="dueTotal">0,000 DZD</strong></div>
         <div class="card stat"><div class="small muted">Versé</div><strong id="paidTotal">0,000 DZD</strong></div>
         <div class="card stat"><div class="small muted">Reste</div><strong id="remainingTotal">0,000 DZD</strong></div>
       </div>
@@ -342,7 +342,8 @@
         <div class="field"><label for="commitmentBeneficiary">Bénéficiaire / métier</label><select id="commitmentBeneficiary"></select></div>
       </div>
       <div class="field hidden" id="customBeneficiaryField"><label for="customBeneficiary">Nom du bénéficiaire</label><input id="customBeneficiary"></div>
-      <div class="field"><label for="commitmentAmount">Somme totale en DZD</label><input id="commitmentAmount" type="text" inputmode="decimal" placeholder="Ex. 0,670" required><div class="small muted mt">Exactement 3 décimales.</div></div>
+      <div class="information">Le montant dû est indicatif. Il ne sera pas ajouté aux dépenses. Seuls les versements enregistrés augmenteront le total des dépenses.</div>
+        <div class="field"><label for="commitmentAmount">Somme totale due en DZD</label><input id="commitmentAmount" type="text" inputmode="decimal" placeholder="Ex. 0,670" required><div class="small muted mt">Exactement 3 décimales.</div></div>
       <div class="field"><label for="commitmentComment">Commentaire</label><textarea id="commitmentComment" rows="3"></textarea></div>
       <button class="button button-primary wide" type="submit">Enregistrer</button>
     </form>
@@ -404,6 +405,12 @@
 
       const paid = (commitmentId, excluded = "") => Math.round(state.expenses.filter((expense) => expense.commitmentId === commitmentId && expense.id !== excluded).reduce((total, expense) => total + Math.round(num(expense.dzd)), 0));
       const remaining = (commitmentId, excluded = "") => { const commitment = state.commitments.find((item) => item.id === commitmentId); return commitment ? Math.round(num(commitment.amountDzd) - paid(commitmentId, excluded)) : null; };
+      const isPayment = (expense) => Boolean(expense.commitmentId);
+      // Une somme due est un engagement indicatif stocké dans state.commitments.
+      // Une dépense réelle, y compris un versement, est stockée une seule fois dans state.expenses.
+      const actualExpenses = () => state.expenses;
+      const totalSpentDzd = () => actualExpenses().reduce((sum, expense) => sum + Math.round(num(expense.dzd)), 0);
+      const totalSpentEur = () => actualExpenses().reduce((sum, expense) => sum + num(expense.eur), 0);
       const payments = (commitmentId) => state.expenses.filter((expense) => expense.commitmentId === commitmentId).sort((a, b) => String(b.date).localeCompare(String(a.date)));
 
       function showPage(pageId) {
@@ -448,7 +455,7 @@
       function color(progress) { return `hsl(${Math.round(Math.max(0, Math.min(100, progress)) * 1.2)}, 70%, 76%)`; }
 
       function expenseHtml(expense, actions = true) {
-        return `<article class="card expense"><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(expense.date)} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}${actions ? `<div class="row-actions"><button data-edit-expense="${expense.id}">Modifier</button><button data-delete-expense="${expense.id}">Supprimer</button></div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
+        return `<article class="card expense"><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(expense.date)} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}${isPayment(expense) ? " · Versement" : ""}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}${actions ? `<div class="row-actions"><button data-edit-expense="${expense.id}">Modifier</button><button data-delete-expense="${expense.id}">Supprimer</button></div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
       }
 
       function renderExpenses() {
@@ -560,7 +567,10 @@
       }
 
       function render() {
-        const total = state.expenses.reduce((sum, expense) => sum + Math.round(num(expense.dzd)), 0); const totalEur = state.expenses.reduce((sum, expense) => sum + num(expense.eur), 0);
+        // Le total général contient uniquement les dépenses réellement enregistrées.
+        // Les montants dus dans state.commitments restent indicatifs et ne sont jamais additionnés ici.
+        const total = totalSpentDzd();
+        const totalEur = totalSpentEur();
         $("#totalDzd").textContent = dzd(total); $("#totalEur").textContent = eur(totalEur); $("#settingsExpenseCount").textContent = state.expenses.length; $("#settingsTotalDzd").textContent = dzd(total); $("#settingsTotalEur").textContent = eur(totalEur);
         [["#homeTerrain", "Terrain"], ["#homeSupplies", "Fournitures"], ["#homeLabor", "Main-d'œuvre"]].forEach(([selector, category]) => { $(selector).textContent = dzd(state.expenses.filter((expense) => expense.category === category).reduce((sum, expense) => sum + num(expense.dzd), 0)); });
         const recent = [...state.expenses].sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 2);
@@ -578,7 +588,7 @@
       function updateConversion() { const amount = num($("#expenseAmount").value); const rate = num($("#exchangeRate").value); const currency = $("#expenseCurrency").value; $("#conversionInfo").textContent = amount > 0 && rate > 0 ? (currency === "EUR" ? `${eur(amount)} = ${fmt(amount * rate, 3)} DZD` : `${fmt(amount, 3)} DZD = ${eur(amount / rate)}`) : "Saisissez le montant et le taux."; }
       function updateLimit() { const commitmentId = $("#expenseCommitment").value; const box = $("#paymentLimit"); if (!commitmentId) { box.classList.add("hidden"); return; } box.classList.remove("hidden"); const balance = remaining(commitmentId, $("#expenseId").value); box.textContent = balance <= 0 ? "Somme due entièrement payée." : `Reste maximal autorisé : ${dzd(balance)}`; }
 
-      $("#expenseForm").addEventListener("submit", (event) => { event.preventDefault(); const amount = num($("#expenseAmount").value); const rate = num($("#exchangeRate").value); const currency = $("#expenseCurrency").value; const expenseId = $("#expenseId").value; const commitmentId = $("#expenseCommitment").value; const amountDzd = Math.round((currency === "EUR" ? amount * rate : amount) * 1e6); if (commitmentId && amountDzd > remaining(commitmentId, expenseId)) { alert(`Versement refusé. Reste maximal : ${dzd(remaining(commitmentId, expenseId))}`); return; } const old = state.expenses.find((item) => item.id === expenseId); const object = { id: expenseId || id(), date: $("#expenseDate").value, category: $("#expenseCategory").value, subcategory: $("#expenseSubcategory").value, description: $("#expenseDescription").value.trim(), supplier: $("#expenseSupplier").value.trim(), commitmentId, amount, currency, rate, dzd: amountDzd, eur: currency === "EUR" ? amount : amount / rate, comment: $("#expenseComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() }; state.expenses = old ? state.expenses.map((item) => item.id === expenseId ? object : item) : [...state.expenses, object]; save(); $("#expenseModal").classList.remove("open"); });
+      $("#expenseForm").addEventListener("submit", (event) => { event.preventDefault(); const amount = num($("#expenseAmount").value); const rate = num($("#exchangeRate").value); const currency = $("#expenseCurrency").value; const expenseId = $("#expenseId").value; const commitmentId = $("#expenseCommitment").value; const amountDzd = Math.round((currency === "EUR" ? amount * rate : amount) * 1e6); if (commitmentId && amountDzd > remaining(commitmentId, expenseId)) { alert(`Versement refusé. Reste maximal : ${dzd(remaining(commitmentId, expenseId))}`); return; } const old = state.expenses.find((item) => item.id === expenseId); const object = { id: expenseId || id(), date: $("#expenseDate").value, category: $("#expenseCategory").value, subcategory: $("#expenseSubcategory").value, description: $("#expenseDescription").value.trim(), supplier: $("#expenseSupplier").value.trim(), commitmentId, expenseType: commitmentId ? "payment" : "expense", amount, currency, rate, dzd: amountDzd, eur: currency === "EUR" ? amount : amount / rate, comment: $("#expenseComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() }; state.expenses = old ? state.expenses.map((item) => item.id === expenseId ? object : item) : [...state.expenses, object]; save(); $("#expenseModal").classList.remove("open"); });
 
       function openCommitment(commitmentId = "") { $("#commitmentForm").reset(); $("#commitmentId").value = ""; $("#commitmentCategory").value = "Terrain"; updateBens(); if (commitmentId) { const commitment = state.commitments.find((item) => item.id === commitmentId); if (!commitment) return; $("#commitmentId").value = commitment.id; $("#commitmentLabel").value = commitment.label; $("#commitmentCategory").value = commitment.category; const known = BENEFICIARIES[commitment.category].includes(commitment.beneficiary); updateBens(known ? commitment.beneficiary : "Autres"); if (!known) $("#customBeneficiary").value = commitment.beneficiary; $("#commitmentAmount").value = (commitment.amountDzd / 1e6).toFixed(3).replace(".", ","); $("#commitmentComment").value = commitment.comment || ""; } $("#commitmentModal").classList.add("open"); }
 
@@ -623,7 +633,7 @@
       function download(name, text, type) { const url = URL.createObjectURL(new Blob([text], { type })); const anchor = document.createElement("a"); anchor.href = url; anchor.download = name; document.body.appendChild(anchor); anchor.click(); anchor.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
       function createSafetyBackup(reason = "securite") { if (!state.expenses.length && !state.commitments.length) return false; const now = new Date(); const datePart = now.toISOString().slice(0, 19).replace(/:/g, "-"); download(`DarFiKhoriba_${reason}_${datePart}.json`, JSON.stringify({ backupDate: now.toISOString(), backupReason: reason, expenses: state.expenses, commitments: state.commitments }, null, 2), "application/json"); return true; }
       $("#exportJsonButton").addEventListener("click", () => download("DarFiKhoriba_sauvegarde.json", JSON.stringify({ backupDate: new Date().toISOString(), backupReason: "export_manuel", expenses: state.expenses, commitments: state.commitments }, null, 2), "application/json"));
-      $("#exportCsvButton").addEventListener("click", () => { const rows = state.expenses.map((expense) => [expense.date, expense.category, expense.subcategory, expense.description, expense.supplier, expense.dzd, expense.eur].map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`).join(";")); download("DarFiKhoriba_depenses.csv", '\ufeff"date";"categorie";"sous_categorie";"description";"beneficiaire";"montant_dzd";"montant_eur"\n' + rows.join("\n"), "text/csv"); });
+      $("#exportCsvButton").addEventListener("click", () => { const rows = state.expenses.map((expense) => [expense.date, expense.category, expense.subcategory, expense.description, expense.supplier, isPayment(expense) ? "versement" : "depense", expense.dzd, expense.eur].map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`).join(";")); download("DarFiKhoriba_depenses.csv", '\ufeff"date";"categorie";"sous_categorie";"description";"beneficiaire";"type";"montant_dzd";"montant_eur"\n' + rows.join("\n"), "text/csv"); });
       $("#importJsonButton").addEventListener("click", () => $("#importJsonFile").click());
       $("#importJsonFile").addEventListener("change", async (event) => { const file = event.target.files?.[0]; if (!file) return; try { const imported = JSON.parse(await file.text()); if (!Array.isArray(imported.expenses) || !Array.isArray(imported.commitments)) throw new Error(); if (!confirm("Remplacer toutes les données actuelles ?\n\nUne sauvegarde JSON sera téléchargée avant l'import.")) return; const backupCreated = createSafetyBackup("avant_import"); if (backupCreated) await new Promise((resolve) => setTimeout(resolve, 350)); state = { expenses: imported.expenses, commitments: imported.commitments }; save(); alert(backupCreated ? "Import terminé. La sauvegarde des anciennes données a été téléchargée." : "Import terminé."); } catch (error) { console.error(error); alert("Fichier JSON invalide. Aucune donnée n'a été modifiée."); } finally { event.target.value = ""; } });
       $("#clearDataButton").addEventListener("click", async () => { if (!state.expenses.length && !state.commitments.length) { alert("Il n'y a aucune donnée à effacer."); return; } if (!confirm("Supprimer définitivement toutes les données ?\n\nUne sauvegarde JSON sera téléchargée avant l'effacement.")) return; if (!createSafetyBackup("avant_effacement")) return; await new Promise((resolve) => setTimeout(resolve, 350)); state = structuredClone(DEFAULT_STATE); save(); alert("Toutes les données ont été effacées. La sauvegarde de sécurité a été téléchargée."); });
