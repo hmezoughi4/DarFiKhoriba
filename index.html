@@ -373,7 +373,16 @@
       const BENEFICIARIES = { Terrain: ["Wassini", "Khalida", "Autres"], "Main-d'œuvre": ["Maçon", "Plombier", "Électricien", "Carreleur", "Peintre", "Menuisier", "Autres"] };
       const ICONS = { Terrain: "🏡", Fournitures: "🧱", "Main-d'œuvre": "👷", Autres: "📦" };
       const CHART_COLORS = { Terrain: "#0f766e", Fournitures: "#2563eb", "Main-d'œuvre": "#f59e0b", Autres: "#9333ea", Total: "#111827" };
-      const chartColor = (category) => category === "Total" ? (document.documentElement.dataset.theme === "dark" ? "#f8fafc" : "#111827") : chartColor(category);
+      const chartColor = (category) => {
+  if (category === "Total") {
+    return document.documentElement.dataset.theme === "dark"
+      ? "#f8fafc"
+      : "#111827";
+  }
+
+  return CHART_COLORS[category];
+};
+
       const $ = (selector) => document.querySelector(selector);
       const $$ = (selector) => [...document.querySelectorAll(selector)];
       const num = (value) => Number(value) || 0;
