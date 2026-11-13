@@ -37,7 +37,14 @@
     .top, .section-title, .bar-label { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 10px; }
     .top { margin-bottom: 16px; }
     .top > div:first-child { min-width: 0; flex: 1; }
-    .eyebrow { overflow: hidden; color: var(--muted); font-size: 13px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+    .eyebrow {
+  overflow: hidden;
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
     .top h1 { margin: 3px 0; font-size: 25px; }
     .logo { display: grid; width: 48px; height: 48px; flex: 0 0 48px; place-items: center; border-radius: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); box-shadow: var(--shadow); font-size: 27px; }
     .card { width: 100%; min-width: 0; padding: 16px; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
