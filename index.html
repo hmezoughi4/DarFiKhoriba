@@ -37,7 +37,7 @@
     .top, .section-title, .bar-label { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 10px; }
     .top { margin-bottom: 16px; }
     .top > div:first-child { min-width: 0; flex: 1; }
-    .eyebrow {overflow: hidden; color: var(--primary); font-size: 18px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap;}
+    .eyebrow { overflow: hidden; color: var(--muted); font-size: 13px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
     .top h1 { margin: 3px 0; font-size: 25px; }
     .logo { display: grid; width: 48px; height: 48px; flex: 0 0 48px; place-items: center; border-radius: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); box-shadow: var(--shadow); font-size: 27px; }
     .card { width: 100%; min-width: 0; padding: 16px; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
@@ -162,30 +162,28 @@
       .commitment-toolbar .button { width: 100%; }
     }
   
-    /* Mode sombre et rubrique active */
-    :root { --tab-active-bg: #ccfbf1; --sheet-bg: #ffffff; --input-bg: #ffffff; }
-    html[data-theme="dark"] { color-scheme: dark; --background:#0b1220; --card:#111827; --text:#f8fafc; --muted:#cbd5e1; --line:#334155; --primary:#2dd4bf; --primary-light:#5eead4; --tab-active-bg:#134e4a; --sheet-bg:#111827; --input-bg:#0f172a; --start-t:#fecaca; --start-b:#7f1d1d; --progress-t:#fde68a; --progress-b:#713f12; --done-t:#bbf7d0; --done-b:#14532d; --shadow:0 8px 25px rgba(0,0,0,.28); }
-    .tab.active { background: var(--tab-active-bg); color: var(--primary); border-radius: 12px; }
-    .theme-button { width:44px; height:44px; flex:0 0 44px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--text); font-size:20px; }
+    /* Améliorations demandées : thème, navigation, résumé et graphiques */
+    :root { --tab-active-bg:#ccfbf1; --sheet-bg:#ffffff; --input-bg:#ffffff; --chart-grid:#dbe3ea; --chart-axis:#64748b; --chart-label:#475569; }
+    html[data-theme="dark"] { color-scheme:dark; --background:#0b1220; --card:#111827; --text:#f8fafc; --muted:#cbd5e1; --line:#334155; --primary:#2dd4bf; --primary-light:#5eead4; --tab-active-bg:#134e4a; --sheet-bg:#111827; --input-bg:#0f172a; --start-t:#fecaca; --start-b:#7f1d1d; --progress-t:#fde68a; --progress-b:#713f12; --done-t:#bbf7d0; --done-b:#14532d; --chart-grid:#334155; --chart-axis:#94a3b8; --chart-label:#cbd5e1; --shadow:0 8px 25px rgba(0,0,0,.28); }
+    .tab.active { background:var(--tab-active-bg); color:var(--primary); border-radius:12px; }
     .top-actions { display:flex; align-items:center; gap:8px; }
-    html[data-theme="dark"] .tabs { background:rgba(15,23,42,.98); }
-    html[data-theme="dark"] input, html[data-theme="dark"] select, html[data-theme="dark"] textarea { background:var(--input-bg); color:var(--text); border-color:var(--line); }
-    html[data-theme="dark"] label, html[data-theme="dark"] .chart-legend-item { color:var(--muted); }
-    html[data-theme="dark"] .sheet { background:var(--sheet-bg); color:var(--text); }
-    html[data-theme="dark"] .button-line, html[data-theme="dark"] .row-actions button, html[data-theme="dark"] .period-button, html[data-theme="dark"] .category-row { background:var(--card); color:var(--text); border-color:var(--line); }
-    html[data-theme="dark"] .button-soft, html[data-theme="dark"] .period-button.active, html[data-theme="dark"] .chart-unit { background:#134e4a; color:#ccfbf1; }
-    html[data-theme="dark"] .button-danger { background:#7f1d1d; color:#fecaca; }
-    html[data-theme="dark"] .expense .icon, html[data-theme="dark"] .information { background:#134e4a; color:#ccfbf1; }
-    html[data-theme="dark"] .summary-cell { background:#0f172a; }
-    html[data-theme="dark"] .settings-notice { background:#431407; color:#fed7aa; }
-    html[data-theme="dark"] .commitment-card.collapsed { background:#10251c; border-color:#166534; }
-    html[data-theme="dark"] .bar { background:#263244; }
-    html[data-theme="dark"] .chart-container { background:#111827; }
-    html[data-theme="dark"] .chart-grid-line { stroke:#334155; }
-    html[data-theme="dark"] .chart-axis-line { stroke:#94a3b8; }
-    html[data-theme="dark"] .chart-axis-label, html[data-theme="dark"] .chart-axis-title { fill:#cbd5e1; }
-    html[data-theme="dark"] .chart-point { stroke:#111827; }
-    html[data-theme="dark"] .close { background:#334155; color:#f8fafc; }
+    .theme-button,.quick-export-button { width:44px; height:44px; flex:0 0 44px; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--text); font-size:19px; }
+    .home-financial-summary { grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+    .home-financial-summary .stat { min-width:0; }
+    .home-financial-summary strong { overflow-wrap:anywhere; }
+    .sold-label { display:inline-flex; align-items:center; gap:5px; font-weight:900; color:var(--done-t); }
+    html[data-theme="dark"] .tabs{background:rgba(15,23,42,.98)}
+    html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea{background:var(--input-bg);color:var(--text);border-color:var(--line)}
+    html[data-theme="dark"] label,html[data-theme="dark"] .chart-legend-item{color:var(--muted)}
+    html[data-theme="dark"] .sheet{background:var(--sheet-bg);color:var(--text)}
+    html[data-theme="dark"] .button-line,html[data-theme="dark"] .row-actions button,html[data-theme="dark"] .period-button,html[data-theme="dark"] .category-row{background:var(--card);color:var(--text);border-color:var(--line)}
+    html[data-theme="dark"] .button-soft,html[data-theme="dark"] .period-button.active,html[data-theme="dark"] .chart-unit{background:#134e4a;color:#ccfbf1}
+    html[data-theme="dark"] .button-danger{background:#7f1d1d;color:#fecaca}
+    html[data-theme="dark"] .expense .icon,html[data-theme="dark"] .information{background:#134e4a;color:#ccfbf1}
+    html[data-theme="dark"] .summary-cell{background:#0f172a} html[data-theme="dark"] .settings-notice{background:#431407;color:#fed7aa}
+    html[data-theme="dark"] .commitment-card.collapsed{background:#10251c;border-color:#166534} html[data-theme="dark"] .bar{background:#263244}
+    html[data-theme="dark"] .chart-container{background:#111827} html[data-theme="dark"] .close{background:#334155;color:#f8fafc}
+    @media(max-width:520px){.home-financial-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.theme-button,.quick-export-button{width:40px;height:40px;flex-basis:40px}.top-actions{gap:5px}}
 
   </style>
 </head>
@@ -197,7 +195,7 @@
         <h1>Suivi construction</h1>
         <div class="small muted" id="saveStatus">Sauvegarde locale active</div>
       </div>
-      <div class="top-actions"><button class="theme-button" id="themeToggle" type="button" aria-label="Basculer mode clair ou sombre">🌙</button><div class="logo" aria-label="Algérie">🇩🇿</div></div>
+      <div class="top-actions"><button class="quick-export-button" id="quickExportJson" type="button" aria-label="Exporter rapidement la sauvegarde JSON" title="Sauvegarde JSON rapide">💾</button><button class="theme-button" id="themeToggle" type="button" aria-label="Basculer mode clair ou sombre">🌙</button><div class="logo" aria-label="Algérie">🇩🇿</div></div>
     </header>
 
     <section class="page active" id="home">
@@ -214,9 +212,11 @@
       <div class="section-title"><h2>Dernières dépenses</h2><button class="button button-soft" type="button" onclick="showPage('expenses')">Tout voir</button></div>
       <div class="list" id="recentExpenses"></div>
       <div class="section-title"><h2>Reste à payer</h2><button class="button button-soft" type="button" onclick="showPage('commitments')">Détail</button></div>
-      <div class="card grid2">
-        <div><div class="small muted">Total convenu</div><strong id="homeDue">0,000 DZD</strong></div>
-        <div><div class="small muted">Reste</div><strong id="homeRemaining">0,000 DZD</strong></div>
+      <div class="home-financial-summary grid3">
+        <div class="card stat"><div class="small muted">Dépensé</div><strong id="homeSpent">0,000 DZD</strong></div>
+        <div class="card stat"><div class="small muted">Dû indicatif</div><strong id="homeDue">0,000 DZD</strong></div>
+        <div class="card stat"><div class="small muted">Versé</div><strong id="homePaid">0,000 DZD</strong></div>
+        <div class="card stat"><div class="small muted">Reste</div><strong id="homeRemaining">0,000 DZD</strong></div>
       </div>
     </section>
 
@@ -309,7 +309,7 @@
           <div class="stat"><div class="small muted">Total DZD</div><strong id="settingsTotalDzd">0,000 DZD</strong></div>
           <div class="stat"><div class="small muted">Total EUR</div><strong id="settingsTotalEur">0,00 €</strong></div>
         </div>
-        <div class="settings-details"><div class="settings-detail"><span class="small muted">Dernière sauvegarde locale</span><strong id="settingsLastSave">Jamais</strong></div></div>
+        <div class="settings-details"><div class="settings-detail"><span class="small muted">Dernière sauvegarde locale</span><strong id="settingsLastSave">Jamais</strong></div><div class="settings-detail"><span class="small muted">Dernier export JSON</span><strong id="settingsLastExport">Jamais</strong></div></div>
       </div>
       <div class="card mt">
         <strong>Sauvegarde et transfert</strong>
@@ -390,6 +390,7 @@
       const BENEFICIARIES = { Terrain: ["Wassini", "Khalida", "Autres"], "Main-d'œuvre": ["Maçon", "Plombier", "Électricien", "Carreleur", "Peintre", "Menuisier", "Autres"] };
       const ICONS = { Terrain: "🏡", Fournitures: "🧱", "Main-d'œuvre": "👷", Autres: "📦" };
       const CHART_COLORS = { Terrain: "#0f766e", Fournitures: "#2563eb", "Main-d'œuvre": "#f59e0b", Autres: "#9333ea", Total: "#111827" };
+      const LAST_EXPORT_KEY = "suivi_maison_last_export";
       const chartColor = (category) => category === "Total" ? (document.documentElement.dataset.theme === "dark" ? "#f8fafc" : "#111827") : CHART_COLORS[category];
       const $ = (selector) => document.querySelector(selector);
       const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -468,7 +469,7 @@
 
       function status(progress) {
         if (progress <= 0) return { label: "À débuter", cls: "status-start", value: "start" };
-        if (progress >= 100) return { label: "Terminé", cls: "status-done", value: "done" };
+        if (progress >= 100) return { label: "✓ SOLDÉ", cls: "status-done", value: "done" };
         return { label: "En cours", cls: "status-progress", value: "progress" };
       }
 
@@ -530,7 +531,7 @@
         const due = Math.round(state.commitments.reduce((total, item) => total + num(item.amountDzd), 0));
         const paidTotal = Math.round(state.commitments.reduce((total, item) => total + paid(item.id), 0));
         const balance = Math.max(0, due - paidTotal);
-        $("#dueTotal").textContent = dzd(due); $("#paidTotal").textContent = dzd(paidTotal); $("#remainingTotal").textContent = dzd(balance); $("#homeDue").textContent = dzd(due); $("#homeRemaining").textContent = dzd(balance);
+        $("#dueTotal").textContent = dzd(due); $("#paidTotal").textContent = dzd(paidTotal); $("#remainingTotal").textContent = dzd(balance); $("#homeDue").textContent = dzd(due); $("#homePaid").textContent = dzd(paidTotal); $("#homeRemaining").textContent = dzd(balance);
         const filter = $("#commitmentStatusFilter").value;
         const list = state.commitments.filter((item) => { const progress = num(item.amountDzd) > 0 ? Math.max(0, Math.min(100, paid(item.id) / num(item.amountDzd) * 100)) : 0; return !filter || status(progress).value === filter; });
         if (!list.length) { $("#commitmentList").innerHTML = `<div class="card empty">${state.commitments.length ? "Aucune somme due pour ce statut." : "Aucune somme due."}</div>`; updateCommitmentOptions(); return; }
@@ -588,7 +589,7 @@
 
       function render() {
         const total = state.expenses.reduce((sum, expense) => sum + Math.round(num(expense.dzd)), 0); const totalEur = state.expenses.reduce((sum, expense) => sum + num(expense.eur), 0);
-        $("#totalDzd").textContent = dzd(total); $("#totalEur").textContent = eur(totalEur); $("#settingsExpenseCount").textContent = state.expenses.length; $("#settingsTotalDzd").textContent = dzd(total); $("#settingsTotalEur").textContent = eur(totalEur);
+        $("#totalDzd").textContent = dzd(total); $("#homeSpent").textContent = dzd(total); $("#totalEur").textContent = eur(totalEur); $("#settingsExpenseCount").textContent = state.expenses.length; $("#settingsTotalDzd").textContent = dzd(total); $("#settingsTotalEur").textContent = eur(totalEur);
         [["#homeTerrain", "Terrain"], ["#homeSupplies", "Fournitures"], ["#homeLabor", "Main-d'œuvre"]].forEach(([selector, category]) => { $(selector).textContent = dzd(state.expenses.filter((expense) => expense.category === category).reduce((sum, expense) => sum + num(expense.dzd), 0)); });
         const recent = [...state.expenses].sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 2);
         $("#recentExpenses").innerHTML = recent.length ? recent.map((expense) => expenseHtml(expense, false)).join("") : '<div class="card empty">Aucune dépense.</div>';
@@ -647,36 +648,24 @@
       $("#commitmentStatusFilter").addEventListener("change", renderCommitments);
       $("#toggleFinishedCommitments").addEventListener("click", () => { finishedCommitmentsCollapsed = !finishedCommitmentsCollapsed; const button = $("#toggleFinishedCommitments"); button.textContent = finishedCommitmentsCollapsed ? "Afficher terminées" : "Masquer terminées"; button.setAttribute("aria-expanded", String(!finishedCommitmentsCollapsed)); renderCommitments(); });
 
+      function updateLastExportDisplay() { const savedAt = localStorage.getItem(LAST_EXPORT_KEY); const target = $("#settingsLastExport"); if (!target) return; if (!savedAt) { target.textContent = "Jamais"; return; } const date = new Date(savedAt); target.textContent = Number.isNaN(date.getTime()) ? "Date inconnue" : date.toLocaleString("fr-FR", { day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit" }); }
+      function exportJson() { const now = new Date(); const stamp = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}_${String(now.getHours()).padStart(2,"0")}h${String(now.getMinutes()).padStart(2,"0")}`; download(`DarFiKhoriba_${stamp}.json`, JSON.stringify({ backupDate:now.toISOString(), backupReason:"export_manuel", expenses:state.expenses, commitments:state.commitments }, null, 2), "application/json"); localStorage.setItem(LAST_EXPORT_KEY, now.toISOString()); updateLastExportDisplay(); }
       function download(name, text, type) { const url = URL.createObjectURL(new Blob([text], { type })); const anchor = document.createElement("a"); anchor.href = url; anchor.download = name; document.body.appendChild(anchor); anchor.click(); anchor.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
       function createSafetyBackup(reason = "securite") { if (!state.expenses.length && !state.commitments.length) return false; const now = new Date(); const datePart = now.toISOString().slice(0, 19).replace(/:/g, "-"); download(`DarFiKhoriba_${reason}_${datePart}.json`, JSON.stringify({ backupDate: now.toISOString(), backupReason: reason, expenses: state.expenses, commitments: state.commitments }, null, 2), "application/json"); return true; }
-      $("#exportJsonButton").addEventListener("click", () => { const now = new Date(); const datePart = now.toISOString().slice(0, 19).replace(/:/g, "-"); download(`DarFiKhoriba_sauvegarde_${datePart}.json`, JSON.stringify({ backupDate: now.toISOString(), backupReason: "export_manuel", expenses: state.expenses, commitments: state.commitments }, null, 2), "application/json"); });
+      $("#exportJsonButton").addEventListener("click", exportJson);
+      $("#quickExportJson").addEventListener("click", exportJson);
       $("#exportCsvButton").addEventListener("click", () => { const rows = state.expenses.map((expense) => [expense.date, expense.category, expense.subcategory, expense.description, expense.supplier, expense.dzd, expense.eur].map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`).join(";")); download("DarFiKhoriba_depenses.csv", '\ufeff"date";"categorie";"sous_categorie";"description";"beneficiaire";"montant_dzd";"montant_eur"\n' + rows.join("\n"), "text/csv"); });
       $("#importJsonButton").addEventListener("click", () => $("#importJsonFile").click());
       $("#importJsonFile").addEventListener("change", async (event) => { const file = event.target.files?.[0]; if (!file) return; try { const imported = JSON.parse(await file.text()); if (!Array.isArray(imported.expenses) || !Array.isArray(imported.commitments)) throw new Error(); if (!confirm("Remplacer toutes les données actuelles ?\n\nUne sauvegarde JSON sera téléchargée avant l'import.")) return; const backupCreated = createSafetyBackup("avant_import"); if (backupCreated) await new Promise((resolve) => setTimeout(resolve, 350)); state = { expenses: imported.expenses, commitments: imported.commitments }; save(); alert(backupCreated ? "Import terminé. La sauvegarde des anciennes données a été téléchargée." : "Import terminé."); } catch (error) { console.error(error); alert("Fichier JSON invalide. Aucune donnée n'a été modifiée."); } finally { event.target.value = ""; } });
       $("#clearDataButton").addEventListener("click", async () => { if (!state.expenses.length && !state.commitments.length) { alert("Il n'y a aucune donnée à effacer."); return; } if (!confirm("Supprimer définitivement toutes les données ?\n\nUne sauvegarde JSON sera téléchargée avant l'effacement.")) return; if (!createSafetyBackup("avant_effacement")) return; await new Promise((resolve) => setTimeout(resolve, 350)); state = structuredClone(DEFAULT_STATE); save(); alert("Toutes les données ont été effacées. La sauvegarde de sécurité a été téléchargée."); });
       window.addEventListener("resize", () => { clearTimeout(chartResizeTimer); chartResizeTimer = setTimeout(() => { if ($("#charts").classList.contains("active")) drawExpenseChart(); }, 150); });
 
-      updateSubs(); updateBens(); updateCommitmentOptions(); updateLastSaveDisplay(); render();
+      updateSubs(); updateBens(); updateCommitmentOptions(); updateLastSaveDisplay(); updateLastExportDisplay(); render();
     })();
   </script>
 
   <script>
-    (() => {
-      const THEME_KEY = "darfikhoriba_theme";
-      const root = document.documentElement;
-      const button = document.getElementById("themeToggle");
-      const applyTheme = (theme) => {
-        root.dataset.theme = theme;
-        localStorage.setItem(THEME_KEY, theme);
-        if (button) { button.textContent = theme === "dark" ? "☀️" : "🌙"; button.setAttribute("aria-label", theme === "dark" ? "Activer le mode clair" : "Activer le mode sombre"); }
-        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#0b1220" : "#0f766e");
-        if (typeof renderChart === "function") renderChart();
-      };
-      const saved = localStorage.getItem(THEME_KEY);
-      const preferred = window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      applyTheme(saved || preferred);
-      button?.addEventListener("click", () => applyTheme(root.dataset.theme === "dark" ? "light" : "dark"));
-    })();
+    (() => { const KEY="darfikhoriba_theme"; const root=document.documentElement; const button=document.getElementById("themeToggle"); const apply=(theme)=>{ root.dataset.theme=theme; localStorage.setItem(KEY,theme); if(button){button.textContent=theme==="dark"?"☀️":"🌙";button.setAttribute("aria-label",theme==="dark"?"Activer le mode clair":"Activer le mode sombre");} document.querySelector('meta[name="theme-color"]')?.setAttribute("content",theme==="dark"?"#0b1220":"#0f766e"); window.dispatchEvent(new Event("resize")); }; const saved=localStorage.getItem(KEY); apply(saved||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")); button?.addEventListener("click",()=>apply(root.dataset.theme==="dark"?"light":"dark")); })();
   </script>
   <script>
     if ("serviceWorker" in navigator) {
