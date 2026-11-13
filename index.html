@@ -290,6 +290,21 @@
     }
     @media(max-width:390px){.grid3{gap:4px}.stat{padding:7px 3px!important}.stat strong{font-size:10px!important}.hero .big{font-size:21px}.grid2,.sheet .grid2{grid-template-columns:repeat(2,minmax(0,1fr))!important}.field label{font-size:10px}.quick-action{font-size:0!important;width:40px!important}.quick-action span{font-size:18px}}
 
+  
+    /* Correctifs contraste v2 */
+    html[data-theme="dark"] .button-soft{background:#19364d!important;color:#e0f2fe!important;border-color:#3b82a0!important}
+    html[data-theme="dark"] .button-danger{background:#4b1d24!important;color:#fecdd3!important;border:1px solid #9f4552!important}
+    html[data-theme="dark"] .button-primary{background:#0369a1!important;color:#ffffff!important;border:1px solid #38bdf8!important}
+    html[data-theme="dark"] button:not(.quick-payment):not(.tab.active){color:var(--text)}
+    html[data-theme="dark"] .expense-row .button,html[data-theme="dark"] .commitment-row .button{background:#243148!important;color:#f8fafc!important;border:1px solid #52627b!important}
+    html[data-theme="dark"] .expense-row .button-danger,html[data-theme="dark"] .commitment-row .button-danger{background:#4b1d24!important;color:#fecdd3!important;border-color:#9f4552!important}
+    html[data-theme="dark"] .commitment-row [data-add-payment]{background:#5a3b00!important;color:#fff7d6!important;border-color:#d69e18!important}
+    html[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(1) brightness(1.8);opacity:1}
+    html[data-theme="dark"] select{color-scheme:dark}
+    html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea{caret-color:#fff!important}
+    html[data-theme="dark"] input:disabled,html[data-theme="dark"] select:disabled,html[data-theme="dark"] textarea:disabled{color:#cbd5e1!important;-webkit-text-fill-color:#cbd5e1!important;opacity:1}
+    html[data-theme="dark"] .empty{color:#e5e7eb!important}
+
   </style>
 </head>
 <body>
@@ -750,10 +765,17 @@
       $("#expenseCurrency").addEventListener("change", updateConversion);
       $("#addExpense").addEventListener("click", () => openExpense());
       $("#addPayment").addEventListener("click", () => {
-        const openItems = state.commitments.filter((item) => remaining(item) > 0);
-        if (!openItems.length) { alert("Aucune somme due à régler."); return; }
-        openExpense(null, openItems[0].id);
-        $("#expenseTitle").textContent = "Nouveau versement";
+        const openItems = state.commitments.filter((item) => remaining(item.id) > 0);
+        if (!openItems.length) { alert("Toutes les sommes dues sont déjà réglées."); return; }
+        if (openItems.length === 1) {
+          openExpense("", openItems[0].id);
+          $("#expenseTitle").textContent = "Nouveau versement";
+          return;
+        }
+        showPage("commitments");
+        $("#commitmentStatusFilter").value = "progress";
+        renderCommitments();
+        setTimeout(() => document.querySelector("[data-add-payment]")?.focus(), 0);
       });
       $("#newCommitment").addEventListener("click", () => openCommitment());
       $("#closeExpense").addEventListener("click", () => $("#expenseModal").classList.remove("open"));
