@@ -161,6 +161,66 @@
       .grid2, .grid3, .filter-dates, .settings-grid, .commitment-toolbar { display: grid; grid-template-columns: 1fr; }
       .commitment-toolbar .button { width: 100%; }
     }
+  
+
+    /* ===== DarFiKhoriba 2.0 : nouveau design clair / sombre ===== */
+    :root {
+      color-scheme: light;
+      --background:#f4f7fb; --surface:#ffffff; --card:#ffffff; --text:#152033;
+      --muted:#718096; --line:#e5eaf1; --primary:#2563eb; --primary-light:#60a5fa;
+      --primary-soft:#eaf2ff; --payment:#f59e0b; --payment-soft:#fff7e6;
+      --success:#16a34a; --success-soft:#eaf8ef; --danger:#dc2626;
+      --nav:#172554; --nav-text:#dbeafe; --input:#f8fafc;
+      --shadow:0 12px 34px rgba(15,23,42,.08); --shadow-hover:0 16px 42px rgba(15,23,42,.13);
+    }
+    html[data-theme="dark"] {
+      color-scheme:dark; --background:#0b1220; --surface:#111b2e; --card:#111b2e;
+      --text:#f1f5f9; --muted:#94a3b8; --line:#26344d; --primary:#60a5fa;
+      --primary-light:#93c5fd; --primary-soft:#172b4d; --payment:#fbbf24;
+      --payment-soft:#3b2b0b; --success:#4ade80; --success-soft:#123521;
+      --danger:#f87171; --nav:#060b16; --nav-text:#cbd5e1; --input:#0c1628;
+      --shadow:0 14px 38px rgba(0,0,0,.28); --shadow-hover:0 18px 46px rgba(0,0,0,.38);
+    }
+    body{background:var(--background);transition:background .25s ease,color .25s ease}
+    .app{max-width:1120px;padding:26px 22px 120px}
+    .top{padding:4px 2px 18px;margin-bottom:6px}
+    .top h1{font-size:clamp(24px,4vw,34px);letter-spacing:-.03em}
+    .eyebrow{color:var(--primary);letter-spacing:.06em;text-transform:uppercase}
+    .header-actions{display:flex;align-items:center;gap:10px}
+    .theme-toggle{width:46px;height:46px;border:1px solid var(--line);border-radius:15px;background:var(--card);color:var(--text);box-shadow:var(--shadow);font-size:21px;transition:.2s}
+    .theme-toggle:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+    .logo{background:linear-gradient(135deg,var(--primary),#22c55e)}
+    .card{background:var(--card);border-color:var(--line);border-radius:20px;box-shadow:var(--shadow);transition:border-color .2s,transform .2s,box-shadow .2s}
+    .card:hover{border-color:color-mix(in srgb,var(--primary) 25%,var(--line));box-shadow:var(--shadow-hover)}
+    .hero{position:relative;padding:28px;background:linear-gradient(135deg,var(--nav),#1d4ed8);color:#fff;border:0;overflow:hidden}
+    .hero:after{content:"";position:absolute;width:230px;height:230px;right:-80px;top:-110px;border-radius:50%;background:rgba(255,255,255,.1)}
+    .hero .muted{color:#bfdbfe}.hero .big{font-size:clamp(32px,7vw,52px);letter-spacing:-.045em}
+    .grid3{gap:14px}.stat{min-height:118px;text-align:left;font-size:25px}.stat strong{display:block;margin-top:7px;font-size:18px}
+    .section-title{margin:28px 2px 12px}.section-title h2{font-size:19px;letter-spacing:-.02em}
+    .button{border-radius:12px;font-weight:750}.button-primary{background:var(--primary);box-shadow:0 8px 20px color-mix(in srgb,var(--primary) 25%,transparent)}
+    .button-soft{background:var(--primary-soft);color:var(--primary)}
+    .button-warning{background:var(--payment);color:#2d2100}
+    .expense-row,.commitment-row{border-color:var(--line);background:var(--card);border-radius:16px}
+    .badge{border-radius:999px;padding:5px 9px;font-weight:750}
+    input,select,textarea{background:var(--input);color:var(--text);border-color:var(--line);border-radius:12px!important}
+    input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 18%,transparent);outline:none}
+    .sheet{background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:24px 24px 0 0}
+    .information{background:var(--primary-soft);color:var(--text);border:1px solid color-mix(in srgb,var(--primary) 18%,var(--line));border-radius:13px}
+    .action-dock{position:fixed;z-index:25;right:max(18px,calc((100vw - 1120px)/2 + 22px));bottom:88px;display:flex;gap:10px;filter:drop-shadow(0 12px 24px rgba(15,23,42,.22))}
+    .quick-action{height:50px;border:0;border-radius:16px;padding:0 17px;font-weight:850;display:flex;align-items:center;gap:7px;transition:.2s}.quick-action:hover{transform:translateY(-3px)}
+    .quick-action span{font-size:21px}.quick-expense{background:var(--primary);color:#fff}.quick-payment{background:var(--payment);color:#2d2100}
+    .tabs{left:50%;transform:translateX(-50%);max-width:760px;width:calc(100% - 28px);bottom:14px;background:var(--nav);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:7px;box-shadow:0 16px 38px rgba(0,0,0,.25)}
+    .tab{color:var(--nav-text);border-radius:14px;padding:8px 5px}.tab.active{background:rgba(255,255,255,.13);color:#fff}.tab span{font-size:19px}
+    .chart-wrap{background:var(--card);border-color:var(--line);border-radius:18px}
+    .progress{background:var(--line)}.progress > div{background:linear-gradient(90deg,var(--payment),#f97316)}
+    .status-done{background:var(--success-soft);color:var(--success)}
+    .status-progress{background:var(--payment-soft);color:var(--payment)}
+    .muted{color:var(--muted)!important}
+    @media(min-width:760px){.page.active{animation:pageIn .24s ease}.grid3{grid-template-columns:repeat(3,1fr)}#home .list,#expenses .list,#commitments .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.sheet{max-width:680px;margin:auto;border-radius:24px}.modal{align-items:center;padding:18px}}
+    @media(max-width:600px){.app{padding:18px 14px 118px}.action-dock{right:14px;bottom:94px}.quick-action{height:46px;padding:0 14px}.tabs{bottom:10px}.tab{font-size:10px}.header-actions{gap:7px}.theme-toggle{width:43px;height:43px}.logo{width:43px;height:43px;flex-basis:43px}.hero{padding:22px}.grid3{grid-template-columns:repeat(3,1fr)}.stat{min-height:105px;padding:12px;font-size:21px}.stat strong{font-size:13px}}
+    @media(max-width:390px){.quick-action{font-size:0;padding:0;width:48px;justify-content:center}.quick-action span{font-size:22px}.grid3{grid-template-columns:1fr}.stat{min-height:auto}.tab{padding:7px 2px}}
+    @keyframes pageIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
   </style>
 </head>
 <body>
@@ -171,7 +231,7 @@
         <h1>Suivi construction</h1>
         <div class="small muted" id="saveStatus">Sauvegarde locale active</div>
       </div>
-      <div class="logo" aria-label="Algérie">🇩🇿</div>
+      <div class="header-actions"><button class="theme-toggle" id="themeToggle" type="button" aria-label="Changer de thème" title="Mode clair / sombre"><span id="themeIcon">☾</span></button><div class="logo" aria-label="Algérie">🇩🇿</div></div>
     </header>
 
     <section class="page active" id="home">
@@ -298,11 +358,11 @@
       </div>
     </section>
 
-    <button class="floating-button" id="addExpense" type="button" aria-label="Ajouter une dépense">+</button>
+    <div class="action-dock" id="actionDock"><button class="quick-action quick-expense" id="addExpense" type="button"><span>＋</span> Dépense</button><button class="quick-action quick-payment" id="addPayment" type="button"><span>↓</span> Versement</button></div>
     <nav class="tabs">
       <button class="tab active" data-page="home"><span>🏠</span>Accueil</button>
       <button class="tab" data-page="expenses"><span>💰</span>Dépenses</button>
-      <button class="tab" data-page="charts"><span>📈</span>Courbes</button>
+      <button class="tab" data-page="charts"><span>📊</span>Analyse</button>
       <button class="tab" data-page="commitments"><span>🤝</span>Sommes dues</button>
       <button class="tab" data-page="settings"><span>⚙️</span>Réglages</button>
     </nav>
@@ -342,8 +402,7 @@
         <div class="field"><label for="commitmentBeneficiary">Bénéficiaire / métier</label><select id="commitmentBeneficiary"></select></div>
       </div>
       <div class="field hidden" id="customBeneficiaryField"><label for="customBeneficiary">Nom du bénéficiaire</label><input id="customBeneficiary"></div>
-      <div class="information">Le montant dû est indicatif. Il ne sera pas ajouté aux dépenses. Seuls les versements enregistrés augmenteront le total des dépenses.</div>
-        <div class="field"><label for="commitmentAmount">Somme totale due en DZD</label><input id="commitmentAmount" type="text" inputmode="decimal" placeholder="Ex. 0,670" required><div class="small muted mt">Exactement 3 décimales.</div></div>
+      <div class="information">Le montant dû est indicatif. Seuls les versements augmentent le total des dépenses.</div><div class="field"><label for="commitmentAmount">Somme totale due en DZD</label><input id="commitmentAmount" type="text" inputmode="decimal" placeholder="Ex. 0,670" required><div class="small muted mt">Exactement 3 décimales.</div></div>
       <div class="field"><label for="commitmentComment">Commentaire</label><textarea id="commitmentComment" rows="3"></textarea></div>
       <button class="button button-primary wide" type="submit">Enregistrer</button>
     </form>
@@ -406,8 +465,6 @@
       const paid = (commitmentId, excluded = "") => Math.round(state.expenses.filter((expense) => expense.commitmentId === commitmentId && expense.id !== excluded).reduce((total, expense) => total + Math.round(num(expense.dzd)), 0));
       const remaining = (commitmentId, excluded = "") => { const commitment = state.commitments.find((item) => item.id === commitmentId); return commitment ? Math.round(num(commitment.amountDzd) - paid(commitmentId, excluded)) : null; };
       const isPayment = (expense) => Boolean(expense.commitmentId);
-      // Une somme due est un engagement indicatif stocké dans state.commitments.
-      // Une dépense réelle, y compris un versement, est stockée une seule fois dans state.expenses.
       const actualExpenses = () => state.expenses;
       const totalSpentDzd = () => actualExpenses().reduce((sum, expense) => sum + Math.round(num(expense.dzd)), 0);
       const totalSpentEur = () => actualExpenses().reduce((sum, expense) => sum + num(expense.eur), 0);
@@ -416,7 +473,7 @@
       function showPage(pageId) {
         $$(".page").forEach((page) => page.classList.toggle("active", page.id === pageId));
         $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.page === pageId));
-        $("#addExpense").classList.toggle("hidden", pageId === "commitments" || pageId === "settings");
+        $("#actionDock").classList.toggle("hidden", pageId === "settings");
         if (pageId === "charts") requestAnimationFrame(() => { drawExpenseChart(); drawBars(); });
       }
       window.showPage = showPage;
@@ -455,7 +512,7 @@
       function color(progress) { return `hsl(${Math.round(Math.max(0, Math.min(100, progress)) * 1.2)}, 70%, 76%)`; }
 
       function expenseHtml(expense, actions = true) {
-        return `<article class="card expense"><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(expense.date)} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}${isPayment(expense) ? " · Versement" : ""}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}${actions ? `<div class="row-actions"><button data-edit-expense="${expense.id}">Modifier</button><button data-delete-expense="${expense.id}">Supprimer</button></div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
+        return `<article class="card expense"><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(expense.date)} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}${actions ? `<div class="row-actions"><button data-edit-expense="${expense.id}">Modifier</button><button data-delete-expense="${expense.id}">Supprimer</button></div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
       }
 
       function renderExpenses() {
@@ -567,8 +624,6 @@
       }
 
       function render() {
-        // Le total général contient uniquement les dépenses réellement enregistrées.
-        // Les montants dus dans state.commitments restent indicatifs et ne sont jamais additionnés ici.
         const total = totalSpentDzd();
         const totalEur = totalSpentEur();
         $("#totalDzd").textContent = dzd(total); $("#totalEur").textContent = eur(totalEur); $("#settingsExpenseCount").textContent = state.expenses.length; $("#settingsTotalDzd").textContent = dzd(total); $("#settingsTotalEur").textContent = eur(totalEur);
@@ -624,6 +679,12 @@
       $("#exchangeRate").addEventListener("input", updateConversion);
       $("#expenseCurrency").addEventListener("change", updateConversion);
       $("#addExpense").addEventListener("click", () => openExpense());
+      $("#addPayment").addEventListener("click", () => {
+        const openItems = state.commitments.filter((item) => remaining(item) > 0);
+        if (!openItems.length) { alert("Aucune somme due à régler."); return; }
+        openExpense(null, openItems[0].id);
+        $("#expenseTitle").textContent = "Nouveau versement";
+      });
       $("#newCommitment").addEventListener("click", () => openCommitment());
       $("#closeExpense").addEventListener("click", () => $("#expenseModal").classList.remove("open"));
       $("#closeCommitment").addEventListener("click", () => $("#commitmentModal").classList.remove("open"));
@@ -633,7 +694,7 @@
       function download(name, text, type) { const url = URL.createObjectURL(new Blob([text], { type })); const anchor = document.createElement("a"); anchor.href = url; anchor.download = name; document.body.appendChild(anchor); anchor.click(); anchor.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
       function createSafetyBackup(reason = "securite") { if (!state.expenses.length && !state.commitments.length) return false; const now = new Date(); const datePart = now.toISOString().slice(0, 19).replace(/:/g, "-"); download(`DarFiKhoriba_${reason}_${datePart}.json`, JSON.stringify({ backupDate: now.toISOString(), backupReason: reason, expenses: state.expenses, commitments: state.commitments }, null, 2), "application/json"); return true; }
       $("#exportJsonButton").addEventListener("click", () => download("DarFiKhoriba_sauvegarde.json", JSON.stringify({ backupDate: new Date().toISOString(), backupReason: "export_manuel", expenses: state.expenses, commitments: state.commitments }, null, 2), "application/json"));
-      $("#exportCsvButton").addEventListener("click", () => { const rows = state.expenses.map((expense) => [expense.date, expense.category, expense.subcategory, expense.description, expense.supplier, isPayment(expense) ? "versement" : "depense", expense.dzd, expense.eur].map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`).join(";")); download("DarFiKhoriba_depenses.csv", '\ufeff"date";"categorie";"sous_categorie";"description";"beneficiaire";"type";"montant_dzd";"montant_eur"\n' + rows.join("\n"), "text/csv"); });
+      $("#exportCsvButton").addEventListener("click", () => { const rows = state.expenses.map((expense) => [expense.date, expense.category, expense.subcategory, expense.description, expense.supplier, expense.dzd, expense.eur].map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`).join(";")); download("DarFiKhoriba_depenses.csv", '\ufeff"date";"categorie";"sous_categorie";"description";"beneficiaire";"montant_dzd";"montant_eur"\n' + rows.join("\n"), "text/csv"); });
       $("#importJsonButton").addEventListener("click", () => $("#importJsonFile").click());
       $("#importJsonFile").addEventListener("change", async (event) => { const file = event.target.files?.[0]; if (!file) return; try { const imported = JSON.parse(await file.text()); if (!Array.isArray(imported.expenses) || !Array.isArray(imported.commitments)) throw new Error(); if (!confirm("Remplacer toutes les données actuelles ?\n\nUne sauvegarde JSON sera téléchargée avant l'import.")) return; const backupCreated = createSafetyBackup("avant_import"); if (backupCreated) await new Promise((resolve) => setTimeout(resolve, 350)); state = { expenses: imported.expenses, commitments: imported.commitments }; save(); alert(backupCreated ? "Import terminé. La sauvegarde des anciennes données a été téléchargée." : "Import terminé."); } catch (error) { console.error(error); alert("Fichier JSON invalide. Aucune donnée n'a été modifiée."); } finally { event.target.value = ""; } });
       $("#clearDataButton").addEventListener("click", async () => { if (!state.expenses.length && !state.commitments.length) { alert("Il n'y a aucune donnée à effacer."); return; } if (!confirm("Supprimer définitivement toutes les données ?\n\nUne sauvegarde JSON sera téléchargée avant l'effacement.")) return; if (!createSafetyBackup("avant_effacement")) return; await new Promise((resolve) => setTimeout(resolve, 350)); state = structuredClone(DEFAULT_STATE); save(); alert("Toutes les données ont été effacées. La sauvegarde de sécurité a été téléchargée."); });
@@ -648,5 +709,23 @@
       window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));
     }
   </script>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const savedTheme = localStorage.getItem("darfikhoriba_theme");
+      const preferred = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      const applyTheme = (theme) => {
+        root.dataset.theme = theme;
+        localStorage.setItem("darfikhoriba_theme", theme);
+        const icon = document.getElementById("themeIcon");
+        if (icon) icon.textContent = theme === "dark" ? "☀" : "☾";
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#0b1220" : "#f4f7fb");
+      };
+      applyTheme(savedTheme || preferred);
+      addEventListener("DOMContentLoaded", () => document.getElementById("themeToggle")?.addEventListener("click", () => applyTheme(root.dataset.theme === "dark" ? "light" : "dark")));
+    })();
+  </script>
+
 </body>
 </html>
