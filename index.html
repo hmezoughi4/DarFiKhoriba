@@ -38,7 +38,7 @@
     .top { margin-bottom: 16px; }
     .top > div:first-child { min-width: 0; flex: 1; }
     .eyebrow {overflow: hidden; color: var(--primary); font-size: 18px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap;}
-    .arabe { overflow: hidden; color: red; font-size: 38px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap;}
+    .arabe { overflow: hidden; color: red; font-size: 34px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap;}
     .top h1 { margin: 3px 0; font-size: 25px; }
     .logo { display: grid; width: 48px; height: 48px; flex: 0 0 48px; place-items: center; border-radius: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); box-shadow: var(--shadow); font-size: 27px; }
     .card { width: 100%; min-width: 0; padding: 16px; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
@@ -201,6 +201,29 @@
   .analysis-percent{font-size:14px!important}
 }
 @media(max-width:290px){.analysis-category-grid{grid-template-columns:1fr}}
+
+/* Derniers ajustements visuels : icones Accueil + bouton ajouter */
+#home .grid3 .stat { position: relative; }
+#home .grid3 .stat > :first-child { font-size: inherit; }
+#home .grid3 .stat { font-size: 31px; line-height: 1.08; }
+#home .grid3 .stat .small { margin-top: 7px; font-size: 14px; line-height: 1.2; }
+#home .grid3 .stat strong { margin-top: 6px; }
+.floating-button {
+  background: rgba(20, 184, 166, .82);
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 8px 24px rgba(15,118,110,.22);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.floating-button:active { background: rgba(15,118,110,.9); }
+html[data-theme="dark"] .floating-button {
+  background: rgba(45,212,191,.78);
+  border-color: rgba(255,255,255,.14);
+}
+@media(max-width:390px){
+  #home .grid3 .stat { font-size: 28px; }
+  #home .grid3 .stat .small { font-size: 12px; }
+}
 </style>
 </head>
 <body>
