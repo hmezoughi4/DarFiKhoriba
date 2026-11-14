@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#4f46e5">
+  <meta name="theme-color" content="#0f766e">
   <meta name="mobile-web-app-capable" content="yes">
   <title>DarFiKhoriba</title>
   <link rel="manifest" href="./manifest.json">
@@ -170,116 +170,7 @@
     .top-actions{display:flex;align-items:center;gap:8px}.theme-button,.quick-export-button{width:44px;height:44px;flex:0 0 44px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);font-size:19px}
     html[data-theme="dark"] .tabs{background:rgba(15,23,42,.98)} html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea{background:var(--input-bg);color:var(--text);border-color:var(--line)} html[data-theme="dark"] label,html[data-theme="dark"] .chart-legend-item{color:var(--muted)} html[data-theme="dark"] .sheet{background:var(--sheet-bg);color:var(--text)} html[data-theme="dark"] .button-line,html[data-theme="dark"] .row-actions button,html[data-theme="dark"] .period-button,html[data-theme="dark"] .category-row{background:var(--card);color:var(--text);border-color:var(--line)} html[data-theme="dark"] .button-soft,html[data-theme="dark"] .period-button.active,html[data-theme="dark"] .chart-unit{background:#134e4a;color:#ccfbf1} html[data-theme="dark"] .button-danger{background:#7f1d1d;color:#fecaca} html[data-theme="dark"] .expense .icon,html[data-theme="dark"] .information{background:#134e4a;color:#ccfbf1} html[data-theme="dark"] .summary-cell{background:#0f172a} html[data-theme="dark"] .settings-notice{background:#431407;color:#fed7aa} html[data-theme="dark"] .commitment-card.collapsed{background:#10251c;border-color:#166534} html[data-theme="dark"] .bar{background:#263244} html[data-theme="dark"] .chart-container{background:#111827} html[data-theme="dark"] .chart-grid-line{stroke:#334155} html[data-theme="dark"] .chart-axis-line{stroke:#94a3b8} html[data-theme="dark"] .chart-axis-label,html[data-theme="dark"] .chart-axis-title{fill:#cbd5e1} html[data-theme="dark"] .chart-point{stroke:#111827} html[data-theme="dark"] .close{background:#334155;color:#f8fafc}
 
-  
-
-      /* Android mobile redesign: Material-inspired, touch-first */
-      :root {
-        --background: #f6f7fb;
-        --card: #ffffff;
-        --text: #172033;
-        --muted: #687086;
-        --line: #e5e8f0;
-        --primary: #4f46e5;
-        --primary-light: #7c3aed;
-        --primary-pressed: #3730a3;
-        --accent: #f97316;
-        --accent-soft: #fff1e8;
-        --tab-active-bg: #eef2ff;
-        --shadow: 0 6px 20px rgba(43, 48, 77, .08);
-        --shadow-high: 0 14px 34px rgba(79, 70, 229, .24);
-      }
-      html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
-      body { overscroll-behavior-y: contain; background: linear-gradient(180deg,#f3f1ff 0,#f6f7fb 210px); }
-      button, .tab, select { touch-action: manipulation; }
-      button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-        outline: 3px solid rgba(79,70,229,.22); outline-offset: 2px;
-      }
-      .app { max-width: 600px; padding: 12px 14px calc(118px + env(safe-area-inset-bottom)); }
-      .top {
-        position: sticky; z-index: 3; top: 0; margin: 0 -14px 16px; padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
-        background: rgba(246,247,251,.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      }
-      .eyebrow { color: var(--primary); font-size: 15px; letter-spacing: .02em; }
-      .logo, .theme-button, .quick-export-button { border-radius: 16px; }
-      .logo { background: linear-gradient(145deg,#312e81,#7c3aed); box-shadow: var(--shadow-high); }
-      .card { border-color: rgba(229,232,240,.82); border-radius: 24px; box-shadow: var(--shadow); }
-      .hero { position: relative; overflow: hidden; padding: 22px; background: linear-gradient(135deg,#312e81 0%,#4f46e5 52%,#7c3aed 100%); box-shadow: var(--shadow-high); }
-      .hero::after { content:""; position:absolute; width:150px; height:150px; right:-50px; top:-70px; border-radius:50%; background:rgba(255,255,255,.12); }
-      .big { font-size: clamp(29px,9vw,40px); letter-spacing: -.035em; }
-      .grid3 .card { min-height: 112px; display:flex; flex-direction:column; justify-content:center; }
-      .section-title { margin-top: 24px; }
-      .section-title h2 { font-size: 21px; letter-spacing: -.02em; }
-      .button { min-height: 48px; padding: 12px 17px; border-radius: 16px; transition: transform .12s ease, box-shadow .12s ease, background .12s ease; }
-      .button:active, .floating-button:active, .tab:active { transform: scale(.96); }
-      .button-primary { background: linear-gradient(135deg,var(--primary),var(--primary-light)); box-shadow: 0 9px 20px rgba(79,70,229,.25); }
-      .button-primary:active { background: var(--primary-pressed); }
-      .button-soft { background: var(--accent-soft); color: #c2410c; }
-      .button-line { border: 1.5px solid #d9ddea; }
-      .expense { min-height: 92px; padding: 14px; }
-      .expense .icon { width: 50px; height: 50px; flex-basis: 50px; border-radius: 17px; background: linear-gradient(145deg,#eef2ff,#f5f3ff); }
-      .row-actions button { min-height: 40px; padding: 9px 12px; border-radius: 12px; font-weight: 750; }
-      input, select, textarea { min-height: 52px; border: 1.5px solid #d9ddea; border-radius: 16px; background: #fbfcff; }
-      input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(79,70,229,.10); }
-      .sheet { border-radius: 30px 30px 0 0; box-shadow: 0 -16px 45px rgba(23,32,51,.18); }
-      .sheet::before { content:""; display:block; width:38px; height:4px; margin:-5px auto 14px; border-radius:999px; background:#cbd0dc; }
-      .close { width:44px; height:44px; }
-      .floating-button { right:max(18px,calc((100vw - 600px)/2 + 18px)); bottom:calc(88px + env(safe-area-inset-bottom)); width:64px; height:64px; background:linear-gradient(135deg,var(--accent),#ea580c); box-shadow:0 14px 28px rgba(234,88,12,.34); font-weight:500; }
-      .tabs { width:min(100%,600px); min-height:74px; padding:8px 6px calc(8px + env(safe-area-inset-bottom)); border-top:0; border-radius:24px 24px 0 0; background:rgba(255,255,255,.96); box-shadow:0 -8px 30px rgba(32,38,67,.10); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); }
-      .tab { min-height:56px; padding:6px 2px; border-radius:18px; font-size:10px; transition:background .16s ease,color .16s ease,transform .12s ease; }
-      .tab span { margin-bottom:2px; font-size:21px; }
-      .tab.active { background:var(--tab-active-bg); color:var(--primary); }
-      .page.active { animation: pageIn .18s ease-out; }
-      @keyframes pageIn { from { opacity:.35; transform:translateY(7px) } to { opacity:1; transform:none } }
-      .status-badge { padding:7px 11px; }
-      .bar { height:12px; }
-      .information { border-left:4px solid var(--primary); background:#eef2ff; color:#3730a3; }
-      @media (max-width:480px) {
-        .toolbar { grid-template-columns:1fr 1fr; }
-        .toolbar #search { grid-column:1/-1; }
-        .summary-card { grid-template-columns:1fr; }
-        .chart-container { overflow-x:hidden; }
-        .expense-chart-svg { min-width:100%; }
-      }
-      @media (max-width:380px) {
-        .top-actions { gap:5px; }
-        .theme-button,.quick-export-button { width:40px;height:40px;flex-basis:40px; }
-        .logo { width:42px;height:42px;flex-basis:42px; }
-        .tabs { grid-template-columns:repeat(5,1fr); }
-        .tab { font-size:9px; }
-      }
-      html[data-theme="dark"] {
-        --background:#0d1020; --card:#171a2b; --text:#f6f7ff; --muted:#b3b9cc; --line:#2c3148;
-        --primary:#a5b4fc; --primary-light:#c084fc; --primary-pressed:#818cf8; --accent:#fb923c;
-        --tab-active-bg:#28254b; --shadow:0 8px 26px rgba(0,0,0,.28); --shadow-high:0 16px 36px rgba(0,0,0,.38);
-      }
-      html[data-theme="dark"] body { background:linear-gradient(180deg,#17132d 0,#0d1020 230px); }
-      html[data-theme="dark"] .top { background:rgba(13,16,32,.91); }
-      html[data-theme="dark"] .information { background:#25234a;color:#dfe3ff;border-left-color:#a5b4fc; }
-      html[data-theme="dark"] .expense .icon { background:linear-gradient(145deg,#262b48,#2f2750); }
-
-
-      /* Fix Android vertical scrolling + bottom navigation gestures */
-      html, body {
-        height: auto !important;
-        min-height: 100% !important;
-        overflow-x: hidden !important;
-        overflow-y: auto !important;
-        overscroll-behavior-y: auto !important;
-        -webkit-overflow-scrolling: touch;
-      }
-      body { position: static !important; touch-action: pan-y; }
-      .app {
-        height: auto !important;
-        min-height: 100dvh !important;
-        overflow: visible !important;
-        touch-action: pan-y;
-      }
-      .page { height: auto !important; min-height: 0 !important; overflow: visible !important; touch-action: pan-y; }
-      .page.active { display: block !important; }
-      .tabs { touch-action: manipulation; }
-      .modal.open { overscroll-behavior: contain; }
-      .sheet { -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
-</style>
+  </style>
 </head>
 <body>
   <main class="app">
@@ -764,28 +655,12 @@
   </script>
 
   <script>
-    (() => { const KEY="darfikhoriba_theme"; const root=document.documentElement; const button=document.getElementById("themeToggle"); const apply=(theme)=>{root.dataset.theme=theme;localStorage.setItem(KEY,theme);if(button){button.textContent=theme==="dark"?"☀️":"🌙";button.setAttribute("aria-label",theme==="dark"?"Activer le mode clair":"Activer le mode sombre");}document.querySelector('meta[name="theme-color"]')?.setAttribute("content",theme==="dark"?"#0d1020":"#4f46e5");window.dispatchEvent(new Event("resize"));};const saved=localStorage.getItem(KEY);apply(saved||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));button?.addEventListener("click",()=>apply(root.dataset.theme==="dark"?"light":"dark"));})();
+    (() => { const KEY="darfikhoriba_theme"; const root=document.documentElement; const button=document.getElementById("themeToggle"); const apply=(theme)=>{root.dataset.theme=theme;localStorage.setItem(KEY,theme);if(button){button.textContent=theme==="dark"?"☀️":"🌙";button.setAttribute("aria-label",theme==="dark"?"Activer le mode clair":"Activer le mode sombre");}document.querySelector('meta[name="theme-color"]')?.setAttribute("content",theme==="dark"?"#0b1220":"#0f766e");window.dispatchEvent(new Event("resize"));};const saved=localStorage.getItem(KEY);apply(saved||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));button?.addEventListener("click",()=>apply(root.dataset.theme==="dark"?"light":"dark"));})();
   </script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));
     }
   </script>
-
-    <script>
-      (() => {
-        const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        document.querySelectorAll('.tab, .button, .floating-button').forEach(el => {
-          el.addEventListener('click', () => { if (navigator.vibrate) navigator.vibrate(8); }, {passive:true});
-        });
-        document.querySelectorAll('.modal').forEach(modal => {
-          modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
-        });
-        document.addEventListener('keydown', e => {
-          if (e.key === 'Escape') document.querySelectorAll('.modal.open').forEach(m => m.classList.remove('open'));
-        });
-        }
-      })();
-    </script>
 </body>
 </html>
