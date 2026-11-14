@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0f766e">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>DarFiKhoriba</title>
+  <title>DarFiKhoriba · Suivi du chantier</title>
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./home-192.png">
 
@@ -171,6 +171,74 @@
     html[data-theme="dark"] .tabs{background:rgba(15,23,42,.98)} html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea{background:var(--input-bg);color:var(--text);border-color:var(--line)} html[data-theme="dark"] label,html[data-theme="dark"] .chart-legend-item{color:var(--muted)} html[data-theme="dark"] .sheet{background:var(--sheet-bg);color:var(--text)} html[data-theme="dark"] .button-line,html[data-theme="dark"] .row-actions button,html[data-theme="dark"] .period-button,html[data-theme="dark"] .category-row{background:var(--card);color:var(--text);border-color:var(--line)} html[data-theme="dark"] .button-soft,html[data-theme="dark"] .period-button.active,html[data-theme="dark"] .chart-unit{background:#134e4a;color:#ccfbf1} html[data-theme="dark"] .button-danger{background:#7f1d1d;color:#fecaca} html[data-theme="dark"] .expense .icon,html[data-theme="dark"] .information{background:#134e4a;color:#ccfbf1} html[data-theme="dark"] .summary-cell{background:#0f172a} html[data-theme="dark"] .settings-notice{background:#431407;color:#fed7aa} html[data-theme="dark"] .commitment-card.collapsed{background:#10251c;border-color:#166534} html[data-theme="dark"] .bar{background:#263244} html[data-theme="dark"] .chart-container{background:#111827} html[data-theme="dark"] .chart-grid-line{stroke:#334155} html[data-theme="dark"] .chart-axis-line{stroke:#94a3b8} html[data-theme="dark"] .chart-axis-label,html[data-theme="dark"] .chart-axis-title{fill:#cbd5e1} html[data-theme="dark"] .chart-point{stroke:#111827} html[data-theme="dark"] .close{background:#334155;color:#f8fafc}
 
   </style>
+
+  <style id="design-refresh-v2">
+    :root{
+      --background:#eef3f1;--card:rgba(255,255,255,.92);--text:#15231f;--muted:#687a74;--line:#dce7e2;
+      --primary:#087f6c;--primary-light:#33c7aa;--accent:#f4b740;--danger:#c43d3d;
+      --shadow:0 12px 32px rgba(20,61,50,.08);--shadow-lg:0 24px 70px rgba(10,45,36,.18);
+      --radius-xl:26px;--radius-lg:20px;--radius-md:14px;
+    }
+    html{scroll-behavior:smooth;background:var(--background)}
+    body{min-height:100vh;background:
+      radial-gradient(circle at 4% 0%,rgba(51,199,170,.15),transparent 28rem),
+      radial-gradient(circle at 100% 28%,rgba(244,183,64,.10),transparent 24rem),var(--background);
+      letter-spacing:-.01em;-webkit-tap-highlight-color:transparent}
+    body:before{content:"";position:fixed;z-index:-1;inset:0;opacity:.22;pointer-events:none;background-image:linear-gradient(rgba(8,127,108,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(8,127,108,.04) 1px,transparent 1px);background-size:28px 28px}
+    .app{max-width:920px;padding:26px 22px 112px}
+    .top{position:relative;margin-bottom:22px;padding:10px 4px}
+    .eyebrow{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--primary)}
+    .arabe{margin:2px 0;color:var(--text);font-family:Tahoma,Arial,sans-serif;font-size:32px;line-height:1.15}
+    #saveStatus{display:inline-flex;align-items:center;gap:6px;margin-top:5px;padding:5px 9px;border:1px solid rgba(8,127,108,.15);border-radius:999px;background:rgba(255,255,255,.58)}
+    #saveStatus:before{content:"";width:7px;height:7px;border-radius:50%;background:#22a66f;box-shadow:0 0 0 4px rgba(34,166,111,.12)}
+    .logo{width:52px;height:52px;flex-basis:52px;border:1px solid rgba(255,255,255,.65);border-radius:18px;background:linear-gradient(145deg,#0b8e78,#075e52);box-shadow:0 12px 24px rgba(8,127,108,.24)}
+    .theme-button,.quick-export-button{transition:.2s ease;box-shadow:0 5px 16px rgba(24,62,52,.06)}
+    .theme-button:hover,.quick-export-button:hover{transform:translateY(-2px);border-color:#9bcabe}
+    .card{border-color:rgba(154,184,175,.35);border-radius:var(--radius-lg);box-shadow:var(--shadow);backdrop-filter:blur(14px);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+    .card:hover{border-color:rgba(8,127,108,.25);box-shadow:0 16px 40px rgba(20,61,50,.11)}
+    .hero{position:relative;isolation:isolate;min-height:185px;padding:25px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:linear-gradient(135deg,#075e52 0%,#0a8974 57%,#1fb498 100%);box-shadow:0 24px 55px rgba(8,94,79,.23)}
+    .hero:before,.hero:after{content:"";position:absolute;z-index:-1;border-radius:50%;border:28px solid rgba(255,255,255,.08)}
+    .hero:before{width:210px;height:210px;right:-75px;top:-95px}.hero:after{width:120px;height:120px;right:95px;top:40px;border-width:18px}
+    .hero .big{font-size:clamp(34px,7vw,52px);line-height:1.02;letter-spacing:-.045em}
+    .hero #totalEur{font-size:17px;font-weight:700;color:#d7fff6}
+    .grid3.mt .stat{min-height:126px;position:relative;padding:18px;font-size:24px}
+    .grid3.mt .stat .small{margin-top:16px}.grid3.mt .stat strong{font-size:18px}
+    .section-title{margin:30px 3px 12px}.section-title h2{font-size:22px;letter-spacing:-.025em}
+    .button{min-height:44px;border-radius:13px;transition:transform .15s ease,filter .15s ease,box-shadow .15s ease}
+    .button:hover{transform:translateY(-1px);filter:saturate(1.05)}.button:active{transform:translateY(0) scale(.98)}
+    .button-primary{background:linear-gradient(135deg,#087f6c,#0aa287);box-shadow:0 9px 20px rgba(8,127,108,.2)}
+    .button-soft{background:#dff7f1;color:#086454}.button-line{border-color:#ccdbd6;background:rgba(255,255,255,.65)}
+    input,select,textarea{border-color:#cad9d4;border-radius:13px;background:rgba(255,255,255,.8);outline:none;transition:border-color .15s ease,box-shadow .15s ease,background .15s ease}
+    input:focus,select:focus,textarea:focus{border-color:var(--primary);background:#fff;box-shadow:0 0 0 4px rgba(8,127,108,.12)}
+    label{color:#40554e;letter-spacing:.01em}.toolbar,.filter-dates{padding:12px;border:1px solid rgba(154,184,175,.32);border-radius:18px;background:rgba(255,255,255,.58);box-shadow:0 8px 24px rgba(20,61,50,.05)}
+    .expense{padding:14px 16px}.expense .icon{width:48px;height:48px;flex-basis:48px;border-radius:16px;background:linear-gradient(145deg,#ebfaf6,#dff5ef)}
+    .expense .amount strong{color:var(--primary);font-size:17px}.row-actions button{cursor:pointer;transition:.15s}.row-actions button:hover{border-color:var(--primary);color:var(--primary)}
+    .summary-cell{border:1px solid rgba(154,184,175,.22)}
+    .commitment-card{overflow:visible}.status-badge{letter-spacing:.02em}.bar{height:12px;background:#e8efec}.bar i{box-shadow:0 2px 8px rgba(8,127,108,.18)}
+    .information{border:1px solid rgba(8,127,108,.13);background:#e9faf6}
+    .tabs{bottom:14px;width:min(calc(100% - 28px),720px);padding:7px;border:1px solid rgba(154,184,175,.45);border-radius:22px;background:rgba(255,255,255,.88);box-shadow:0 18px 50px rgba(15,54,44,.18);backdrop-filter:blur(22px)}
+    .tab{min-height:58px;padding:7px 4px;border-radius:15px;font-size:11px;transition:.18s ease}.tab span{margin-bottom:2px;font-size:20px}.tab:hover{color:var(--primary);background:rgba(8,127,108,.06)}
+    .tab.active{background:linear-gradient(145deg,#daf5ee,#c6eee4);box-shadow:inset 0 0 0 1px rgba(8,127,108,.08)}
+    .floating-button{right:max(24px,calc((100vw - 920px)/2 + 24px));bottom:100px;width:62px;height:62px;border:1px solid rgba(255,255,255,.55);background:linear-gradient(145deg,#0aa287,#076b5c);box-shadow:0 16px 30px rgba(8,127,108,.3);transition:.18s ease}.floating-button:hover{transform:translateY(-3px) rotate(2deg)}
+    .modal{padding-top:24px;align-items:center;backdrop-filter:blur(7px);background:rgba(5,24,20,.58)}
+    .sheet{width:min(calc(100% - 24px),640px);max-height:min(90vh,820px);padding:22px;border:1px solid rgba(255,255,255,.5);border-radius:26px;background:var(--sheet-bg);box-shadow:var(--shadow-lg);animation:sheetIn .2s ease-out}
+    @keyframes sheetIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+    .sheet-head{position:sticky;z-index:2;top:-22px;margin:-22px -22px 18px;padding:20px 22px 13px;border-bottom:1px solid var(--line);background:var(--sheet-bg)}
+    .close{transition:.15s}.close:hover{transform:rotate(8deg);background:#d5e1dd}
+    .chart-container{border:1px solid var(--line);background:linear-gradient(180deg,rgba(8,127,108,.025),transparent)}
+    .empty{border-style:dashed;background:rgba(255,255,255,.38)}
+    html[data-theme="dark"]{--background:#07120f;--card:rgba(15,31,27,.92);--text:#effbf7;--muted:#a9bcb6;--line:#29463e;--shadow:0 14px 38px rgba(0,0,0,.28);--sheet-bg:#0e1c18}
+    html[data-theme="dark"] body{background:radial-gradient(circle at 4% 0%,rgba(45,212,191,.13),transparent 28rem),radial-gradient(circle at 100% 28%,rgba(244,183,64,.06),transparent 24rem),var(--background)}
+    html[data-theme="dark"] #saveStatus,html[data-theme="dark"] .toolbar,html[data-theme="dark"] .filter-dates{background:rgba(15,31,27,.6)}
+    html[data-theme="dark"] .tabs{background:rgba(10,25,21,.9)}html[data-theme="dark"] .tab.active{background:linear-gradient(145deg,#123e35,#125246)}
+    html[data-theme="dark"] input:focus,html[data-theme="dark"] select:focus,html[data-theme="dark"] textarea:focus{background:#10241f}
+    html[data-theme="dark"] .expense .icon{background:linear-gradient(145deg,#123c34,#0e2e28)}
+    @media(min-width:760px){#home{display:none;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}#home.active{display:grid}#home>.hero{grid-column:span 6}#home>.grid3{grid-column:span 6}#home>.section-title{grid-column:span 6;margin-bottom:-2px}#home>#recentExpenses{grid-column:span 6;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}#home>.card.grid2{grid-column:span 6}.grid3.mt{grid-template-columns:repeat(3,minmax(0,1fr))}.stats-list{grid-template-columns:repeat(3,1fr)}.stats-list .stat{border-bottom:0;border-right:1px solid var(--line);padding:8px 16px}.stats-list .stat:last-child{border-right:0}.settings-grid{grid-template-columns:repeat(4,1fr)}}
+    @media(max-width:680px){.app{padding:16px 12px 108px}.top-actions{gap:6px}.theme-button,.quick-export-button{width:42px;height:42px;flex-basis:42px}.logo{width:46px;height:46px;flex-basis:46px}.arabe{font-size:28px}.hero{min-height:170px;padding:20px}.toolbar{grid-template-columns:1fr 1fr}.toolbar input{grid-column:1/-1}.tabs{bottom:8px;width:calc(100% - 16px);border-radius:19px}.tab{min-height:54px;font-size:9px}.tab span{font-size:18px}.floating-button{right:18px;bottom:82px}.modal{align-items:flex-end;padding-top:0}.sheet{width:100%;max-height:94vh;border-radius:25px 25px 0 0;border-bottom:0}.payment-row{grid-template-columns:78px minmax(0,1fr)}}
+    @media(max-width:390px){.grid3{grid-template-columns:1fr}.grid3.mt .stat{min-height:auto}.top-actions .logo{display:none}.summary-card{grid-template-columns:1fr}.expense{align-items:flex-start;flex-wrap:wrap}.expense .amount{max-width:none;width:100%;padding-left:58px;text-align:left}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  </style>
+
 </head>
 <body>
   <main class="app">
@@ -662,5 +730,28 @@
       window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));
     }
   </script>
+
+  <script id="ergonomy-refresh-v2">
+    (() => {
+      const modals = [...document.querySelectorAll('.modal')];
+      modals.forEach(modal => modal.addEventListener('click', event => {
+        if (event.target === modal) modal.classList.remove('open');
+      }));
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') modals.forEach(modal => modal.classList.remove('open'));
+      });
+      document.querySelectorAll('.modal form').forEach(form => {
+        form.addEventListener('submit', () => {
+          const submit = form.querySelector('button[type="submit"]');
+          if (!submit) return;
+          const original = submit.textContent;
+          submit.textContent = 'Enregistrement…';
+          submit.disabled = true;
+          setTimeout(() => { submit.textContent = original; submit.disabled = false; }, 450);
+        });
+      });
+    })();
+  </script>
+
 </body>
 </html>
