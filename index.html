@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0f766e">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>DarFiKhoriba · Suivi du chantier</title>
+  <title>DarFiKhoriba V3 · Mobile</title>
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./home-192.png">
 
@@ -238,6 +238,34 @@
     @media(max-width:390px){.grid3{grid-template-columns:1fr}.grid3.mt .stat{min-height:auto}.top-actions .logo{display:none}.summary-card{grid-template-columns:1fr}.expense{align-items:flex-start;flex-wrap:wrap}.expense .amount{max-width:none;width:100%;padding-left:58px;text-align:left}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
+
+
+<style id="mobile-v3">
+:root{--tap:52px;--safe-bottom:env(safe-area-inset-bottom,0px)}
+body{overscroll-behavior-y:contain;touch-action:manipulation}
+.app{max-width:620px;padding:max(14px,env(safe-area-inset-top)) 12px calc(116px + var(--safe-bottom))}
+.top{position:sticky;z-index:4;top:0;margin:0 -12px 14px;padding:10px 14px;background:color-mix(in srgb,var(--background) 88%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.eyebrow{font-size:12px}.arabe{font-size:25px}.logo{display:none}
+.hero{min-height:178px;border-radius:26px}.hero .big{font-size:clamp(35px,11vw,50px)}
+.grid3.mt{display:flex;gap:10px;margin-inline:-2px;padding:2px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.grid3.mt::-webkit-scrollbar{display:none}.grid3.mt .stat{min-width:72%;min-height:112px;scroll-snap-align:start}
+.button,input,select,textarea,.theme-button,.quick-export-button{min-height:var(--tap)}
+input,select,textarea{font-size:16px!important}.button{font-size:15px;font-weight:800}
+.mobile-periods{display:flex;gap:8px;margin:12px 0;overflow-x:auto;scrollbar-width:none}.mobile-period{min-width:max-content;min-height:42px;padding:0 15px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--text);font-weight:800}.mobile-period.active{border-color:var(--primary);background:var(--primary);color:#fff}
+.toolbar{display:grid;grid-template-columns:1fr auto;padding:10px}.toolbar #search{grid-column:1/-1}.toolbar select{min-width:0}.filter-dates{display:none}.filter-dates.v3-open{display:grid}.v3-filter-toggle{margin-top:10px}
+.quick-categories{display:flex;gap:9px;margin:4px 0 16px;overflow-x:auto;scrollbar-width:none}.quick-category{min-width:max-content;min-height:46px;padding:0 15px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);font-weight:800}.quick-category.active{border-color:var(--primary);background:#d9f6ee;color:#075f51}
+#expenseForm{display:flex;flex-direction:column}#expenseForm .sheet-head{order:-20}#expenseForm .v3-amount-block{order:-19}#expenseForm .v3-category-block{order:-18}#expenseForm .v3-more-toggle{order:-17}#expenseForm .v3-secondary{order:-16}#expenseForm>button[type=submit]{position:sticky;bottom:0;z-index:3;margin-top:12px;box-shadow:0 -8px 24px var(--sheet-bg),0 10px 25px rgba(8,127,108,.25)}
+.v3-amount-block input{min-height:70px;font-size:28px!important;font-weight:900;text-align:center;border:2px solid var(--primary)}
+.v3-more-toggle{margin:0 0 12px}.v3-secondary.v3-collapsed{display:none}
+.sheet{padding-bottom:calc(18px + var(--safe-bottom));border-radius:28px 28px 0 0}.modal{align-items:flex-end;padding:0}.sheet-head{top:-22px}
+.expense{position:relative;padding:15px 14px}.expense .amount strong{font-size:18px}.row-actions button{min-width:44px;min-height:44px}
+.tabs{bottom:0;width:100%;max-width:620px;padding:6px 6px calc(6px + var(--safe-bottom));border-radius:22px 22px 0 0;border-bottom:0}.tab{min-height:58px}.tab span{font-size:19px}.tab:nth-child(3){display:none}
+.floating-button{right:18px;bottom:calc(82px + var(--safe-bottom));width:64px;height:64px;font-size:35px}
+.v3-home-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.v3-home-actions button{min-height:58px;border:0;border-radius:17px;font-weight:900;font-size:15px}.v3-primary{background:linear-gradient(135deg,#087f6c,#13a88c);color:#fff;box-shadow:0 10px 22px rgba(8,127,108,.22)}.v3-soft{background:var(--card);color:var(--text);border:1px solid var(--line)!important}
+.v3-snackbar{position:fixed;z-index:30;left:50%;bottom:calc(88px + var(--safe-bottom));width:min(calc(100% - 24px),560px);padding:14px 16px;border-radius:15px;background:#11231e;color:white;box-shadow:0 16px 40px rgba(0,0,0,.28);transform:translate(-50%,150%);opacity:0;transition:.25s;display:flex;align-items:center;justify-content:space-between;gap:12px}.v3-snackbar.show{transform:translate(-50%,0);opacity:1}.v3-snackbar button{border:0;background:transparent;color:#72e7cd;font-weight:900;min-height:38px}
+.v3-install-note{padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--card);font-size:13px;line-height:1.45}
+@media(min-width:700px){.app{max-width:620px}.grid3.mt .stat{min-width:31%}}
+@media(max-width:380px){.top-actions{gap:5px}.theme-button,.quick-export-button{width:42px}.tab{font-size:9px}.v3-home-actions{grid-template-columns:1fr}}
+</style>
 
 </head>
 <body>
@@ -752,6 +780,85 @@
       });
     })();
   </script>
+
+
+<script id="mobile-v3-behavior">
+(() => {
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const today = () => new Date().toISOString().slice(0,10);
+  const addAfter = (node, html) => node.insertAdjacentHTML('afterend', html);
+
+  // Android-friendly input keyboards and autofill hints.
+  ['#expenseAmount','#exchangeRate','#commitmentAmount'].forEach(sel => {
+    const el=$(sel); if(el){ el.setAttribute('inputmode','decimal'); el.setAttribute('enterkeyhint','next'); }
+  });
+  $('#search')?.setAttribute('enterkeyhint','search');
+  $('#expenseComment')?.setAttribute('enterkeyhint','done');
+
+  // Fast period filters designed for one-thumb use.
+  const dateFilters=$('.filter-dates');
+  if(dateFilters){
+    dateFilters.insertAdjacentHTML('beforebegin',`<div class="mobile-periods" aria-label="Période"><button class="mobile-period active" data-days="all" type="button">Tout</button><button class="mobile-period" data-days="0" type="button">Aujourd'hui</button><button class="mobile-period" data-days="7" type="button">7 jours</button><button class="mobile-period" data-days="30" type="button">30 jours</button></div>`);
+    addAfter(dateFilters,`<button class="button button-line wide v3-filter-toggle" type="button">Dates personnalisées</button>`);
+    $('.v3-filter-toggle').addEventListener('click',()=>dateFilters.classList.toggle('v3-open'));
+    document.querySelectorAll('.mobile-period').forEach(btn=>btn.addEventListener('click',()=>{
+      document.querySelectorAll('.mobile-period').forEach(x=>x.classList.remove('active')); btn.classList.add('active');
+      const days=btn.dataset.days, from=$('#expenseDateFrom'), to=$('#expenseDateTo');
+      if(days==='all'){from.value='';to.value='';}
+      else {const d=new Date();to.value=today();d.setDate(d.getDate()-Number(days));from.value=d.toISOString().slice(0,10);}
+      from.dispatchEvent(new Event('input',{bubbles:true}));to.dispatchEvent(new Event('input',{bubbles:true}));
+    }));
+  }
+
+  // Home shortcuts.
+  const hero=$('.hero');
+  if(hero) addAfter(hero,`<div class="v3-home-actions"><button class="v3-primary" id="v3QuickExpense" type="button">＋ Dépense rapide</button><button class="v3-soft" id="v3QuickDue" type="button">＋ Somme due</button></div>`);
+  $('#v3QuickExpense')?.addEventListener('click',()=>$('#addExpense')?.click());
+  $('#v3QuickDue')?.addEventListener('click',()=>{ window.showPage?.('commitments'); setTimeout(()=>$('#newCommitment')?.click(),80); });
+
+  // Reorder the expense form around the most frequent action: amount first.
+  const form=$('#expenseForm');
+  if(form){
+    const fields=[...form.querySelectorAll(':scope > .field, :scope > .grid2')];
+    const amount=$('#expenseAmount')?.closest('.field');
+    const category=$('#expenseCategory')?.closest('.field') || $('#expenseCategory')?.closest('.grid2');
+    if(amount) amount.classList.add('v3-amount-block');
+    if(category) category.classList.add('v3-category-block');
+    fields.forEach(f=>{if(f!==amount&&f!==category)f.classList.add('v3-secondary','v3-collapsed')});
+    const anchor=category||amount;
+    if(anchor) addAfter(anchor,`<button class="button button-line wide v3-more-toggle" type="button" aria-expanded="false">Plus de détails</button>`);
+    $('.v3-more-toggle')?.addEventListener('click',e=>{
+      const collapsed=form.querySelector('.v3-secondary.v3-collapsed');
+      form.querySelectorAll('.v3-secondary').forEach(x=>x.classList.toggle('v3-collapsed',!collapsed));
+      e.currentTarget.textContent=collapsed?'Masquer les détails':'Plus de détails';e.currentTarget.setAttribute('aria-expanded',String(!!collapsed));
+    });
+    const cat=$('#expenseCategory');
+    if(cat){
+      const block=document.createElement('div'); block.className='quick-categories v3-category-block';
+      block.innerHTML=['Terrain','Fournitures',"Main-d’œuvre",'Autres'].map((x,i)=>`<button type="button" class="quick-category${i===0?' active':''}" data-cat="${x}">${x==='Terrain'?'🏡':x==='Fournitures'?'🧱':x==='Main-d’œuvre'?'👷':'•••'} ${x}</button>`).join('');
+      (category||cat).insertAdjacentElement('afterend',block);
+      block.addEventListener('click',e=>{const b=e.target.closest('[data-cat]');if(!b)return;cat.value=b.dataset.cat;cat.dispatchEvent(new Event('change',{bubbles:true}));block.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));});
+    }
+  }
+
+  // Mobile feedback and safe modal dismissal.
+  document.body.insertAdjacentHTML('beforeend',`<div class="v3-snackbar" role="status" aria-live="polite"><span id="v3SnackText">Enregistré</span><button type="button" id="v3SnackClose">OK</button></div>`);
+  let snackTimer; const snack=msg=>{clearTimeout(snackTimer);$('#v3SnackText').textContent=msg;$('.v3-snackbar').classList.add('show');snackTimer=setTimeout(()=>$('.v3-snackbar').classList.remove('show'),3200)};
+  $('#v3SnackClose').addEventListener('click',()=>$('.v3-snackbar').classList.remove('show'));
+  form?.addEventListener('submit',()=>setTimeout(()=>snack('✓ Dépense enregistrée'),100));
+  $('#commitmentForm')?.addEventListener('submit',()=>setTimeout(()=>snack('✓ Somme due enregistrée'),100));
+  document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open'))});
+
+  // Set today's date whenever a new expense form is opened and no date is set.
+  $('#addExpense')?.addEventListener('click',()=>setTimeout(()=>{const d=$('#expenseDate');if(d&&!d.value)d.value=today();$('#expenseAmount')?.focus({preventScroll:true})},80));
+
+  // Android installation guidance in Settings; the file stays fully standalone.
+  const settings=$('#settings');
+  if(settings) settings.insertAdjacentHTML('beforeend',`<div class="section-title"><h2>Sur Android</h2></div><div class="v3-install-note"><strong>Accès rapide</strong><br>Dans Chrome : menu ⋮ → <b>Ajouter à l'écran d'accueil</b>. Pour éviter toute perte après un nettoyage du navigateur, exportez régulièrement la sauvegarde JSON depuis cette page.</div>`);
+})();
+</script>
 
 </body>
 </html>
