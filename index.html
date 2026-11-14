@@ -170,7 +170,10 @@
     .top-actions{display:flex;align-items:center;gap:8px}.theme-button,.quick-export-button{width:44px;height:44px;flex:0 0 44px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);font-size:19px}
     html[data-theme="dark"] .tabs{background:rgba(15,23,42,.98)} html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea{background:var(--input-bg);color:var(--text);border-color:var(--line)} html[data-theme="dark"] label,html[data-theme="dark"] .chart-legend-item{color:var(--muted)} html[data-theme="dark"] .sheet{background:var(--sheet-bg);color:var(--text)} html[data-theme="dark"] .button-line,html[data-theme="dark"] .row-actions button,html[data-theme="dark"] .period-button,html[data-theme="dark"] .category-row{background:var(--card);color:var(--text);border-color:var(--line)} html[data-theme="dark"] .button-soft,html[data-theme="dark"] .period-button.active,html[data-theme="dark"] .chart-unit{background:#134e4a;color:#ccfbf1} html[data-theme="dark"] .button-danger{background:#7f1d1d;color:#fecaca} html[data-theme="dark"] .expense .icon,html[data-theme="dark"] .information{background:#134e4a;color:#ccfbf1} html[data-theme="dark"] .summary-cell{background:#0f172a} html[data-theme="dark"] .settings-notice{background:#431407;color:#fed7aa} html[data-theme="dark"] .commitment-card.collapsed{background:#10251c;border-color:#166534} html[data-theme="dark"] .bar{background:#263244} html[data-theme="dark"] .chart-container{background:#111827} html[data-theme="dark"] .chart-grid-line{stroke:#334155} html[data-theme="dark"] .chart-axis-line{stroke:#94a3b8} html[data-theme="dark"] .chart-axis-label,html[data-theme="dark"] .chart-axis-title{fill:#cbd5e1} html[data-theme="dark"] .chart-point{stroke:#111827} html[data-theme="dark"] .close{background:#334155;color:#f8fafc}
 
-  </style>
+  
+/* Analyse : anneau, cartes, barres */
+.analysis-total{padding:18px;border:0;background:linear-gradient(135deg,#0f766e,#115e59);color:#fff}.analysis-total .muted{color:#ccfbf1}.analysis-total-value{margin-top:5px;font-size:30px;font-weight:900}.analysis-ring-layout{display:grid;grid-template-columns:160px minmax(0,1fr);align-items:center;gap:16px}.analysis-ring{position:relative;display:grid;width:160px;height:160px;place-items:center;border-radius:50%;background:conic-gradient(#e2e8f0 0 100%)}.analysis-ring:after{content:"";position:absolute;width:102px;height:102px;border-radius:50%;background:var(--card);box-shadow:0 3px 14px rgba(15,23,42,.08)}.analysis-ring-center{position:relative;z-index:1;max-width:90px;text-align:center}.analysis-ring-center strong{display:block;font-size:17px;line-height:1.15;overflow-wrap:anywhere}.analysis-ring-center span{color:var(--muted);font-size:11px;font-weight:800}.analysis-legend{display:grid;gap:9px}.analysis-legend-row{display:grid;grid-template-columns:12px minmax(0,1fr) auto;align-items:center;gap:7px;font-size:12px}.analysis-dot{width:11px;height:11px;border-radius:50%}.analysis-category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.analysis-category-card{min-width:0;padding:14px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow)}.analysis-category-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.analysis-category-icon{display:grid;width:40px;height:40px;place-items:center;border-radius:13px;background:#f0fdfa;font-size:21px}.analysis-percent{color:var(--category-color);font-size:18px;font-weight:900}.analysis-category-name{margin-top:10px;color:var(--muted);font-size:12px;font-weight:800}.analysis-category-value{margin-top:3px;font-size:16px;font-weight:900;overflow-wrap:anywhere}.analysis-progress{height:8px;margin-top:10px;overflow:hidden;border-radius:999px;background:#e8edf3}.analysis-progress i{display:block;height:100%;border-radius:inherit;background:var(--category-color)}.monthly-bars{display:grid;gap:12px}.month-row{display:grid;grid-template-columns:54px minmax(0,1fr) auto;align-items:center;gap:9px}.month-label{color:var(--muted);font-size:12px;font-weight:900;text-transform:capitalize}.month-track{height:18px;overflow:hidden;border-radius:999px;background:#e8edf3}.month-fill{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--primary),var(--primary-light))}.month-value{max-width:108px;font-size:12px;font-weight:900;text-align:right;white-space:nowrap}.analysis-insights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.analysis-insight{min-width:0;padding:12px 8px;border-radius:14px;background:#f8fafc;text-align:center}.analysis-insight span{display:block;font-size:22px}.analysis-insight small{display:block;margin:5px 0 3px;color:var(--muted);font-size:10px;font-weight:800}.analysis-insight strong{display:block;font-size:12px;overflow-wrap:anywhere}html[data-theme="dark"] .analysis-progress,html[data-theme="dark"] .month-track{background:#263244}html[data-theme="dark"] .analysis-insight{background:#0f172a}@media(max-width:390px){.analysis-ring-layout{grid-template-columns:1fr;justify-items:center}.analysis-legend{width:100%}.analysis-category-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
   <main class="app">
@@ -247,26 +250,16 @@
     </section>
 
     <section class="page" id="charts">
-      <div class="section-title"><h2>Courbes</h2></div>
-      <div class="card">
-        <div class="chart-header"><div><strong>Évolution des dépenses</strong><div class="small muted">Montants cumulés par date, catégorie et total</div></div><div class="chart-unit">DZD</div></div>
-        <div class="period-buttons" id="chartPeriodButtons">
-          <button class="period-button active" data-period="all" type="button">Tout</button>
-          <button class="period-button" data-period="30" type="button">30 jours</button>
-          <button class="period-button" data-period="90" type="button">3 mois</button>
-          <button class="period-button" data-period="180" type="button">6 mois</button>
-          <button class="period-button" data-period="365" type="button">1 an</button>
-        </div>
-        <div class="filter-dates">
-          <div><label for="chartDateFrom">Du</label><input id="chartDateFrom" type="date"></div>
-          <div><label for="chartDateTo">Au</label><input id="chartDateTo" type="date"></div>
-        </div>
-        <div id="chartPeriodSummary" class="information">Toutes les dépenses</div>
-        <div id="expenseChart" class="chart-container" role="img" aria-label="Évolution des dépenses en DZD"></div>
-        <div id="chartLegend" class="chart-legend"></div>
-      </div>
-      <div class="card mt"><strong>Répartition par catégorie</strong><div id="categoryBars"></div></div>
-    </section>
+<div class="section-title"><h2>Analyse</h2></div>
+<div class="period-buttons" id="chartPeriodButtons"><button class="period-button active" data-period="all" type="button">Tout</button><button class="period-button" data-period="30" type="button">30 jours</button><button class="period-button" data-period="90" type="button">3 mois</button><button class="period-button" data-period="180" type="button">6 mois</button><button class="period-button" data-period="365" type="button">1 an</button></div>
+<div class="filter-dates"><div><label for="chartDateFrom">Du</label><input id="chartDateFrom" type="date"></div><div><label for="chartDateTo">Au</label><input id="chartDateTo" type="date"></div></div>
+<div id="chartPeriodSummary" class="information">Toutes les dépenses</div>
+<div class="card analysis-total"><div class="small muted">TOTAL DE LA PÉRIODE</div><div class="analysis-total-value" id="analysisTotal">0,000 DZD</div><div class="small" id="analysisCount">0 dépense</div></div>
+<div class="card mt"><div class="chart-header"><div><strong>Répartition</strong><div class="small muted">Part de chaque catégorie</div></div><div class="chart-unit">DZD</div></div><div class="analysis-ring-layout"><div class="analysis-ring" id="analysisRing"><div class="analysis-ring-center"><strong id="analysisRingTotal">0,000</strong><span>DZD</span></div></div><div class="analysis-legend" id="analysisLegend"></div></div></div>
+<div class="section-title"><h2>Catégories</h2></div><div class="analysis-category-grid" id="analysisCategoryCards"></div>
+<div class="card mt"><div class="chart-header"><div><strong>Dépenses dans le temps</strong><div class="small muted">Totaux mensuels, maximum 8 mois</div></div></div><div class="monthly-bars" id="analysisMonthlyBars"></div></div>
+<div class="card mt"><strong>À retenir</strong><div class="analysis-insights mt" id="analysisInsights"></div></div>
+</section>
 
     <section class="page" id="commitments">
       <div class="section-title"><h2>Sommes dues</h2><button class="button button-primary" id="newCommitment" type="button">+ Ajouter</button></div>
@@ -311,7 +304,7 @@
     <nav class="tabs">
       <button class="tab active" data-page="home"><span>🏠</span>Accueil</button>
       <button class="tab" data-page="expenses"><span>💰</span>Dépenses</button>
-      <button class="tab" data-page="charts"><span>📈</span>Courbes</button>
+      <button class="tab" data-page="charts"><span>📊</span>Analyse</button>
       <button class="tab" data-page="commitments"><span>🤝</span>Sommes dues</button>
       <button class="tab" data-page="settings"><span>⚙️</span>Réglages</button>
     </nav>
@@ -558,27 +551,22 @@
       function shortDzd(value) { if (value >= 1e9) return `${fmt(value / 1e9, 0)} Md`; if (value >= 1e6) return `${fmt(value / 1e6, 0)} M`; if (value >= 1e3) return `${fmt(value / 1e3, 0)} k`; return fmt(value, 0); }
       function shortDate(value) { const date = new Date(`${value}T00:00:00`); return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" }); }
 
-      function drawExpenseChart() {
-        const host = $("#expenseChart"); const legend = $("#chartLegend"); const { categories, points } = getChartData();
-        if (!points.length) { host.innerHTML = '<div class="chart-empty">Aucune dépense sur cette période.</div>'; legend.innerHTML = ""; return; }
-        const width = Math.max(host.clientWidth || 500, 500); const height = 320; const margin = { top: 22, right: 18, bottom: 54, left: 76 }; const plotWidth = width - margin.left - margin.right; const plotHeight = height - margin.top - margin.bottom;
-        const maximum = niceMaximum(Math.max(...points.flatMap((point) => categories.map((category) => point.values[category])), 0));
-        const x = (index) => points.length === 1 ? margin.left + plotWidth / 2 : margin.left + index / (points.length - 1) * plotWidth;
-        const y = (value) => margin.top + plotHeight - Math.max(0, Math.min(1, value / maximum)) * plotHeight;
-        const grid = Array.from({ length: 6 }, (_, index) => { const value = maximum / 5 * index; const position = y(value); return `<line class="chart-grid-line" x1="${margin.left}" x2="${width - margin.right}" y1="${position}" y2="${position}"></line><text class="chart-axis-label" text-anchor="end" x="${margin.left - 10}" y="${position + 4}">${esc(shortDzd(value))}</text>`; }).join("");
-        const step = Math.max(1, Math.ceil(points.length / 5));
-        const labels = points.map((point, index) => index % step === 0 || index === points.length - 1 ? `<text class="chart-axis-label" text-anchor="middle" x="${x(index)}" y="${height - 28}">${esc(shortDate(point.date))}</text>` : "").join("");
-        const lines = categories.map((category) => { const coordinates = points.map((point, index) => ({ x: x(index), y: y(point.values[category]), value: point.values[category], date: point.date })); const polyline = coordinates.map((point) => `${point.x},${point.y}`).join(" "); const circles = coordinates.map((point) => `<circle class="chart-point" cx="${point.x}" cy="${point.y}" r="${category === "Total" ? 4.5 : 3.5}" fill="${chartColor(category)}"><title>${esc(`${category}, ${point.date}, ${dzd(point.value)}`)}</title></circle>`).join(""); return `<polyline class="chart-line ${category === "Total" ? "chart-line-total" : ""}" points="${polyline}" stroke="${chartColor(category)}"></polyline>${circles}`; }).join("");
-        host.innerHTML = `<svg class="expense-chart-svg" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">${grid}<line class="chart-axis-line" x1="${margin.left}" x2="${margin.left}" y1="${margin.top}" y2="${margin.top + plotHeight}"></line><line class="chart-axis-line" x1="${margin.left}" x2="${width - margin.right}" y1="${margin.top + plotHeight}" y2="${margin.top + plotHeight}"></line><text class="chart-axis-title" text-anchor="middle" transform="rotate(-90 17 ${margin.top + plotHeight / 2})" x="17" y="${margin.top + plotHeight / 2}">Montant cumulé en DZD</text>${labels}${lines}</svg>`;
-        legend.innerHTML = categories.map((category) => `<div class="chart-legend-item"><span class="chart-legend-color" style="background:${chartColor(category)}"></span><span>${category === "Total" ? "💰" : ICONS[category]} ${esc(category)}</span></div>`).join("");
-      }
-
-      function drawBars() {
-        const categories = Object.keys(ICONS); const { from, to } = getChartExpenseRange(); const source = state.expenses.filter((expense) => (!from || expense.date >= from) && (!to || expense.date <= to)); const values = categories.map((category) => source.filter((expense) => expense.category === category).reduce((total, expense) => total + num(expense.dzd), 0)); const maximum = Math.max(...values, 1);
-        $("#categoryBars").innerHTML = categories.map((category, index) => `<div class="mt"><div class="bar-label"><span>${ICONS[category]} ${esc(category)}</span><b>${dzd(values[index])}</b></div><div class="bar"><i style="width:${values[index] / maximum * 100}%;background:${chartColor(category)}"></i></div></div>`).join("");
-      }
-
-      function render() {
+      function getAnalysisExpenses(){const {from,to}=getChartExpenseRange();return state.expenses.filter(e=>e.date&&(!from||e.date>=from)&&(!to||e.date<=to));}
+function drawExpenseChart(){
+ const categories=Object.keys(ICONS),{from,to}=getChartExpenseRange(),source=getAnalysisExpenses();
+ const total=source.reduce((sum,e)=>sum+num(e.dzd),0),values=Object.fromEntries(categories.map(c=>[c,source.filter(e=>e.category===c).reduce((sum,e)=>sum+num(e.dzd),0)]));
+ $("#chartPeriodSummary").textContent=`${source.length} dépense${source.length>1?"s":""} · ${dzd(total)}${from||to?` · ${from||"début"} au ${to||"présent"}`:" · toutes les dates"}`;
+ $("#analysisTotal").textContent=dzd(total);$("#analysisCount").textContent=`${source.length} dépense${source.length>1?"s":""}`;$("#analysisRingTotal").textContent=fmt(total/1e6,3);
+ let cursor=0;const segments=[];categories.forEach(c=>{const share=total?values[c]/total*100:0;if(share){segments.push(`${chartColor(c)} ${cursor}% ${cursor+share}%`);cursor+=share;}});$("#analysisRing").style.background=segments.length?`conic-gradient(${segments.join(",")})`:"conic-gradient(#e2e8f0 0 100%)";
+ $("#analysisLegend").innerHTML=categories.map(c=>{const share=total?values[c]/total*100:0;return `<div class="analysis-legend-row"><span class="analysis-dot" style="background:${chartColor(c)}"></span><span>${ICONS[c]} ${esc(c)}</span><b>${fmt(share,1)} %</b></div>`}).join("");
+ $("#analysisCategoryCards").innerHTML=categories.map(c=>{const share=total?values[c]/total*100:0;return `<article class="analysis-category-card" style="--category-color:${chartColor(c)}"><div class="analysis-category-top"><span class="analysis-category-icon">${ICONS[c]}</span><span class="analysis-percent">${fmt(share,0)} %</span></div><div class="analysis-category-name">${esc(c)}</div><div class="analysis-category-value">${dzd(values[c])}</div><div class="analysis-progress"><i style="width:${share}%"></i></div></article>`}).join("");
+ const monthly=new Map();source.forEach(e=>{const key=String(e.date).slice(0,7);monthly.set(key,(monthly.get(key)||0)+num(e.dzd));});const months=[...monthly.entries()].sort((a,b)=>a[0].localeCompare(b[0])).slice(-8),max=Math.max(...months.map(x=>x[1]),1);
+ $("#analysisMonthlyBars").innerHTML=months.length?months.map(([key,value])=>{const label=new Date(`${key}-01T00:00:00`).toLocaleDateString("fr-FR",{month:"short",year:"2-digit"}).replace(".","");return `<div class="month-row"><span class="month-label">${esc(label)}</span><div class="month-track"><i class="month-fill" style="width:${value/max*100}%"></i></div><b class="month-value">${dzd(value)}</b></div>`}).join(""):'<div class="empty">Aucune dépense sur cette période.</div>';
+ const top=categories.reduce((a,c)=>values[c]>values[a]?c:a,categories[0]),avg=source.length?total/source.length:0,largest=source.reduce((a,e)=>!a||num(e.dzd)>num(a.dzd)?e:a,null);
+ $("#analysisInsights").innerHTML=`<div class="analysis-insight"><span>🔥</span><small>Catégorie principale</small><strong>${total?`${ICONS[top]} ${esc(top)}`:"—"}</strong></div><div class="analysis-insight"><span>🧾</span><small>Dépense moyenne</small><strong>${dzd(avg)}</strong></div><div class="analysis-insight"><span>🏆</span><small>Plus grosse dépense</small><strong>${largest?dzd(largest.dzd):"—"}</strong></div>`;
+}
+function drawBars(){}
+function render() {
         const total = state.expenses.reduce((sum, expense) => sum + Math.round(num(expense.dzd)), 0); const totalEur = state.expenses.reduce((sum, expense) => sum + num(expense.eur), 0);
         $("#totalDzd").textContent = dzd(total); $("#totalEur").textContent = eur(totalEur); $("#settingsExpenseCount").textContent = state.expenses.length; $("#settingsTotalDzd").textContent = dzd(total); $("#settingsTotalEur").textContent = eur(totalEur);
         [["#homeTerrain", "Terrain"], ["#homeSupplies", "Fournitures"], ["#homeLabor", "Main-d'œuvre"]].forEach(([selector, category]) => { $(selector).textContent = dzd(state.expenses.filter((expense) => expense.category === category).reduce((sum, expense) => sum + num(expense.dzd), 0)); });
