@@ -257,6 +257,29 @@
       html[data-theme="dark"] .top { background:rgba(13,16,32,.91); }
       html[data-theme="dark"] .information { background:#25234a;color:#dfe3ff;border-left-color:#a5b4fc; }
       html[data-theme="dark"] .expense .icon { background:linear-gradient(145deg,#262b48,#2f2750); }
+
+
+      /* Fix Android vertical scrolling + bottom navigation gestures */
+      html, body {
+        height: auto !important;
+        min-height: 100% !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        overscroll-behavior-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+      }
+      body { position: static !important; touch-action: pan-y; }
+      .app {
+        height: auto !important;
+        min-height: 100dvh !important;
+        overflow: visible !important;
+        touch-action: pan-y;
+      }
+      .page { height: auto !important; min-height: 0 !important; overflow: visible !important; touch-action: pan-y; }
+      .page.active { display: block !important; }
+      .tabs { touch-action: manipulation; }
+      .modal.open { overscroll-behavior: contain; }
+      .sheet { -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; }
 </style>
 </head>
 <body>
@@ -762,14 +785,6 @@
         document.addEventListener('keydown', e => {
           if (e.key === 'Escape') document.querySelectorAll('.modal.open').forEach(m => m.classList.remove('open'));
         });
-        if (!reduceMotion && 'startViewTransition' in document && typeof window.showPage === 'function') {
-          const original = window.showPage;
-          window.showPage = page => document.startViewTransition(() => original(page));
-          document.querySelectorAll('.tab').forEach(tab => {
-            const fresh = tab.cloneNode(true);
-            tab.replaceWith(fresh);
-            fresh.addEventListener('click', () => window.showPage(fresh.dataset.page));
-          });
         }
       })();
     </script>
