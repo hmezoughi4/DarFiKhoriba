@@ -256,6 +256,32 @@ html[data-theme="dark"] .floating-button {
 /* Bulle + swipe consolidés */
 .tab{position:relative;overflow:visible}.due-count-badge{position:absolute;top:-6px;left:50%;transform:translateX(8px);display:none;width:21px;height:21px;min-width:21px;padding:0;align-items:center;justify-content:center;border:2px solid #fff;border-radius:50%;background:#ef4444;color:#fff;font-size:11px;font-weight:900;line-height:1;box-shadow:0 2px 7px rgba(220,38,38,.42);pointer-events:none;z-index:9}.due-count-badge.visible{display:inline-flex}html[data-theme="dark"] .due-count-badge{border-color:#0f172a}
 .swipe-card{position:relative;touch-action:pan-y;user-select:none;-webkit-user-select:none;transition:transform .18s ease;will-change:transform;z-index:1}.swipe-card::before{position:absolute;z-index:-1;top:0;bottom:0;width:160px;display:flex;align-items:center;padding:0 20px;box-sizing:border-box;border-radius:inherit;color:#fff;font-size:14px;font-weight:900;opacity:0;pointer-events:none}.swipe-card.swiping-right::before{content:"🗑 Supprimer";left:-160px;justify-content:flex-end;background:#dc2626;opacity:1}.swipe-card.swiping-left::before{content:"✏️ Modifier";right:-160px;justify-content:flex-start;background:#2563eb;opacity:1}.card.swipe-card,.payment-row.swipe-card{background:var(--card)}.payment-row.swipe-card{padding-left:10px;padding-right:10px;border-radius:10px}
+
+/* ===== Correctif final : couleurs visibles ===== */
+.settings-stats-compact{gap:8px;border:0!important;overflow:visible!important}
+.settings-stat-compact{min-width:0;padding:12px 7px;border-radius:14px;text-align:center;border:1px solid transparent}
+.settings-stat-compact:nth-child(1){background:#f0fdfa;border-color:#99f6e4;color:#115e59}
+.settings-stat-compact:nth-child(1) .muted{color:#0f766e}
+.settings-stat-compact:nth-child(2){background:#eff6ff;border-color:#bfdbfe;color:#1e3a8a}
+.settings-stat-compact:nth-child(2) .muted{color:#2563eb}
+.settings-stat-compact:nth-child(3){background:#faf5ff;border-color:#e9d5ff;color:#6b21a8}
+.settings-stat-compact:nth-child(3) .muted{color:#9333ea}
+html[data-theme="dark"] .settings-stat-compact:nth-child(1){background:#123c39;border-color:#0f766e;color:#ccfbf1}
+html[data-theme="dark"] .settings-stat-compact:nth-child(1) .muted{color:#5eead4}
+html[data-theme="dark"] .settings-stat-compact:nth-child(2){background:#172554;border-color:#1d4ed8;color:#dbeafe}
+html[data-theme="dark"] .settings-stat-compact:nth-child(2) .muted{color:#93c5fd}
+html[data-theme="dark"] .settings-stat-compact:nth-child(3){background:#3b0764;border-color:#7e22ce;color:#f3e8ff}
+html[data-theme="dark"] .settings-stat-compact:nth-child(3) .muted{color:#d8b4fe}
+
+/* Le panneau recouvre entierement la carte pendant le glissement. */
+.swipe-card{position:relative;isolation:isolate;overflow:hidden!important;touch-action:pan-y;user-select:none;-webkit-user-select:none;transition:transform .18s ease,background-color .1s ease,border-color .1s ease;will-change:transform}
+.swipe-card::before{position:absolute!important;inset:0!important;left:0!important;right:0!important;top:0!important;bottom:0!important;width:100%!important;height:100%!important;z-index:30!important;display:flex!important;align-items:center;padding:0 22px;box-sizing:border-box;border-radius:inherit;color:#fff;font-size:15px;font-weight:900;opacity:0;pointer-events:none;transition:opacity .08s ease}
+.swipe-card.swiping-right{background:#dc2626!important;border-color:#dc2626!important}
+.swipe-card.swiping-right::before{content:"🗑 Supprimer"!important;justify-content:flex-start!important;background:#dc2626!important;opacity:1!important}
+.swipe-card.swiping-left{background:#2563eb!important;border-color:#2563eb!important}
+.swipe-card.swiping-left::before{content:"✏️ Modifier"!important;justify-content:flex-end!important;background:#2563eb!important;opacity:1!important}
+.swipe-card.swiping-right>*,.swipe-card.swiping-left>*{visibility:hidden!important}
+.payment-row.swipe-card{background:var(--card);padding-left:10px;padding-right:10px;border-radius:10px}
 </style>
 </head>
 <body>
