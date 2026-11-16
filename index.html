@@ -224,6 +224,17 @@ html[data-theme="dark"] .floating-button {
   #home .grid3 .stat { font-size: 28px; }
   #home .grid3 .stat .small { font-size: 12px; }
 }
+
+@media (max-width: 520px) {
+  .analysis-category-card .analysis-percent {
+    font-size: 24px !important;
+  }
+}
+
+.card.stat {
+  text-align: center;
+}
+    
 </style>
 </head>
 <body>
@@ -234,7 +245,7 @@ html[data-theme="dark"] .floating-button {
         <div class="arabe">خوريبة بناء</div>
         <div class="small muted" id="saveStatus">Sauvegarde locale active</div>
       </div>
-      <div class="top-actions"><button class="quick-export-button" id="quickExportJson" type="button" aria-label="Exporter rapidement la sauvegarde JSON" title="Sauvegarde JSON rapide">💾</button><button class="theme-button" id="themeToggle" type="button" aria-label="Basculer mode clair ou sombre">🌙</button><button class="theme-button" id="soundToggle" type="button" aria-label="Désactiver les sons" title="Activer ou désactiver les sons">🔊</button><div class="logo" aria-label="Algérie">🇩🇿</div></div>
+      <div class="top-actions"><button class="quick-export-button" id="quickExportJson" type="button" aria-label="Exporter rapidement la sauvegarde JSON" title="Sauvegarde JSON rapide">💾</button><button class="theme-button" id="themeToggle" type="button" aria-label="Basculer mode clair ou sombre">🌙</button><div class="logo" aria-label="Algérie">🇩🇿</div></div>
     </header>
 
     <section class="page active" id="home">
@@ -349,10 +360,25 @@ html[data-theme="dark"] .floating-button {
         </div>
         <input class="hidden" id="importJsonFile" type="file" accept=".json,application/json">
       </div>
+      <div class="card mt">
+        <strong>🔊 Sons</strong>
+        <div class="settings-details">
+          <div class="settings-detail">
+            <div>
+              <strong style="text-align:left">Sons des clics</strong>
+              <div class="small muted">Active ou désactive les effets sonores.</div>
+            </div>
+            <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">🔊 Activés</button>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label for="soundVolume">Volume <span id="soundVolumeValue">35 %</span></label>
+            <input id="soundVolume" type="range" min="0" max="100" step="5" value="35" aria-label="Volume des sons">
+          </div>
+        </div>
+      </div>
     </section>
 
-    <div class="fab-menu" id="fabMenu"><button class="button button-line" id="fabExpense" type="button">💰 Dépense</button><button class="button button-line" id="fabPayment" type="button">💸 Versement</button><button class="button button-line" id="fabCommitment" type="button">🤝 Somme due</button></div>
-      <button class="floating-button" id="addExpense" type="button" aria-label="Ouvrir le menu d’ajout" aria-expanded="false">+</button>
+    <button class="floating-button" id="addExpense" type="button" aria-label="Ajouter une dépense">+</button>
     <nav class="tabs">
       <button class="tab active" data-page="home"><span>🏠</span>Accueil</button>
       <button class="tab" data-page="expenses"><span>💰</span>Dépenses</button>
@@ -456,10 +482,6 @@ html[data-theme="dark"] .floating-button {
       let finishedCommitmentsCollapsed = false;
       let chartResizeTimer;
       let chartPeriod = "all";
-      const QUICK_PREFS_KEY = "darfikhoriba_quick_prefs";
-      let quickPrefs = (() => { try { return JSON.parse(localStorage.getItem(QUICK_PREFS_KEY)) || {}; } catch { return {}; } })();
-      let undoExpense = null;
-      let undoTimer = null;
 
       function save() {
         const date = new Date();
@@ -516,7 +538,7 @@ html[data-theme="dark"] .floating-button {
       function color(progress) { return `hsl(${Math.round(Math.max(0, Math.min(100, progress)) * 1.2)}, 70%, 76%)`; }
 
       function expenseHtml(expense, actions = true) {
-        return `<article class="card expense"><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(expense.date)} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}${actions ? `<div class="expense-actions"><button class="expense-actions-toggle" type="button" data-menu-expense="${expense.id}" aria-label="Actions">⋯</button><div class="expense-actions-menu" id="expense-menu-${expense.id}"><button type="button" data-edit-expense="${expense.id}">Modifier</button><button type="button" data-duplicate-expense="${expense.id}">Dupliquer</button><button type="button" data-delete-expense="${expense.id}">Supprimer</button></div></div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
+        return `<article class="card expense"><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(expense.date)} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}${actions ? `<div class="row-actions"><button data-edit-expense="${expense.id}">Modifier</button><button data-delete-expense="${expense.id}">Supprimer</button></div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
       }
 
       function renderExpenses() {
@@ -637,7 +659,7 @@ function render() {
       }
 
       function openExpense(expenseId = "", commitmentId = "") {
-        $("#expenseForm").reset(); $("#expenseId").value = ""; $("#expenseDate").value = new Date().toISOString().slice(0, 10); $("#expenseCategory").value = quickPrefs.category || "Fournitures"; updateSubs(); $("#expenseSupplier").value = quickPrefs.supplier || ""; $("#expenseCurrency").value = quickPrefs.currency || "DZD"; updateCommitmentOptions(commitmentId);
+        $("#expenseForm").reset(); $("#expenseId").value = ""; $("#expenseDate").value = new Date().toISOString().slice(0, 10); updateSubs(); updateCommitmentOptions(commitmentId);
         if (expenseId) { const expense = state.expenses.find((item) => item.id === expenseId); if (!expense) return; $("#expenseId").value = expense.id; $("#expenseDate").value = expense.date; $("#expenseCategory").value = expense.category; updateSubs(expense.subcategory); $("#expenseDescription").value = expense.description; $("#expenseSupplier").value = expense.supplier || ""; $("#expenseAmount").value = expense.currency === "EUR" ? expense.amount : expense.dzd / 1e6; $("#expenseCurrency").value = expense.currency; $("#exchangeRate").value = expense.rate; $("#expenseComment").value = expense.comment || ""; updateCommitmentOptions(expense.commitmentId || ""); }
         else if (commitmentId) { const commitment = state.commitments.find((item) => item.id === commitmentId); if (commitment) { $("#expenseCommitment").value = commitmentId; $("#expenseCategory").value = commitment.category; updateSubs(); $("#expenseSupplier").value = commitment.beneficiary; $("#expenseDescription").value = `Versement ${commitment.label}`; } }
         updateConversion(); updateLimit(); $("#expenseModal").classList.add("open");
@@ -646,14 +668,14 @@ function render() {
       function updateConversion() { const amount = num($("#expenseAmount").value); const rate = num($("#exchangeRate").value); const currency = $("#expenseCurrency").value; $("#conversionInfo").textContent = amount > 0 && rate > 0 ? (currency === "EUR" ? `${eur(amount)} = ${fmt(amount * rate, 3)} DZD` : `${fmt(amount, 3)} DZD = ${eur(amount / rate)}`) : "Saisissez le montant et le taux."; }
       function updateLimit() { const commitmentId = $("#expenseCommitment").value; const box = $("#paymentLimit"); if (!commitmentId) { box.classList.add("hidden"); return; } box.classList.remove("hidden"); const balance = remaining(commitmentId, $("#expenseId").value); box.textContent = balance <= 0 ? "Somme due entièrement payée." : `Reste maximal autorisé : ${dzd(balance)}`; }
 
-      $("#expenseForm").addEventListener("submit", (event) => { event.preventDefault(); const amount = num($("#expenseAmount").value); const rate = num($("#exchangeRate").value); const currency = $("#expenseCurrency").value; const expenseId = $("#expenseId").value; const commitmentId = $("#expenseCommitment").value; const amountDzd = Math.round((currency === "EUR" ? amount * rate : amount) * 1e6); if (commitmentId && amountDzd > remaining(commitmentId, expenseId)) { alert(`Versement refusé. Reste maximal : ${dzd(remaining(commitmentId, expenseId))}`); return; } const old = state.expenses.find((item) => item.id === expenseId); const object = { id: expenseId || id(), date: $("#expenseDate").value, category: $("#expenseCategory").value, subcategory: $("#expenseSubcategory").value, description: $("#expenseDescription").value.trim(), supplier: $("#expenseSupplier").value.trim(), commitmentId, amount, currency, rate, dzd: amountDzd, eur: currency === "EUR" ? amount : amount / rate, comment: $("#expenseComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() }; state.expenses = old ? state.expenses.map((item) => item.id === expenseId ? object : item) : [...state.expenses, object]; quickPrefs = { category: object.category, supplier: object.supplier, currency: object.currency }; localStorage.setItem(QUICK_PREFS_KEY, JSON.stringify(quickPrefs)); save(); $("#expenseModal").classList.remove("open"); });
+      $("#expenseForm").addEventListener("submit", (event) => { event.preventDefault(); const amount = num($("#expenseAmount").value); const rate = num($("#exchangeRate").value); const currency = $("#expenseCurrency").value; const expenseId = $("#expenseId").value; const commitmentId = $("#expenseCommitment").value; const amountDzd = Math.round((currency === "EUR" ? amount * rate : amount) * 1e6); if (commitmentId && amountDzd > remaining(commitmentId, expenseId)) { alert(`Versement refusé. Reste maximal : ${dzd(remaining(commitmentId, expenseId))}`); return; } const old = state.expenses.find((item) => item.id === expenseId); const object = { id: expenseId || id(), date: $("#expenseDate").value, category: $("#expenseCategory").value, subcategory: $("#expenseSubcategory").value, description: $("#expenseDescription").value.trim(), supplier: $("#expenseSupplier").value.trim(), commitmentId, amount, currency, rate, dzd: amountDzd, eur: currency === "EUR" ? amount : amount / rate, comment: $("#expenseComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() }; state.expenses = old ? state.expenses.map((item) => item.id === expenseId ? object : item) : [...state.expenses, object]; save(); $("#expenseModal").classList.remove("open"); });
 
       function openCommitment(commitmentId = "") { $("#commitmentForm").reset(); $("#commitmentId").value = ""; $("#commitmentCategory").value = "Terrain"; updateBens(); if (commitmentId) { const commitment = state.commitments.find((item) => item.id === commitmentId); if (!commitment) return; $("#commitmentId").value = commitment.id; $("#commitmentLabel").value = commitment.label; $("#commitmentCategory").value = commitment.category; const known = BENEFICIARIES[commitment.category].includes(commitment.beneficiary); updateBens(known ? commitment.beneficiary : "Autres"); if (!known) $("#customBeneficiary").value = commitment.beneficiary; $("#commitmentAmount").value = (commitment.amountDzd / 1e6).toFixed(3).replace(".", ","); $("#commitmentComment").value = commitment.comment || ""; } $("#commitmentModal").classList.add("open"); }
 
       $("#commitmentForm").addEventListener("submit", (event) => { event.preventDefault(); const raw = $("#commitmentAmount").value.trim().replace(",", "."); if (!/^\d+\.\d{3}$/.test(raw)) { alert("Saisissez exactement 3 décimales."); return; } const commitmentId = $("#commitmentId").value; const old = state.commitments.find((item) => item.id === commitmentId); const amountDzd = Math.round(Number(raw) * 1e6); if (old && amountDzd < paid(commitmentId)) { alert("La somme ne peut pas être inférieure au total versé."); return; } const choice = $("#commitmentBeneficiary").value; const beneficiary = choice === "Autres" ? $("#customBeneficiary").value.trim() : choice; const object = { id: commitmentId || id(), label: $("#commitmentLabel").value.trim(), category: $("#commitmentCategory").value, beneficiary, amountDzd, comment: $("#commitmentComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() }; state.commitments = old ? state.commitments.map((item) => item.id === commitmentId ? object : item) : [...state.commitments, object]; save(); $("#commitmentModal").classList.remove("open"); });
 
       $$(".tab").forEach((tab) => tab.addEventListener("click", () => showPage(tab.dataset.page)));
-      $("#expenseList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.menuExpense) { const menu = $(`#expense-menu-${data.menuExpense}`); $$(".expense-actions-menu").forEach((item) => { if (item !== menu) item.classList.remove("open"); }); menu?.classList.toggle("open"); return; } if (data.editExpense) openExpense(data.editExpense); if (data.duplicateExpense) { const source = state.expenses.find((item) => item.id === data.duplicateExpense); if (source) { const copy = { ...source, id: id(), date: new Date().toISOString().slice(0,10), createdAt: Date.now(), updatedAt: Date.now() }; state.expenses = [...state.expenses, copy]; save(); } } if (data.deleteExpense) { const index = state.expenses.findIndex((item) => item.id === data.deleteExpense); if (index >= 0) { const removed = state.expenses[index]; state.expenses.splice(index, 1); save(); undoExpense = { removed, index }; clearTimeout(undoTimer); $("#undoToastText").textContent = "Dépense supprimée"; $("#undoToast").classList.add("show"); undoTimer = setTimeout(() => { undoExpense = null; $("#undoToast").classList.remove("show"); }, 7000); } } });
+      $("#expenseList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.editExpense) openExpense(data.editExpense); if (data.deleteExpense && confirm("Supprimer cette dépense ?")) { state.expenses = state.expenses.filter((item) => item.id !== data.deleteExpense); save(); } });
       $("#commitmentList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.addPayment) openExpense("", data.addPayment); if (data.toggleHistory) $(`#history-${data.toggleHistory}`).classList.toggle("hidden"); if (data.editCommitment) openCommitment(data.editCommitment); if (data.deleteCommitment) { if (state.expenses.some((item) => item.commitmentId === data.deleteCommitment)) { alert("Des versements sont associés."); return; } if (confirm("Supprimer cette somme due ?")) { state.commitments = state.commitments.filter((item) => item.id !== data.deleteCommitment); save(); } } });
       ["search", "expenseSort", "expenseDateFrom", "expenseDateTo"].forEach((idValue) => {
         $(`#${idValue}`).addEventListener(
@@ -681,11 +703,7 @@ function render() {
       $("#expenseAmount").addEventListener("input", updateConversion);
       $("#exchangeRate").addEventListener("input", updateConversion);
       $("#expenseCurrency").addEventListener("change", updateConversion);
-      $("#addExpense").addEventListener("click", () => { const open = $("#fabMenu").classList.toggle("open"); $("#addExpense").classList.toggle("menu-open", open); $("#addExpense").setAttribute("aria-expanded", String(open)); });
-      $("#fabExpense").addEventListener("click", () => { $("#fabMenu").classList.remove("open"); openExpense(); });
-      $("#fabCommitment").addEventListener("click", () => { $("#fabMenu").classList.remove("open"); openCommitment(); });
-      $("#fabPayment").addEventListener("click", () => { $("#fabMenu").classList.remove("open"); const item = state.commitments.find((entry) => remaining(entry.id) > 0); if (item) openExpense("", item.id); else alert("Aucune somme due en cours."); });
-      $("#undoToastButton").addEventListener("click", () => { if (!undoExpense) return; state.expenses.splice(undoExpense.index, 0, undoExpense.removed); undoExpense = null; clearTimeout(undoTimer); $("#undoToast").classList.remove("show"); save(); });
+      $("#addExpense").addEventListener("click", () => openExpense());
       $("#newCommitment").addEventListener("click", () => openCommitment());
       $("#closeExpense").addEventListener("click", () => $("#expenseModal").classList.remove("open"));
       $("#closeCommitment").addEventListener("click", () => $("#commitmentModal").classList.remove("open"));
@@ -703,12 +721,6 @@ function render() {
       $("#clearDataButton").addEventListener("click", async () => { if (!state.expenses.length && !state.commitments.length) { alert("Il n'y a aucune donnée à effacer."); return; } if (!confirm("Supprimer définitivement toutes les données ?\n\nUne sauvegarde JSON sera téléchargée avant l'effacement.")) return; if (!createSafetyBackup("avant_effacement")) return; await new Promise((resolve) => setTimeout(resolve, 350)); state = structuredClone(DEFAULT_STATE); save(); alert("Toutes les données ont été effacées. La sauvegarde de sécurité a été téléchargée."); });
       window.addEventListener("resize", () => { clearTimeout(chartResizeTimer); chartResizeTimer = setTimeout(() => { if ($("#charts").classList.contains("active")) drawExpenseChart(); }, 150); });
 
-      // Formulaire d'ajout rapide : seuls montant, catégorie et description sont visibles par défaut.
-      const quickDetailNodes = [$("#expenseDate").closest(".field"), $("#expenseSubcategory").closest(".field"), $("#expenseSupplier").closest(".field"), $("#expenseCommitment").closest(".field"), $("#paymentLimit"), $("#exchangeRate").closest(".field"), $("#conversionInfo"), $("#expenseComment").closest(".field")];
-      quickDetailNodes.forEach((node) => node?.classList.add("quick-detail-hidden"));
-      const quickToggle = document.createElement("button"); quickToggle.type = "button"; quickToggle.className = "button button-line wide quick-details-toggle"; quickToggle.textContent = "Plus de détails";
-      $("#expenseForm button[type=submit]").before(quickToggle);
-      quickToggle.addEventListener("click", () => { const hidden = quickDetailNodes.some((node) => node?.classList.contains("quick-detail-hidden")); quickDetailNodes.forEach((node) => node?.classList.toggle("quick-detail-hidden", !hidden)); quickToggle.textContent = hidden ? "Masquer les détails" : "Plus de détails"; });
       updateSubs(); updateBens(); updateCommitmentOptions(); updateLastSaveDisplay(); render();
     })();
   </script>
@@ -717,36 +729,78 @@ function render() {
     (() => { const KEY="darfikhoriba_theme"; const root=document.documentElement; const button=document.getElementById("themeToggle"); const apply=(theme)=>{root.dataset.theme=theme;localStorage.setItem(KEY,theme);if(button){button.textContent=theme==="dark"?"☀️":"🌙";button.setAttribute("aria-label",theme==="dark"?"Activer le mode clair":"Activer le mode sombre");}document.querySelector('meta[name="theme-color"]')?.setAttribute("content",theme==="dark"?"#0b1220":"#0f766e");window.dispatchEvent(new Event("resize"));};const saved=localStorage.getItem(KEY);apply(saved||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));button?.addEventListener("click",()=>apply(root.dataset.theme==="dark"?"light":"dark"));})();
   </script>
   <script>
-(() => {
-  "use strict";
-  const SOUND_KEY = "darfikhoriba_sounds";
-  const button = document.getElementById("soundToggle");
-  let enabled = localStorage.getItem(SOUND_KEY) !== "off";
-  let audioContext = null;
-  function updateSoundButton(){ if(!button)return; button.textContent=enabled?"🔊":"🔇"; button.setAttribute("aria-label",enabled?"Désactiver les sons":"Activer les sons"); button.title=enabled?"Sons activés":"Sons désactivés"; }
-  function playClick(kind="click"){
-    if(!enabled)return;
-    try{
-      audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
-      if(audioContext.state==="suspended") audioContext.resume();
-      const osc=audioContext.createOscillator(), gain=audioContext.createGain(), now=audioContext.currentTime;
-      const tones={click:[520,.025,.035],action:[660,.035,.05],danger:[220,.045,.06]};
-      const [frequency,volume,duration]=tones[kind]||tones.click;
-      osc.type="sine"; osc.frequency.setValueAtTime(frequency,now);
-      gain.gain.setValueAtTime(.0001,now); gain.gain.exponentialRampToValueAtTime(volume,now+.005); gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
-      osc.connect(gain); gain.connect(audioContext.destination); osc.start(now); osc.stop(now+duration+.01);
-    }catch(error){console.debug("Son indisponible",error);}
-  }
-  updateSoundButton();
-  button?.addEventListener("click",event=>{event.stopPropagation();enabled=!enabled;localStorage.setItem(SOUND_KEY,enabled?"on":"off");updateSoundButton();if(enabled)playClick("action");});
-  document.addEventListener("click",event=>{
-    const target=event.target.closest("button, [role='button']"); if(!target||target===button||target.disabled)return;
-    const destructive=target.classList.contains("button-danger")||target.matches("[data-delete-expense], [data-delete-commitment]");
-    const important=target.classList.contains("button-primary")||target.id==="addExpense"||target.id==="newCommitment";
-    playClick(destructive?"danger":important?"action":"click");
-  },true);
-})();
-</script>
+    (() => {
+      "use strict";
+      const SOUND_KEY = "darfikhoriba_sounds";
+      const VOLUME_KEY = "darfikhoriba_sound_volume";
+      const button = document.getElementById("soundToggle");
+      const slider = document.getElementById("soundVolume");
+      const volumeLabel = document.getElementById("soundVolumeValue");
+      let enabled = localStorage.getItem(SOUND_KEY) !== "off";
+      let volume = Number(localStorage.getItem(VOLUME_KEY) ?? 0.35);
+      volume = Number.isFinite(volume) ? Math.max(0, Math.min(1, volume)) : 0.35;
+      let audioContext = null;
+
+      function updateSoundControls() {
+        const percent = Math.round(volume * 100);
+        button.textContent = enabled ? "🔊 Activés" : "🔇 Désactivés";
+        button.setAttribute("aria-pressed", String(enabled));
+        button.setAttribute("aria-label", enabled ? "Désactiver les sons" : "Activer les sons");
+        button.classList.toggle("button-soft", enabled);
+        button.classList.toggle("button-line", !enabled);
+        slider.value = String(percent);
+        slider.disabled = !enabled;
+        volumeLabel.textContent = `${percent} %`;
+      }
+
+      function playClick(kind = "click") {
+        if (!enabled || volume <= 0) return;
+        try {
+          audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+          if (audioContext.state === "suspended") audioContext.resume();
+          const oscillator = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          const now = audioContext.currentTime;
+          const tones = { click:[520,.07,.035], action:[660,.10,.05], danger:[220,.12,.06] };
+          const [frequency, baseVolume, duration] = tones[kind] || tones.click;
+          oscillator.type = "sine";
+          oscillator.frequency.setValueAtTime(frequency, now);
+          gain.gain.setValueAtTime(.0001, now);
+          gain.gain.exponentialRampToValueAtTime(Math.max(.0001, baseVolume * volume), now + .005);
+          gain.gain.exponentialRampToValueAtTime(.0001, now + duration);
+          oscillator.connect(gain);
+          gain.connect(audioContext.destination);
+          oscillator.start(now);
+          oscillator.stop(now + duration + .01);
+        } catch (error) { console.debug("Son indisponible", error); }
+      }
+
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        enabled = !enabled;
+        localStorage.setItem(SOUND_KEY, enabled ? "on" : "off");
+        updateSoundControls();
+        if (enabled) playClick("action");
+      });
+
+      slider.addEventListener("input", () => {
+        volume = Math.max(0, Math.min(1, Number(slider.value) / 100));
+        localStorage.setItem(VOLUME_KEY, String(volume));
+        updateSoundControls();
+      });
+      slider.addEventListener("change", () => playClick("click"));
+
+      document.addEventListener("click", (event) => {
+        const target = event.target.closest("button, [role='button']");
+        if (!target || target === button || target.disabled) return;
+        const destructive = target.classList.contains("button-danger") || target.matches("[data-delete-expense], [data-delete-commitment]");
+        const important = target.classList.contains("button-primary") || target.id === "addExpense" || target.id === "newCommitment";
+        playClick(destructive ? "danger" : important ? "action" : "click");
+      }, true);
+
+      updateSoundControls();
+    })();
+  </script>
     <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));
