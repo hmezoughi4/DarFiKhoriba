@@ -224,25 +224,6 @@ html[data-theme="dark"] .floating-button {
   #home .grid3 .stat { font-size: 28px; }
   #home .grid3 .stat .small { font-size: 12px; }
 }
-
-    .settings-section{padding:18px}
-    .settings-section-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-    .settings-section-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:var(--soft);font-size:22px;flex:0 0 auto}
-    .settings-section-title{display:block;font-size:16px}
-    .settings-section-description{margin-top:3px}
-    .settings-control-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
-    .settings-control-row:first-of-type{border-top:0}
-    .settings-control-copy{min-width:0}
-    .settings-control-copy strong{display:block;text-align:left}
-    .settings-control-copy .small{margin-top:3px}
-    .settings-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .settings-danger{border:1px solid #fecaca;background:#fff7f7}
-    .settings-danger .settings-section-icon{background:#fee2e2}
-    .volume-control{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;width:min(100%,360px)}
-    .volume-control input{width:100%;accent-color:var(--primary)}
-    .volume-value{min-width:48px;text-align:right;font-weight:900;color:var(--primary)}
-    html[data-theme="dark"] .settings-danger{background:#2b1111;border-color:#7f1d1d}
-    @media(max-width:520px){.settings-control-row{align-items:flex-start;flex-direction:column}.settings-control-row>.button{width:100%}.settings-actions{grid-template-columns:1fr}.volume-control{width:100%}}
 </style>
 </head>
 <body>
@@ -253,7 +234,7 @@ html[data-theme="dark"] .floating-button {
         <div class="arabe">خوريبة بناء</div>
         <div class="small muted" id="saveStatus">Sauvegarde locale active</div>
       </div>
-      <div class="top-actions"><button class="quick-export-button" id="quickExportJson" type="button" aria-label="Exporter rapidement la sauvegarde JSON" title="Sauvegarde JSON rapide">💾</button><div class="logo" aria-label="Algérie">🇩🇿</div></div>
+      <div class="top-actions"><button class="quick-export-button" id="quickExportJson" type="button" aria-label="Exporter rapidement la sauvegarde JSON" title="Sauvegarde JSON rapide">💾</button><button class="theme-button" id="themeToggle" type="button" aria-label="Basculer mode clair ou sombre">🌙</button><button class="theme-button" id="soundToggle" type="button" aria-label="Désactiver les sons" title="Activer ou désactiver les sons">🔊</button><div class="logo" aria-label="Algérie">🇩🇿</div></div>
     </header>
 
     <section class="page active" id="home">
@@ -348,69 +329,25 @@ html[data-theme="dark"] .floating-button {
 
     <section class="page" id="settings">
       <div class="section-title"><h2>Réglages</h2></div>
-
-      <div class="card settings-section">
-        <div class="settings-section-head">
-          <div class="settings-section-icon">🎨</div>
-          <div><strong class="settings-section-title">Apparence</strong><div class="small muted settings-section-description">Personnalisez l’affichage de l’application.</div></div>
-        </div>
-        <div class="settings-control-row">
-          <div class="settings-control-copy"><strong>Thème de l’application</strong><div class="small muted">Basculez entre le mode clair et le mode sombre.</div></div>
-          <button class="button button-soft" id="themeToggle" type="button" aria-label="Basculer mode clair ou sombre">🌙 Mode sombre</button>
-        </div>
-      </div>
-
-      <div class="card settings-section mt">
-        <div class="settings-section-head">
-          <div class="settings-section-icon">🔊</div>
-          <div><strong class="settings-section-title">Sons</strong><div class="small muted settings-section-description">Réglez les retours sonores des boutons.</div></div>
-        </div>
-        <div class="settings-control-row">
-          <div class="settings-control-copy"><strong>Sons des clics</strong><div class="small muted">Activez ou désactivez tous les effets sonores.</div></div>
-          <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">🔊 Activés</button>
-        </div>
-        <div class="settings-control-row">
-          <div class="settings-control-copy"><strong>Volume</strong><div class="small muted">Ajustez le niveau sonore de 0 à 100 %.</div></div>
-          <div class="volume-control"><input id="soundVolume" type="range" min="0" max="100" step="5" value="35" aria-label="Volume des sons"><span class="volume-value" id="soundVolumeValue">35 %</span></div>
-        </div>
-      </div>
-
-      <div class="card settings-section mt">
-        <div class="settings-section-head">
-          <div class="settings-section-icon">💾</div>
-          <div><strong class="settings-section-title">Données</strong><div class="small muted settings-section-description">Sauvegardez ou transférez vos informations.</div></div>
-        </div>
-        <div class="settings-notice">Les données sont enregistrées localement. Exportez régulièrement une sauvegarde JSON.</div>
-        <div class="settings-actions mt">
-          <button class="button button-line" id="exportJsonButton" type="button">Exporter JSON</button>
-          <button class="button button-line" id="exportCsvButton" type="button">Exporter CSV</button>
-          <button class="button button-soft" id="importJsonButton" type="button">Importer JSON</button>
-        </div>
-        <input class="hidden" id="importJsonFile" type="file" accept=".json,application/json">
-      </div>
-
-      <div class="card settings-section mt">
-        <div class="settings-section-head">
-          <div class="settings-section-icon">📊</div>
-          <div><strong class="settings-section-title">Informations</strong><div class="small muted settings-section-description">Résumé des données enregistrées.</div></div>
-        </div>
-        <div class="stats-list">
+      <div class="card">
+        <strong>Statistiques</strong>
+        <div class="stats-list mt">
           <div class="stat"><div class="small muted">Dépenses</div><strong id="settingsExpenseCount">0</strong></div>
           <div class="stat"><div class="small muted">Total DZD</div><strong id="settingsTotalDzd">0,000 DZD</strong></div>
           <div class="stat"><div class="small muted">Total EUR</div><strong id="settingsTotalEur">0,00 €</strong></div>
         </div>
         <div class="settings-details"><div class="settings-detail"><span class="small muted">Dernière sauvegarde locale</span><strong id="settingsLastSave">Jamais</strong></div></div>
       </div>
-
-      <div class="card settings-section settings-danger mt">
-        <div class="settings-section-head">
-          <div class="settings-section-icon">⚠️</div>
-          <div><strong class="settings-section-title">Zone sensible</strong><div class="small muted settings-section-description">Cette opération supprime toutes les données locales.</div></div>
-        </div>
-        <div class="settings-control-row">
-          <div class="settings-control-copy"><strong>Réinitialiser l’application</strong><div class="small muted">Exportez une sauvegarde avant de continuer.</div></div>
+      <div class="card mt">
+        <strong>Sauvegarde et transfert</strong>
+        <div class="settings-notice mt">Les données sont enregistrées localement. Exportez régulièrement une sauvegarde JSON.</div>
+        <div class="settings-grid mt">
+          <button class="button button-line" id="exportJsonButton" type="button">Exporter JSON</button>
+          <button class="button button-line" id="exportCsvButton" type="button">Exporter CSV</button>
+          <button class="button button-soft" id="importJsonButton" type="button">Importer JSON</button>
           <button class="button button-danger" id="clearDataButton" type="button">Tout effacer</button>
         </div>
+        <input class="hidden" id="importJsonFile" type="file" accept=".json,application/json">
       </div>
     </section>
 
@@ -765,22 +702,35 @@ function render() {
     (() => { const KEY="darfikhoriba_theme"; const root=document.documentElement; const button=document.getElementById("themeToggle"); const apply=(theme)=>{root.dataset.theme=theme;localStorage.setItem(KEY,theme);if(button){button.textContent=theme==="dark"?"☀️":"🌙";button.setAttribute("aria-label",theme==="dark"?"Activer le mode clair":"Activer le mode sombre");}document.querySelector('meta[name="theme-color"]')?.setAttribute("content",theme==="dark"?"#0b1220":"#0f766e");window.dispatchEvent(new Event("resize"));};const saved=localStorage.getItem(KEY);apply(saved||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));button?.addEventListener("click",()=>apply(root.dataset.theme==="dark"?"light":"dark"));})();
   </script>
   <script>
-  (() => {
-    "use strict";
-    const SOUND_KEY="darfikhoriba_sounds", VOLUME_KEY="darfikhoriba_sound_volume";
-    const button=document.getElementById("soundToggle"), slider=document.getElementById("soundVolume"), label=document.getElementById("soundVolumeValue");
-    let enabled=localStorage.getItem(SOUND_KEY)!=="off";
-    let volume=Number(localStorage.getItem(VOLUME_KEY) ?? 0.35);
-    volume=Number.isFinite(volume)?Math.max(0,Math.min(1,volume)):0.35;
-    let audioContext=null;
-    function refresh(){const pct=Math.round(volume*100);button.textContent=enabled?"🔊 Activés":"🔇 Désactivés";button.setAttribute("aria-pressed",String(enabled));button.classList.toggle("button-soft",enabled);button.classList.toggle("button-line",!enabled);slider.value=String(pct);slider.disabled=!enabled;label.textContent=`${pct} %`;}
-    function play(kind="click"){if(!enabled||volume<=0)return;try{audioContext ||= new (window.AudioContext||window.webkitAudioContext)();if(audioContext.state==="suspended")audioContext.resume();const osc=audioContext.createOscillator(),gain=audioContext.createGain(),now=audioContext.currentTime;const tones={click:[520,.07,.035],action:[660,.10,.05],danger:[220,.12,.06]};const [freq,base,duration]=tones[kind]||tones.click;osc.type="sine";osc.frequency.setValueAtTime(freq,now);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.0001,base*volume),now+.005);gain.gain.exponentialRampToValueAtTime(.0001,now+duration);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now);osc.stop(now+duration+.01);}catch(error){console.debug("Son indisponible",error);}}
-    button.addEventListener("click",event=>{event.stopPropagation();enabled=!enabled;localStorage.setItem(SOUND_KEY,enabled?"on":"off");refresh();if(enabled)play("action");});
-    slider.addEventListener("input",()=>{volume=Math.max(0,Math.min(1,Number(slider.value)/100));localStorage.setItem(VOLUME_KEY,String(volume));refresh();});
-    slider.addEventListener("change",()=>play("click"));
-    document.addEventListener("click",event=>{const target=event.target.closest("button,[role='button']");if(!target||target===button||target.disabled)return;const danger=target.classList.contains("button-danger")||target.matches("[data-delete-expense],[data-delete-commitment]");const action=target.classList.contains("button-primary")||target.id==="addExpense"||target.id==="newCommitment";play(danger?"danger":action?"action":"click");},true);
-    refresh();
-  })();
+(() => {
+  "use strict";
+  const SOUND_KEY = "darfikhoriba_sounds";
+  const button = document.getElementById("soundToggle");
+  let enabled = localStorage.getItem(SOUND_KEY) !== "off";
+  let audioContext = null;
+  function updateSoundButton(){ if(!button)return; button.textContent=enabled?"🔊":"🔇"; button.setAttribute("aria-label",enabled?"Désactiver les sons":"Activer les sons"); button.title=enabled?"Sons activés":"Sons désactivés"; }
+  function playClick(kind="click"){
+    if(!enabled)return;
+    try{
+      audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+      if(audioContext.state==="suspended") audioContext.resume();
+      const osc=audioContext.createOscillator(), gain=audioContext.createGain(), now=audioContext.currentTime;
+      const tones={click:[520,.025,.035],action:[660,.035,.05],danger:[220,.045,.06]};
+      const [frequency,volume,duration]=tones[kind]||tones.click;
+      osc.type="sine"; osc.frequency.setValueAtTime(frequency,now);
+      gain.gain.setValueAtTime(.0001,now); gain.gain.exponentialRampToValueAtTime(volume,now+.005); gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
+      osc.connect(gain); gain.connect(audioContext.destination); osc.start(now); osc.stop(now+duration+.01);
+    }catch(error){console.debug("Son indisponible",error);}
+  }
+  updateSoundButton();
+  button?.addEventListener("click",event=>{event.stopPropagation();enabled=!enabled;localStorage.setItem(SOUND_KEY,enabled?"on":"off");updateSoundButton();if(enabled)playClick("action");});
+  document.addEventListener("click",event=>{
+    const target=event.target.closest("button, [role='button']"); if(!target||target===button||target.disabled)return;
+    const destructive=target.classList.contains("button-danger")||target.matches("[data-delete-expense], [data-delete-commitment]");
+    const important=target.classList.contains("button-primary")||target.id==="addExpense"||target.id==="newCommitment";
+    playClick(destructive?"danger":important?"action":"click");
+  },true);
+})();
 </script>
     <script>
     if ("serviceWorker" in navigator) {
