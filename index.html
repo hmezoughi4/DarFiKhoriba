@@ -383,7 +383,7 @@ html[data-theme="dark"] .floating-button {
       <button class="tab active" data-page="home"><span>🏠</span>Accueil</button>
       <button class="tab" data-page="expenses"><span>💰</span>Dépenses</button>
       <button class="tab" data-page="charts"><span>📊</span>Analyse</button>
-      <button class="tab" data-page="commitments"><span>🤝</span>Sommes dues<i id="dueNotification" aria-label="0 somme due non soldée"></i></button>
+      <button class="tab" data-page="commitments" title="Sommes dues non soldées"><span>🤝</span>Sommes dues<i id="dueBadge" class="due-badge" aria-hidden="true"></i></button>
       <button class="tab" data-page="settings"><span>⚙️</span>Réglages</button>
     </nav>
   </main>
@@ -589,19 +589,20 @@ html[data-theme="dark"] .floating-button {
           : '<div class="card empty">Aucune dépense pour ces filtres.</div>';
       }
 
-      function updateDueNotification() {
-        const badge = $("#dueNotification");
+      function updateDueBadge() {
+        const badge = $("#dueBadge");
         if (!badge) return;
         const count = state.commitments.filter((commitment) => {
-          const total = Math.round(num(commitment.amountDzd));
-          return total > 0 && paid(commitment.id) < total;
+          const dueAmount = Math.round(num(commitment.amountDzd));
+          return dueAmount > 0 && paid(commitment.id) < dueAmount;
         }).length;
         badge.textContent = count ? String(count) : "";
-        badge.classList.toggle("visible", count > 0);
-        badge.setAttribute("aria-label", `${count} somme${count > 1 ? "s" : ""} due${count > 1 ? "s" : ""} non soldée${count > 1 ? "s" : ""}`);
+        badge.classList.toggle("show", count > 0);
+        badge.setAttribute("aria-hidden", count > 0 ? "false" : "true");
+        badge.parentElement.title = count ? `${count} somme${count > 1 ? "s" : ""} due${count > 1 ? "s" : ""} non soldée${count > 1 ? "s" : ""}` : "Aucune somme due non soldée";
       }
       function renderCommitments() {
-        updateDueNotification();
+        updateDueBadge();
         const due = Math.round(state.commitments.reduce((total, item) => total + num(item.amountDzd), 0));
         const paidTotal = Math.round(state.commitments.reduce((total, item) => total + paid(item.id), 0));
         const balance = Math.max(0, due - paidTotal);
@@ -610,7 +611,7 @@ html[data-theme="dark"] .floating-button {
         const priority = { start: 0, progress: 1, done: 2 };
         const list = state.commitments.filter((item) => { const progress = num(item.amountDzd) > 0 ? Math.max(0, Math.min(100, paid(item.id) / num(item.amountDzd) * 100)) : 0; return !filter || status(progress).value === filter; }).map((item, index) => ({ item, index, currentStatus: status(num(item.amountDzd) > 0 ? Math.max(0, Math.min(100, paid(item.id) / num(item.amountDzd) * 100)) : 0) })).sort((a, b) => (priority[a.currentStatus.value] ?? 9) - (priority[b.currentStatus.value] ?? 9) || a.index - b.index).map(({ item }) => item);
         if (!list.length) { $("#commitmentList").innerHTML = `<div class="card empty">${state.commitments.length ? "Aucune somme due pour ce statut." : "Aucune somme due."}</div>`; updateCommitmentOptions(); return; }
-        $("#commitmentList").innerHTML = list.map((item) => { const paidAmount = paid(item.id); const dueAmount = Math.round(num(item.amountDzd)); const balanceAmount = Math.max(0, dueAmount - paidAmount); const progress = dueAmount > 0 ? Math.max(0, Math.min(100, paidAmount / dueAmount * 100)) : 0; const currentStatus = status(progress); const done = progress >= 100; const history = payments(item.id); return `<article class="card commitment-card ${done && finishedCommitmentsCollapsed ? "collapsed" : ""}" data-swipe-commitment="${item.id}"><div class="commitment-top"><div class="commitment-title"><strong>${item.category === "Terrain" ? "🏡" : "👷"} ${esc(item.label)}</strong><div class="small muted mt">${esc(item.category)} · ${esc(item.beneficiary)}</div></div><span class="status-badge ${currentStatus.cls}">${currentStatus.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(progress, 1)} %</span></div><div class="bar"><i style="width:${progress}%;background:${color(progress)}"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(dueAmount)}</b></div><div><div class="small muted">Versé</div><b>${dzd(paidAmount)}</b></div><div><div class="small muted">Reste</div><b>${dzd(balanceAmount)}</b></div></div><div class="row-actions">${done ? "" : `<button data-add-payment="${item.id}">+ Versement</button>`}<button data-toggle-history="${item.id}">Historique (${history.length})</button><button data-edit-commitment="${item.id}">Modifier</button><button data-delete-commitment="${item.id}">Supprimer</button></div><div id="history-${item.id}" class="history hidden">${history.length ? history.map((expense) => `<div class="payment-row" data-swipe-payment="${expense.id}"><span>${esc(expense.date)}</span><span>${esc(expense.description)}</span><b>${dzd(expense.dzd)}</b></div>`).join("") : '<div class="small muted">Aucun versement.</div>'}</div></div></article>`; }).join("");
+        $("#commitmentList").innerHTML = list.map((item) => { const paidAmount = paid(item.id); const dueAmount = Math.round(num(item.amountDzd)); const balanceAmount = Math.max(0, dueAmount - paidAmount); const progress = dueAmount > 0 ? Math.max(0, Math.min(100, paidAmount / dueAmount * 100)) : 0; const currentStatus = status(progress); const done = progress >= 100; const history = payments(item.id); return `<article class="card commitment-card ${done && finishedCommitmentsCollapsed ? "collapsed" : ""}"><div class="commitment-top"><div class="commitment-title"><strong>${item.category === "Terrain" ? "🏡" : "👷"} ${esc(item.label)}</strong><div class="small muted mt">${esc(item.category)} · ${esc(item.beneficiary)}</div></div><span class="status-badge ${currentStatus.cls}">${currentStatus.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(progress, 1)} %</span></div><div class="bar"><i style="width:${progress}%;background:${color(progress)}"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(dueAmount)}</b></div><div><div class="small muted">Versé</div><b>${dzd(paidAmount)}</b></div><div><div class="small muted">Reste</div><b>${dzd(balanceAmount)}</b></div></div><div class="row-actions">${done ? "" : `<button data-add-payment="${item.id}">+ Versement</button>`}<button data-toggle-history="${item.id}">Historique (${history.length})</button><button data-edit-commitment="${item.id}">Modifier</button><button data-delete-commitment="${item.id}">Supprimer</button></div><div id="history-${item.id}" class="history hidden">${history.length ? history.map((expense) => `<div class="payment-row"><span>${esc(expense.date)}</span><span>${esc(expense.description)}</span><b>${dzd(expense.dzd)}</b></div>`).join("") : '<div class="small muted">Aucun versement.</div>'}</div></div></article>`; }).join("");
         updateCommitmentOptions();
       }
 
@@ -688,63 +689,6 @@ function render() {
 
       $$(".tab").forEach((tab) => tab.addEventListener("click", () => showPage(tab.dataset.page)));
       $("#expenseList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.editExpense) openExpense(data.editExpense); if (data.deleteExpense && confirm("Supprimer cette dépense ?")) { state.expenses = state.expenses.filter((item) => item.id !== data.deleteExpense); save(); } });
-      function removeCommitmentFromSwipe(commitmentId) {
-        if (state.expenses.some((expense) => expense.commitmentId === commitmentId)) {
-          alert("Des versements sont associés. Supprimez d’abord les versements.");
-          return;
-        }
-        if (!confirm("Supprimer cette somme due ?")) return;
-        state.commitments = state.commitments.filter((item) => item.id !== commitmentId);
-        save();
-      }
-      function removePaymentFromSwipe(expenseId) {
-        const expense = state.expenses.find((item) => item.id === expenseId);
-        if (!expense || !expense.commitmentId) return;
-        if (!confirm(`Supprimer ce versement de ${dzd(expense.dzd)} ?`)) return;
-        state.expenses = state.expenses.filter((item) => item.id !== expenseId);
-        save();
-      }
-      (() => {
-        const list = $("#commitmentList");
-        let target = null, startX = 0, startY = 0, deltaX = 0, horizontal = false;
-        list.addEventListener("pointerdown", (event) => {
-          if (event.pointerType === "mouse" && event.button !== 0) return;
-          if (event.target.closest("button, select, input, textarea, a")) return;
-          target = event.target.closest("[data-swipe-payment], [data-swipe-commitment]");
-          if (!target) return;
-          startX = event.clientX; startY = event.clientY; deltaX = 0; horizontal = false;
-          target.classList.add("swiping");
-          try { target.setPointerCapture(event.pointerId); } catch (_) {}
-        });
-        list.addEventListener("pointermove", (event) => {
-          if (!target) return;
-          const dx = event.clientX - startX, dy = event.clientY - startY;
-          if (!horizontal && Math.abs(dx) < 8) return;
-          if (!horizontal && Math.abs(dy) > Math.abs(dx)) { target.classList.remove("swiping"); target = null; return; }
-          horizontal = true;
-          deltaX = Math.max(-105, Math.min(105, dx));
-          target.style.transform = `translateX(${deltaX}px)`;
-          event.preventDefault();
-        }, { passive: false });
-        function finish(event) {
-          if (!target) return;
-          const active = target;
-          const commitmentId = active.dataset.swipeCommitment || "";
-          const paymentId = active.dataset.swipePayment || "";
-          active.classList.remove("swiping"); active.style.transform = ""; target = null;
-          try { active.releasePointerCapture(event.pointerId); } catch (_) {}
-          if (!horizontal || Math.abs(deltaX) < 65) return;
-          if (deltaX > 0) {
-            if (paymentId) openExpense(paymentId);
-            else if (commitmentId) openCommitment(commitmentId);
-          } else {
-            if (paymentId) removePaymentFromSwipe(paymentId);
-            else if (commitmentId) removeCommitmentFromSwipe(commitmentId);
-          }
-        }
-        list.addEventListener("pointerup", finish);
-        list.addEventListener("pointercancel", finish);
-      })();
       $("#commitmentList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.addPayment) openExpense("", data.addPayment); if (data.toggleHistory) $(`#history-${data.toggleHistory}`).classList.toggle("hidden"); if (data.editCommitment) openCommitment(data.editCommitment); if (data.deleteCommitment) { if (state.expenses.some((item) => item.commitmentId === data.deleteCommitment)) { alert("Des versements sont associés."); return; } if (confirm("Supprimer cette somme due ?")) { state.commitments = state.commitments.filter((item) => item.id !== data.deleteCommitment); save(); } } });
       ["search", "expenseSort", "expenseDateFrom", "expenseDateTo"].forEach((idValue) => {
         $(`#${idValue}`).addEventListener(
@@ -872,7 +816,7 @@ function render() {
   </script>
     <script>
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js?v=20261116-1809", { updateViaCache: "none" }).catch(console.error));
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));
     }
   </script>
 </body>
