@@ -236,52 +236,18 @@ html[data-theme="dark"] .floating-button {
 }
     
 
-    /* Statistiques Réglages : version compacte */
-    .settings-stats-compact { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
-    .settings-stat-compact { min-width:0; padding:12px 8px; text-align:center; background:var(--card); }
-    .settings-stat-compact + .settings-stat-compact { border-left:1px solid var(--line); }
-    .settings-stat-compact span { display:block; color:var(--muted); font-size:12px; line-height:1.15; margin-bottom:5px; }
-    .settings-stat-compact strong { display:block; font-size:15px; line-height:1.2; overflow-wrap:anywhere; }
-    .settings-save-compact { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:9px; padding-top:9px; border-top:1px solid var(--line); font-size:12px; }
-    .settings-save-compact > span { min-width:0; white-space:nowrap; }
-    .settings-save-compact strong { flex:0 0 auto; text-align:right; font-size:12px; }
-    @media (max-width:390px) {
-      .settings-stat-compact { padding:10px 4px; }
-      .settings-stat-compact span { font-size:10px; }
-      .settings-stat-compact strong { font-size:12px; }
-      .settings-save-compact { font-size:11px; }
-      .settings-save-compact strong { font-size:11px; }
-    }
-
-/* Bulle + swipe consolidés */
-.tab{position:relative;overflow:visible}.due-count-badge{position:absolute;top:-6px;left:50%;transform:translateX(8px);display:none;width:21px;height:21px;min-width:21px;padding:0;align-items:center;justify-content:center;border:2px solid #fff;border-radius:50%;background:#ef4444;color:#fff;font-size:11px;font-weight:900;line-height:1;box-shadow:0 2px 7px rgba(220,38,38,.42);pointer-events:none;z-index:9}.due-count-badge.visible{display:inline-flex}html[data-theme="dark"] .due-count-badge{border-color:#0f172a}
-.swipe-card{position:relative;touch-action:pan-y;user-select:none;-webkit-user-select:none;transition:transform .18s ease;will-change:transform;z-index:1}.swipe-card::before{position:absolute;z-index:-1;top:0;bottom:0;width:160px;display:flex;align-items:center;padding:0 20px;box-sizing:border-box;border-radius:inherit;color:#fff;font-size:14px;font-weight:900;opacity:0;pointer-events:none}.swipe-card.swiping-right::before{content:"🗑 Supprimer";left:-160px;justify-content:flex-end;background:#dc2626;opacity:1}.swipe-card.swiping-left::before{content:"✏️ Modifier";right:-160px;justify-content:flex-start;background:#2563eb;opacity:1}.card.swipe-card,.payment-row.swipe-card{background:var(--card)}.payment-row.swipe-card{padding-left:10px;padding-right:10px;border-radius:10px}
-
-/* ===== Correctif final : couleurs visibles ===== */
-.settings-stats-compact{gap:8px;border:0!important;overflow:visible!important}
-.settings-stat-compact{min-width:0;padding:12px 7px;border-radius:14px;text-align:center;border:1px solid transparent}
-.settings-stat-compact:nth-child(1){background:#f0fdfa;border-color:#99f6e4;color:#115e59}
-.settings-stat-compact:nth-child(1) .muted{color:#0f766e}
-.settings-stat-compact:nth-child(2){background:#eff6ff;border-color:#bfdbfe;color:#1e3a8a}
-.settings-stat-compact:nth-child(2) .muted{color:#2563eb}
-.settings-stat-compact:nth-child(3){background:#faf5ff;border-color:#e9d5ff;color:#6b21a8}
-.settings-stat-compact:nth-child(3) .muted{color:#9333ea}
-html[data-theme="dark"] .settings-stat-compact:nth-child(1){background:#123c39;border-color:#0f766e;color:#ccfbf1}
-html[data-theme="dark"] .settings-stat-compact:nth-child(1) .muted{color:#5eead4}
-html[data-theme="dark"] .settings-stat-compact:nth-child(2){background:#172554;border-color:#1d4ed8;color:#dbeafe}
-html[data-theme="dark"] .settings-stat-compact:nth-child(2) .muted{color:#93c5fd}
-html[data-theme="dark"] .settings-stat-compact:nth-child(3){background:#3b0764;border-color:#7e22ce;color:#f3e8ff}
-html[data-theme="dark"] .settings-stat-compact:nth-child(3) .muted{color:#d8b4fe}
-
-/* Le panneau recouvre entierement la carte pendant le glissement. */
-.swipe-card{position:relative;isolation:isolate;overflow:hidden!important;touch-action:pan-y;user-select:none;-webkit-user-select:none;transition:transform .18s ease,background-color .1s ease,border-color .1s ease;will-change:transform}
-.swipe-card::before{position:absolute!important;inset:0!important;left:0!important;right:0!important;top:0!important;bottom:0!important;width:100%!important;height:100%!important;z-index:30!important;display:flex!important;align-items:center;padding:0 22px;box-sizing:border-box;border-radius:inherit;color:#fff;font-size:15px;font-weight:900;opacity:0;pointer-events:none;transition:opacity .08s ease}
-.swipe-card.swiping-right{background:#dc2626!important;border-color:#dc2626!important}
-.swipe-card.swiping-right::before{content:"🗑 Supprimer"!important;justify-content:flex-start!important;background:#dc2626!important;opacity:1!important}
-.swipe-card.swiping-left{background:#2563eb!important;border-color:#2563eb!important}
-.swipe-card.swiping-left::before{content:"✏️ Modifier"!important;justify-content:flex-end!important;background:#2563eb!important;opacity:1!important}
-.swipe-card.swiping-right>*,.swipe-card.swiping-left>*{visibility:hidden!important}
-.payment-row.swipe-card{background:var(--card);padding-left:10px;padding-right:10px;border-radius:10px}
+  /* Notification Sommes dues */
+  .tab { position:relative; overflow:visible; }
+  .due-count-badge { position:absolute; top:-6px; left:50%; transform:translateX(8px); display:none; width:21px; height:21px; min-width:21px; padding:0; align-items:center; justify-content:center; border:2px solid #fff; border-radius:50%; background:#ef4444; color:#fff; font-size:11px; font-weight:900; line-height:1; box-shadow:0 2px 7px rgba(220,38,38,.42); pointer-events:none; z-index:2; }
+  .due-count-badge.visible { display:inline-flex; }
+  html[data-theme="dark"] .due-count-badge { border-color:#0f172a; }
+  /* Swipe: fond d'action opaque derrière une carte blanche/opaque qui se déplace */
+  .swipe-card { position:relative; touch-action:pan-y; user-select:none; -webkit-user-select:none; z-index:1; overflow:visible; transition:transform .18s ease; will-change:transform; }
+  .swipe-card::before { position:absolute; z-index:-1; top:0; bottom:0; width:160px; display:flex; align-items:center; padding:0 20px; box-sizing:border-box; border-radius:inherit; color:#fff; font-size:14px; font-weight:900; opacity:0; pointer-events:none; }
+  .swipe-card.swiping-right::before { content:"🗑 Supprimer"; left:-160px; justify-content:flex-end; background:#dc2626; opacity:1; }
+  .swipe-card.swiping-left::before { content:"✏️ Modifier"; right:-160px; justify-content:flex-start; background:#2563eb; opacity:1; }
+  .card.swipe-card { background:var(--card); }
+  .payment-row.swipe-card { background:var(--card); padding-left:10px; padding-right:10px; border-radius:10px; }
 </style>
 </head>
 <body>
@@ -389,12 +355,12 @@ html[data-theme="dark"] .settings-stat-compact:nth-child(3) .muted{color:#d8b4fe
       <div class="section-title"><h2>Réglages</h2></div>
       <div class="card">
         <strong>Statistiques</strong>
-        <div class="settings-stats-compact mt">
-          <div class="settings-stat-compact"><span>Dépenses</span><strong id="settingsExpenseCount">0</strong></div>
-          <div class="settings-stat-compact"><span>Total DZD</span><strong id="settingsTotalDzd">0,000 DZD</strong></div>
-          <div class="settings-stat-compact"><span>Total EUR</span><strong id="settingsTotalEur">0,00 €</strong></div>
+        <div class="stats-list mt">
+          <div class="stat"><div class="small muted">Dépenses</div><strong id="settingsExpenseCount">0</strong></div>
+          <div class="stat"><div class="small muted">Total DZD</div><strong id="settingsTotalDzd">0,000 DZD</strong></div>
+          <div class="stat"><div class="small muted">Total EUR</div><strong id="settingsTotalEur">0,00 €</strong></div>
         </div>
-        <div class="settings-save-compact"><span>💾 <span class="muted">Dernière sauvegarde</span></span><strong id="settingsLastSave">Jamais</strong></div>
+        <div class="settings-details"><div class="settings-detail"><span class="small muted">Dernière sauvegarde locale</span><strong id="settingsLastSave">Jamais</strong></div></div>
       </div>
       <div class="card mt">
         <strong>Sauvegarde et transfert</strong>
@@ -640,13 +606,16 @@ html[data-theme="dark"] .settings-stat-compact:nth-child(3) .muted{color:#d8b4fe
         const due = Math.round(state.commitments.reduce((total, item) => total + num(item.amountDzd), 0));
         const paidTotal = Math.round(state.commitments.reduce((total, item) => total + paid(item.id), 0));
         const balance = Math.max(0, due - paidTotal);
-        const unsoldCount = state.commitments.filter((item) => { const amount=num(item.amountDzd); return amount<=0 || paid(item.id)<amount; }).length;
-        const dueBadge=$("#dueCountBadge");
-        dueBadge.textContent=unsoldCount>99?"99+":String(unsoldCount);
-        dueBadge.style.width=unsoldCount>9?(unsoldCount>99?"31px":"25px"):"21px";
-        dueBadge.style.borderRadius=unsoldCount>9?"11px":"50%";
-        dueBadge.classList.toggle("visible",unsoldCount>0);
-        dueBadge.setAttribute("aria-label",`${unsoldCount} somme${unsoldCount>1?"s":""} due${unsoldCount>1?"s":""} non soldée${unsoldCount>1?"s":""}`);
+        const unsoldCount = state.commitments.filter((item) => {
+          const amount = num(item.amountDzd);
+          return amount <= 0 || paid(item.id) < amount;
+        }).length;
+        const dueBadge = $("#dueCountBadge");
+        dueBadge.textContent = unsoldCount > 99 ? "99+" : String(unsoldCount);
+        dueBadge.style.width = unsoldCount > 9 ? (unsoldCount > 99 ? "31px" : "25px") : "21px";
+        dueBadge.style.borderRadius = unsoldCount > 9 ? "11px" : "50%";
+        dueBadge.classList.toggle("visible", unsoldCount > 0);
+        dueBadge.setAttribute("aria-label", `${unsoldCount} somme${unsoldCount > 1 ? "s" : ""} due${unsoldCount > 1 ? "s" : ""} non soldée${unsoldCount > 1 ? "s" : ""}`);
         $("#dueTotal").textContent = dzd(due); $("#paidTotal").textContent = dzd(paidTotal); $("#remainingTotal").textContent = dzd(balance); $("#homeDue").textContent = dzd(due); $("#homeRemaining").textContent = dzd(balance);
         const filter = $("#commitmentStatusFilter").value;
         const priority = { start: 0, progress: 1, done: 2 };
@@ -728,14 +697,17 @@ function render() {
 
       $("#commitmentForm").addEventListener("submit", (event) => { event.preventDefault(); const raw = $("#commitmentAmount").value.trim().replace(",", "."); if (!/^\d+\.\d{3}$/.test(raw)) { alert("Saisissez exactement 3 décimales."); return; } const commitmentId = $("#commitmentId").value; const old = state.commitments.find((item) => item.id === commitmentId); const amountDzd = Math.round(Number(raw) * 1e6); if (old && amountDzd < paid(commitmentId)) { alert("La somme ne peut pas être inférieure au total versé."); return; } const choice = $("#commitmentBeneficiary").value; const beneficiary = choice === "Autres" ? $("#customBeneficiary").value.trim() : choice; const object = { id: commitmentId || id(), label: $("#commitmentLabel").value.trim(), category: $("#commitmentCategory").value, beneficiary, amountDzd, comment: $("#commitmentComment").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() }; state.commitments = old ? state.commitments.map((item) => item.id === commitmentId ? object : item) : [...state.commitments, object]; save(); $("#commitmentModal").classList.remove("open"); });
 
-      function deleteExpenseById(id){if(!confirm("Supprimer ce versement / cette dépense ?"))return;state.expenses=state.expenses.filter(x=>x.id!==id);save();}
-      function deleteCommitmentById(id){if(state.expenses.some(x=>x.commitmentId===id)){alert("Des versements sont associés. Supprimez-les d’abord.");return;}if(!confirm("Supprimer cette somme due ?"))return;state.commitments=state.commitments.filter(x=>x.id!==id);save();}
-      function runSwipeAction(card,direction){const kind=card.dataset.swipeKind,id=card.dataset.swipeId;if(!kind||!id)return;if(direction==="left")kind==="commitment"?openCommitment(id):openExpense(id);else kind==="commitment"?deleteCommitmentById(id):deleteExpenseById(id);}
-      function resetSwipeCard(card){card.style.transform="";card.classList.remove("swiping-left","swiping-right");}
-      let swipeState=null;document.addEventListener("pointerdown",e=>{const card=e.target.closest(".swipe-card[data-swipe-kind]");if(!card||e.target.closest("button,input,select,textarea"))return;swipeState={card,pointerId:e.pointerId,startX:e.clientX,startY:e.clientY,dx:0,horizontal:false};card.setPointerCapture?.(e.pointerId);});document.addEventListener("pointermove",e=>{if(!swipeState||e.pointerId!==swipeState.pointerId)return;const dx=e.clientX-swipeState.startX,dy=e.clientY-swipeState.startY;if(!swipeState.horizontal&&Math.abs(dx)<8&&Math.abs(dy)<8)return;if(!swipeState.horizontal&&Math.abs(dy)>Math.abs(dx)){swipeState=null;return;}swipeState.horizontal=true;swipeState.dx=Math.max(-150,Math.min(150,dx));const card=swipeState.card;card.style.transform=`translateX(${swipeState.dx}px)`;card.classList.toggle("swiping-right",swipeState.dx>12);card.classList.toggle("swiping-left",swipeState.dx<-12);e.preventDefault();},{passive:false});function finishSwipe(e){if(!swipeState||(e.pointerId!=null&&e.pointerId!==swipeState.pointerId))return;const{card,dx,horizontal}=swipeState;swipeState=null;const threshold=Math.min(110,card.offsetWidth*.28),direction=horizontal&&Math.abs(dx)>=threshold?(dx>0?"right":"left"):"";resetSwipeCard(card);if(direction)setTimeout(()=>runSwipeAction(card,direction),30);}document.addEventListener("pointerup",finishSwipe);document.addEventListener("pointercancel",finishSwipe);
+      function deleteExpenseById(expenseId) { if (!confirm("Supprimer ce versement / cette dépense ?")) return; state.expenses = state.expenses.filter((item) => item.id !== expenseId); save(); }
+      function deleteCommitmentById(commitmentId) { if (state.expenses.some((item) => item.commitmentId === commitmentId)) { alert("Des versements sont associés. Supprimez-les d’abord."); return; } if (!confirm("Supprimer cette somme due ?")) return; state.commitments = state.commitments.filter((item) => item.id !== commitmentId); save(); }
+      function runSwipeAction(card, direction) { const kind=card.dataset.swipeKind, itemId=card.dataset.swipeId; if(!kind||!itemId)return; if(direction==="left") kind==="commitment"?openCommitment(itemId):openExpense(itemId); else kind==="commitment"?deleteCommitmentById(itemId):deleteExpenseById(itemId); }
+      function resetSwipeCard(card){ card.style.transform=""; card.classList.remove("swiping-left","swiping-right"); }
+      let swipeState=null;
+      document.addEventListener("pointerdown",(event)=>{ const card=event.target.closest(".swipe-card[data-swipe-kind]"); if(!card||event.target.closest("button,input,select,textarea"))return; swipeState={card,pointerId:event.pointerId,startX:event.clientX,startY:event.clientY,dx:0,horizontal:false}; card.setPointerCapture?.(event.pointerId); });
+      document.addEventListener("pointermove",(event)=>{ if(!swipeState||event.pointerId!==swipeState.pointerId)return; const dx=event.clientX-swipeState.startX,dy=event.clientY-swipeState.startY; if(!swipeState.horizontal&&Math.abs(dx)<8&&Math.abs(dy)<8)return; if(!swipeState.horizontal&&Math.abs(dy)>Math.abs(dx)){swipeState=null;return;} swipeState.horizontal=true; swipeState.dx=Math.max(-150,Math.min(150,dx)); const card=swipeState.card; card.style.transform=`translateX(${swipeState.dx}px)`; card.classList.toggle("swiping-right",swipeState.dx>12); card.classList.toggle("swiping-left",swipeState.dx<-12); event.preventDefault(); },{passive:false});
+      function finishSwipe(event){ if(!swipeState||(event.pointerId!=null&&event.pointerId!==swipeState.pointerId))return; const {card,dx,horizontal}=swipeState; swipeState=null; const threshold=Math.min(110,card.offsetWidth*.28); const direction=horizontal&&Math.abs(dx)>=threshold?(dx>0?"right":"left"):""; resetSwipeCard(card); if(direction)setTimeout(()=>runSwipeAction(card,direction),30); }
+      document.addEventListener("pointerup",finishSwipe); document.addEventListener("pointercancel",finishSwipe);
       $$(".tab").forEach((tab) => tab.addEventListener("click", () => showPage(tab.dataset.page)));
-      $("#expenseList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.editExpense) openExpense(data.editExpense); if (data.deleteExpense && confirm("Supprimer cette dépense ?")) { state.expenses = state.expenses.filter((item) => item.id !== data.deleteExpense); save(); } });
-      $("#commitmentList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.addPayment) openExpense("", data.addPayment); if (data.toggleHistory) $(`#history-${data.toggleHistory}`).classList.toggle("hidden"); if (data.editCommitment) openCommitment(data.editCommitment); if (data.deleteCommitment) { if (state.expenses.some((item) => item.commitmentId === data.deleteCommitment)) { alert("Des versements sont associés."); return; } if (confirm("Supprimer cette somme due ?")) { state.commitments = state.commitments.filter((item) => item.id !== data.deleteCommitment); save(); } } });
+            $("#commitmentList").addEventListener("click", (event) => { const data = event.target.dataset; if (data.addPayment) openExpense("", data.addPayment); if (data.toggleHistory) $(`#history-${data.toggleHistory}`).classList.toggle("hidden"); });
       ["search", "expenseSort", "expenseDateFrom", "expenseDateTo"].forEach((idValue) => {
         $(`#${idValue}`).addEventListener(
           idValue === "search" ? "input" : "change",
