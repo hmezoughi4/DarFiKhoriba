@@ -224,6 +224,12 @@ html[data-theme="dark"] .floating-button {
   #home .grid3 .stat { font-size: 28px; }
   #home .grid3 .stat .small { font-size: 12px; }
 }
+
+    @media (max-width: 520px) {
+  .analysis-category-card .analysis-percent {
+    font-size: 22px !important;
+  }
+}
 </style>
 </head>
 <body>
@@ -234,7 +240,7 @@ html[data-theme="dark"] .floating-button {
         <div class="arabe">خوريبة بناء</div>
         <div class="small muted" id="saveStatus">Sauvegarde locale active</div>
       </div>
-      <div class="top-actions"><button class="quick-export-button" id="quickExportJson" type="button" aria-label="Exporter rapidement la sauvegarde JSON" title="Sauvegarde JSON rapide">💾</button><button class="theme-button" id="themeToggle" type="button" aria-label="Basculer mode clair ou sombre">🌙</button><button class="theme-button" id="soundToggle" type="button" aria-label="Désactiver les sons" title="Activer ou désactiver les sons">🔊</button><div class="logo" aria-label="Algérie">🇩🇿</div></div>
+      <div class="top-actions"><button class="quick-export-button" id="quickExportJson" type="button" aria-label="Exporter rapidement la sauvegarde JSON" title="Sauvegarde JSON rapide">💾</button><button class="theme-button" id="themeToggle" type="button" aria-label="Basculer mode clair ou sombre">🌙</button><div class="logo" aria-label="Algérie">🇩🇿</div></div>
     </header>
 
     <section class="page active" id="home">
@@ -348,6 +354,22 @@ html[data-theme="dark"] .floating-button {
           <button class="button button-danger" id="clearDataButton" type="button">Tout effacer</button>
         </div>
         <input class="hidden" id="importJsonFile" type="file" accept=".json,application/json">
+      </div>
+      <div class="card mt">
+        <strong>🔊 Sons</strong>
+        <div class="settings-details">
+          <div class="settings-detail">
+            <div>
+              <strong style="text-align:left">Sons des clics</strong>
+              <div class="small muted">Active ou désactive les effets sonores.</div>
+            </div>
+            <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">🔊 Activés</button>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label for="soundVolume">Volume <span id="soundVolumeValue">35 %</span></label>
+            <input id="soundVolume" type="range" min="0" max="100" step="5" value="35" aria-label="Volume des sons">
+          </div>
+        </div>
       </div>
     </section>
 
@@ -702,36 +724,78 @@ function render() {
     (() => { const KEY="darfikhoriba_theme"; const root=document.documentElement; const button=document.getElementById("themeToggle"); const apply=(theme)=>{root.dataset.theme=theme;localStorage.setItem(KEY,theme);if(button){button.textContent=theme==="dark"?"☀️":"🌙";button.setAttribute("aria-label",theme==="dark"?"Activer le mode clair":"Activer le mode sombre");}document.querySelector('meta[name="theme-color"]')?.setAttribute("content",theme==="dark"?"#0b1220":"#0f766e");window.dispatchEvent(new Event("resize"));};const saved=localStorage.getItem(KEY);apply(saved||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));button?.addEventListener("click",()=>apply(root.dataset.theme==="dark"?"light":"dark"));})();
   </script>
   <script>
-(() => {
-  "use strict";
-  const SOUND_KEY = "darfikhoriba_sounds";
-  const button = document.getElementById("soundToggle");
-  let enabled = localStorage.getItem(SOUND_KEY) !== "off";
-  let audioContext = null;
-  function updateSoundButton(){ if(!button)return; button.textContent=enabled?"🔊":"🔇"; button.setAttribute("aria-label",enabled?"Désactiver les sons":"Activer les sons"); button.title=enabled?"Sons activés":"Sons désactivés"; }
-  function playClick(kind="click"){
-    if(!enabled)return;
-    try{
-      audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
-      if(audioContext.state==="suspended") audioContext.resume();
-      const osc=audioContext.createOscillator(), gain=audioContext.createGain(), now=audioContext.currentTime;
-      const tones={click:[520,.025,.035],action:[660,.035,.05],danger:[220,.045,.06]};
-      const [frequency,volume,duration]=tones[kind]||tones.click;
-      osc.type="sine"; osc.frequency.setValueAtTime(frequency,now);
-      gain.gain.setValueAtTime(.0001,now); gain.gain.exponentialRampToValueAtTime(volume,now+.005); gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
-      osc.connect(gain); gain.connect(audioContext.destination); osc.start(now); osc.stop(now+duration+.01);
-    }catch(error){console.debug("Son indisponible",error);}
-  }
-  updateSoundButton();
-  button?.addEventListener("click",event=>{event.stopPropagation();enabled=!enabled;localStorage.setItem(SOUND_KEY,enabled?"on":"off");updateSoundButton();if(enabled)playClick("action");});
-  document.addEventListener("click",event=>{
-    const target=event.target.closest("button, [role='button']"); if(!target||target===button||target.disabled)return;
-    const destructive=target.classList.contains("button-danger")||target.matches("[data-delete-expense], [data-delete-commitment]");
-    const important=target.classList.contains("button-primary")||target.id==="addExpense"||target.id==="newCommitment";
-    playClick(destructive?"danger":important?"action":"click");
-  },true);
-})();
-</script>
+    (() => {
+      "use strict";
+      const SOUND_KEY = "darfikhoriba_sounds";
+      const VOLUME_KEY = "darfikhoriba_sound_volume";
+      const button = document.getElementById("soundToggle");
+      const slider = document.getElementById("soundVolume");
+      const volumeLabel = document.getElementById("soundVolumeValue");
+      let enabled = localStorage.getItem(SOUND_KEY) !== "off";
+      let volume = Number(localStorage.getItem(VOLUME_KEY) ?? 0.35);
+      volume = Number.isFinite(volume) ? Math.max(0, Math.min(1, volume)) : 0.35;
+      let audioContext = null;
+
+      function updateSoundControls() {
+        const percent = Math.round(volume * 100);
+        button.textContent = enabled ? "🔊 Activés" : "🔇 Désactivés";
+        button.setAttribute("aria-pressed", String(enabled));
+        button.setAttribute("aria-label", enabled ? "Désactiver les sons" : "Activer les sons");
+        button.classList.toggle("button-soft", enabled);
+        button.classList.toggle("button-line", !enabled);
+        slider.value = String(percent);
+        slider.disabled = !enabled;
+        volumeLabel.textContent = `${percent} %`;
+      }
+
+      function playClick(kind = "click") {
+        if (!enabled || volume <= 0) return;
+        try {
+          audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+          if (audioContext.state === "suspended") audioContext.resume();
+          const oscillator = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          const now = audioContext.currentTime;
+          const tones = { click:[520,.07,.035], action:[660,.10,.05], danger:[220,.12,.06] };
+          const [frequency, baseVolume, duration] = tones[kind] || tones.click;
+          oscillator.type = "sine";
+          oscillator.frequency.setValueAtTime(frequency, now);
+          gain.gain.setValueAtTime(.0001, now);
+          gain.gain.exponentialRampToValueAtTime(Math.max(.0001, baseVolume * volume), now + .005);
+          gain.gain.exponentialRampToValueAtTime(.0001, now + duration);
+          oscillator.connect(gain);
+          gain.connect(audioContext.destination);
+          oscillator.start(now);
+          oscillator.stop(now + duration + .01);
+        } catch (error) { console.debug("Son indisponible", error); }
+      }
+
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        enabled = !enabled;
+        localStorage.setItem(SOUND_KEY, enabled ? "on" : "off");
+        updateSoundControls();
+        if (enabled) playClick("action");
+      });
+
+      slider.addEventListener("input", () => {
+        volume = Math.max(0, Math.min(1, Number(slider.value) / 100));
+        localStorage.setItem(VOLUME_KEY, String(volume));
+        updateSoundControls();
+      });
+      slider.addEventListener("change", () => playClick("click"));
+
+      document.addEventListener("click", (event) => {
+        const target = event.target.closest("button, [role='button']");
+        if (!target || target === button || target.disabled) return;
+        const destructive = target.classList.contains("button-danger") || target.matches("[data-delete-expense], [data-delete-commitment]");
+        const important = target.classList.contains("button-primary") || target.id === "addExpense" || target.id === "newCommitment";
+        playClick(destructive ? "danger" : important ? "action" : "click");
+      }, true);
+
+      updateSoundControls();
+    })();
+  </script>
     <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));
