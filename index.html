@@ -383,7 +383,7 @@ html[data-theme="dark"] .floating-button {
       <button class="tab active" data-page="home"><span>🏠</span>Accueil</button>
       <button class="tab" data-page="expenses"><span>💰</span>Dépenses</button>
       <button class="tab" data-page="charts"><span>📊</span>Analyse</button>
-      <button class="tab" data-page="commitments" title="Sommes dues non soldées"><span>🤝</span>Sommes dues<i id="dueBadge" class="due-badge" aria-hidden="true"></i></button>
+      <button class="tab" id="commitmentsTab" data-page="commitments" title="Aucune somme due non soldée"><span>🤝</span>Sommes dues<i id="dueBadge" aria-hidden="true"></i></button>
       <button class="tab" data-page="settings"><span>⚙️</span>Réglages</button>
     </nav>
   </main>
@@ -590,17 +590,20 @@ html[data-theme="dark"] .floating-button {
       }
 
       function updateDueBadge() {
-        const badge = $("#dueBadge");
-        if (!badge) return;
-        const count = state.commitments.filter((commitment) => {
-          const dueAmount = Math.round(num(commitment.amountDzd));
-          return dueAmount > 0 && paid(commitment.id) < dueAmount;
-        }).length;
+        const badge = document.getElementById("dueBadge");
+        const tab = document.getElementById("commitmentsTab");
+        if (!badge || !tab) return;
+        let count = 0;
+        state.commitments.forEach((commitment) => {
+          const total = Math.round(num(commitment.amountDzd));
+          if (total > 0 && paid(commitment.id) < total) count += 1;
+        });
         badge.textContent = count ? String(count) : "";
         badge.classList.toggle("show", count > 0);
-        badge.setAttribute("aria-hidden", count > 0 ? "false" : "true");
-        badge.parentElement.title = count ? `${count} somme${count > 1 ? "s" : ""} due${count > 1 ? "s" : ""} non soldée${count > 1 ? "s" : ""}` : "Aucune somme due non soldée";
+        badge.setAttribute("aria-hidden", count ? "false" : "true");
+        tab.title = count ? `${count} somme${count > 1 ? "s" : ""} due${count > 1 ? "s" : ""} non soldée${count > 1 ? "s" : ""}` : "Aucune somme due non soldée";
       }
+
       function renderCommitments() {
         updateDueBadge();
         const due = Math.round(state.commitments.reduce((total, item) => total + num(item.amountDzd), 0));
