@@ -44,6 +44,10 @@
     .card { width: 100%; min-width: 0; padding: 16px; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--card); box-shadow: var(--shadow); }
     .hero { border: 0; background: linear-gradient(135deg, #0f766e, #115e59); color: #ffffff; }
     .hero .muted { color: #ccfbf1; }
+    .hero { position: relative; padding-right: 92px; }
+    .hero-expense-count { position: absolute; top: 50%; right: 23px; transform: translateY(-50%); display: flex; width: 52px; height: 52px; flex-direction: column; align-items: center; justify-content: center; border: 3px solid #ef4444; border-radius: 50%; color: #ffffff; text-align: center; line-height: 1; }
+    .hero-expense-count strong { display: block; font-size: 19px; font-weight: 900; }
+    .hero-expense-count span { margin-top: 3px; font-size: 7px; font-weight: 800; text-transform: uppercase; }
     .big { margin: 5px 0; overflow-wrap: anywhere; font-size: 32px; font-weight: 900; }
     .small { font-size: 14px; }
     .muted { color: var(--muted); }
@@ -311,6 +315,10 @@ html[data-theme="dark"] .swipe-card.swiping-left{background:#172554!important;bo
 
     <section class="page active" id="home">
       <div class="card hero">
+        <div class="hero-expense-count" aria-label="Nombre total de dépenses">
+          <strong id="homeExpenseCount">0</strong>
+          <span>dépenses</span>
+        </div>
         <div class="small muted">TOTAL DES DÉPENSES</div>
         <div class="big" id="totalDzd">0,000 DZD</div>
         <div id="totalEur">0,00 €</div>
@@ -719,7 +727,7 @@ function drawExpenseChart(){
 function drawBars(){}
 function render() {
         const total = state.expenses.reduce((sum, expense) => sum + Math.round(num(expense.dzd)), 0); const totalEur = state.expenses.reduce((sum, expense) => sum + num(expense.eur), 0);
-        $("#totalDzd").textContent = dzd(total); $("#totalEur").textContent = eur(totalEur); $("#settingsExpenseCount").textContent = state.expenses.length; $("#settingsTotalDzd").textContent = dzd(total); $("#settingsTotalEur").textContent = eur(totalEur);
+        $("#totalDzd").textContent = dzd(total); $("#totalEur").textContent = eur(totalEur); $("#homeExpenseCount").textContent = state.expenses.length; $("#settingsExpenseCount").textContent = state.expenses.length; $("#settingsTotalDzd").textContent = dzd(total); $("#settingsTotalEur").textContent = eur(totalEur);
         [["#homeTerrain", "Terrain"], ["#homeSupplies", "Fournitures"], ["#homeLabor", "Main-d'œuvre"]].forEach(([selector, category]) => { $(selector).textContent = dzd(state.expenses.filter((expense) => expense.category === category).reduce((sum, expense) => sum + num(expense.dzd), 0)); });
         const recent = [...state.expenses].sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 2);
         $("#recentExpenses").innerHTML = recent.length ? recent.map((expense) => expenseHtml(expense, false)).join("") : '<div class="card empty">Aucune dépense.</div>';
