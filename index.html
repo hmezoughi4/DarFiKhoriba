@@ -300,9 +300,114 @@ html[data-theme="dark"] .settings-stat-compact:nth-child(3) .muted{color:#d8b4fe
 .swipe-card.swiping-right::before,.swipe-card.swiping-left::before{mix-blend-mode:normal}
 html[data-theme="dark"] .swipe-card.swiping-right{background:#451a1a!important;border-color:#ef4444!important}
 html[data-theme="dark"] .swipe-card.swiping-left{background:#172554!important;border-color:#60a5fa!important}
-</style>
+
+    /* Animation de lancement PWA : chantier */
+    .launch-screen {
+      position: fixed;
+      z-index: 99999;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: linear-gradient(145deg, #0f766e 0%, #115e59 56%, #083f3b 100%);
+      color: #fff;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity .42s ease, visibility .42s ease;
+    }
+    .launch-screen.is-leaving { opacity: 0; visibility: hidden; pointer-events: none; }
+    .launch-content { width: min(92vw, 520px); text-align: center; }
+    .launch-title { margin: 0; font-size: clamp(29px, 8vw, 44px); font-weight: 950; letter-spacing: -.8px; }
+    .launch-subtitle { margin: 7px 0 25px; color: #ccfbf1; font-size: 14px; font-weight: 750; }
+    .construction-window {
+      position: relative;
+      width: 100%;
+      height: 92px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 22px;
+      background: rgba(255,255,255,.10);
+      box-shadow: inset 0 1px rgba(255,255,255,.16), 0 16px 40px rgba(0,0,0,.18);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+    }
+    .construction-window::before,
+    .construction-window::after {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      bottom: 0;
+      width: 42px;
+      pointer-events: none;
+    }
+    .construction-window::before { left: 0; background: linear-gradient(90deg, rgba(15,118,110,.96), transparent); }
+    .construction-window::after { right: 0; background: linear-gradient(270deg, rgba(8,63,59,.96), transparent); }
+    .construction-track {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      display: flex;
+      width: max-content;
+      gap: 15px;
+      transform: translateY(-50%);
+      animation: construction-scroll 2.15s cubic-bezier(.45,.02,.3,1) both;
+      will-change: transform;
+    }
+    .construction-icon {
+      display: grid;
+      width: 65px;
+      height: 65px;
+      flex: 0 0 65px;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.20);
+      border-radius: 19px;
+      background: rgba(255,255,255,.14);
+      box-shadow: 0 8px 18px rgba(0,0,0,.16);
+      font-size: 35px;
+      animation: construction-bob .55s ease-in-out infinite alternate;
+    }
+    .construction-icon:nth-child(even) { animation-delay: -.28s; }
+    .launch-progress { width: 118px; height: 4px; margin: 22px auto 0; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.18); }
+    .launch-progress span { display: block; width: 100%; height: 100%; border-radius: inherit; background: #5eead4; transform-origin: left; animation: launch-progress 2.05s ease-out both; }
+    @keyframes construction-scroll {
+      0% { transform: translate3d(100vw,-50%,0); }
+      100% { transform: translate3d(-825px,-50%,0); }
+    }
+    @keyframes construction-bob { from { translate: 0 -3px; rotate: -2deg; } to { translate: 0 3px; rotate: 2deg; } }
+    @keyframes launch-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @media (prefers-reduced-motion: reduce) {
+      .construction-track, .construction-icon, .launch-progress span { animation: none !important; }
+      .construction-track { left: 50%; transform: translate(-50%,-50%); }
+      .launch-screen { transition-duration: .15s; }
+    }
+  </style>
 </head>
 <body>
+  <div class="launch-screen" id="launchScreen" role="status" aria-label="Chargement de DarFiKhoriba">
+    <div class="launch-content">
+      <h1 class="launch-title">DarFiKhoriba</h1>
+      <p class="launch-subtitle">Suivi de votre projet de construction</p>
+      <div class="construction-window" aria-hidden="true">
+        <div class="construction-track">
+          <span class="construction-icon">📐</span>
+          <span class="construction-icon">🧱</span>
+          <span class="construction-icon">🛠️</span>
+          <span class="construction-icon">🏗️</span>
+          <span class="construction-icon">🚧</span>
+          <span class="construction-icon">👷</span>
+          <span class="construction-icon">🏠</span>
+          <span class="construction-icon">📐</span>
+          <span class="construction-icon">🧱</span>
+          <span class="construction-icon">🛠️</span>
+          <span class="construction-icon">🏗️</span>
+          <span class="construction-icon">🏡</span>
+        </div>
+      </div>
+      <div class="launch-progress" aria-hidden="true"><span></span></div>
+    </div>
+  </div>
+
   <main class="app">
     <header class="top">
       <div>
@@ -886,6 +991,23 @@ function render() {
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));
     }
+  </script>
+
+  <script>
+    (() => {
+      "use strict";
+      const splash = document.getElementById("launchScreen");
+      if (!splash) return;
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const delay = reduced ? 500 : 2250;
+      const closeSplash = () => {
+        if (splash.classList.contains("is-leaving")) return;
+        splash.classList.add("is-leaving");
+        window.setTimeout(() => splash.remove(), reduced ? 180 : 460);
+      };
+      window.addEventListener("load", () => window.setTimeout(closeSplash, delay), { once: true });
+      window.setTimeout(closeSplash, reduced ? 1000 : 3600);
+    })();
   </script>
 </body>
 </html>
