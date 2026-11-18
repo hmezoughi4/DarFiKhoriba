@@ -403,6 +403,7 @@ html[data-theme="dark"] .swipe-card.swiping-left{background:#172554!important;bo
           <span class="construction-icon">🏗️</span>
           <span class="construction-icon">🚧</span>
           <span class="construction-icon">👷</span>
+          <span class="construction-icon">🧱</span>
           <span class="construction-icon">🏠</span>
         </div>
       </div>
@@ -1009,7 +1010,7 @@ function render() {
         window.setTimeout(() => splash.remove(), reduced ? 180 : 460);
       };
       window.addEventListener("load", () => window.setTimeout(closeSplash, delay), { once: true });
-      window.setTimeout(closeSplash, reduced ? 1000 : 5600);
+      window.setTimeout(closeSplash, reduced ? 1000 : 3200);
     })();
   </script>
 </body>
