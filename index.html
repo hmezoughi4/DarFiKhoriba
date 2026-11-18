@@ -37,7 +37,34 @@
     .top, .section-title, .bar-label { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 10px; }
     .top { margin-bottom: 16px; }
     .top > div:first-child { min-width: 0; flex: 1; }
-    .eyebrow {overflow: hidden; color: var(--primary); font-size: 18px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap;}
+   /* .eyebrow {overflow: hidden; color: var(--primary); font-size: 18px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap;} */
+    .eyebrow {
+      margin: 7px 0 25px;
+    
+      background: linear-gradient(
+        90deg,
+        #006633 0%,
+        #006633 32%,
+        #FFFFFF 45%,
+        #FFFFFF 55%,
+        #D21034 68%,
+        #D21034 100%
+      );
+    
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    
+      font-size: 22px;
+      font-weight: 700;
+    
+      /* Contour pour détacher le blanc du fond gris */
+      -webkit-text-stroke: 0.7px rgba(25, 25, 25, 0.65);
+    
+      /* Légère profondeur */
+      filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.30));
+    }
     .arabe { overflow: hidden; color: red; font-size: 34px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap;}
     .top h1 { margin: 3px 0; font-size: 25px; }
     .logo { display: grid; width: 48px; height: 48px; flex: 0 0 48px; place-items: center; border-radius: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); box-shadow: var(--shadow); font-size: 27px; }
