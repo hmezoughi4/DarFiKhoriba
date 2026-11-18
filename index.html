@@ -998,20 +998,52 @@ function render() {
   </script>
 
   <script>
-    (() => {
-      "use strict";
-      const splash = document.getElementById("launchScreen");
-      if (!splash) return;
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const delay = reduced ? 500 : 3000;
-      const closeSplash = () => {
+(() => {
+    "use strict";
+
+    const splash = document.getElementById("launchScreen");
+    if (!splash) return;
+
+    const alreadyShown = sessionStorage.getItem("launchAnimationShown");
+
+    // Animation déjà affichée pendant cette session :
+    // on supprime immédiatement le splash.
+    if (alreadyShown === "true") {
+        splash.remove();
+        return;
+    }
+
+    // Marquer l'animation comme affichée.
+    sessionStorage.setItem("launchAnimationShown", "true");
+
+    const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const delay = reduced ? 500 : 3000;
+
+    const closeSplash = () => {
         if (splash.classList.contains("is-leaving")) return;
+
         splash.classList.add("is-leaving");
-        window.setTimeout(() => splash.remove(), reduced ? 180 : 460);
-      };
-      window.addEventListener("load", () => window.setTimeout(closeSplash, delay), { once: true });
-      window.setTimeout(closeSplash, reduced ? 1000 : 3200);
-    })();
+
+        window.setTimeout(() => {
+            splash.remove();
+        }, reduced ? 180 : 460);
+    };
+
+    window.addEventListener(
+        "load",
+        () => window.setTimeout(closeSplash, delay),
+        { once: true }
+    );
+
+    // Sécurité
+    window.setTimeout(
+        closeSplash,
+        reduced ? 1000 : 3200
+    );
+})();
   </script>
 </body>
 </html>
