@@ -405,8 +405,8 @@ html[data-theme="dark"] .swipe-card.swiping-left{background:#172554!important;bo
         </div>
       </div>
       <div class="launch-progress" aria-hidden="true"><span></span></div>
-      <h1 class="launch-subtitle"><br><br>Hocine & Djamila<br><br>Khoriba - City - خوريبة</h1>
     </div>
+    <h1 class="launch-subtitle"><br><br>Hocine & Djamila<br><br>Khoriba - City - خوريبة</h1>
   </div>
 
   <main class="app">
@@ -1000,7 +1000,7 @@ function render() {
       const splash = document.getElementById("launchScreen");
       if (!splash) return;
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const delay = reduced ? 500 : 4300;
+      const delay = reduced ? 500 : 3000;
       const closeSplash = () => {
         if (splash.classList.contains("is-leaving")) return;
         splash.classList.add("is-leaving");
