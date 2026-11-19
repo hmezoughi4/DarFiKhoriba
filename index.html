@@ -87,11 +87,25 @@
       font-weight: 700;
     }
 
-    /* Sommes dues : libellé et montant "Reste" en rouge */
-#commitmentList .grid3 > div:last-child .small,
-#commitmentList .grid3 > div:last-child b {
+/* ===== Montants RESTE en rouge ===== */
+
+/* Total "Reste" en haut de Sommes dues */
+#remainingTotal {
   color: #DC2626 !important;
 }
+
+/* Montant "Reste" dans les cartes non soldées */
+#commitmentList .commitment-card:not(.status-card-done)
+.grid3 > div:last-child b {
+  color: #DC2626 !important;
+}
+
+/* Carte soldée : le reste à 0 n'est pas rouge */
+#commitmentList .commitment-card.status-card-done
+.grid3 > div:last-child b {
+  color: var(--text) !important;
+}
+
     
     .section-title { margin: 20px 2px 10px; }
     .section-title h2 { margin: 0; font-size: 20px; }
