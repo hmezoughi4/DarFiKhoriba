@@ -443,6 +443,35 @@ html[data-theme="dark"] .swipe-card.swiping-left{background:#172554!important;bo
       .construction-track { left: 50%; transform: translate(-50%,-50%); }
       .launch-screen { transition-duration: .15s; }
     }
+
+    /* ===== Sommes dues v2 : fonds colores visibles + progression plus douce ===== */
+    .card.commitment-card.status-card-start,
+    .card.swipe-card.commitment-card.status-card-start {
+      background:#fff1f2 !important;
+      border-color:#fecdd3 !important;
+    }
+    .card.commitment-card.status-card-progress,
+    .card.swipe-card.commitment-card.status-card-progress {
+      background:#fff7d6 !important;
+      border-color:#f5d76e !important;
+    }
+    .card.commitment-card.status-card-done,
+    .card.swipe-card.commitment-card.status-card-done {
+      background:#eafbf0 !important;
+      border-color:#a7e7bb !important;
+    }
+    .card.commitment-card.status-card-start .bar i { background:#fda4af !important; }
+    .card.commitment-card.status-card-progress .bar i { background:#f8c45c !important; }
+    .card.commitment-card.status-card-done .bar i { background:#86e39b !important; }
+    html[data-theme="dark"] .card.commitment-card.status-card-start,
+    html[data-theme="dark"] .card.swipe-card.commitment-card.status-card-start { background:#3a2024 !important; border-color:#7f3d46 !important; }
+    html[data-theme="dark"] .card.commitment-card.status-card-progress,
+    html[data-theme="dark"] .card.swipe-card.commitment-card.status-card-progress { background:#3a321b !important; border-color:#806d2c !important; }
+    html[data-theme="dark"] .card.commitment-card.status-card-done,
+    html[data-theme="dark"] .card.swipe-card.commitment-card.status-card-done { background:#183526 !important; border-color:#347a50 !important; }
+    html[data-theme="dark"] .card.commitment-card.status-card-start .bar i { background:#fb7185 !important; }
+    html[data-theme="dark"] .card.commitment-card.status-card-progress .bar i { background:#f6c453 !important; }
+    html[data-theme="dark"] .card.commitment-card.status-card-done .bar i { background:#74d68a !important; }
   </style>
 </head>
 <body>
