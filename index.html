@@ -82,6 +82,41 @@
     .grid2, .grid3 { display: grid; width: 100%; min-width: 0; gap: 10px; }
     .grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid3 b {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.status-card-progress {
+  background: #fffaf0 !important;
+}
+
+.status-card-done {
+  background: #f3fcf6 !important;
+}
+
+.status-card-progress .bar i {
+  background: #f6c968 !important;
+}
+
+.status-card-done .bar i {
+  background: #72d98b !important;
+}
+
+.bar {
+  height: 10px;
+}
+
+.grid3 > div:last-child b {
+  color: #d97706;
+}
+
+.status-card-done .grid3 > div:last-child b {
+  color: #16a34a;
+}
+
+
+    
     .section-title { margin: 20px 2px 10px; }
     .section-title h2 { margin: 0; font-size: 20px; }
     .stat strong { display: block; margin-top: 5px; overflow-wrap: anywhere; font-size: 17px; line-height: 1.25; }
