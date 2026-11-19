@@ -82,41 +82,6 @@
     .grid2, .grid3 { display: grid; width: 100%; min-width: 0; gap: 10px; }
     .grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.grid3 b {
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.status-card-progress {
-  background: #fffaf0 !important;
-}
-
-.status-card-done {
-  background: #f3fcf6 !important;
-}
-
-.status-card-progress .bar i {
-  background: #f6c968 !important;
-}
-
-.status-card-done .bar i {
-  background: #72d98b !important;
-}
-
-.bar {
-  height: 10px;
-}
-
-.grid3 > div:last-child b {
-  color: #d97706;
-}
-
-.status-card-done .grid3 > div:last-child b {
-  color: #16a34a;
-}
-
-
-    
     .section-title { margin: 20px 2px 10px; }
     .section-title h2 { margin: 0; font-size: 20px; }
     .stat strong { display: block; margin-top: 5px; overflow-wrap: anywhere; font-size: 17px; line-height: 1.25; }
@@ -463,6 +428,35 @@ html[data-theme="dark"] .swipe-card.swiping-left{background:#172554!important;bo
       .construction-track, .construction-icon, .launch-progress span { animation: none !important; }
       .construction-track { left: 50%; transform: translate(-50%,-50%); }
       .launch-screen { transition-duration: .15s; }
+    }
+
+    /* ===== Sommes dues v3 : finition compacte et pastel ===== */
+    .grid3 b {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .card.commitment-card.status-card-progress,
+    .card.swipe-card.commitment-card.status-card-progress {
+      background: #fffaf0 !important;
+    }
+    .card.commitment-card.status-card-done,
+    .card.swipe-card.commitment-card.status-card-done {
+      background: #f3fcf6 !important;
+    }
+    .card.commitment-card.status-card-progress .bar i {
+      background: #f6c968 !important;
+    }
+    .card.commitment-card.status-card-done .bar i {
+      background: #72d98b !important;
+    }
+    .bar {
+      height: 10px;
+    }
+    .grid3 > div:last-child b {
+      color: #d97706;
+    }
+    .status-card-done .grid3 > div:last-child b {
+      color: #16a34a;
     }
   </style>
 </head>
@@ -866,7 +860,7 @@ html[data-theme="dark"] .swipe-card.swiping-left{background:#172554!important;bo
         const priority = { start: 0, progress: 1, done: 2 };
         const list = state.commitments.filter((item) => { const progress = num(item.amountDzd) > 0 ? Math.max(0, Math.min(100, paid(item.id) / num(item.amountDzd) * 100)) : 0; return !filter || status(progress).value === filter; }).map((item, index) => ({ item, index, currentStatus: status(num(item.amountDzd) > 0 ? Math.max(0, Math.min(100, paid(item.id) / num(item.amountDzd) * 100)) : 0) })).sort((a, b) => (priority[a.currentStatus.value] ?? 9) - (priority[b.currentStatus.value] ?? 9) || a.index - b.index).map(({ item }) => item);
         if (!list.length) { $("#commitmentList").innerHTML = `<div class="card empty">${state.commitments.length ? "Aucune somme due pour ce statut." : "Aucune somme due."}</div>`; updateCommitmentOptions(); return; }
-        $("#commitmentList").innerHTML = list.map((item) => { const paidAmount = paid(item.id); const dueAmount = Math.round(num(item.amountDzd)); const balanceAmount = Math.max(0, dueAmount - paidAmount); const progress = dueAmount > 0 ? Math.max(0, Math.min(100, paidAmount / dueAmount * 100)) : 0; const currentStatus = status(progress); const done = progress >= 100; const history = payments(item.id); return `<article class="card commitment-card swipe-card ${done && finishedCommitmentsCollapsed ? "collapsed" : ""}" data-swipe-kind="commitment" data-swipe-id="${item.id}"><div class="commitment-top"><div class="commitment-title"><strong>${item.category === "Terrain" ? "🏡" : "👷"} ${esc(item.label)}</strong><div class="small muted mt">${esc(item.category)} · ${esc(item.beneficiary)}</div></div><span class="status-badge ${currentStatus.cls}">${currentStatus.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(progress, 1)} %</span></div><div class="bar"><i style="width:${progress}%;background:${color(progress)}"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(dueAmount)}</b></div><div><div class="small muted">Versé</div><b>${dzd(paidAmount)}</b></div><div><div class="small muted">Reste</div><b>${dzd(balanceAmount)}</b></div></div><div class="row-actions">${done ? "" : `<button data-add-payment="${item.id}">+ Versement</button>`}<button data-toggle-history="${item.id}">Historique (${history.length})</button></div><div id="history-${item.id}" class="history hidden">${history.length ? history.map((expense) => `<div class="payment-row swipe-card" data-swipe-kind="expense" data-swipe-id="${expense.id}"><span>${esc(expense.date)}</span><span>${esc(expense.description)}</span><b>${dzd(expense.dzd)}</b></div>`).join("") : '<div class="small muted">Aucun versement.</div>'}</div></div></article>`; }).join("");
+        $("#commitmentList").innerHTML = list.map((item) => { const paidAmount = paid(item.id); const dueAmount = Math.round(num(item.amountDzd)); const balanceAmount = Math.max(0, dueAmount - paidAmount); const progress = dueAmount > 0 ? Math.max(0, Math.min(100, paidAmount / dueAmount * 100)) : 0; const currentStatus = status(progress); const done = progress >= 100; const history = payments(item.id); return `<article class="card commitment-card swipe-card ${done && finishedCommitmentsCollapsed ? "collapsed" : ""}" data-swipe-kind="commitment" data-swipe-id="${item.id}"><div class="commitment-top"><div class="commitment-title"><strong>${item.category === "Terrain" ? "🏡" : "👷"} ${esc(item.label)}</strong><div class="small muted mt">${esc(item.category)} · ${esc(item.beneficiary)}</div></div><span class="status-badge ${currentStatus.cls}">${currentStatus.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(progress, 1)} %</span></div><div class="bar"><i style="width:${progress}%;background:${color(progress)}"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(dueAmount)}</b></div><div><div class="small muted">Versé</div><b>${dzd(paidAmount)}</b></div><div><div class="small muted">Reste</div><b>${balanceAmount === 0 ? "0 DZD" : dzd(balanceAmount)}</b></div></div><div class="row-actions">${done ? "" : `<button data-add-payment="${item.id}">+ Versement</button>`}<button data-toggle-history="${item.id}">Historique (${history.length})</button></div><div id="history-${item.id}" class="history hidden">${history.length ? history.map((expense) => `<div class="payment-row swipe-card" data-swipe-kind="expense" data-swipe-id="${expense.id}"><span>${esc(expense.date)}</span><span>${esc(expense.description)}</span><b>${dzd(expense.dzd)}</b></div>`).join("") : '<div class="small muted">Aucun versement.</div>'}</div></div></article>`; }).join("");
         updateCommitmentOptions();
       }
 
