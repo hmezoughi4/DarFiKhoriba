@@ -430,34 +430,50 @@ html[data-theme="dark"] .swipe-card.swiping-left{background:#172554!important;bo
       .launch-screen { transition-duration: .15s; }
     }
 
-    /* ===== Sommes dues v3 : finition compacte et pastel ===== */
-    .grid3 b {
-      font-size: 16px;
-      font-weight: 700;
-    }
-    .card.commitment-card.status-card-progress,
-    .card.swipe-card.commitment-card.status-card-progress {
-      background: #FFEDD4 !important;
-    }
-    .card.commitment-card.status-card-done,
-    .card.swipe-card.commitment-card.status-card-done {
-      background: #D0FAE5 !important;
-    }
-    .card.commitment-card.status-card-progress .bar i {
-      background: #FFE4E6 !important;
-    }
-    .card.commitment-card.status-card-done .bar i {
-      background: #72d98b !important;
-    }
-    .bar {
-      height: 10px;
-    }
-    .grid3 > div:last-child b {
-      color: #d97706;
-    }
-    .status-card-done .grid3 > div:last-child b {
-      color: #16a34a;
-    }
+/* ===== Sommes dues v3 : finition compacte et pastel ===== */
+
+/* Montants Dû / Versé / Reste */
+.grid3 b {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* 🟡 EN COURS : fond jaune pastel */
+.card.commitment-card.status-card-progress,
+.card.swipe-card.commitment-card.status-card-progress {
+  background: #FFF3CD !important;
+}
+
+/* 🟢 SOLDÉ : fond vert pastel */
+.card.commitment-card.status-card-done,
+.card.swipe-card.commitment-card.status-card-done {
+  background: #E2F7E8 !important;
+}
+
+/* 🟡 Barre de progression En cours */
+.card.commitment-card.status-card-progress .bar i {
+  background: #F6C968 !important;
+}
+
+/* 🟢 Barre de progression Soldé */
+.card.commitment-card.status-card-done .bar i {
+  background: #72D98B !important;
+}
+
+/* Barre légèrement plus fine */
+.bar {
+  height: 10px;
+}
+
+/* Montant restant : orange */
+.grid3 > div:last-child b {
+  color: #D97706;
+}
+
+/* Montant restant lorsque Soldé : vert */
+.status-card-done .grid3 > div:last-child b {
+  color: #16A34A;
+}
   </style>
 </head>
 <body>
