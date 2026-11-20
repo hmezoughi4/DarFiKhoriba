@@ -811,7 +811,7 @@
                 <div class="small muted">Active ou désactive les effets sonores.</div>
               </div>
               <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">
-                🔊 Activés
+                🔊 On
               </button>
             </div>
             <div class="field" style="margin-bottom: 0">
@@ -1980,7 +1980,7 @@
 
         function updateSoundControls() {
           const percent = Math.round(volume * 100);
-          button.textContent = enabled ? "🔊 Activés" : "🔇 Désactivés";
+          button.textContent = enabled ? "🔊 On" : "🔇 Off";
           button.setAttribute("aria-pressed", String(enabled));
           button.setAttribute("aria-label", enabled ? "Désactiver les sons" : "Activer les sons");
           button.classList.toggle("button-soft", enabled);
