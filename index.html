@@ -548,7 +548,7 @@
         <div>
           <!-- <div class="eyebrow">Hocine &amp; Djamila</div> -->
           <div class="arabe2">خوريبة بناء</div>
-          <div class="small muted header-save-date" id="saveStatus">Dernière sauvegarde : jamais</div>
+          <div class="small muted" id="saveStatus">Sauvegarde locale active</div>
         </div>
         <div class="top-actions">
           <button
@@ -763,32 +763,70 @@
 
       <section class="page" id="settings">
         <div class="section-title"><h2>Réglages</h2></div>
-        <div class="card mt">
-          <div class="section-title" style="margin:0 0 12px"><h2>📌 Faits marquants</h2></div>
-          <div class="milestone-table-wrap">
-            <table class="milestone-table">
-              <thead><tr><th>DATE</th><th>FAITS</th><th>ACTIONS</th></tr></thead>
-              <tbody id="milestoneTableBody"></tbody>
-            </table>
+        <div class="card">
+          <strong>Statistiques</strong>
+          <div class="settings-stats-compact mt">
+            <div class="settings-stat-compact">
+              <span>Dépenses</span><strong id="settingsExpenseCount">0</strong>
+            </div>
+            <div class="settings-stat-compact">
+              <span>Total DZD</span><strong id="settingsTotalDzd">0,000 DZD</strong>
+            </div>
+            <div class="settings-stat-compact">
+              <span>Total EUR</span><strong id="settingsTotalEur">0,00 €</strong>
+            </div>
           </div>
-        </div>
-        <button class="milestone-floating-button" id="addMilestone" type="button" aria-label="Ajouter un fait marquant">+</button>
-        <div class="card mt sound-mini-card">
-          <div class="sound-compact-head">
-            <strong>🔊 Sons</strong>
-            <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">🔊 On</button>
+          <div class="settings-save-compact">
+            <span>💾 <span class="muted">Dernière sauvegarde</span></span
+            ><strong id="settingsLastSave">Jamais</strong>
           </div>
         </div>
         <div class="card mt">
           <strong>Sauvegarde et transfert</strong>
-          <div class="settings-notice mt">Les données sont enregistrées localement. Exportez régulièrement une sauvegarde JSON.</div>
+          <div class="settings-notice mt">
+            Les données sont enregistrées localement. Exportez régulièrement une sauvegarde JSON.
+          </div>
           <div class="settings-grid mt">
-            <button class="button button-line" id="exportJsonButton" type="button">Exporter JSON</button>
-            <button class="button button-line" id="exportCsvButton" type="button">Exporter CSV</button>
-            <button class="button button-soft" id="importJsonButton" type="button">Importer JSON</button>
-            <button class="button button-danger" id="clearDataButton" type="button">Tout effacer</button>
+            <button class="button button-line" id="exportJsonButton" type="button">
+              Exporter JSON
+            </button>
+            <button class="button button-line" id="exportCsvButton" type="button">
+              Exporter CSV
+            </button>
+            <button class="button button-soft" id="importJsonButton" type="button">
+              Importer JSON
+            </button>
+            <button class="button button-danger" id="clearDataButton" type="button">
+              Tout effacer
+            </button>
           </div>
           <input class="hidden" id="importJsonFile" type="file" accept=".json,application/json" />
+        </div>
+        <div class="card mt">
+          <strong>🔊 Sons</strong>
+          <div class="settings-details">
+            <div class="settings-detail">
+              <div>
+                <strong style="text-align: left">Sons des clics</strong>
+                <div class="small muted">Active ou désactive les effets sonores.</div>
+              </div>
+              <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">
+                🔊 On
+              </button>
+            </div>
+            <div class="field" style="margin-bottom: 0">
+              <label for="soundVolume">Volume <span id="soundVolumeValue">35 %</span></label>
+              <input
+                id="soundVolume"
+                type="range"
+                min="0"
+                max="100"
+                step="5"
+                value="35"
+                aria-label="Volume des sons"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -816,20 +854,7 @@
       </nav>
     </main>
 
-    
-    <div class="modal" id="milestoneModal">
-      <form class="sheet" id="milestoneForm">
-        <div class="sheet-head">
-          <h2 id="milestoneFormTitle">Ajouter un fait marquant</h2>
-          <button class="close" id="closeMilestone" type="button" aria-label="Fermer">×</button>
-        </div>
-        <input id="milestoneId" type="hidden" />
-        <div class="field"><label for="milestoneDate">Date</label><input id="milestoneDate" type="date" required /></div>
-        <div class="field"><label for="milestoneTitle">Fait marquant</label><input id="milestoneTitle" placeholder="Ex. Début de la dalle 1" required /></div>
-        <button class="button button-primary wide" type="submit">Enregistrer</button>
-      </form>
-    </div>
-<div class="modal" id="expenseModal">
+    <div class="modal" id="expenseModal">
       <form class="sheet" id="expenseForm">
         <div class="sheet-head">
           <h2 id="expenseTitle">Ajouter une dépense</h2>
@@ -944,7 +969,7 @@
 
         const STORAGE_KEY = "suivi_maison_v1";
         const SAVE_TIME_KEY = "suivi_maison_last_save";
-        const DEFAULT_STATE = { expenses: [], commitments: [], milestones: [] };
+        const DEFAULT_STATE = { expenses: [], commitments: [] };
         const SUBCATEGORIES = {
           Terrain: ["Achat du terrain", "Notaire", "Bornage", "Autres"],
           Fournitures: [
@@ -1012,7 +1037,6 @@
           }).format(num(value));
         const dzd = (value) => `${fmt(Math.round(num(value)) / 1e6, 3)} DZD`;
         const eur = (value) => (value == null ? "—" : `${fmt(value, 2)} €`);
-        const displayDate = (value) => { const m=String(value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? `${m[3]}-${m[2]}-${m[1]}` : String(value ?? ""); };
         const esc = (value) =>
           String(value ?? "").replace(
             /[&<>"']/g,
@@ -1025,37 +1049,33 @@
         function load() {
           try {
             const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-            if (saved && Array.isArray(saved.expenses) && (saved.expenses.length || (saved.commitments || []).length || (saved.milestones || []).length)) {
+            if (saved && Array.isArray(saved.expenses))
               return {
                 expenses: saved.expenses,
                 commitments: Array.isArray(saved.commitments) ? saved.commitments : [],
-                milestones: Array.isArray(saved.milestones) ? saved.milestones : [],
               };
-            }
-          } catch (error) { console.error(error); }
-          if (BUNDLED_RECOVERY && Array.isArray(BUNDLED_RECOVERY.expenses)) {
-            const recovered = {
-              expenses: BUNDLED_RECOVERY.expenses,
-              commitments: Array.isArray(BUNDLED_RECOVERY.commitments) ? BUNDLED_RECOVERY.commitments : [],
-              milestones: Array.isArray(BUNDLED_RECOVERY.milestones) ? BUNDLED_RECOVERY.milestones : [],
-            };
-            try {
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(recovered));
-              localStorage.setItem(SAVE_TIME_KEY, new Date().toISOString());
-            } catch (error) { console.error(error); }
-            return recovered;
+          } catch (error) {
+            console.error(error);
           }
           return structuredClone(DEFAULT_STATE);
         }
 
         function updateLastSaveDisplay() {
           const savedAt = localStorage.getItem(SAVE_TIME_KEY);
-          const target = $("#saveStatus");
-          if (!savedAt) { target.textContent = "Dernière sauvegarde : jamais"; return; }
+          if (!savedAt) {
+            $("#settingsLastSave").textContent = "Jamais";
+            return;
+          }
           const date = new Date(savedAt);
-          target.textContent = Number.isNaN(date.getTime())
-            ? "Dernière sauvegarde : date inconnue"
-            : `Dernière sauvegarde : ${date.toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}`;
+          $("#settingsLastSave").textContent = Number.isNaN(date.getTime())
+            ? "Date inconnue"
+            : date.toLocaleString("fr-FR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              });
         }
 
         let state = load();
@@ -1067,6 +1087,8 @@
           const date = new Date();
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
           localStorage.setItem(SAVE_TIME_KEY, date.toISOString());
+          $("#saveStatus").textContent =
+            `Sauvegardé à ${date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`;
           updateLastSaveDisplay();
           render();
         }
@@ -1151,7 +1173,7 @@
         }
 
         function expenseHtml(expense, actions = true) {
-          return `<article class="card expense ${actions ? "swipe-card" : ""}" ${actions ? `data-swipe-kind="expense" data-swipe-id="${expense.id}"` : ""}><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(displayDate(expense.date))} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
+          return `<article class="card expense ${actions ? "swipe-card" : ""}" ${actions ? `data-swipe-kind="expense" data-swipe-id="${expense.id}"` : ""}><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(expense.date)} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
         }
 
         function renderExpenses() {
@@ -1269,7 +1291,7 @@
               const currentStatus = status(progress);
               const done = progress >= 100;
               const history = payments(item.id);
-              return `<article class="card commitment-card swipe-card status-card-${currentStatus.value} ${done && finishedCommitmentsCollapsed ? "collapsed" : ""}" data-swipe-kind="commitment" data-swipe-id="${item.id}"><div class="commitment-top"><div class="commitment-title"><strong>${item.category === "Terrain" ? "🏡" : "👷"} ${esc(item.label)}</strong><div class="small muted mt">${esc(item.category)} · ${esc(item.beneficiary)}</div></div><span class="status-badge ${currentStatus.cls}">${currentStatus.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(progress, 1)} %</span></div><div class="bar" style="--progress-color:${color(progress)}"><i style="width:${progress}%"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(dueAmount)}</b></div><div><div class="small muted">Versé</div><b>${dzd(paidAmount)}</b></div><div><div class="small muted">Reste</div><b class="remaining-amount">${dzd(balanceAmount)}</b></div></div><div class="row-actions">${done ? "" : `<button data-add-payment="${item.id}">+ Versement</button>`}<button data-toggle-history="${item.id}">Historique (${history.length})</button></div><div id="history-${item.id}" class="history hidden">${history.length ? history.map((expense) => `<div class="payment-row swipe-card" data-swipe-kind="expense" data-swipe-id="${expense.id}"><span>${esc(displayDate(expense.date))}</span><span>${esc(expense.description)}</span><b>${dzd(expense.dzd)}</b></div>`).join("") : '<div class="small muted">Aucun versement.</div>'}</div></div></article>`;
+              return `<article class="card commitment-card swipe-card status-card-${currentStatus.value} ${done && finishedCommitmentsCollapsed ? "collapsed" : ""}" data-swipe-kind="commitment" data-swipe-id="${item.id}"><div class="commitment-top"><div class="commitment-title"><strong>${item.category === "Terrain" ? "🏡" : "👷"} ${esc(item.label)}</strong><div class="small muted mt">${esc(item.category)} · ${esc(item.beneficiary)}</div></div><span class="status-badge ${currentStatus.cls}">${currentStatus.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(progress, 1)} %</span></div><div class="bar" style="--progress-color:${color(progress)}"><i style="width:${progress}%"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(dueAmount)}</b></div><div><div class="small muted">Versé</div><b>${dzd(paidAmount)}</b></div><div><div class="small muted">Reste</div><b class="remaining-amount">${dzd(balanceAmount)}</b></div></div><div class="row-actions">${done ? "" : `<button data-add-payment="${item.id}">+ Versement</button>`}<button data-toggle-history="${item.id}">Historique (${history.length})</button></div><div id="history-${item.id}" class="history hidden">${history.length ? history.map((expense) => `<div class="payment-row swipe-card" data-swipe-kind="expense" data-swipe-id="${expense.id}"><span>${esc(expense.date)}</span><span>${esc(expense.description)}</span><b>${dzd(expense.dzd)}</b></div>`).join("") : '<div class="small muted">Aucun versement.</div>'}</div></div></article>`;
             })
             .join("");
           updateCommitmentOptions();
@@ -1429,14 +1451,6 @@
             `<div class="analysis-insight"><span>🔥</span><small>Catégorie principale</small><strong>${total ? `${ICONS[top]} ${esc(top)} · ${fmt(topShare, 1)} %` : "—"}</strong></div><div class="analysis-insight"><span>🧾</span><small>Dépense moyenne</small><strong>${dzd(avg)}</strong></div><div class="analysis-insight"><span>🏆</span><small>Plus grosse dépense</small><strong>${largest ? dzd(largest.dzd) : "—"}</strong></div><div class="analysis-insight"><span>📈</span><small>Mois le plus coûteux</small><strong>${bestMonth ? `${esc(monthLabel(bestMonth[0]))} · ${dzd(bestMonth[1])}` : "—"}</strong></div>`;
         }
         function drawBars() {}
-        function renderMilestones() {
-          const body = $("#milestoneTableBody");
-          const items = [...state.milestones].sort((a, b) => String(b.date).localeCompare(String(a.date)));
-          body.innerHTML = items.length ? items.map((item) =>
-            `<tr class="milestone-row" data-milestone-id="${item.id}"><td><span class="milestone-date-pill">${esc(displayDate(item.date))}</span></td><td><strong>${esc(item.title)}</strong></td><td class="milestone-actions"><button class="milestone-edit-button" type="button" data-edit-milestone="${item.id}" aria-label="Modifier ${esc(item.title)}">✏️</button><button class="milestone-delete-button" type="button" data-delete-milestone="${item.id}">🗑</button></td></tr>`
-          ).join("") : '<tr><td colspan="3" class="empty">Aucun fait marquant.</td></tr>';
-        }
-
         function render() {
           const total = state.expenses.reduce(
             (sum, expense) => sum + Math.round(num(expense.dzd)),
@@ -1446,6 +1460,9 @@
           $("#totalDzd").textContent = dzd(total);
           $("#totalEur").textContent = eur(totalEur);
           $("#homeExpenseCount").textContent = state.expenses.length;
+          $("#settingsExpenseCount").textContent = state.expenses.length;
+          $("#settingsTotalDzd").textContent = dzd(total);
+          $("#settingsTotalEur").textContent = eur(totalEur);
           [
             ["#homeTerrain", "Terrain"],
             ["#homeSupplies", "Fournitures"],
@@ -1465,7 +1482,6 @@
             : '<div class="card empty">Aucune dépense.</div>';
           renderExpenses();
           renderCommitments();
-        renderMilestones();
           drawExpenseChart();
           drawBars();
         }
@@ -1642,20 +1658,59 @@
           const kind = card.dataset.swipeKind,
             id = card.dataset.swipeId;
           if (!kind || !id) return;
-          if (direction === "left") {
-            if (kind === "commitment") openCommitment(id);
-            else if (kind === "milestone") openMilestone(id);
-            else openExpense(id);
-          } else {
-            if (kind === "commitment") deleteCommitmentById(id);
-            else if (kind === "milestone") deleteMilestoneById(id);
-            else deleteExpenseById(id);
-          }
+          if (direction === "left") kind === "commitment" ? openCommitment(id) : openExpense(id);
+          else kind === "commitment" ? deleteCommitmentById(id) : deleteExpenseById(id);
         }
         function resetSwipeCard(card) {
           card.style.transform = "";
           card.classList.remove("swiping-left", "swiping-right");
         }
+        let swipeState = null;
+        document.addEventListener("pointerdown", (e) => {
+          const card = e.target.closest(".swipe-card[data-swipe-kind]");
+          if (!card || e.target.closest("button,input,select,textarea")) return;
+          swipeState = {
+            card,
+            pointerId: e.pointerId,
+            startX: e.clientX,
+            startY: e.clientY,
+            dx: 0,
+            horizontal: false,
+          };
+          card.setPointerCapture?.(e.pointerId);
+        });
+        document.addEventListener(
+          "pointermove",
+          (e) => {
+            if (!swipeState || e.pointerId !== swipeState.pointerId) return;
+            const dx = e.clientX - swipeState.startX,
+              dy = e.clientY - swipeState.startY;
+            if (!swipeState.horizontal && Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+            if (!swipeState.horizontal && Math.abs(dy) > Math.abs(dx)) {
+              swipeState = null;
+              return;
+            }
+            swipeState.horizontal = true;
+            swipeState.dx = Math.max(-150, Math.min(150, dx));
+            const card = swipeState.card;
+            card.style.transform = `translateX(${swipeState.dx}px)`;
+            card.classList.toggle("swiping-right", swipeState.dx > 12);
+            card.classList.toggle("swiping-left", swipeState.dx < -12);
+            e.preventDefault();
+          },
+          { passive: false },
+        );
+        function finishSwipe(e) {
+          if (!swipeState || (e.pointerId != null && e.pointerId !== swipeState.pointerId)) return;
+          const { card, dx, horizontal } = swipeState;
+          swipeState = null;
+          const threshold = Math.min(110, card.offsetWidth * 0.28),
+            direction = horizontal && Math.abs(dx) >= threshold ? (dx > 0 ? "right" : "left") : "";
+          resetSwipeCard(card);
+          if (direction) setTimeout(() => runSwipeAction(card, direction), 30);
+        }
+        document.addEventListener("pointerup", finishSwipe);
+        document.addEventListener("pointercancel", finishSwipe);
         $$(".tab").forEach((tab) =>
           tab.addEventListener("click", () => showPage(tab.dataset.page)),
         );
@@ -1759,7 +1814,6 @@
                 backupReason: "export_manuel",
                 expenses: state.expenses,
                 commitments: state.commitments,
-                milestones: state.milestones,
               },
               null,
               2,
@@ -1778,7 +1832,7 @@
           setTimeout(() => URL.revokeObjectURL(url), 1000);
         }
         function createSafetyBackup(reason = "securite") {
-          if (!state.expenses.length && !state.commitments.length && !state.milestones.length) return false;
+          if (!state.expenses.length && !state.commitments.length) return false;
           const now = new Date();
           const datePart = now.toISOString().slice(0, 19).replace(/:/g, "-");
           download(
@@ -1789,7 +1843,6 @@
                 backupReason: reason,
                 expenses: state.expenses,
                 commitments: state.commitments,
-                milestones: state.milestones,
               },
               null,
               2,
@@ -1837,7 +1890,7 @@
               return;
             const backupCreated = createSafetyBackup("avant_import");
             if (backupCreated) await new Promise((resolve) => setTimeout(resolve, 350));
-            state = { expenses: imported.expenses, commitments: imported.commitments, milestones: Array.isArray(imported.milestones) ? imported.milestones : [] };
+            state = { expenses: imported.expenses, commitments: imported.commitments };
             save();
             alert(
               backupCreated
@@ -1852,7 +1905,7 @@
           }
         });
         $("#clearDataButton").addEventListener("click", async () => {
-          if (!state.expenses.length && !state.commitments.length && !state.milestones.length) {
+          if (!state.expenses.length && !state.commitments.length) {
             alert("Il n'y a aucune donnée à effacer.");
             return;
           }
@@ -1870,48 +1923,6 @@
             "Toutes les données ont été effacées. La sauvegarde de sécurité a été téléchargée.",
           );
         });
-        function openMilestone(milestoneId = "") {
-          $("#milestoneForm").reset();
-          $("#milestoneId").value = "";
-          $("#milestoneDate").value = new Date().toISOString().slice(0, 10);
-          $("#milestoneFormTitle").textContent = milestoneId ? "Modifier le fait marquant" : "Ajouter un fait marquant";
-          if (milestoneId) {
-            const item = state.milestones.find((entry) => entry.id === milestoneId);
-            if (!item) return;
-            $("#milestoneId").value = item.id;
-            $("#milestoneDate").value = item.date;
-            $("#milestoneTitle").value = item.title;
-          }
-          $("#milestoneModal").classList.add("open");
-        }
-        function deleteMilestoneById(milestoneId) {
-          if (!confirm("Supprimer ce fait marquant ?")) return;
-          state.milestones = state.milestones.filter((item) => item.id !== milestoneId);
-          save();
-        }
-
-        $("#milestoneTableBody").addEventListener("click", (event) => {
-          const editButton = event.target.closest("[data-edit-milestone]");
-          const deleteButton = event.target.closest("[data-delete-milestone]");
-          if (editButton) {
-            openMilestone(editButton.dataset.editMilestone);
-            return;
-          }
-          if (deleteButton) {
-            deleteMilestoneById(deleteButton.dataset.deleteMilestone);
-          }
-        });
-        $("#addMilestone").addEventListener("click", () => openMilestone());
-        $("#closeMilestone").addEventListener("click", () => $("#milestoneModal").classList.remove("open"));
-        $("#milestoneForm").addEventListener("submit", (event) => {
-          event.preventDefault();
-          const milestoneId = $("#milestoneId").value;
-          const old = state.milestones.find((item) => item.id === milestoneId);
-          const object = { id: milestoneId || id(), date: $("#milestoneDate").value, title: $("#milestoneTitle").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() };
-          state.milestones = old ? state.milestones.map((item) => item.id === milestoneId ? object : item) : [...state.milestones, object];
-          save();
-          $("#milestoneModal").classList.remove("open");
-        });
         window.addEventListener("resize", () => {
           clearTimeout(chartResizeTimer);
           chartResizeTimer = setTimeout(() => {
@@ -1919,7 +1930,6 @@
           }, 150);
         });
 
-        $("#milestoneDate").value = new Date().toISOString().slice(0, 10);
         updateSubs();
         updateBens();
         updateCommitmentOptions();
@@ -1959,63 +1969,90 @@
       (() => {
         "use strict";
         const SOUND_KEY = "darfikhoriba_sounds";
+        const VOLUME_KEY = "darfikhoriba_sound_volume";
         const button = document.getElementById("soundToggle");
-        if (!button) return;
+        const slider = document.getElementById("soundVolume");
+        const volumeLabel = document.getElementById("soundVolumeValue");
         let enabled = localStorage.getItem(SOUND_KEY) !== "off";
+        let volume = Number(localStorage.getItem(VOLUME_KEY) ?? 0.35);
+        volume = Number.isFinite(volume) ? Math.max(0, Math.min(1, volume)) : 0.35;
         let audioContext = null;
 
         function updateSoundControls() {
+          const percent = Math.round(volume * 100);
           button.textContent = enabled ? "🔊 On" : "🔇 Off";
           button.setAttribute("aria-pressed", String(enabled));
           button.setAttribute("aria-label", enabled ? "Désactiver les sons" : "Activer les sons");
           button.classList.toggle("button-soft", enabled);
           button.classList.toggle("button-line", !enabled);
+          slider.value = String(percent);
+          slider.disabled = !enabled;
+          volumeLabel.textContent = `${percent} %`;
         }
 
-        async function ensureAudio() {
-          const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          if (!AudioCtx) return null;
-          audioContext ||= new AudioCtx();
-          if (audioContext.state === "suspended") await audioContext.resume();
-          return audioContext;
-        }
-
-        async function playClick(kind = "click") {
-          if (!enabled) return;
+        function playClick(kind = "click") {
+          if (!enabled || volume <= 0) return;
           try {
-            const ctx = await ensureAudio();
-            if (!ctx) return;
-            const oscillator = ctx.createOscillator();
-            const gain = ctx.createGain();
-            const now = ctx.currentTime;
-            const tones = { click:[540,0.22,0.055], action:[720,0.28,0.075], danger:[240,0.25,0.09] };
-            const [frequency, level, duration] = tones[kind] || tones.click;
+            audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+            if (audioContext.state === "suspended") audioContext.resume();
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            const now = audioContext.currentTime;
+            const tones = {
+              click: [520, 0.07, 0.035],
+              action: [660, 0.1, 0.05],
+              danger: [220, 0.12, 0.06],
+            };
+            const [frequency, baseVolume, duration] = tones[kind] || tones.click;
             oscillator.type = "sine";
             oscillator.frequency.setValueAtTime(frequency, now);
             gain.gain.setValueAtTime(0.0001, now);
-            gain.gain.exponentialRampToValueAtTime(level, now + 0.006);
+            gain.gain.exponentialRampToValueAtTime(
+              Math.max(0.0001, baseVolume * volume),
+              now + 0.005,
+            );
             gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-            oscillator.connect(gain); gain.connect(ctx.destination);
-            oscillator.start(now); oscillator.stop(now + duration + 0.015);
-          } catch (error) { console.debug("Son indisponible", error); }
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+            oscillator.start(now);
+            oscillator.stop(now + duration + 0.01);
+          } catch (error) {
+            console.debug("Son indisponible", error);
+          }
         }
 
-        button.addEventListener("click", async (event) => {
+        button.addEventListener("click", (event) => {
           event.stopPropagation();
           enabled = !enabled;
           localStorage.setItem(SOUND_KEY, enabled ? "on" : "off");
           updateSoundControls();
-          if (enabled) await playClick("action");
+          if (enabled) playClick("action");
         });
 
-        document.addEventListener("pointerdown", () => { if (enabled) ensureAudio(); }, { once:true, passive:true });
-        document.addEventListener("click", (event) => {
-          const target = event.target.closest("button, [role='button']");
-          if (!target || target === button || target.disabled) return;
-          const destructive = target.classList.contains("button-danger") || target.matches("[data-delete-expense], [data-delete-commitment]");
-          const important = target.classList.contains("button-primary") || target.id === "addExpense" || target.id === "addMilestone" || target.id === "newCommitment";
-          playClick(destructive ? "danger" : important ? "action" : "click");
-        }, true);
+        slider.addEventListener("input", () => {
+          volume = Math.max(0, Math.min(1, Number(slider.value) / 100));
+          localStorage.setItem(VOLUME_KEY, String(volume));
+          updateSoundControls();
+        });
+        slider.addEventListener("change", () => playClick("click"));
+
+        document.addEventListener(
+          "click",
+          (event) => {
+            const target = event.target.closest("button, [role='button']");
+            if (!target || target === button || target.disabled) return;
+            const destructive =
+              target.classList.contains("button-danger") ||
+              target.matches("[data-delete-expense], [data-delete-commitment]");
+            const important =
+              target.classList.contains("button-primary") ||
+              target.id === "addExpense" ||
+              target.id === "newCommitment";
+            playClick(destructive ? "danger" : important ? "action" : "click");
+          },
+          true,
+        );
+
         updateSoundControls();
       })();
     </script>
