@@ -763,54 +763,37 @@
 
       <section class="page" id="settings">
         <div class="section-title"><h2>Réglages</h2></div>
-
+        <div class="card mt">
+          <div class="section-title" style="margin:0 0 12px"><h2>📌 Faits marquants</h2></div>
+          <div class="milestone-table-wrap">
+            <table class="milestone-table">
+              <thead><tr><th>Date</th><th>Fait marquant</th></tr></thead>
+              <tbody id="milestoneTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <button class="milestone-floating-button" id="addMilestone" type="button" aria-label="Ajouter un fait marquant">+</button>
+        <div class="card mt">
+          <div class="settings-detail">
+            <strong>🔊 Sons</strong>
+            <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">🔊 On</button>
+          </div>
+          <div class="field" style="margin:10px 0 0">
+            <input id="soundVolume" type="range" min="0" max="100" step="5" value="35" aria-label="Augmenter ou diminuer le volume" />
+            <span id="soundVolumeValue" class="small muted">35 %</span>
+          </div>
+        </div>
         <div class="card mt">
           <strong>Sauvegarde et transfert</strong>
-          <div class="settings-notice mt">
-            Les données sont enregistrées localement. Exportez régulièrement une sauvegarde JSON.
-          </div>
+          <div class="settings-notice mt">Les données sont enregistrées localement. Exportez régulièrement une sauvegarde JSON.</div>
           <div class="settings-grid mt">
-            <button class="button button-line" id="exportJsonButton" type="button">
-              Exporter JSON
-            </button>
-            <button class="button button-line" id="exportCsvButton" type="button">
-              Exporter CSV
-            </button>
-            <button class="button button-soft" id="importJsonButton" type="button">
-              Importer JSON
-            </button>
-            <button class="button button-danger" id="clearDataButton" type="button">
-              Tout effacer
-            </button>
+            <button class="button button-line" id="exportJsonButton" type="button">Exporter JSON</button>
+            <button class="button button-line" id="exportCsvButton" type="button">Exporter CSV</button>
+            <button class="button button-soft" id="importJsonButton" type="button">Importer JSON</button>
+            <button class="button button-danger" id="clearDataButton" type="button">Tout effacer</button>
           </div>
           <input class="hidden" id="importJsonFile" type="file" accept=".json,application/json" />
         </div>
-          <div class="card mt">
-            <div class="section-title" style="margin:0 0 12px"><h2>📌 Faits marquants</h2></div>
-            <form id="milestoneForm" class="milestone-form">
-              <input id="milestoneId" type="hidden" />
-              <div><label for="milestoneDate">Date</label><input id="milestoneDate" type="date" required /></div>
-              <div><label for="milestoneTitle">Fait marquant</label><input id="milestoneTitle" placeholder="Ex. Début de la dalle 1" required /></div>
-              <div class="milestone-notes"><label for="milestoneNotes">Détails (facultatif)</label><input id="milestoneNotes" placeholder="Informations complémentaires" /></div>
-              <button class="button button-primary milestone-submit" type="submit">Ajouter le fait marquant</button>
-            </form>
-            <div class="milestone-table-wrap">
-              <table class="milestone-table">
-                <thead><tr><th>Date</th><th>Fait marquant</th><th>Détails</th><th>Actions</th></tr></thead>
-                <tbody id="milestoneTableBody"></tbody>
-              </table>
-            </div>
-          </div>
-          <div class="card mt">
-            <div class="settings-detail">
-              <strong>🔊 Sons</strong>
-              <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">🔊 On</button>
-            </div>
-            <div class="field" style="margin:10px 0 0">
-              <input id="soundVolume" type="range" min="0" max="100" step="5" value="35" aria-label="Augmenter ou diminuer le volume" />
-              <span id="soundVolumeValue" class="small muted">35 %</span>
-            </div>
-          </div>
       </section>
 
       <button
@@ -1428,8 +1411,8 @@
           const body = $("#milestoneTableBody");
           const items = [...state.milestones].sort((a, b) => String(b.date).localeCompare(String(a.date)));
           body.innerHTML = items.length ? items.map((item) =>
-            `<tr><td>${esc(item.date)}</td><td><strong>${esc(item.title)}</strong></td><td>${esc(item.notes || "—")}</td><td><button class="milestone-action" type="button" data-edit-milestone="${item.id}" aria-label="Modifier">✏️</button> <button class="milestone-action" type="button" data-delete-milestone="${item.id}" aria-label="Supprimer">🗑️</button></td></tr>`
-          ).join("") : '<tr><td colspan="4" class="empty">Aucun fait marquant.</td></tr>';
+            `<tr class="milestone-row swipe-card" data-swipe-kind="milestone" data-swipe-id="${item.id}"><td>${esc(item.date)}</td><td><strong>${esc(item.title)}</strong></td></tr>`
+          ).join("") : '<tr><td colspan="2" class="empty">Aucun fait marquant.</td></tr>';
         }
 
         function render() {
@@ -1469,8 +1452,7 @@
           $("#expenseForm").reset();
           $("#expenseId").value = "";
           $("#expenseDate").value = new Date().toISOString().slice(0, 10);
-          $("#milestoneDate").value = new Date().toISOString().slice(0, 10);
-        updateSubs();
+          updateSubs();
           updateCommitmentOptions(commitmentId);
           if (expenseId) {
             const expense = state.expenses.find((item) => item.id === expenseId);
@@ -1638,8 +1620,15 @@
           const kind = card.dataset.swipeKind,
             id = card.dataset.swipeId;
           if (!kind || !id) return;
-          if (direction === "left") kind === "commitment" ? openCommitment(id) : openExpense(id);
-          else kind === "commitment" ? deleteCommitmentById(id) : deleteExpenseById(id);
+          if (direction === "left") {
+            if (kind === "commitment") openCommitment(id);
+            else if (kind === "milestone") openMilestone(id);
+            else openExpense(id);
+          } else {
+            if (kind === "commitment") deleteCommitmentById(id);
+            else if (kind === "milestone") deleteMilestoneById(id);
+            else deleteExpenseById(id);
+          }
         }
         function resetSwipeCard(card) {
           card.style.transform = "";
@@ -1905,26 +1894,35 @@
             "Toutes les données ont été effacées. La sauvegarde de sécurité a été téléchargée.",
           );
         });
+        function openMilestone(milestoneId = "") {
+          $("#milestoneForm").reset();
+          $("#milestoneId").value = "";
+          $("#milestoneDate").value = new Date().toISOString().slice(0, 10);
+          $("#milestoneFormTitle").textContent = milestoneId ? "Modifier le fait marquant" : "Ajouter un fait marquant";
+          if (milestoneId) {
+            const item = state.milestones.find((entry) => entry.id === milestoneId);
+            if (!item) return;
+            $("#milestoneId").value = item.id;
+            $("#milestoneDate").value = item.date;
+            $("#milestoneTitle").value = item.title;
+          }
+          $("#milestoneModal").classList.add("open");
+        }
+        function deleteMilestoneById(milestoneId) {
+          if (!confirm("Supprimer ce fait marquant ?")) return;
+          state.milestones = state.milestones.filter((item) => item.id !== milestoneId);
+          save();
+        }
+        $("#addMilestone").addEventListener("click", () => openMilestone());
+        $("#closeMilestone").addEventListener("click", () => $("#milestoneModal").classList.remove("open"));
         $("#milestoneForm").addEventListener("submit", (event) => {
           event.preventDefault();
           const milestoneId = $("#milestoneId").value;
           const old = state.milestones.find((item) => item.id === milestoneId);
-          const object = { id: milestoneId || id(), date: $("#milestoneDate").value, title: $("#milestoneTitle").value.trim(), notes: $("#milestoneNotes").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() };
+          const object = { id: milestoneId || id(), date: $("#milestoneDate").value, title: $("#milestoneTitle").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() };
           state.milestones = old ? state.milestones.map((item) => item.id === milestoneId ? object : item) : [...state.milestones, object];
-          event.target.reset();
-          $("#milestoneId").value = "";
-          $("#milestoneDate").value = new Date().toISOString().slice(0, 10);
-          event.target.querySelector("button[type='submit']").textContent = "Ajouter le fait marquant";
           save();
-        });
-        $("#milestoneTableBody").addEventListener("click", (event) => {
-          const editId = event.target.dataset.editMilestone, deleteId = event.target.dataset.deleteMilestone;
-          if (editId) {
-            const item = state.milestones.find((entry) => entry.id === editId); if (!item) return;
-            $("#milestoneId").value = item.id; $("#milestoneDate").value = item.date; $("#milestoneTitle").value = item.title; $("#milestoneNotes").value = item.notes || "";
-            $("#milestoneForm button[type='submit']").textContent = "Enregistrer la modification";
-          }
-          if (deleteId && confirm("Supprimer ce fait marquant ?")) { state.milestones = state.milestones.filter((item) => item.id !== deleteId); save(); }
+          $("#milestoneModal").classList.remove("open");
         });
         window.addEventListener("resize", () => {
           clearTimeout(chartResizeTimer);
