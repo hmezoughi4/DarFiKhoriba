@@ -1434,7 +1434,7 @@
           const body = $("#milestoneTableBody");
           const items = [...state.milestones].sort((a, b) => String(b.date).localeCompare(String(a.date)));
           body.innerHTML = items.length ? items.map((item) =>
-            `<tr class="milestone-row" data-milestone-id="${item.id}"><td><span class="milestone-date-pill">${esc(displayDate(item.date))}</span></td><td><strong>${esc(item.title)}</strong></td><td class="milestone-actions"><button class="milestone-edit-button" type="button" data-edit-milestone="${item.id}" aria-label="Modifier ${esc(item.title)}">✏️</button><button class="milestone-delete-button" type="button" data-delete-milestone="${item.id}">SUPPRIMER</button></td></tr>`
+            `<tr class="milestone-row" data-milestone-id="${item.id}"><td><span class="milestone-date-pill">${esc(displayDate(item.date))}</span></td><td><strong>${esc(item.title)}</strong></td><td class="milestone-actions"><button class="milestone-edit-button" type="button" data-edit-milestone="${item.id}" aria-label="Modifier ${esc(item.title)}">✏️</button><button class="milestone-delete-button" type="button" data-delete-milestone="${item.id}">🗑</button></td></tr>`
           ).join("") : '<tr><td colspan="3" class="empty">Aucun fait marquant.</td></tr>';
         }
 
