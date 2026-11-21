@@ -773,13 +773,10 @@
           </div>
         </div>
         <button class="milestone-floating-button" id="addMilestone" type="button" aria-label="Ajouter un fait marquant">+</button>
-        <div class="card mt">
+        <div class="card mt sound-mini-card">
           <div class="sound-compact-head">
-            <div class="sound-compact-right"><strong>🔊 Sons</strong><span id="soundVolumeValue" class="sound-compact-percent">35 %</span></div>
+            <strong>🔊 Sons</strong>
             <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">🔊 On</button>
-          </div>
-          <div class="sound-compact-volume">
-            <input id="soundVolume" type="range" min="0" max="100" step="5" value="35" aria-label="Augmenter ou diminuer le volume" />
           </div>
         </div>
         <div class="card mt">
@@ -1437,7 +1434,7 @@
           const body = $("#milestoneTableBody");
           const items = [...state.milestones].sort((a, b) => String(b.date).localeCompare(String(a.date)));
           body.innerHTML = items.length ? items.map((item) =>
-            `<tr class="milestone-row swipe-card" data-swipe-kind="milestone" data-swipe-id="${item.id}"><td>${esc(displayDate(item.date))}</td><td><strong>${esc(item.title)}</strong></td></tr>`
+            `<tr class="milestone-row swipe-card" data-swipe-kind="milestone" data-swipe-id="${item.id}" tabindex="0" role="button" aria-label="Modifier ${esc(item.title)}"><td>${esc(displayDate(item.date))}</td><td><strong>${esc(item.title)}</strong><span class="milestone-edit-hint">Modifier</span></td></tr>`
           ).join("") : '<tr><td colspan="2" class="empty">Aucun fait marquant.</td></tr>';
         }
 
@@ -1939,6 +1936,16 @@
           state.milestones = state.milestones.filter((item) => item.id !== milestoneId);
           save();
         }
+
+        $("#milestoneTableBody").addEventListener("click", (event) => {
+          const row = event.target.closest(".milestone-row");
+          if (!row || row.dataset.swiping === "1") return;
+          openMilestone(row.dataset.swipeId);
+        });
+        $("#milestoneTableBody").addEventListener("keydown", (event) => {
+          const row = event.target.closest(".milestone-row");
+          if (row && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); openMilestone(row.dataset.swipeId); }
+        });
         $("#addMilestone").addEventListener("click", () => openMilestone());
         $("#closeMilestone").addEventListener("click", () => $("#milestoneModal").classList.remove("open"));
         $("#milestoneForm").addEventListener("submit", (event) => {
