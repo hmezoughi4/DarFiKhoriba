@@ -548,7 +548,7 @@
         <div>
           <!-- <div class="eyebrow">Hocine &amp; Djamila</div> -->
           <div class="arabe2">خوريبة بناء</div>
-          <div class="small muted" id="saveStatus">Sauvegarde locale active</div>
+          <div class="small muted header-save-date" id="saveStatus">Dernière sauvegarde : jamais</div>
         </div>
         <div class="top-actions">
           <button
@@ -763,24 +763,7 @@
 
       <section class="page" id="settings">
         <div class="section-title"><h2>Réglages</h2></div>
-        <div class="card">
-          <strong>Statistiques</strong>
-          <div class="settings-stats-compact mt">
-            <div class="settings-stat-compact">
-              <span>Dépenses</span><strong id="settingsExpenseCount">0</strong>
-            </div>
-            <div class="settings-stat-compact">
-              <span>Total DZD</span><strong id="settingsTotalDzd">0,000 DZD</strong>
-            </div>
-            <div class="settings-stat-compact">
-              <span>Total EUR</span><strong id="settingsTotalEur">0,00 €</strong>
-            </div>
-          </div>
-          <div class="settings-save-compact">
-            <span>💾 <span class="muted">Dernière sauvegarde</span></span
-            ><strong id="settingsLastSave">Jamais</strong>
-          </div>
-        </div>
+
         <div class="card mt">
           <strong>Sauvegarde et transfert</strong>
           <div class="settings-notice mt">
@@ -802,32 +785,32 @@
           </div>
           <input class="hidden" id="importJsonFile" type="file" accept=".json,application/json" />
         </div>
-        <div class="card mt">
-          <strong>🔊 Sons</strong>
-          <div class="settings-details">
-            <div class="settings-detail">
-              <div>
-                <strong style="text-align: left">Sons des clics</strong>
-                <div class="small muted">Active ou désactive les effets sonores.</div>
-              </div>
-              <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">
-                🔊 On
-              </button>
-            </div>
-            <div class="field" style="margin-bottom: 0">
-              <label for="soundVolume">Volume <span id="soundVolumeValue">35 %</span></label>
-              <input
-                id="soundVolume"
-                type="range"
-                min="0"
-                max="100"
-                step="5"
-                value="35"
-                aria-label="Volume des sons"
-              />
+          <div class="card mt">
+            <div class="section-title" style="margin:0 0 12px"><h2>📌 Faits marquants</h2></div>
+            <form id="milestoneForm" class="milestone-form">
+              <input id="milestoneId" type="hidden" />
+              <div><label for="milestoneDate">Date</label><input id="milestoneDate" type="date" required /></div>
+              <div><label for="milestoneTitle">Fait marquant</label><input id="milestoneTitle" placeholder="Ex. Début de la dalle 1" required /></div>
+              <div class="milestone-notes"><label for="milestoneNotes">Détails (facultatif)</label><input id="milestoneNotes" placeholder="Informations complémentaires" /></div>
+              <button class="button button-primary milestone-submit" type="submit">Ajouter le fait marquant</button>
+            </form>
+            <div class="milestone-table-wrap">
+              <table class="milestone-table">
+                <thead><tr><th>Date</th><th>Fait marquant</th><th>Détails</th><th>Actions</th></tr></thead>
+                <tbody id="milestoneTableBody"></tbody>
+              </table>
             </div>
           </div>
-        </div>
+          <div class="card mt">
+            <div class="settings-detail">
+              <strong>🔊 Sons</strong>
+              <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">🔊 On</button>
+            </div>
+            <div class="field" style="margin:10px 0 0">
+              <input id="soundVolume" type="range" min="0" max="100" step="5" value="35" aria-label="Augmenter ou diminuer le volume" />
+              <span id="soundVolumeValue" class="small muted">35 %</span>
+            </div>
+          </div>
       </section>
 
       <button
@@ -969,7 +952,7 @@
 
         const STORAGE_KEY = "suivi_maison_v1";
         const SAVE_TIME_KEY = "suivi_maison_last_save";
-        const DEFAULT_STATE = { expenses: [], commitments: [] };
+        const DEFAULT_STATE = { expenses: [], commitments: [], milestones: [] };
         const SUBCATEGORIES = {
           Terrain: ["Achat du terrain", "Notaire", "Bornage", "Autres"],
           Fournitures: [
@@ -1053,29 +1036,21 @@
               return {
                 expenses: saved.expenses,
                 commitments: Array.isArray(saved.commitments) ? saved.commitments : [],
+                milestones: Array.isArray(saved.milestones) ? saved.milestones : [],
               };
           } catch (error) {
             console.error(error);
           }
           return structuredClone(DEFAULT_STATE);
         }
-
-        function updateLastSaveDisplay() {
+          function updateLastSaveDisplay() {
           const savedAt = localStorage.getItem(SAVE_TIME_KEY);
-          if (!savedAt) {
-            $("#settingsLastSave").textContent = "Jamais";
-            return;
-          }
+          const target = $("#saveStatus");
+          if (!savedAt) { target.textContent = "Dernière sauvegarde : jamais"; return; }
           const date = new Date(savedAt);
-          $("#settingsLastSave").textContent = Number.isNaN(date.getTime())
-            ? "Date inconnue"
-            : date.toLocaleString("fr-FR", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              });
+          target.textContent = Number.isNaN(date.getTime())
+            ? "Dernière sauvegarde : date inconnue"
+            : `Dernière sauvegarde : ${date.toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}`;
         }
 
         let state = load();
@@ -1087,8 +1062,6 @@
           const date = new Date();
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
           localStorage.setItem(SAVE_TIME_KEY, date.toISOString());
-          $("#saveStatus").textContent =
-            `Sauvegardé à ${date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`;
           updateLastSaveDisplay();
           render();
         }
@@ -1451,6 +1424,14 @@
             `<div class="analysis-insight"><span>🔥</span><small>Catégorie principale</small><strong>${total ? `${ICONS[top]} ${esc(top)} · ${fmt(topShare, 1)} %` : "—"}</strong></div><div class="analysis-insight"><span>🧾</span><small>Dépense moyenne</small><strong>${dzd(avg)}</strong></div><div class="analysis-insight"><span>🏆</span><small>Plus grosse dépense</small><strong>${largest ? dzd(largest.dzd) : "—"}</strong></div><div class="analysis-insight"><span>📈</span><small>Mois le plus coûteux</small><strong>${bestMonth ? `${esc(monthLabel(bestMonth[0]))} · ${dzd(bestMonth[1])}` : "—"}</strong></div>`;
         }
         function drawBars() {}
+        function renderMilestones() {
+          const body = $("#milestoneTableBody");
+          const items = [...state.milestones].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+          body.innerHTML = items.length ? items.map((item) =>
+            `<tr><td>${esc(item.date)}</td><td><strong>${esc(item.title)}</strong></td><td>${esc(item.notes || "—")}</td><td><button class="milestone-action" type="button" data-edit-milestone="${item.id}" aria-label="Modifier">✏️</button> <button class="milestone-action" type="button" data-delete-milestone="${item.id}" aria-label="Supprimer">🗑️</button></td></tr>`
+          ).join("") : '<tr><td colspan="4" class="empty">Aucun fait marquant.</td></tr>';
+        }
+
         function render() {
           const total = state.expenses.reduce(
             (sum, expense) => sum + Math.round(num(expense.dzd)),
@@ -1460,9 +1441,6 @@
           $("#totalDzd").textContent = dzd(total);
           $("#totalEur").textContent = eur(totalEur);
           $("#homeExpenseCount").textContent = state.expenses.length;
-          $("#settingsExpenseCount").textContent = state.expenses.length;
-          $("#settingsTotalDzd").textContent = dzd(total);
-          $("#settingsTotalEur").textContent = eur(totalEur);
           [
             ["#homeTerrain", "Terrain"],
             ["#homeSupplies", "Fournitures"],
@@ -1482,6 +1460,7 @@
             : '<div class="card empty">Aucune dépense.</div>';
           renderExpenses();
           renderCommitments();
+        renderMilestones();
           drawExpenseChart();
           drawBars();
         }
@@ -1490,7 +1469,8 @@
           $("#expenseForm").reset();
           $("#expenseId").value = "";
           $("#expenseDate").value = new Date().toISOString().slice(0, 10);
-          updateSubs();
+          $("#milestoneDate").value = new Date().toISOString().slice(0, 10);
+        updateSubs();
           updateCommitmentOptions(commitmentId);
           if (expenseId) {
             const expense = state.expenses.find((item) => item.id === expenseId);
@@ -1814,6 +1794,7 @@
                 backupReason: "export_manuel",
                 expenses: state.expenses,
                 commitments: state.commitments,
+                milestones: state.milestones,
               },
               null,
               2,
@@ -1832,7 +1813,7 @@
           setTimeout(() => URL.revokeObjectURL(url), 1000);
         }
         function createSafetyBackup(reason = "securite") {
-          if (!state.expenses.length && !state.commitments.length) return false;
+          if (!state.expenses.length && !state.commitments.length && !state.milestones.length) return false;
           const now = new Date();
           const datePart = now.toISOString().slice(0, 19).replace(/:/g, "-");
           download(
@@ -1843,6 +1824,7 @@
                 backupReason: reason,
                 expenses: state.expenses,
                 commitments: state.commitments,
+                milestones: state.milestones,
               },
               null,
               2,
@@ -1890,7 +1872,7 @@
               return;
             const backupCreated = createSafetyBackup("avant_import");
             if (backupCreated) await new Promise((resolve) => setTimeout(resolve, 350));
-            state = { expenses: imported.expenses, commitments: imported.commitments };
+            state = { expenses: imported.expenses, commitments: imported.commitments, milestones: Array.isArray(imported.milestones) ? imported.milestones : [] };
             save();
             alert(
               backupCreated
@@ -1905,7 +1887,7 @@
           }
         });
         $("#clearDataButton").addEventListener("click", async () => {
-          if (!state.expenses.length && !state.commitments.length) {
+          if (!state.expenses.length && !state.commitments.length && !state.milestones.length) {
             alert("Il n'y a aucune donnée à effacer.");
             return;
           }
@@ -1923,6 +1905,27 @@
             "Toutes les données ont été effacées. La sauvegarde de sécurité a été téléchargée.",
           );
         });
+        $("#milestoneForm").addEventListener("submit", (event) => {
+          event.preventDefault();
+          const milestoneId = $("#milestoneId").value;
+          const old = state.milestones.find((item) => item.id === milestoneId);
+          const object = { id: milestoneId || id(), date: $("#milestoneDate").value, title: $("#milestoneTitle").value.trim(), notes: $("#milestoneNotes").value.trim(), createdAt: old?.createdAt || Date.now(), updatedAt: Date.now() };
+          state.milestones = old ? state.milestones.map((item) => item.id === milestoneId ? object : item) : [...state.milestones, object];
+          event.target.reset();
+          $("#milestoneId").value = "";
+          $("#milestoneDate").value = new Date().toISOString().slice(0, 10);
+          event.target.querySelector("button[type='submit']").textContent = "Ajouter le fait marquant";
+          save();
+        });
+        $("#milestoneTableBody").addEventListener("click", (event) => {
+          const editId = event.target.dataset.editMilestone, deleteId = event.target.dataset.deleteMilestone;
+          if (editId) {
+            const item = state.milestones.find((entry) => entry.id === editId); if (!item) return;
+            $("#milestoneId").value = item.id; $("#milestoneDate").value = item.date; $("#milestoneTitle").value = item.title; $("#milestoneNotes").value = item.notes || "";
+            $("#milestoneForm button[type='submit']").textContent = "Enregistrer la modification";
+          }
+          if (deleteId && confirm("Supprimer ce fait marquant ?")) { state.milestones = state.milestones.filter((item) => item.id !== deleteId); save(); }
+        });
         window.addEventListener("resize", () => {
           clearTimeout(chartResizeTimer);
           chartResizeTimer = setTimeout(() => {
@@ -1930,6 +1933,7 @@
           }, 150);
         });
 
+        $("#milestoneDate").value = new Date().toISOString().slice(0, 10);
         updateSubs();
         updateBens();
         updateCommitmentOptions();
