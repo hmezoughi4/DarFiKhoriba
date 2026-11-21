@@ -1668,6 +1668,7 @@
             startY: e.clientY,
             dx: 0,
             horizontal: false,
+            startedAt: performance.now(),
           };
           card.setPointerCapture?.(e.pointerId);
         });
@@ -1699,7 +1700,10 @@
           const threshold = Math.min(110, card.offsetWidth * 0.28),
             direction = horizontal && Math.abs(dx) >= threshold ? (dx > 0 ? "right" : "left") : "";
           resetSwipeCard(card);
-          if (direction) setTimeout(() => runSwipeAction(card, direction), 30);
+          if (direction) {
+            card.dataset.swipeSuppressClickUntil = String(performance.now() + 450);
+            setTimeout(() => runSwipeAction(card, direction), 30);
+          }
         }
         document.addEventListener("pointerup", finishSwipe);
         document.addEventListener("pointercancel", finishSwipe);
@@ -1939,7 +1943,13 @@
 
         $("#milestoneTableBody").addEventListener("click", (event) => {
           const row = event.target.closest(".milestone-row");
-          if (!row || row.dataset.swiping === "1") return;
+          if (!row) return;
+          const suppressUntil = Number(row.dataset.swipeSuppressClickUntil || 0);
+          if (performance.now() < suppressUntil) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
           openMilestone(row.dataset.swipeId);
         });
         $("#milestoneTableBody").addEventListener("keydown", (event) => {
