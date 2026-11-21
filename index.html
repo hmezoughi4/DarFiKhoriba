@@ -762,7 +762,7 @@
       </section>
 
       <section class="page" id="settings">
-        <div class="section-title"><h2>Réglages / Suivi</h2></div>
+        <div class="section-title"><h2>Réglages</h2></div>
         <div class="card mt">
           <div class="section-title" style="margin:0 0 12px"><h2>📌 Faits marquants</h2></div>
           <div class="milestone-table-wrap">
@@ -1017,6 +1017,10 @@
           }).format(num(value));
         const dzd = (value) => `${fmt(Math.round(num(value)) / 1e6, 3)} DZD`;
         const eur = (value) => (value == null ? "—" : `${fmt(value, 2)} €`);
+        const displayDate = (value) => {
+          const match = String(value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+          return match ? `${match[3]}-${match[2]}-${match[1]}` : String(value ?? "");
+        };
         const esc = (value) =>
           String(value ?? "").replace(
             /[&<>"']/g,
@@ -1155,7 +1159,7 @@
         }
 
         function expenseHtml(expense, actions = true) {
-          return `<article class="card expense ${actions ? "swipe-card" : ""}" ${actions ? `data-swipe-kind="expense" data-swipe-id="${expense.id}"` : ""}><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(expense.date)} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
+          return `<article class="card expense ${actions ? "swipe-card" : ""}" ${actions ? `data-swipe-kind="expense" data-swipe-id="${expense.id}"` : ""}><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(displayDate(expense.date))} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
         }
 
         function renderExpenses() {
@@ -1273,7 +1277,7 @@
               const currentStatus = status(progress);
               const done = progress >= 100;
               const history = payments(item.id);
-              return `<article class="card commitment-card swipe-card status-card-${currentStatus.value} ${done && finishedCommitmentsCollapsed ? "collapsed" : ""}" data-swipe-kind="commitment" data-swipe-id="${item.id}"><div class="commitment-top"><div class="commitment-title"><strong>${item.category === "Terrain" ? "🏡" : "👷"} ${esc(item.label)}</strong><div class="small muted mt">${esc(item.category)} · ${esc(item.beneficiary)}</div></div><span class="status-badge ${currentStatus.cls}">${currentStatus.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(progress, 1)} %</span></div><div class="bar" style="--progress-color:${color(progress)}"><i style="width:${progress}%"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(dueAmount)}</b></div><div><div class="small muted">Versé</div><b>${dzd(paidAmount)}</b></div><div><div class="small muted">Reste</div><b class="remaining-amount">${dzd(balanceAmount)}</b></div></div><div class="row-actions">${done ? "" : `<button data-add-payment="${item.id}">+ Versement</button>`}<button data-toggle-history="${item.id}">Historique (${history.length})</button></div><div id="history-${item.id}" class="history hidden">${history.length ? history.map((expense) => `<div class="payment-row swipe-card" data-swipe-kind="expense" data-swipe-id="${expense.id}"><span>${esc(expense.date)}</span><span>${esc(expense.description)}</span><b>${dzd(expense.dzd)}</b></div>`).join("") : '<div class="small muted">Aucun versement.</div>'}</div></div></article>`;
+              return `<article class="card commitment-card swipe-card status-card-${currentStatus.value} ${done && finishedCommitmentsCollapsed ? "collapsed" : ""}" data-swipe-kind="commitment" data-swipe-id="${item.id}"><div class="commitment-top"><div class="commitment-title"><strong>${item.category === "Terrain" ? "🏡" : "👷"} ${esc(item.label)}</strong><div class="small muted mt">${esc(item.category)} · ${esc(item.beneficiary)}</div></div><span class="status-badge ${currentStatus.cls}">${currentStatus.label}</span></div><div class="commitment-collapsible"><div class="progress-section"><div class="progress-header"><span class="progress-label">Progression des remboursements</span><span class="progress-percentage">${fmt(progress, 1)} %</span></div><div class="bar" style="--progress-color:${color(progress)}"><i style="width:${progress}%"></i></div></div><div class="grid3 mt"><div><div class="small muted">Dû</div><b>${dzd(dueAmount)}</b></div><div><div class="small muted">Versé</div><b>${dzd(paidAmount)}</b></div><div><div class="small muted">Reste</div><b class="remaining-amount">${dzd(balanceAmount)}</b></div></div><div class="row-actions">${done ? "" : `<button data-add-payment="${item.id}">+ Versement</button>`}<button data-toggle-history="${item.id}">Historique (${history.length})</button></div><div id="history-${item.id}" class="history hidden">${history.length ? history.map((expense) => `<div class="payment-row swipe-card" data-swipe-kind="expense" data-swipe-id="${expense.id}"><span>${esc(displayDate(expense.date))}</span><span>${esc(expense.description)}</span><b>${dzd(expense.dzd)}</b></div>`).join("") : '<div class="small muted">Aucun versement.</div>'}</div></div></article>`;
             })
             .join("");
           updateCommitmentOptions();
@@ -1327,7 +1331,7 @@
             };
           });
           $("#chartPeriodSummary").textContent =
-            `${filtered.length} dépense${filtered.length > 1 ? "s" : ""} · ${dzd(filtered.reduce((sum, expense) => sum + num(expense.dzd), 0))}${from || to ? ` · ${from || "début"} au ${to || "présent"}` : " · toutes les dates"}`;
+            `${filtered.length} dépense${filtered.length > 1 ? "s" : ""} · ${dzd(filtered.reduce((sum, expense) => sum + num(expense.dzd), 0))}${from || to ? ` · ${from ? displayDate(from) : "début"} au ${to ? displayDate(to) : "présent"}` : " · toutes les dates"}`;
           return { categories: [...categories, "Total"], points };
         }
 
@@ -1344,10 +1348,8 @@
           return fmt(value, 0);
         }
         function shortDate(value) {
-          const date = new Date(`${value}T00:00:00`);
-          return Number.isNaN(date.getTime())
-            ? value
-            : date.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" });
+          const match = String(value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+          return match ? `${match[3]}-${match[2]}` : String(value ?? "");
         }
 
         function getAnalysisExpenses() {
@@ -1371,7 +1373,7 @@
             );
 
           $("#chartPeriodSummary").textContent =
-            `${source.length} dépense${source.length > 1 ? "s" : ""} · ${dzd(total)}${from || to ? ` · ${from || "début"} au ${to || "présent"}` : " · toutes les dates"}`;
+            `${source.length} dépense${source.length > 1 ? "s" : ""} · ${dzd(total)}${from || to ? ` · ${from ? displayDate(from) : "début"} au ${to ? displayDate(to) : "présent"}` : " · toutes les dates"}`;
           $("#analysisTotal").textContent = dzd(total);
           $("#analysisCount").textContent =
             `🧾 ${source.length} opération${source.length > 1 ? "s" : ""}`;
@@ -1437,7 +1439,7 @@
           const body = $("#milestoneTableBody");
           const items = [...state.milestones].sort((a, b) => String(b.date).localeCompare(String(a.date)));
           body.innerHTML = items.length ? items.map((item) =>
-            `<tr class="milestone-row swipe-card" data-swipe-kind="milestone" data-swipe-id="${item.id}"><td>${esc(item.date)}</td><td><strong>${esc(item.title)}</strong></td></tr>`
+            `<tr class="milestone-row swipe-card" data-swipe-kind="milestone" data-swipe-id="${item.id}"><td>${esc(displayDate(item.date))}</td><td><strong>${esc(item.title)}</strong></td></tr>`
           ).join("") : '<tr><td colspan="2" class="empty">Aucun fait marquant.</td></tr>';
         }
 
@@ -1800,7 +1802,7 @@
 
         function exportJson() {
           const now = new Date();
-          const stamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}_${String(now.getHours()).padStart(2, "0")}h${String(now.getMinutes()).padStart(2, "0")}`;
+          const stamp = `${String(now.getDate()).padStart(2, "0")}-${String(now.getMonth() + 1).padStart(2, "0")}-${now.getFullYear()}_${String(now.getHours()).padStart(2, "0")}h${String(now.getMinutes()).padStart(2, "0")}`;
           download(
             `DarFiKhoriba_${stamp}.json`,
             JSON.stringify(
@@ -1830,7 +1832,7 @@
         function createSafetyBackup(reason = "securite") {
           if (!state.expenses.length && !state.commitments.length && !state.milestones.length) return false;
           const now = new Date();
-          const datePart = now.toISOString().slice(0, 19).replace(/:/g, "-");
+          const datePart = `${String(now.getDate()).padStart(2, "0")}-${String(now.getMonth() + 1).padStart(2, "0")}-${now.getFullYear()}_${String(now.getHours()).padStart(2, "0")}-${String(now.getMinutes()).padStart(2, "0")}-${String(now.getSeconds()).padStart(2, "0")}`;
           download(
             `DarFiKhoriba_${reason}_${datePart}.json`,
             JSON.stringify(
