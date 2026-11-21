@@ -774,13 +774,12 @@
         </div>
         <button class="milestone-floating-button" id="addMilestone" type="button" aria-label="Ajouter un fait marquant">+</button>
         <div class="card mt">
-          <div class="settings-detail">
-            <strong>🔊 Sons</strong>
+          <div class="sound-compact-head">
+            <div class="sound-compact-right"><strong>🔊 Sons</strong><span id="soundVolumeValue" class="sound-compact-percent">35 %</span></div>
             <button class="button button-soft" id="soundToggle" type="button" aria-pressed="true">🔊 On</button>
           </div>
-          <div class="field" style="margin:10px 0 0">
+          <div class="sound-compact-volume">
             <input id="soundVolume" type="range" min="0" max="100" step="5" value="35" aria-label="Augmenter ou diminuer le volume" />
-            <span id="soundVolumeValue" class="small muted">35 %</span>
           </div>
         </div>
         <div class="card mt">
@@ -1017,10 +1016,7 @@
           }).format(num(value));
         const dzd = (value) => `${fmt(Math.round(num(value)) / 1e6, 3)} DZD`;
         const eur = (value) => (value == null ? "—" : `${fmt(value, 2)} €`);
-        const displayDate = (value) => {
-          const match = String(value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
-          return match ? `${match[3]}-${match[2]}-${match[1]}` : String(value ?? "");
-        };
+        const displayDate = (value) => { const m=String(value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? `${m[3]}-${m[2]}-${m[1]}` : String(value ?? ""); };
         const esc = (value) =>
           String(value ?? "").replace(
             /[&<>"']/g,
@@ -1331,7 +1327,7 @@
             };
           });
           $("#chartPeriodSummary").textContent =
-            `${filtered.length} dépense${filtered.length > 1 ? "s" : ""} · ${dzd(filtered.reduce((sum, expense) => sum + num(expense.dzd), 0))}${from || to ? ` · ${from ? displayDate(from) : "début"} au ${to ? displayDate(to) : "présent"}` : " · toutes les dates"}`;
+            `${filtered.length} dépense${filtered.length > 1 ? "s" : ""} · ${dzd(filtered.reduce((sum, expense) => sum + num(expense.dzd), 0))}${from || to ? ` · ${from || "début"} au ${to || "présent"}` : " · toutes les dates"}`;
           return { categories: [...categories, "Total"], points };
         }
 
@@ -1348,8 +1344,10 @@
           return fmt(value, 0);
         }
         function shortDate(value) {
-          const match = String(value ?? "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
-          return match ? `${match[3]}-${match[2]}` : String(value ?? "");
+          const date = new Date(`${value}T00:00:00`);
+          return Number.isNaN(date.getTime())
+            ? value
+            : date.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" });
         }
 
         function getAnalysisExpenses() {
@@ -1373,7 +1371,7 @@
             );
 
           $("#chartPeriodSummary").textContent =
-            `${source.length} dépense${source.length > 1 ? "s" : ""} · ${dzd(total)}${from || to ? ` · ${from ? displayDate(from) : "début"} au ${to ? displayDate(to) : "présent"}` : " · toutes les dates"}`;
+            `${source.length} dépense${source.length > 1 ? "s" : ""} · ${dzd(total)}${from || to ? ` · ${from || "début"} au ${to || "présent"}` : " · toutes les dates"}`;
           $("#analysisTotal").textContent = dzd(total);
           $("#analysisCount").textContent =
             `🧾 ${source.length} opération${source.length > 1 ? "s" : ""}`;
@@ -1802,7 +1800,7 @@
 
         function exportJson() {
           const now = new Date();
-          const stamp = `${String(now.getDate()).padStart(2, "0")}-${String(now.getMonth() + 1).padStart(2, "0")}-${now.getFullYear()}_${String(now.getHours()).padStart(2, "0")}h${String(now.getMinutes()).padStart(2, "0")}`;
+          const stamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}_${String(now.getHours()).padStart(2, "0")}h${String(now.getMinutes()).padStart(2, "0")}`;
           download(
             `DarFiKhoriba_${stamp}.json`,
             JSON.stringify(
@@ -1832,7 +1830,7 @@
         function createSafetyBackup(reason = "securite") {
           if (!state.expenses.length && !state.commitments.length && !state.milestones.length) return false;
           const now = new Date();
-          const datePart = `${String(now.getDate()).padStart(2, "0")}-${String(now.getMonth() + 1).padStart(2, "0")}-${now.getFullYear()}_${String(now.getHours()).padStart(2, "0")}-${String(now.getMinutes()).padStart(2, "0")}-${String(now.getSeconds()).padStart(2, "0")}`;
+          const datePart = now.toISOString().slice(0, 19).replace(/:/g, "-");
           download(
             `DarFiKhoriba_${reason}_${datePart}.json`,
             JSON.stringify(
