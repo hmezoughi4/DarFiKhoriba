@@ -767,7 +767,7 @@
           <div class="section-title" style="margin:0 0 12px"><h2>📌 Faits marquants</h2></div>
           <div class="milestone-table-wrap">
             <table class="milestone-table">
-              <thead><tr><th>Date</th><th>Fait marquant</th></tr></thead>
+              <thead><tr><th>DATE</th><th>FAITS</th><th>ACTIONS</th></tr></thead>
               <tbody id="milestoneTableBody"></tbody>
             </table>
           </div>
@@ -1434,8 +1434,8 @@
           const body = $("#milestoneTableBody");
           const items = [...state.milestones].sort((a, b) => String(b.date).localeCompare(String(a.date)));
           body.innerHTML = items.length ? items.map((item) =>
-            `<tr class="milestone-row swipe-card" data-swipe-kind="milestone" data-swipe-id="${item.id}" tabindex="0" role="button" aria-label="Modifier ${esc(item.title)}"><td><span class="milestone-date-pill">${esc(displayDate(item.date))}</span></td><td><div class="milestone-title-cell"><strong>${esc(item.title)}</strong><span class="milestone-chevron" aria-hidden="true">›</span></div></td></tr>`
-          ).join("") : '<tr><td colspan="2" class="empty">Aucun fait marquant.</td></tr>';
+            `<tr class="milestone-row" data-milestone-id="${item.id}"><td><span class="milestone-date-pill">${esc(displayDate(item.date))}</span></td><td><strong>${esc(item.title)}</strong></td><td class="milestone-actions"><button class="milestone-edit-button" type="button" data-edit-milestone="${item.id}" aria-label="Modifier ${esc(item.title)}">✏️</button><button class="milestone-delete-button" type="button" data-delete-milestone="${item.id}">SUPPRIMER</button></td></tr>`
+          ).join("") : '<tr><td colspan="3" class="empty">Aucun fait marquant.</td></tr>';
         }
 
         function render() {
@@ -1657,43 +1657,6 @@
           card.style.transform = "";
           card.classList.remove("swiping-left", "swiping-right");
         }
-        let swipeState = null;
-        const milestoneBody = $("#milestoneTableBody");
-        milestoneBody.addEventListener("pointerdown", (e) => {
-          const card = e.target.closest(".milestone-row[data-swipe-id]");
-          if (!card || e.button > 0) return;
-          swipeState = { card, pointerId:e.pointerId, startX:e.clientX, startY:e.clientY, dx:0, horizontal:false };
-        });
-        milestoneBody.addEventListener("pointermove", (e) => {
-          if (!swipeState || e.pointerId !== swipeState.pointerId) return;
-          const dx=e.clientX-swipeState.startX, dy=e.clientY-swipeState.startY;
-          if (!swipeState.horizontal) {
-            if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
-            if (Math.abs(dy) > Math.abs(dx) * 1.15) { swipeState=null; return; }
-            swipeState.horizontal=true;
-            try { swipeState.card.setPointerCapture(e.pointerId); } catch (_) {}
-          }
-          e.preventDefault();
-          swipeState.dx=Math.max(-140,Math.min(140,dx));
-          const card=swipeState.card;
-          card.style.transform=`translate3d(${swipeState.dx}px,0,0)`;
-          card.classList.toggle("swiping-left",swipeState.dx < -8);
-          card.classList.toggle("swiping-right",swipeState.dx > 8);
-        }, { passive:false });
-        function finishMilestoneSwipe(e) {
-          if (!swipeState || (e.pointerId != null && e.pointerId !== swipeState.pointerId)) return;
-          const {card,dx,horizontal}=swipeState; swipeState=null;
-          const threshold=Math.min(72,Math.max(46,card.offsetWidth*0.16));
-          const direction=horizontal && Math.abs(dx)>=threshold ? (dx>0?"right":"left") : "";
-          resetSwipeCard(card);
-          if (direction) {
-            card.dataset.swipeSuppressClickUntil=String(performance.now()+600);
-            runSwipeAction(card,direction);
-          }
-        }
-        milestoneBody.addEventListener("pointerup",finishMilestoneSwipe);
-        milestoneBody.addEventListener("pointercancel",finishMilestoneSwipe);
-
         $$(".tab").forEach((tab) =>
           tab.addEventListener("click", () => showPage(tab.dataset.page)),
         );
@@ -1929,19 +1892,15 @@
         }
 
         $("#milestoneTableBody").addEventListener("click", (event) => {
-          const row = event.target.closest(".milestone-row");
-          if (!row) return;
-          const suppressUntil = Number(row.dataset.swipeSuppressClickUntil || 0);
-          if (performance.now() < suppressUntil) {
-            event.preventDefault();
-            event.stopPropagation();
+          const editButton = event.target.closest("[data-edit-milestone]");
+          const deleteButton = event.target.closest("[data-delete-milestone]");
+          if (editButton) {
+            openMilestone(editButton.dataset.editMilestone);
             return;
           }
-          openMilestone(row.dataset.swipeId);
-        });
-        $("#milestoneTableBody").addEventListener("keydown", (event) => {
-          const row = event.target.closest(".milestone-row");
-          if (row && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); openMilestone(row.dataset.swipeId); }
+          if (deleteButton) {
+            deleteMilestoneById(deleteButton.dataset.deleteMilestone);
+          }
         });
         $("#addMilestone").addEventListener("click", () => openMilestone());
         $("#closeMilestone").addEventListener("click", () => $("#milestoneModal").classList.remove("open"));
