@@ -1420,9 +1420,6 @@
           $("#totalDzd").textContent = dzd(total);
           $("#totalEur").textContent = eur(totalEur);
           $("#homeExpenseCount").textContent = state.expenses.length;
-          $("#settingsExpenseCount").textContent = state.expenses.length;
-          $("#settingsTotalDzd").textContent = dzd(total);
-          $("#settingsTotalEur").textContent = eur(totalEur);
           [
             ["#homeTerrain", "Terrain"],
             ["#homeSupplies", "Fournitures"],
@@ -1442,6 +1439,7 @@
             : '<div class="card empty">Aucune dépense.</div>';
           renderExpenses();
           renderCommitments();
+          renderMilestones();
           drawExpenseChart();
           drawBars();
         }
