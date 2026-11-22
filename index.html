@@ -518,9 +518,9 @@
       .milestone-table th, .milestone-table td { padding: 8px 6px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; overflow-wrap: anywhere; }
       .milestone-table th:last-child, .milestone-table td:last-child { border-right: 0; }
       .milestone-table tbody tr:last-child td { border-bottom: 0; }
-      .milestone-table thead { background: #dff7f3; color: #115e59; font-size: 11px; }
+      .milestone-table thead { background: #dff7f3; color: #115e59; font-size: 12px; }
       .milestone-table tbody tr:nth-child(even) { background: #f8fafc; }
-      .milestone-date { width: 84px; white-space: nowrap; font-weight: 800; font-size: 11px; }
+      .milestone-date { width: 84px; white-space: nowrap; font-weight: 800; font-size: 14px; }
       .milestone-actions { width: 70px; white-space: nowrap; text-align: center !important; }
       .icon-button { width: 27px; height: 27px; padding: 0; border: 1px solid var(--line); border-radius: 7px; background: var(--card); font-size: 13px; line-height: 1; }
       .icon-button + .icon-button { margin-left: 3px; }
@@ -529,7 +529,7 @@
       @media (max-width: 390px) {
         .milestone-table { font-size: 12px; }
         .milestone-table th, .milestone-table td { padding: 7px 4px; }
-        .milestone-date { width: 76px; font-size: 10px; }
+        .milestone-date { width: 76px; font-size: 12px; }
         .milestone-actions { width: 62px; }
         .icon-button { width: 24px; height: 24px; font-size: 12px; }
         .icon-button + .icon-button { margin-left: 2px; }
@@ -570,7 +570,7 @@
       <header class="top">
         <div>
           <div class="arabe2">خوريبة بناء</div>
-          <div class="small muted" id="saveStatus">Dernière sauvegarde : jamais</div>
+          <div class="small muted" id="saveStatus">Last : jamais</div>
         </div>
         <div class="top-actions">
           <button
@@ -1047,7 +1047,7 @@
         function updateLastSaveDisplay() {
         const savedAt=localStorage.getItem(SAVE_TIME_KEY); let label="jamais";
         if(savedAt){const d=new Date(savedAt);label=Number.isNaN(d.getTime())?"date inconnue":d.toLocaleString("fr-FR",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}).replaceAll("/","-");}
-        $("#saveStatus").textContent=`Dernière sauvegarde : ${label}`;
+        $("#saveStatus").textContent=`Last : ${label}`;
       }
       let state = load();
         let finishedCommitmentsCollapsed = false;
@@ -1058,7 +1058,7 @@
           const date = new Date();
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
           localStorage.setItem(SAVE_TIME_KEY, date.toISOString());
-          $("#saveStatus").textContent = `Dernière sauvegarde : ${nowDisplay()}`;
+          $("#saveStatus").textContent = `Last : ${nowDisplay()}`;
           updateLastSaveDisplay();
           render();
         }
