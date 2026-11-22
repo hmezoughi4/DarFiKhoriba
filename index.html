@@ -527,7 +527,7 @@
       html[data-theme="dark"] .milestone-table thead { background: #134e4a; color: #ccfbf1; }
       html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) { background: #0f172a; }
       @media (max-width: 390px) {
-        .milestone-table { font-size: 12px; }
+        .milestone-table { font-size: 14px; }
         .milestone-table th, .milestone-table td { padding: 7px 4px; }
         .milestone-date { width: 76px; font-size: 12px; }
         .milestone-actions { width: 62px; }
@@ -570,7 +570,7 @@
       <header class="top">
         <div>
           <div class="arabe2">خوريبة بناء</div>
-          <div class="small muted" id="saveStatus">Last : jamais</div>
+          <div class="small muted" id="saveStatus">Saved : jamais</div>
         </div>
         <div class="top-actions">
           <button
@@ -1058,7 +1058,7 @@
           const date = new Date();
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
           localStorage.setItem(SAVE_TIME_KEY, date.toISOString());
-          $("#saveStatus").textContent = `Last : ${nowDisplay()}`;
+          $("#saveStatus").textContent = `Saved : ${nowDisplay()}`;
           updateLastSaveDisplay();
           render();
         }
