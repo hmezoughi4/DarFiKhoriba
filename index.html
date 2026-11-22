@@ -189,7 +189,6 @@
       .tab.active { background: var(--tab-active-bg); color: var(--primary); border-radius: 12px; }
       .top-actions { display: flex; align-items: center; gap: 8px; }
       .theme-button,
-      .quick-export-button { width: 44px; height: 44px; flex: 0 0 44px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--text); font-size: 19px; }
       html[data-theme="dark"] .tabs { background: rgba(15, 23, 42, 0.98); }
       html[data-theme="dark"] input,
       html[data-theme="dark"] select,
@@ -513,8 +512,29 @@
       html[data-theme="dark"] #homeRemaining,
       html[data-theme="dark"] .commitment-card .remaining-amount { color: #fca5a5; }
 
-      /* Faits marquants */
-      .milestone-table-wrap{margin-top:12px;overflow-x:auto;border:1px solid var(--line);border-radius:14px}.milestone-table{width:100%;min-width:430px;border-collapse:collapse;background:var(--card)}.milestone-table th,.milestone-table td{padding:11px 10px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}.milestone-table th:last-child,.milestone-table td:last-child{border-right:0}.milestone-table tbody tr:last-child td{border-bottom:0}.milestone-table thead{background:#dff7f3;color:#115e59}.milestone-table tbody tr:nth-child(even){background:#f8fafc}.milestone-date{width:112px;white-space:nowrap;font-weight:800}.milestone-actions{width:96px;white-space:nowrap;text-align:center!important}.icon-button{width:36px;height:36px;padding:0;border:1px solid var(--line);border-radius:9px;background:var(--card);font-size:17px}.icon-button+.icon-button{margin-left:5px}html[data-theme="dark"] .milestone-table thead{background:#134e4a;color:#ccfbf1}html[data-theme="dark"] .milestone-table tbody tr:nth-child(even){background:#0f172a}
+      /* Faits marquants : les 3 colonnes restent dans la carte, même sur mobile */
+      .milestone-table-wrap { margin-top: 10px; width: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; }
+      .milestone-table { width: 100%; table-layout: fixed; border-collapse: collapse; background: var(--card); font-size: 12px; }
+      .milestone-table th, .milestone-table td { padding: 8px 6px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; overflow-wrap: anywhere; }
+      .milestone-table th:last-child, .milestone-table td:last-child { border-right: 0; }
+      .milestone-table tbody tr:last-child td { border-bottom: 0; }
+      .milestone-table thead { background: #dff7f3; color: #115e59; font-size: 11px; }
+      .milestone-table tbody tr:nth-child(even) { background: #f8fafc; }
+      .milestone-date { width: 84px; white-space: nowrap; font-weight: 800; font-size: 11px; }
+      .milestone-actions { width: 70px; white-space: nowrap; text-align: center !important; }
+      .icon-button { width: 27px; height: 27px; padding: 0; border: 1px solid var(--line); border-radius: 7px; background: var(--card); font-size: 13px; line-height: 1; }
+      .icon-button + .icon-button { margin-left: 3px; }
+      html[data-theme="dark"] .milestone-table thead { background: #134e4a; color: #ccfbf1; }
+      html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) { background: #0f172a; }
+      @media (max-width: 390px) {
+        .milestone-table { font-size: 11px; }
+        .milestone-table th, .milestone-table td { padding: 7px 4px; }
+        .milestone-date { width: 76px; font-size: 10px; }
+        .milestone-actions { width: 62px; }
+        .icon-button { width: 24px; height: 24px; font-size: 12px; }
+        .icon-button + .icon-button { margin-left: 2px; }
+      }
+
     </style>
   </head>
   <body>
@@ -549,20 +569,11 @@
     <main class="app">
       <header class="top">
         <div>
-          <!-- <div class="eyebrow">Hocine &amp; Djamila</div> -->
           <div class="arabe2">خوريبة بناء</div>
           <div class="small muted" id="saveStatus">Dernière sauvegarde : jamais</div>
         </div>
         <div class="top-actions">
           <button
-            class="quick-export-button"
-            id="quickExportJson"
-            type="button"
-            aria-label="Exporter rapidement la sauvegarde JSON"
-            title="Sauvegarde JSON rapide"
-          >
-            💾</button
-          ><button
             class="theme-button"
             id="themeToggle"
             type="button"
@@ -945,6 +956,7 @@
             "Ferraille",
             "Etrier",
             "Briques",
+            "Ourdis",
             "Sable",
             "Gravier",
             "Bois",
@@ -1813,7 +1825,6 @@
           return true;
         }
         $("#exportJsonButton").addEventListener("click", exportJson);
-        $("#quickExportJson").addEventListener("click", exportJson);
         $("#exportCsvButton").addEventListener("click", () => {
           const rows = state.expenses.map((expense) =>
             [
