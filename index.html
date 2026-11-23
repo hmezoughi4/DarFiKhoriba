@@ -1234,13 +1234,19 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
         }
 
         function updateCommitmentOptions(selected = "") {
+          // Ne proposer que les sommes dues ayant encore un reste à payer.
+          // En modification, garder visible la somme due déjà associée à la dépense.
+          const options = state.commitments.filter((commitment) => {
+            const balance = remaining(commitment.id, $("#expenseId").value);
+            return balance > 0 || commitment.id === selected;
+          });
           $("#expenseCommitment").innerHTML =
             '<option value="">Aucune</option>' +
-            state.commitments
-              .map(
-                (commitment) =>
-                  `<option value="${commitment.id}" ${commitment.id === selected ? "selected" : ""}>${esc(commitment.label)} · ${esc(commitment.beneficiary)} · reste ${dzd(Math.max(0, remaining(commitment.id)))}</option>`,
-              )
+            options
+              .map((commitment) => {
+                const balance = Math.max(0, remaining(commitment.id, $("#expenseId").value));
+                return `<option value="${commitment.id}" ${commitment.id === selected ? "selected" : ""}>${esc(commitment.label)} · ${esc(commitment.beneficiary)} · reste ${dzd(balance)}</option>`;
+              })
               .join("");
         }
 
