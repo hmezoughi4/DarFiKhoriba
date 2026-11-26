@@ -1549,7 +1549,7 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
             );
 
           $("#chartPeriodSummary").textContent =
-            `${source.length} dép${source.length > 1 ? "(s)" : ""} · ${dzd(total)}${from || to ? ` · ${from ? toDisplayDate(from) : "début"} au ${to ? toDisplayDate(to) : "présent"}` : " · toutes les dates"}`;
+            `${source.length} dépense${source.length > 1 ? "s" : ""} · ${dzd(total)}${from || to ? ` · ${from ? toDisplayDate(from) : "début"} au ${to ? toDisplayDate(to) : "présent"}` : " · toutes les dates"}`;
           $("#analysisTotal").textContent = dzd(total);
           $("#analysisCount").textContent =
             `🧾 ${source.length} opération${source.length > 1 ? "s" : ""}`;
