@@ -1284,6 +1284,8 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
           return `<article class="card expense ${actions ? "swipe-card" : ""}" ${actions ? `data-swipe-kind="expense" data-swipe-id="${expense.id}"` : ""}><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(toDisplayDate(expense.date))} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
         }
 
+        let exactExpenseSubcategory = "";
+
         function renderExpenses() {
           const query = $("#search").value.trim().toLowerCase();
           const category = $("#filter").value;
@@ -1303,6 +1305,7 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
 
             return (
               (!category || expense.category === category) &&
+              (!exactExpenseSubcategory || (exactExpenseSubcategory === "__NONE__" ? !String(expense.subcategory || "").trim() : String(expense.subcategory || "").trim() === exactExpenseSubcategory)) &&
               (!from || toIsoDate(expense.date) >= from) &&
               (!to || toIsoDate(expense.date) <= to) &&
               (!query || searchableText.includes(query))
@@ -1503,8 +1506,9 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
         function openAnalysisSubcategory(category, subcategory) {
           const { from, to } = getChartExpenseRange();
           showPage("expenses");
-          $("#search").value = subcategory === "Non renseigné" ? "" : subcategory;
+          $("#search").value = "";
           $("#filter").value = category;
+          exactExpenseSubcategory = subcategory === "Non renseigné" ? "__NONE__" : subcategory;
           $("#expenseSort").value = "date-desc";
           $("#expenseDateFrom").value = from || "";
           $("#expenseDateTo").value = to || "";
@@ -1881,13 +1885,14 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
         ["search", "expenseSort", "expenseDateFrom", "expenseDateTo"].forEach((idValue) => {
           $(`#${idValue}`).addEventListener(
             idValue === "search" ? "input" : "change",
-            renderExpenses,
+            () => { exactExpenseSubcategory = ""; renderExpenses(); },
           );
         });
 
-        $("#filter").addEventListener("change", renderExpenses);
+        $("#filter").addEventListener("change", () => { exactExpenseSubcategory = ""; renderExpenses(); });
 
         $("#resetExpenseFilters").addEventListener("click", () => {
+          exactExpenseSubcategory = "";
           $("#search").value = "";
           $("#filter").value = "";
           $("#expenseSort").value = "date-desc";
