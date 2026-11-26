@@ -243,25 +243,24 @@
       .analysis-progress { height: 8px; margin-top: 10px; overflow: hidden; border-radius: 999px; background: #e8edf3; }
       .analysis-progress i { display: block; height: 100%; border-radius: inherit; background: var(--category-color); }
       .analysis-breakdown { display:grid; gap:10px; }
-      .analysis-breakdown-row { display:grid; grid-template-columns:minmax(90px,1fr) minmax(70px,1.2fr) auto; align-items:center; gap:8px; }
-      .analysis-breakdown-label { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; font-weight:850; }
+      .analysis-breakdown-row { display:grid; grid-template-columns:minmax(90px,1fr) minmax(70px,1.2fr) auto; align-items:center; gap:8px; padding:4px 3px; border-radius:8px; cursor:pointer; transition:background .15s ease, transform .15s ease; }
+      .analysis-breakdown-row:hover { background:#f8fafc; }
+      .analysis-breakdown-row:active { transform:scale(.99); }
+      .analysis-breakdown-row:focus-visible { outline:2px solid var(--breakdown-color); outline-offset:2px; }
+      .analysis-breakdown-label { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px; font-weight:850; }
+      .analysis-breakdown-count { color:var(--muted); font-size:11px; font-weight:750; }
       .analysis-breakdown-track { height:10px; overflow:hidden; border-radius:999px; background:#e8edf3; }
       .analysis-breakdown-fill { display:block; height:100%; border-radius:inherit; background:var(--breakdown-color); }
-      .analysis-breakdown-value { font-size:11px; font-weight:900; white-space:nowrap; text-align:right; }
+      .analysis-breakdown-value { font-size:13px; font-weight:900; white-space:nowrap; text-align:right; }
       html[data-theme="dark"] .analysis-breakdown-track { background:#263244; }
-      @media (max-width:390px) { .analysis-breakdown-row { grid-template-columns:minmax(70px,1fr) minmax(50px,.8fr) auto; gap:5px; } .analysis-breakdown-label,.analysis-breakdown-value { font-size:9px; } }
+      html[data-theme="dark"] .analysis-breakdown-row:hover { background:#0f172a; }
+      @media (max-width:390px) { .analysis-breakdown-row { grid-template-columns:minmax(72px,1fr) minmax(50px,.8fr) auto; gap:5px; } .analysis-breakdown-label { font-size:11px; } .analysis-breakdown-count { font-size:9px; } .analysis-breakdown-value { font-size:11px; } }
       .monthly-bars { display: grid; gap: 12px; }
-      .month-row { display:grid; grid-template-columns:64px minmax(0,1fr) 92px 72px; align-items:center; gap:8px; padding:7px 5px; border-radius:10px; cursor:pointer; transition:background .15s ease,transform .15s ease; }
-      .month-row:hover { background:#f8fafc; } .month-row:active { transform:scale(.995); } .month-row:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
+      .month-row { display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; align-items: center; gap: 9px; }
       .month-label { color: var(--muted); font-size: 12px; font-weight: 900; text-transform: capitalize; }
       .month-track { height: 18px; overflow: hidden; border-radius: 999px; background: #e8edf3; }
       .month-fill { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--primary), var(--primary-light)); }
-      .month-value { font-size:12px; font-weight:900; text-align:right; white-space:nowrap; }
-      .month-count { color:var(--muted); font-size:10px; font-weight:800; text-align:right; white-space:nowrap; }
-      .month-evolution { font-size:11px; font-weight:900; text-align:right; white-space:nowrap; }
-      .month-evolution.up { color:#15803d; } .month-evolution.down { color:#b91c1c; } .month-evolution.stable { color:var(--muted); }
-      .month-row.is-empty { opacity:.72; } html[data-theme="dark"] .month-row:hover { background:#0f172a; }
-      @media (max-width:520px) { .month-row { grid-template-columns:55px minmax(0,1fr) 76px; } .month-label { grid-row:1 / span 2; } .month-count { grid-column:2; grid-row:2; text-align:left; } .month-evolution { grid-column:3; grid-row:2; } .month-track { grid-column:2; } .month-value { grid-column:3; } }
+      .month-value { max-width: 108px; font-size: 12px; font-weight: 900; text-align: right; white-space: nowrap; }
       .analysis-insights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
       .analysis-insight { min-width: 0; padding: 12px 8px; border-radius: 14px; background: #f8fafc; text-align: center; }
       .analysis-insight span { display: block; font-size: 22px; }
@@ -1285,7 +1284,7 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
           return `<article class="card expense ${actions ? "swipe-card" : ""}" ${actions ? `data-swipe-kind="expense" data-swipe-id="${expense.id}"` : ""}><div class="icon">${ICONS[expense.category] || "📦"}</div><div class="content"><b>${esc(expense.description)}</b><div class="small muted">${esc(toDisplayDate(expense.date))} · ${esc(expense.category)} · ${esc(expense.subcategory || "")}</div>${expense.supplier ? `<div class="small muted">${esc(expense.supplier)}</div>` : ""}</div><div class="amount"><strong>${dzd(expense.dzd)}</strong><span class="small muted">${eur(expense.eur)}</span></div></article>`;
         }
 
-        let exactExpenseMonth="";
+        let exactExpenseSubcategory = "";
 
         function renderExpenses() {
           const query = $("#search").value.trim().toLowerCase();
@@ -1306,7 +1305,7 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
 
             return (
               (!category || expense.category === category) &&
-              (!exactExpenseMonth || toIsoDate(expense.date).slice(0,7) === exactExpenseMonth) &&
+              (!exactExpenseSubcategory || (exactExpenseSubcategory === "__NONE__" ? !String(expense.subcategory || "").trim() : String(expense.subcategory || "").trim() === exactExpenseSubcategory)) &&
               (!from || toIsoDate(expense.date) >= from) &&
               (!to || toIsoDate(expense.date) <= to) &&
               (!query || searchableText.includes(query))
@@ -1490,27 +1489,30 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
           const rows = new Map();
           source.filter((expense) => expense.category === category).forEach((expense) => {
             const label = String(expense.subcategory || "Non renseigné").trim() || "Non renseigné";
-            rows.set(label, (rows.get(label) || 0) + num(expense.dzd));
+            const current = rows.get(label) || { value: 0, count: 0 };
+            current.value += num(expense.dzd);
+            current.count += 1;
+            rows.set(label, current);
           });
-          const items = [...rows.entries()].sort((a,b) => b[1] - a[1]);
-          const totalCategory = items.reduce((sum,item) => sum + item[1], 0);
-          const maxValue = Math.max(...items.map((item) => item[1]), 1);
-          $(containerSelector).innerHTML = items.length ? items.map(([label,value]) => {
-            const share = totalCategory ? value / totalCategory * 100 : 0;
-            return `<div class="analysis-breakdown-row" style="--breakdown-color:${colorValue}"><span class="analysis-breakdown-label" title="${esc(label)}">${esc(label)}</span><div class="analysis-breakdown-track"><i class="analysis-breakdown-fill" style="width:${value/maxValue*100}%"></i></div><span class="analysis-breakdown-value">${dzd(value)} · ${fmt(share,0)} %</span></div>`;
+          const items = [...rows.entries()].sort((a,b) => b[1].value - a[1].value);
+          const totalCategory = items.reduce((sum,item) => sum + item[1].value, 0);
+          const maxValue = Math.max(...items.map((item) => item[1].value), 1);
+          $(containerSelector).innerHTML = items.length ? items.map(([label,data]) => {
+            const share = totalCategory ? data.value / totalCategory * 100 : 0;
+            const countLabel = `${data.count} dépense${data.count > 1 ? "s" : ""}`;
+            return `<div class="analysis-breakdown-row" role="button" tabindex="0" data-analysis-category="${esc(category)}" data-analysis-subcategory="${esc(label)}" aria-label="Voir ${countLabel} : ${esc(category)}, ${esc(label)}" style="--breakdown-color:${colorValue}"><span><span class="analysis-breakdown-label" title="${esc(label)}">${esc(label)}</span><span class="analysis-breakdown-count"> · ${countLabel}</span></span><div class="analysis-breakdown-track"><i class="analysis-breakdown-fill" style="width:${data.value/maxValue*100}%"></i></div><span class="analysis-breakdown-value">${dzd(data.value)} · ${fmt(share,0)} %</span></div>`;
           }).join("") : '<div class="empty">Aucune dépense dans cette catégorie sur la période.</div>';
         }
-        function monthKeyRange(startKey,endKey) {
-          const result=[]; if(!startKey||!endKey) return result;
-          let [y,m]=startKey.split("-").map(Number),[ey,em]=endKey.split("-").map(Number);
-          while(y<ey||(y===ey&&m<=em)){result.push(`${y}-${String(m).padStart(2,"0")}`);m++;if(m===13){m=1;y++;}}
-          return result;
-        }
-        function openAnalysisMonth(key) {
-          const [year,month]=key.split("-").map(Number),lastDay=new Date(year,month,0).getDate();
-          showPage("expenses"); $("#search").value=""; $("#filter").value=""; $("#expenseSort").value="date-desc";
-          $("#expenseDateFrom").value=`${key}-01`; $("#expenseDateTo").value=`${key}-${String(lastDay).padStart(2,"0")}`;
-          exactExpenseMonth=key; renderExpenses();
+        function openAnalysisSubcategory(category, subcategory) {
+          const { from, to } = getChartExpenseRange();
+          showPage("expenses");
+          $("#search").value = "";
+          $("#filter").value = category;
+          exactExpenseSubcategory = subcategory === "Non renseigné" ? "__NONE__" : subcategory;
+          $("#expenseSort").value = "date-desc";
+          $("#expenseDateFrom").value = from || "";
+          $("#expenseDateTo").value = to || "";
+          renderExpenses();
         }
         function drawExpenseChart() {
           const categories = Object.keys(ICONS),
@@ -1561,22 +1563,29 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
             .join("");
           renderSubcategoryBreakdown("#analysisSupplyBreakdown", source, "Fournitures", chartColor("Fournitures"));
         renderSubcategoryBreakdown("#analysisLaborBreakdown", source, "Main-d'œuvre", chartColor("Main-d'œuvre"));
-        const monthly=new Map();
-          source.forEach((e)=>{const key=toIsoDate(e.date).slice(0,7),current=monthly.get(key)||{value:0,count:0};current.value+=num(e.dzd);current.count++;monthly.set(key,current);});
-          const monthlyRange=getChartExpenseRange(),sourceKeys=[...monthly.keys()].sort();
-          const firstKey=(monthlyRange.from||"").slice(0,7)||sourceKeys[0]||"",lastKey=(monthlyRange.to||"").slice(0,7)||sourceKeys[sourceKeys.length-1]||"";
-          const months=monthKeyRange(firstKey,lastKey).slice(-10).map((key)=>[key,monthly.get(key)||{value:0,count:0}]);
-          const allMonths=[...monthly.entries()].sort((a,b)=>a[0].localeCompare(b[0])),max=Math.max(...months.map((x)=>x[1].value),1);
-          const monthLabel=(key)=>new Date(`${key}-01T00:00:00`).toLocaleDateString("fr-FR",{month:"short",year:"numeric"}).replace(".","");
-          $("#analysisMonthlyBars").innerHTML=months.length?months.map(([key,data],index)=>{
-            const previous=index?months[index-1][1].value:null;let evolution="—",cls="stable";
-            if(previous!==null){if(previous===0&&data.value>0){evolution="Nouveau";cls="up";}else if(previous===0){evolution="0 %";}else{const change=(data.value-previous)/previous*100;evolution=`${change>0?"↑ ":change<0?"↓ ":""}${fmt(Math.abs(change),0)} %`;cls=change>0?"up":change<0?"down":"stable";}}
-            const countLabel=`${data.count} dépense${data.count>1?"s":""}`;
-            return `<div class="month-row ${data.count===0?"is-empty":""}" role="button" tabindex="0" data-analysis-month="${key}" aria-label="Voir ${countLabel} pour ${esc(monthLabel(key))}"><span class="month-label">${esc(monthLabel(key))}</span><div class="month-track"><i class="month-fill" style="width:${data.value/max*100}%"></i></div><b class="month-value">${dzd(data.value)}</b><span class="month-count">${countLabel}</span><span class="month-evolution ${cls}">${evolution}</span></div>`;
-          }).join(""):'<div class="empty">Aucune dépense sur cette période.</div>';
-          const bestMonth = allMonths.reduce((a,x)=>(!a||x[1].value>a[1].value?x:a),null);
+        const monthly = new Map();
+          source.forEach((e) => {
+            const key = toIsoDate(e.date).slice(0, 7);
+            monthly.set(key, (monthly.get(key) || 0) + num(e.dzd));
+          });
+          const allMonths = [...monthly.entries()].sort((a, b) => a[0].localeCompare(b[0])),
+            months = allMonths.slice(-10),
+            max = Math.max(...months.map((x) => x[1]), 1);
+          const monthLabel = (key) =>
+            new Date(`${key}-01T00:00:00`)
+              .toLocaleDateString("fr-FR", { month: "short", year: "numeric" })
+              .replace(".", "");
+          $("#analysisMonthlyBars").innerHTML = months.length
+            ? months
+                .map(
+                  ([key, value]) =>
+                    `<div class="month-row"><span class="month-label">${esc(monthLabel(key))}</span><div class="month-track"><i class="month-fill" style="width:${(value / max) * 100}%"></i></div><b class="month-value">${dzd(value)}</b></div>`,
+                )
+                .join("")
+            : '<div class="empty">Aucune dépense sur cette période.</div>';
+          const bestMonth = allMonths.reduce((a, x) => (!a || x[1] > a[1] ? x : a), null);
           $("#analysisBestMonth").textContent = bestMonth
-            ? `📈 Mois le plus coûteux : ${monthLabel(bestMonth[0])} · ${dzd(bestMonth[1].value)}`
+            ? `📈 Mois le plus coûteux : ${monthLabel(bestMonth[0])} · ${dzd(bestMonth[1])}`
             : "📈 Aucun mois analysé";
           const avg = source.length ? total / source.length : 0,
             largest = source.reduce((a, e) => (!a || num(e.dzd) > num(a.dzd) ? e : a), null);
@@ -1876,14 +1885,14 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
         ["search", "expenseSort", "expenseDateFrom", "expenseDateTo"].forEach((idValue) => {
           $(`#${idValue}`).addEventListener(
             idValue === "search" ? "input" : "change",
-            () => { exactExpenseMonth=""; renderExpenses(); },
+            () => { exactExpenseSubcategory = ""; renderExpenses(); },
           );
         });
 
-        $("#filter").addEventListener("change",()=>{exactExpenseMonth="";renderExpenses();});
+        $("#filter").addEventListener("change", () => { exactExpenseSubcategory = ""; renderExpenses(); });
 
         $("#resetExpenseFilters").addEventListener("click", () => {
-          exactExpenseMonth="";
+          exactExpenseSubcategory = "";
           $("#search").value = "";
           $("#filter").value = "";
           $("#expenseSort").value = "date-desc";
@@ -1891,8 +1900,18 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
           $("#expenseDateTo").value = "";
           renderExpenses();
         });
-        $("#charts").addEventListener("click",(event)=>{const row=event.target.closest(".month-row[data-analysis-month]");if(row)openAnalysisMonth(row.dataset.analysisMonth);});
-        $("#charts").addEventListener("keydown",(event)=>{if(event.key!=="Enter"&&event.key!==" ")return;const row=event.target.closest(".month-row[data-analysis-month]");if(!row)return;event.preventDefault();openAnalysisMonth(row.dataset.analysisMonth);});
+        $("#charts").addEventListener("click", (event) => {
+          const row = event.target.closest(".analysis-breakdown-row[data-analysis-subcategory]");
+          if (!row) return;
+          openAnalysisSubcategory(row.dataset.analysisCategory, row.dataset.analysisSubcategory);
+        });
+        $("#charts").addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          const row = event.target.closest(".analysis-breakdown-row[data-analysis-subcategory]");
+          if (!row) return;
+          event.preventDefault();
+          openAnalysisSubcategory(row.dataset.analysisCategory, row.dataset.analysisSubcategory);
+        });
         $("#chartPeriodButtons").addEventListener("click", (event) => {
           const button = event.target.closest("[data-period]");
           if (!button) return;
