@@ -851,7 +851,7 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
         </div>
         <div class="section-title"><h2>Catégories</h2></div>
         <div class="analysis-category-grid" id="analysisCategoryCards"></div>
-        <div class="card mt" id="analysisSupplyCard"><div class="chart-header"><div><strong>🧱 Fournitures by sous-catégorie + nb dépenses</strong><div class="small muted">Ciment, ferraille, ourdis, électricité, etc.</div></div></div><div class="analysis-breakdown" id="analysisSupplyBreakdown"></div></div>
+        <div class="card mt" id="analysisSupplyCard"><div class="chart-header"><div><strong>🧱 Fournitures par sous-catégorie</strong><div class="small muted">Ciment, ferraille, ourdis, électricité, etc.</div></div></div><div class="analysis-breakdown" id="analysisSupplyBreakdown"></div></div>
         <div class="card mt" id="analysisLaborCard"><div class="chart-header"><div><strong>👷 Main-d'œuvre by type</strong><div class="small muted">Maçon, électricien, plombier, carreleur, etc.</div></div></div><div class="analysis-breakdown" id="analysisLaborBreakdown"></div></div>
         <div class="card mt" id="analysisMonthlyCard">
           <div class="chart-header">
@@ -1476,7 +1476,7 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
             };
           });
           $("#chartPeriodSummary").textContent =
-            `${filtered.length} dépense${filtered.length > 1 ? "s" : ""} · ${dzd(filtered.reduce((sum, expense) => sum + num(expense.dzd), 0))}${from || to ? ` · ${from ? toDisplayDate(from) : "début"} au ${to ? toDisplayDate(to) : "présent"}` : " · toutes les dates"}`;
+            `${filtered.length} dép${filtered.length > 1 ? "(s)" : ""} · ${dzd(filtered.reduce((sum, expense) => sum + num(expense.dzd), 0))}${from || to ? ` · ${from ? toDisplayDate(from) : "début"} au ${to ? toDisplayDate(to) : "présent"}` : " · toutes les dates"}`;
           return { categories: [...categories, "Total"], points };
         }
 
@@ -1519,7 +1519,7 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
           const maxValue = Math.max(...items.map((item) => item[1].value), 1);
           $(containerSelector).innerHTML = items.length ? items.map(([label,data]) => {
             const share = totalCategory ? data.value / totalCategory * 100 : 0;
-            const countLabel = `${data.count} dépense${data.count > 1 ? "s" : ""}`;
+            const countLabel = `${data.count} dép${data.count > 1 ? "(s)" : ""}`;
             return `<div class="analysis-breakdown-row" role="button" tabindex="0" data-analysis-category="${esc(category)}" data-analysis-subcategory="${esc(label)}" aria-label="Voir ${countLabel} : ${esc(category)}, ${esc(label)}" style="--breakdown-color:${colorValue}"><span><span class="analysis-breakdown-label" title="${esc(label)}">${esc(label)}</span><span class="analysis-breakdown-count"> · ${countLabel}</span></span><div class="analysis-breakdown-track"><i class="analysis-breakdown-fill" style="width:${data.value/maxValue*100}%"></i></div><span class="analysis-breakdown-value">${dzd(data.value)} · ${fmt(share,0)} %</span></div>`;
           }).join("") : '<div class="empty">Aucune dépense dans cette catégorie sur la période.</div>';
         }
@@ -1549,7 +1549,7 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
             );
 
           $("#chartPeriodSummary").textContent =
-            `${source.length} dépense${source.length > 1 ? "s" : ""} · ${dzd(total)}${from || to ? ` · ${from ? toDisplayDate(from) : "début"} au ${to ? toDisplayDate(to) : "présent"}` : " · toutes les dates"}`;
+            `${source.length} dép${source.length > 1 ? "(s)" : ""} · ${dzd(total)}${from || to ? ` · ${from ? toDisplayDate(from) : "début"} au ${to ? toDisplayDate(to) : "présent"}` : " · toutes les dates"}`;
           $("#analysisTotal").textContent = dzd(total);
           $("#analysisCount").textContent =
             `🧾 ${source.length} opération${source.length > 1 ? "s" : ""}`;
