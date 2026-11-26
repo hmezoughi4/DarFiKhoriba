@@ -243,14 +243,18 @@
       .analysis-progress { height: 8px; margin-top: 10px; overflow: hidden; border-radius: 999px; background: #e8edf3; }
       .analysis-progress i { display: block; height: 100%; border-radius: inherit; background: var(--category-color); }
       .analysis-breakdown { display:grid; gap:10px; }
-      .analysis-breakdown-row { display:grid; grid-template-columns:minmax(90px,1fr) minmax(70px,1.2fr) auto; align-items:center; gap:8px; }
-      .analysis-breakdown-label { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px; font-weight:650; }
+      .analysis-breakdown-row { display:grid; grid-template-columns:minmax(90px,1fr) minmax(70px,1.2fr) auto; align-items:center; gap:8px; padding:4px 3px; border-radius:8px; cursor:pointer; transition:background .15s ease, transform .15s ease; }
+      .analysis-breakdown-row:hover { background:#f8fafc; }
+      .analysis-breakdown-row:active { transform:scale(.99); }
+      .analysis-breakdown-row:focus-visible { outline:2px solid var(--breakdown-color); outline-offset:2px; }
+      .analysis-breakdown-label { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px; font-weight:850; }
+      .analysis-breakdown-count { color:var(--muted); font-size:11px; font-weight:750; }
       .analysis-breakdown-track { height:10px; overflow:hidden; border-radius:999px; background:#e8edf3; }
       .analysis-breakdown-fill { display:block; height:100%; border-radius:inherit; background:var(--breakdown-color); }
-      .analysis-breakdown-value { font-size:13px; font-weight:700; white-space:nowrap; text-align:right; }
+      .analysis-breakdown-value { font-size:13px; font-weight:900; white-space:nowrap; text-align:right; }
       html[data-theme="dark"] .analysis-breakdown-track { background:#263244; }
-      @media (max-width:390px) { .analysis-breakdown-row { grid-template-columns:minmax(70px,1fr) minmax(50px,.8fr) auto; gap:5px; } 
-      .analysis-breakdown-label,.analysis-breakdown-value { font-size:11px; } }
+      html[data-theme="dark"] .analysis-breakdown-row:hover { background:#0f172a; }
+      @media (max-width:390px) { .analysis-breakdown-row { grid-template-columns:minmax(72px,1fr) minmax(50px,.8fr) auto; gap:5px; } .analysis-breakdown-label { font-size:11px; } .analysis-breakdown-count { font-size:9px; } .analysis-breakdown-value { font-size:11px; } }
       .monthly-bars { display: grid; gap: 12px; }
       .month-row { display: grid; grid-template-columns: 54px minmax(0, 1fr) auto; align-items: center; gap: 9px; }
       .month-label { color: var(--muted); font-size: 12px; font-weight: 900; text-transform: capitalize; }
@@ -1482,15 +1486,29 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
           const rows = new Map();
           source.filter((expense) => expense.category === category).forEach((expense) => {
             const label = String(expense.subcategory || "Non renseigné").trim() || "Non renseigné";
-            rows.set(label, (rows.get(label) || 0) + num(expense.dzd));
+            const current = rows.get(label) || { value: 0, count: 0 };
+            current.value += num(expense.dzd);
+            current.count += 1;
+            rows.set(label, current);
           });
-          const items = [...rows.entries()].sort((a,b) => b[1] - a[1]);
-          const totalCategory = items.reduce((sum,item) => sum + item[1], 0);
-          const maxValue = Math.max(...items.map((item) => item[1]), 1);
-          $(containerSelector).innerHTML = items.length ? items.map(([label,value]) => {
-            const share = totalCategory ? value / totalCategory * 100 : 0;
-            return `<div class="analysis-breakdown-row" style="--breakdown-color:${colorValue}"><span class="analysis-breakdown-label" title="${esc(label)}">${esc(label)}</span><div class="analysis-breakdown-track"><i class="analysis-breakdown-fill" style="width:${value/maxValue*100}%"></i></div><span class="analysis-breakdown-value">${dzd(value)} · ${fmt(share,0)} %</span></div>`;
+          const items = [...rows.entries()].sort((a,b) => b[1].value - a[1].value);
+          const totalCategory = items.reduce((sum,item) => sum + item[1].value, 0);
+          const maxValue = Math.max(...items.map((item) => item[1].value), 1);
+          $(containerSelector).innerHTML = items.length ? items.map(([label,data]) => {
+            const share = totalCategory ? data.value / totalCategory * 100 : 0;
+            const countLabel = `${data.count} dépense${data.count > 1 ? "s" : ""}`;
+            return `<div class="analysis-breakdown-row" role="button" tabindex="0" data-analysis-category="${esc(category)}" data-analysis-subcategory="${esc(label)}" aria-label="Voir ${countLabel} : ${esc(category)}, ${esc(label)}" style="--breakdown-color:${colorValue}"><span><span class="analysis-breakdown-label" title="${esc(label)}">${esc(label)}</span><span class="analysis-breakdown-count"> · ${countLabel}</span></span><div class="analysis-breakdown-track"><i class="analysis-breakdown-fill" style="width:${data.value/maxValue*100}%"></i></div><span class="analysis-breakdown-value">${dzd(data.value)} · ${fmt(share,0)} %</span></div>`;
           }).join("") : '<div class="empty">Aucune dépense dans cette catégorie sur la période.</div>';
+        }
+        function openAnalysisSubcategory(category, subcategory) {
+          const { from, to } = getChartExpenseRange();
+          showPage("expenses");
+          $("#search").value = subcategory === "Non renseigné" ? "" : subcategory;
+          $("#filter").value = category;
+          $("#expenseSort").value = "date-desc";
+          $("#expenseDateFrom").value = from || "";
+          $("#expenseDateTo").value = to || "";
+          renderExpenses();
         }
         function drawExpenseChart() {
           const categories = Object.keys(ICONS),
@@ -1876,6 +1894,18 @@ html[data-theme="dark"] .milestone-table tbody tr:nth-child(even) {
           $("#expenseDateFrom").value = "";
           $("#expenseDateTo").value = "";
           renderExpenses();
+        });
+        $("#charts").addEventListener("click", (event) => {
+          const row = event.target.closest(".analysis-breakdown-row[data-analysis-subcategory]");
+          if (!row) return;
+          openAnalysisSubcategory(row.dataset.analysisCategory, row.dataset.analysisSubcategory);
+        });
+        $("#charts").addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          const row = event.target.closest(".analysis-breakdown-row[data-analysis-subcategory]");
+          if (!row) return;
+          event.preventDefault();
+          openAnalysisSubcategory(row.dataset.analysisCategory, row.dataset.analysisSubcategory);
         });
         $("#chartPeriodButtons").addEventListener("click", (event) => {
           const button = event.target.closest("[data-period]");
